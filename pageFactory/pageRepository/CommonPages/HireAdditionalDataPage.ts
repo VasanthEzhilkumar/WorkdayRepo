@@ -339,7 +339,7 @@ export class HireAdditionalData extends WebActionsPage {
     }
 
     async setDependentAdditionalInfoRomania(medicalins: string, health: string) {
-        await super.click(this.hireAdditiondata);
+        await super.click(this.hireadditiondatasub);
         await super.click(this.hrSubmit)
     }
 

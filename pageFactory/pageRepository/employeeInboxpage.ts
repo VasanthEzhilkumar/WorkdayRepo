@@ -62,7 +62,7 @@ export class employeeInboxPage {
     readonly costCenter: Locator;
     readonly editCostCenter: Locator;
     readonly txtCostCenter: Locator;
-    readonly saveCostCenterbtn:Locator;
+    readonly saveCostCenterbtn: Locator;
 
 
 
@@ -194,14 +194,14 @@ export class employeeInboxPage {
     }
 
     //used to set Cost Center and Deparment fields on Assign Organization page.
-    async setDeparmentAndCostCenter(CostCenter: string, Department:string, givenname: string, Familyname: string) {
+    async setDeparmentAndCostCenter(CostCenter: string, Department: string, givenname: string, Familyname: string) {
         await this.page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + Familyname + ' ' }).first().click();
         await this.editCostCenter.click();
         await this.txtCostCenter.fill(String(CostCenter));
         await this.txtCostCenter.press('Enter');
         await this.page.waitForTimeout(500);
         await this.saveCostCenterbtn.click();
-        
+
         await this.page.waitForTimeout(500);
         await this.editOther.click();
         await this.setDeparment.fill(Department);
@@ -472,15 +472,15 @@ export class employeeInboxPage {
         await this.page.waitForTimeout(500);
     }
     async reviewDocumentSubmitSK() {
-
-        await this.reviewDoc.click();
-
-        await this.agreeCheckbox.click();
-        await this.agreeCheckboxGrid1.click();
-        await this.agreeCheckboxGrid2.click();
-
+        if (this.reviewDoc.isVisible())
+            await this.reviewDoc.click();
+        if (this.agreeCheckbox.isVisible()) {
+            await this.agreeCheckbox.click();
+            await this.agreeCheckboxGrid1.click();
+            await this.agreeCheckboxGrid2.click();
+            await this.page.waitForTimeout(500);
+        }
         await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500);
     }
 
     async addCertificationSubmit() {
