@@ -49,8 +49,8 @@ for (const sheetName in sheetsJson) {
         //   document.body.style.transformOrigin = '0 0'; // Set origin for scaling
         // });
 
-        // const givenName:string = "Loy";
-        // const familyName:string = "Altenwerth";
+        const givenName: string = "Ursula";
+        const familyName: string = "Sporer";
 
         // const givenName: string = "Tressa";
         // const familyName: string = "Boehm";
@@ -62,7 +62,7 @@ for (const sheetName in sheetsJson) {
         const governemntIDs = new GovernmentsIDPageRomania(page, givenName, familyName, context);
         const contractObj = new MaintainContractPage(page, givenName, familyName, context)
         capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
-        const hireAdditionalData = new HireAdditionalData(page, givenName, familyName,context)
+        const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
         //  test.step('Starting Test for Hire ${givenName} ${familyName}', async () => {
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
@@ -116,8 +116,9 @@ for (const sheetName in sheetsJson) {
         // //await empInboxpage.setCostCenter(data.CostCenter);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        //await appCommon.MyTasks();
-       
+        // //await appCommon.MyTasks();
+        // await appCommon.ClickInbox();
+        // await capObj.checkForScreenErrors();
 
         const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
 
@@ -130,7 +131,7 @@ for (const sheetName in sheetsJson) {
         await governemntIDs.setGovernmentIDsRomania(data.Country1, data.Country2, data.NationalIDType1,
           data.NationalIDType2, data.DepartmentSection1, data.DepartmentSection2, data.IssuedDate1, data.IssuedDate2,
           data.ExpirationDate1, data.ExpirationDate2, data.IssuedBy2, data.series2);
-          await capObj.checkForScreenErrors();
+        await capObj.checkForScreenErrors();
         // await appCommon.refreshInbox();
         await appCommon.SuccessEventHandle();
 
@@ -138,9 +139,10 @@ for (const sheetName in sheetsJson) {
         await contractObj.setContractDetailsRomania(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-       // await appCommon.refreshInbox();
-       
-        await hireAdditionalData.setHireAdditionalInfoDataRomania(data.HealthHouse);
+        // await appCommon.refreshInbox();
+
+        await hireAdditionalData.setHireAdditionalInfoDataRomania(data.HealthHouse, data.mealvoucher, data.basicFunction
+          , data.pensioner, data.negotiatedLeave);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await hireAdditionalData.setDependentAdditionalInfoRomania(data.MealVoucher, data.HealthInsuranceType);
@@ -153,12 +155,17 @@ for (const sheetName in sheetsJson) {
         //await appCommon.refreshInbox();
 
         await hrInbxPage.hrProposeCompensationHire();
+        await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
+        // await appCommon.refreshInbox();
         await appCommon.SuccessEventHandle();
-        const empNum = await hrInbxPage.hrgetemployeenumber();
-        console.log(empNum, givenName, familyName);
-        await appCommon.SuccessEventHandle();
+
+        await hrInbxPage.clickEditNoticePeriodsforHireSubmit()
+        await capObj.checkForScreenErrors();
+        const empNum = await hrInbxPage.getEmployeeIDFromEditNoticePeriodPage();
+        //const empNum = await hrInbxPage.hrgetemployeenumber();
+        console.log("Emplyoee ID : "+ empNum+" "+ givenName+" "+ familyName);
+        //await appCommon.SuccessEventHandle();
         await appCommon.ClickInbox();
 
         await appCommon.Searchbox("Stop Proxy");

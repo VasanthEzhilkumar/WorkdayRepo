@@ -64,6 +64,11 @@ export class HireAdditionalData extends WebActionsPage {
     readonly txtMedicalHealthInsurance: Locator;
     readonly txtHealthHouse: Locator;
     readonly txtPartTimeDeclaration: Locator;
+    readonly chkPensioner: Locator;
+    readonly chkMealVoucher: Locator;
+    readonly chkBasicFunction: Locator;
+    readonly drpNegotiatedLeave: Locator;
+
 
     EmployeeNumber: string[];
 
@@ -72,10 +77,15 @@ export class HireAdditionalData extends WebActionsPage {
         this.page = page;
         this.context = context;
 
-		this.txtMedicalHealthInsurance = page.locator("//label[contains(.,'Medical/health insurance')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
-		this.txtHealthHouse = page.locator("//label[contains(.,'Health House')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
-		this.txtPartTimeDeclaration = page.locator("//label[contains(.,'Part Time Declaration')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
-		
+        this.chkPensioner = page.locator(" //label[contains(.,'Pensioner')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.chkMealVoucher = page.locator(" //label[contains(.,'Meal Voucher')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.chkBasicFunction = page.locator(" //label[contains(.,'Basic Function')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.drpNegotiatedLeave = page.locator(" //label[contains(.,'Negotiated Leave')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+
+        this.txtMedicalHealthInsurance = page.locator("//label[contains(.,'Medical/health insurance')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+        this.txtHealthHouse = page.locator("//label[contains(.,'Health House')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+        this.txtPartTimeDeclaration = page.locator("//label[contains(.,'Part Time Declaration')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+
         this.hrassignPaygroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         this.validatePayGroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         this.hrSubmit = page.locator('button:has-text("Submit")');
@@ -266,17 +276,17 @@ export class HireAdditionalData extends WebActionsPage {
         if (await contractType != 'N/A' && await contractType != 'NaN' && await contractType != undefined) {
             await super.setTextWithEnter(this.contractType, contractType);
         }
-        
+
         if (await contractStatus != 'N/A' && await contractStatus != 'NaN' && await contractStatus != undefined) {
             await super.setTextWithEnter(this.contractStatus, contractStatus);
         }
-        
+
 
         if (await DEmpsigned != 'N/A' && await DEmpsigned != 'NaN' && await DEmpsigned != undefined) {
             await super.click(this.DEmployeSigned);
             await super.setTextWithType(this.DEmployeSigned, DEmpsigned);
         }
-        if (await DEmplyersigned != 'N/A'&& await DEmplyersigned != 'NaN' && await DEmplyersigned != undefined) {
+        if (await DEmplyersigned != 'N/A' && await DEmplyersigned != 'NaN' && await DEmplyersigned != undefined) {
             await super.click(this.DEmployerSigned);
             await super.setTextWithType(this.DEmployerSigned, DEmplyersigned);
         }
@@ -297,7 +307,7 @@ export class HireAdditionalData extends WebActionsPage {
         // await this.fillField(this.DEmployeSigned, DEmpsigned);
         // await this.fillField(this.contractEndate, contractEnddate);
         await super.click(this.hrSubmit);
-       // await this.hrSubmit.click();
+        // await this.hrSubmit.click();
     }
 
     async hrcontractAddendum() {
@@ -309,14 +319,28 @@ export class HireAdditionalData extends WebActionsPage {
         }
     }
 
-    async setHireAdditionalInfoDataRomania(healthHouse: string) {
-       await super.click(this.hireAdditiondata);
-         await super.selectCustomDropDown(this.txtHealthHouse, healthHouse);
+    async setHireAdditionalInfoDataRomania(healthHouse: string, mealvoucher:string,  
+        basicFunction:string, pensioner:string, negotiatedLeave:string) {
+        await super.click(this.hireAdditiondata);
+        if(mealvoucher == "Yes"){
+            await super.click(this.chkMealVoucher);
+        }
+        await super.selectCustomDropDown(this.txtHealthHouse, healthHouse);
+        if(basicFunction == "Yes"){
+            await super.click(this.chkBasicFunction);
+        }
+        if(pensioner == "Yes"){
+            await super.click(this.chkPensioner);
+        }
+        if(negotiatedLeave != undefined){
+            await super.selectCustomDropDown(this.drpNegotiatedLeave, negotiatedLeave);
+        }
         await super.click(this.hrSubmit);
     }
 
     async setDependentAdditionalInfoRomania(medicalins: string, health: string) {
-       await super.click(this.hrSubmit)
+        await super.click(this.hireAdditiondata);
+        await super.click(this.hrSubmit)
     }
 
     async hrHireAdditionalDataDependentSK(medicalins: string, health: string) {
@@ -386,7 +410,7 @@ export class HireAdditionalData extends WebActionsPage {
         await this.hrSubmit.click();
     }
 
-    
+
     // Helper method to fill fields
     async fillField(fieldLocator: Locator, value: string) {
         await fieldLocator.fill(value);

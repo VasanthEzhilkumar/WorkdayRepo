@@ -103,9 +103,8 @@ export class WebActionsPage {
     async checkExistsOrIsVisible(locator: Locator): Promise<boolean> {
         try {
             await this.page.waitForTimeout(this.timeOut);
-            // await locator.waitFor();
+            //await locator.waitFor();
             if (await locator.count() > 0 && await locator.isVisible()) {
-                //  await locator.scrollIntoViewIfNeeded();
                 return true;
             }
         } catch (error) {
@@ -114,6 +113,7 @@ export class WebActionsPage {
         }
 
     }
+
 
     async click(locator: Locator) {
         try {
@@ -124,7 +124,7 @@ export class WebActionsPage {
                 await locator.click();
             }
         } catch (error) {
-            console.log("Could you please check your Locator(find this error):-" + error);
+            console.log("Could you please check your Locator(click failed ):-" + error);
         }
 
     }
@@ -164,18 +164,49 @@ export class WebActionsPage {
 
 
     async getText(locator: Locator): Promise<string | null> {
+        try {
+            await this.page.waitForTimeout(this.timeOut);
+            // await this.locator.waitFor();
+            if (await locator.count() > 0 && await locator.isVisible()) {
+                await locator.scrollIntoViewIfNeeded();
+                return await locator.textContent();
+            }
+        } catch (error) {
 
+        }
+
+    }
+    async sleep(timeOut: number) {
         await this.page.waitForTimeout(this.timeOut);
-        //await this.locator.waitFor();
-        if (await locator.count() > 0 && await locator.isVisible()) {
-            await locator.scrollIntoViewIfNeeded();
-            return await locator.textContent();
-        } else {
-            return null;
+    }
+
+    async getInnerText(locator: Locator): Promise<string | null> {
+        try {
+            await this.page.waitForTimeout(this.timeOut);
+            // await this.locator.waitFor();
+            if (await locator.count() > 0 && await locator.isVisible()) {
+                await locator.scrollIntoViewIfNeeded();
+                return await locator.innerText();
+            }
+        } catch (error) {
+
         }
 
     }
 
+    async getAllInnerText(locator: Locator): Promise<string[] | null> {
+        try {
+            await this.page.waitForTimeout(this.timeOut);
+            // await this.locator.waitFor();
+            if (await locator.count() > 0 && await locator.isVisible()) {
+                await locator.scrollIntoViewIfNeeded();
+                return await locator.allInnerTexts();
+            }
+        } catch (error) {
+
+        }
+
+    }
     async getListOfText(locator: Locator): Promise<string[] | null> {
 
         await this.page.waitForTimeout(this.timeOut);

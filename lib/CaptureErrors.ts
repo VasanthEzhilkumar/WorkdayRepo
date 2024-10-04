@@ -42,17 +42,21 @@ export class CaptureAlertErrors extends WebActionsPage {
         this.btnSideErrorBar = this.page.locator("//div[@data-automation-id='errorWidgetBarCanvas']");
 
         this.lblErrorAlert = this.page.locator("(//h2[contains(.,'Alert')]|//h2[contains(.,'Error')])[2]");//		'' GC changed from h1 to h2 02/07/2021 for Spain Job Changes
-        this.lblAlertMessageTitle = this.page.locator("(//div[@data-automation-id='errorWidgetMessageFieldCanvas'])[1]");
-        this.lblAlertMessageDescription = this.page.locator("(//div[@data-automation-id='errorWidgetMessageCanvas'])[1]");
+        // this.lblAlertMessageTitle = this.page.locator("(//div[@data-automation-id='errorWidgetMessageFieldCanvas'])[1]");
+        // this.lblAlertMessageDescription = this.page.locator("(//div[@data-automation-id='errorWidgetMessageCanvas'])[1]");
 
+        this.lblAlertMessageTitle = this.page.getByLabel('Errors and Alerts', { exact: true }).first();
+        this.lblAlertMessageDescription = this.page.getByLabel('Errors and Alerts', { exact: true }).nth(2);
 
+        // getByLabel('Errors and Alerts', { exact: true }).getByText('National IDs (Row 1)This')
+        //getByLabel('Errors and Alerts', { exact: true }).getByText('National IDs (Row 2)This')
     }
 
     // errorLogs = process.env.ERROR_LOGS || '';
-    async logScreenErrors(message1: string, message2: string) {
+    async logScreenErrors(message1: string) {
         try {
-            console.log(message1 + "" + message2);
-        } catch (message1) {
+            console.log(message1);
+        } catch (error) {
 
         }
     }
@@ -61,34 +65,38 @@ export class CaptureAlertErrors extends WebActionsPage {
     async checkForScreenErrors(): Promise<boolean> {
         let errorMsg: string;
         try {
+           super.sleep(6000);
             // Check for side error bar
-            if (await await super.checkExistsOrIsVisible(this.btnSideErrorBar1)) {
+          if ( await this.btnSideErrorBar1.isVisible())
+        {         
+                super.sleep(5000);
                 await super.click(this.btnSideErrorBar);
                 const message1 = await super.getText(this.lblAlertMessageTitle);
-                const message2 = await super.getText(this.lblAlertMessageDescription);
-                errorMsg = message1 + " " + message2;
-                await this.logScreenErrors(message1, message2);
-               
-            } else if (await super.checkExistsOrIsVisible(this.btnMainErrorBar1)) {
+                // const message2 = await super.getText(this.lblAlertMessageDescription);
+                errorMsg = message1 + " ";
+                await this.logScreenErrors(message1);
+
+            } else if (await this.btnMainErrorBar1.isVisible()) {
+                super.sleep(5000);
                 await super.click(this.btnMainErrorBar);
                 const message1 = await super.getText(this.lblAlertMessageTitle);
-                const message2 = await super.getText(this.lblAlertMessageDescription);
-                errorMsg = message1 + " " + message2;
-                await this.logScreenErrors(message1, message2);
-                
+                //const message2 = await super.getText(this.lblAlertMessageDescription);
+                errorMsg = message1 + " ";
+                await this.logScreenErrors(message1);
+
             }
-            if (errorMsg != undefined ){
+            if (errorMsg != undefined) {
                 await expect(errorMsg).toBeNull();
             }
-            return  false;
+            return false;
         } catch (error) {
             try {
                 let error1 = "Test failed for '" + this.givenName + " " + this.familyNmae + "' Employee: " + errorMsg;
                 error1 = error1.toString();
                 await this.setUpdateError(error1);
-                // Write the failure status to the Excel file and captured screen error
+                // Write the failure status to the Excel file and captured screen error as well.
                 writeResultsToExcel(this.excelFilePath, this.sheetName, this.index, error1, 'Failed');
-                return true; // "ERROR: " + errorMsg;
+                return true;
             } finally {
                 this.page.close();
             }

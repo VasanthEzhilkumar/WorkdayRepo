@@ -305,8 +305,10 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
 
     if (isFirstID) {
       await super.setText(this.govIds, String(idNumber));
+      await this.page.keyboard.press('Tab');
     } else {
       await super.setText(this.govIDsEdit2, String(idNumber));
+      await this.page.keyboard.press('Tab');
     }
     //await this.GCountry.fill(country);
     // await this.GCountry.press('Enter');
