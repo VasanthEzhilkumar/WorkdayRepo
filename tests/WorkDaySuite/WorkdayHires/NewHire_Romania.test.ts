@@ -141,11 +141,11 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
 
-        await hireAdditionalData.setHireAdditionalInfoDataRomania(data.HealthHouse, data.mealvoucher, data.basicFunction
-          , data.pensioner, data.negotiatedLeave);
+        await hireAdditionalData.setHireAdditionalInfoDataRomania(data.HealthHouse, data.MealVoucher, data.Pensioner
+          , data.pensioner, data.NegotiatedLeave);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        await hireAdditionalData.setDependentAdditionalInfoRomania(data.MealVoucher, data.HealthInsuranceType);
+        await hireAdditionalData.setDependentAdditionalInfoRomania();
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
@@ -163,11 +163,9 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.clickEditNoticePeriodsforHireSubmit()
         await capObj.checkForScreenErrors();
         const empNum = await hrInbxPage.getEmployeeIDFromEditNoticePeriodPage();
-        //const empNum = await hrInbxPage.hrgetemployeenumber();
+        
         console.log("Emplyoee ID : "+ empNum+" "+ givenName+" "+ familyName);
-        //await appCommon.SuccessEventHandle();
         await appCommon.ClickInbox();
-
         await appCommon.Searchbox("Stop Proxy");
         await proxy.stopproxy();
 
@@ -181,6 +179,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.changePersonalInformation(data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
+        await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();
         await appCommon.SuccessEventHandle();
@@ -242,7 +241,4 @@ for (const sheetName in sheetsJson) {
 
     });
   });
-}
-
-
 

@@ -64,12 +64,16 @@ export class HrInboxPage extends WebActionsPage {
     readonly lblprocessCompletedSuccessfully: Locator;
     readonly btnDone: Locator;
 
+    readonly givenName1: string;
+    readonly fimilyName1: string;
     EmployeeNumber: string[];
-
+    
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
         super(page);
         this.page = page;
         this.context = context;
+        this.givenName1 = givenname;
+        this.fimilyName1 = FamilyName;
         this.lblEditNoticePeriod = page.locator("//h2/span[contains(.,'Edit Notice Periods for')]");
 
         this.lnkViewDetails = page.locator("//button[contains(.,'View Details')]");
@@ -251,6 +255,9 @@ export class HrInboxPage extends WebActionsPage {
     async updatePassportsAndVisa(): Promise<void> {
         await this.passportVisa.click();
         await this.page.getByRole('button', { name: 'Approve' }).click();
+    }
+    async clickInboxRowMyTask(){
+await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'"+this.);
     }
 
 
