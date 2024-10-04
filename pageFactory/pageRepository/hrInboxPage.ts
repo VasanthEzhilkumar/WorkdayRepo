@@ -67,7 +67,7 @@ export class HrInboxPage extends WebActionsPage {
     readonly givenName1: string;
     readonly fimilyName1: string;
     EmployeeNumber: string[];
-    
+
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
         super(page);
         this.page = page;
@@ -256,8 +256,9 @@ export class HrInboxPage extends WebActionsPage {
         await this.passportVisa.click();
         await this.page.getByRole('button', { name: 'Approve' }).click();
     }
-    async clickInboxRowMyTask(){
-await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'"+this.);
+    
+    async clickInboxMyTask() {
+        await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + this.givenName1+" "+this.fimilyName1+"')]");
     }
 
 
@@ -468,7 +469,7 @@ await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(
         // await this.upWorker.click();
         await super.click(this.upWorker);
         this.EmployeeNumber = await this.upWorker.allInnerTexts();
-       // this.EmployeeNumber = await super.getAllInnerText(this.upWorker);
+        // this.EmployeeNumber = await super.getAllInnerText(this.upWorker);
         this.EmployeeNumber = this.EmployeeNumber.toString().split('(');
         this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
         return this.EmployeeNumber[0].toString();

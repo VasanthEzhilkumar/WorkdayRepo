@@ -163,8 +163,8 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.clickEditNoticePeriodsforHireSubmit()
         await capObj.checkForScreenErrors();
         const empNum = await hrInbxPage.getEmployeeIDFromEditNoticePeriodPage();
-        
-        console.log("Emplyoee ID : "+ empNum+" "+ givenName+" "+ familyName);
+
+        console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
         await appCommon.ClickInbox();
         await appCommon.Searchbox("Stop Proxy");
         await proxy.stopproxy();
@@ -236,6 +236,7 @@ for (const sheetName in sheetsJson) {
           writeResultsToExcel(excelFilePath, sheetName, index, error, 'Failed');
         }
       }
+
     });
   });
 }
