@@ -41,6 +41,7 @@ export  class homepage {
     await this.page.waitForTimeout(2000)
   }
 
+  
   async CreatePoistion() {
     
     await this.searchboxHome.fill('Create Position');

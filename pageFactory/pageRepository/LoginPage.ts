@@ -17,7 +17,7 @@ export  class loginpage {
 
     if (country.includes("Romania"))
     {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
+      await this.page.goto('');
       
     }
     if (country.includes("Slovakia"))

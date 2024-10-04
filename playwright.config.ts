@@ -25,66 +25,44 @@ const config: PlaywrightTestConfig = {
 
   projects: [
     {
-      name: 'Chrome',
-      use: { ...devices['Desktop Chrome'] ,
-       viewport: { width: 1275, height: 592 },
+      name: `Chrome`,
+      
+      
+      use: {
+        // Configure the browser to use.
+        browserName: `chromium`,
+
+        //Chrome Browser Config
+        channel: `chrome`,
+
+        //Picks Base Url based on User input
+       // baseURL: testConfig[ENV],
+        baseURL: testConfig.WFM,
         //Browser Mode
         headless: false,
-
-         //Enable File Downloads in Chrome
-         acceptDownloads: true,
-
-         //Artifacts
-         screenshot: 'on',
-         video: `retain-on-failure`,
-         trace: `retain-on-failure`,
- 
-         //Slows down execution by ms
-         launchOptions: {
-           args:["--start-maximized"],
-           slowMo: 0
-         }
-      },
-    },
-    // {
-    //   name: `Chrome`,
-           
-    //   use: {
-    //     // Configure the browser to use.
-    //     browserName: `chromium`,
-    //     ...devices['Desktop Chrome'] ,
-
-    //     //Chrome Browser Config
-    //     channel: `chrome`,
-
-    //     //Picks Base Url based on User input
-    //    // baseURL: testConfig[ENV],
-    //     baseURL: testConfig.WFM,
-    //     //Browser Mode
-    //     headless: false,
-          
+    
+        
         
 
-    //     //Browser height and width
-    //    viewport: { width: 1920, height: 1080 },
-    //     // ignoreHTTPSErrors: true,
+        //Browser height and width
+        viewport: { width: 1920, height: 1080 },
+        // ignoreHTTPSErrors: true,
 
-    //     //Enable File Downloads in Chrome
-    //     acceptDownloads: true,
+        //Enable File Downloads in Chrome
+        acceptDownloads: true,
 
-    //     //Artifacts
-    //     screenshot: 'on',
-    //     video: `retain-on-failure`,
-    //     trace: `retain-on-failure`,
+        //Artifacts
+        screenshot: 'on',
+        video: `retain-on-failure`,
+        trace: `retain-on-failure`,
 
-    //     //Slows down execution by ms
-    //     launchOptions: {
-    //       args:["--start-maximized"],
-    //       slowMo: 0
-    //     }
-    //   },
-
-    // },
+        //Slows down execution by ms
+        launchOptions: {
+          args:["--start-maximized"],
+          slowMo: 0
+        }
+      },
+    },
    /* {
       name: `Chrome- 4W`,
       use: {

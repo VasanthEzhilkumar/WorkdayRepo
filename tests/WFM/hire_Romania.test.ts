@@ -1,5 +1,4 @@
 import test from '@lib/BaseTest';
-
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
@@ -8,18 +7,9 @@ import path from 'path';
 import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel } from '@lib/ExcelUtils';
 import { generateRandomName } from 'utils/functional/utils';
 import { homePageRomania } from '@pages/RomaniaPages/homePageRomania';
-import { jobDetailsPage } from '@pages/RomaniaPages/jobDetailsPage_Romania'
-import { GovernmentsIDPageRomania } from '@pages/RomaniaPages/GovernmentIDsRomaniaPage'
-import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage'
-import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage'
-import { error } from 'console';
-import { CaptureAlertErrors } from '@lib/CaptureErrors';
-import { expect } from '@playwright/test';
 
 
 let empNum: string;
-let capObj: CaptureAlertErrors;
-
 
 // Define the relative directory path to your Excel file
 const excelFileName = 'testDataRomania.xlsx';
@@ -27,6 +17,7 @@ const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
 const sheetsJson = excelToJson(excelFilePath);
+
 
 
 // test.use({ viewport: { width: 1920, height: 1080 } }); 
@@ -39,64 +30,44 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    const { givenName, familyName } = generateRandomName();
+    const { givenName, familyName }  = generateRandomName();
+    
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
-        await page.setViewportSize({ width: 1275, height: 592 });
-        // await page.evaluate(() => {
-        //   document.body.style.transform = 'scale(0.50)'; // 150% zoom
-        //   document.body.style.transformOrigin = '0 0'; // Set origin for scaling
-        // });
-
-        const givenName: string = "Ursula";
-        const familyName: string = "Sporer";
-
-        // const givenName: string = "Tressa";
-        // const familyName: string = "Boehm";
-
+        await page.setViewportSize({ width: 1918, height: 1038 });
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
-        const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
-        const homePageRon = new homePageRomania(page, context)
-        const jobDetailsPageObj = new jobDetailsPage(page, context)
-        const governemntIDs = new GovernmentsIDPageRomania(page, givenName, familyName, context);
-        const contractObj = new MaintainContractPage(page, givenName, familyName, context)
-        capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
-        const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
-        //  test.step('Starting Test for Hire ${givenName} ${familyName}', async () => {
+          const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
+          const homePageRon = new homePageRomania(page,context)
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
 
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-
+        
         const username = "90001655";
         const password = "Primark123!!";
-        await login.goto("Romania");
-
-        // login into application 
+        await login.goto("Slovakia");
         await login.sigIn(username, password);
 
-        // if (data.Profile.includes("Manager")) {
+          if (data.Profile.includes("Managre"))
+          {
+              
+              // Run Code for create poistion
 
-        // Run Code for create poistion
+              //Update the Poition name in Excel
+              //writeData Excel
+          }
 
-        //Update the Poition name in Excel
-        //writeData Excel
-        // }
-        // });
-        // search Hire employee on Home Page after login
         await home.searchHireEmployee();
 
-        // set Supervisisroy Organazation 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
-
         await hireEmployee.legalNameInformation(givenName, familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        await homePageRon.contactInformationAddress(data.Street, data.PostalCode, data.City, data.County, data.Type, data.buildingNumber);
+        await homePageRon.contactInformationAddress(data.Street, data.PostalCode, data.City, data.County, data.Type);
         await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
-        await hireEmployee.okHireButton(); /// should be inside or on page level
-        await jobDetailsPageObj.genericJobDetails(
+        await hireEmployee.okHireButton();
+        await hireEmployee.hireEmployeeJobDetails(
           data.HireDate,
           data.EmployeeType,
           data.JobProfile,
@@ -104,68 +75,47 @@ for (const sheetName in sheetsJson) {
           data.WorkShift,
           data.AdditionalJobClassifications,
           data.Position,
-          data.ScheduledWeeklyHours,
-          data.defaultHours,
-          data.location
+          data.ScheduledWeeklyHours
         );
-
         await appCommon.SuccessEventHandle();
         await appCommon.MyTasks();
 
-        await empInboxpage.setDeparmentAndCostCenter(data.CostCenter, data.DepartmentSection, givenName, familyName);
-        // //await empInboxpage.setCostCenter(data.CostCenter);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        // //await appCommon.MyTasks();
-        // await appCommon.ClickInbox();
-        // await capObj.checkForScreenErrors();
+        
 
-        const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
+        await empInboxpage.assignDeparment(data.DepartmentSection, givenName, familyName);
+        await empInboxpage.assigncostCenter(data.CostCenter)
+        await appCommon.SuccessEventHandle();
+
+        const HRPartner = await appCommon.clickHRPartnerLink(givenName, familyName);
 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.ClickInbox();
-        await appCommon.MyTasks();
-        await capObj.checkForScreenErrors();
-        //fill Government IDs  Details for Employee
-        await governemntIDs.setGovernmentIDsRomania(data.Country1, data.Country2, data.NationalIDType1,
-          data.NationalIDType2, data.DepartmentSection1, data.DepartmentSection2, data.IssuedDate1, data.IssuedDate2,
-          data.ExpirationDate1, data.ExpirationDate2, data.IssuedBy2, data.series2);
-        await capObj.checkForScreenErrors();
+
+        await hrInbxPage.EnterGovID(data.Country1, data.NationalIDType1, data.NIDPersonal, "", "", "", "", "", "", "");
+        await appCommon.refreshInbox();
+        await appCommon.SuccessEventHandle();
+
+        await hrInbxPage.hrcontractsubmit(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
+        await appCommon.SuccessEventHandle();
+        await appCommon.refreshInbox();
+        await hrInbxPage.hrHireAdditionalDataDependentSK(data.MealVoucher, data.HealthInsuranceType);
+        
+        await appCommon.SuccessEventHandle();
+        await hrInbxPage.hrHireAdditionalDataSK(data.MealVoucher, data.HealthInsuranceType);
+        await appCommon.SuccessEventHandle();
+
+        // await hrInbxPage.hrManageProbation(data.ProbationReviewDate);
+        // await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
-        await appCommon.SuccessEventHandle();
-
-        //fill Contract Details for Employee
-        await contractObj.setContractDetailsRomania(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        // await appCommon.refreshInbox();
-
-        await hireAdditionalData.setHireAdditionalInfoDataRomania(data.HealthHouse, data.mealvoucher, data.basicFunction
-          , data.pensioner, data.negotiatedLeave);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        await hireAdditionalData.setDependentAdditionalInfoRomania(data.MealVoucher, data.HealthInsuranceType);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-        await hrInbxPage.setManageProbation(data.ProbationReviewDate);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        //await appCommon.refreshInbox();
 
         await hrInbxPage.hrProposeCompensationHire();
-        await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        // await appCommon.refreshInbox();
+        await appCommon.refreshInbox();
         await appCommon.SuccessEventHandle();
-
-        await hrInbxPage.clickEditNoticePeriodsforHireSubmit()
-        await capObj.checkForScreenErrors();
-        const empNum = await hrInbxPage.getEmployeeIDFromEditNoticePeriodPage();
-        //const empNum = await hrInbxPage.hrgetemployeenumber();
-        console.log("Emplyoee ID : "+ empNum+" "+ givenName+" "+ familyName);
-        //await appCommon.SuccessEventHandle();
+        const empNum = await hrInbxPage.hrgetemployeenumber();
+        console.log(empNum, givenName, familyName);
+        await appCommon.SuccessEventHandle();
         await appCommon.ClickInbox();
 
         await appCommon.Searchbox("Stop Proxy");
@@ -209,7 +159,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.ClickInbox();
         await hrInbxPage.addWorkerBankDetails();
         await appCommon.SuccessEventHandle();
-
+        
         await hrInbxPage.changePersonalInformation();
         await appCommon.SuccessEventHandle();
         await appCommon.refreshInbox();
@@ -231,15 +181,10 @@ for (const sheetName in sheetsJson) {
 
       } catch (error) {
         console.error(`Test failed for ${givenName} ${familyName}:`, error);
-        if ((await capObj.getUpdateError()) == undefined) {
-          //    // let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:" + err.toString();
-          //   // Write the failure status to the Excel file
-          writeResultsToExcel(excelFilePath, sheetName, index, error, 'Failed');
-        }
-
-
+        // Write the failure status to the Excel file
+        writeResultsToExcel(excelFilePath, sheetName, index, error, 'Failed');
       }
-
+      
     });
   });
 }

@@ -104,14 +104,14 @@ export class hireEmployeePage {
     this.jobprofile = page.getByLabel('Job Profile', { exact: true })//locator('text=Job ProfileJob Profile0 items selected >> [placeholder="Search"]');
     this.timetype = page.getByLabel('Time Type', { exact: true })//locator('text=Time TypeTime Type0 items selected >> [placeholder="Search"]');
     this.location = page.getByLabel('Location', { exact: true });//locator('text=LocationLocation0 items selected >> [placeholder="Search"]');
-    this.additionlInformation = page.getByText('Additional Information');//locator('text=Additional Information');
+    this.additionlInformation = page.getByText('Additional Information')//locator('text=Additional Information');
     this.additonaljobClassification = page.getByLabel('Additional Job Classifications');//locator('text=Additional Job ClassificationsAdditional Job Classifications0 items selected >> [placeholder="Search"]');
     // text=Options ExpandedC - Regular labour contract (Romania Contract Types-Romania) >> [placeholder="Search"]
     this.addcls = page.locator('label:has-text("Additional Job Classifications")');
     this.additionalJobClassificationEXp = page.locator('text=Additional Job ClassificationsAdditional Job ClassificationsOptions Expanded >> [placeholder="Search"]');
     this.additionalJobClassificationClick = page.locator('text=Additional Job ClassificationsAdditional Job Classifications1 item selected, C - >> [placeholder="Search"]');
     this.additionalJobsecondItm = page.locator('text=Additional Job ClassificationsAdditional Job Classifications2 items selected, C  >> [placeholder="Search"]');
-    this.workshift = page.getByLabel('Work Shift')//locator('text=0 items selectedError: Select a Work Shift. >> [placeholder="Search"]');
+    this.workshift = page.getByLabel('Work Shift', { exact: true })//locator('text=0 items selectedError: Select a Work Shift. >> [placeholder="Search"]');
     this.workshiftExp = page.locator('text=Options ExpandedError: Select a Work Shift. >> [placeholder="Search"]');
     this.schdeuledHours = page.getByLabel('Scheduled Weekly Hours')//locator('label:has-text("Scheduled Weekly Hours")');
     this.defaultHours = page.getByLabel('Default Weekly Hours');
@@ -156,7 +156,7 @@ export class hireEmployeePage {
     await this.contactPhoneDevice.click();
     await this.contactPhoneDevicetext.click();
     await this.contactphoneType.fill(phoneType);
-    //await this.contactphoneType.press('Enter');
+    await this.contactphoneType.press('Enter');
     await this.page.waitForTimeout(500);
 
   }
@@ -328,7 +328,7 @@ export class hireEmployeePage {
     workshift: string,
     AdditionalJobClassifications: string,
     position: string,
-    schdeuledhours: string
+    schdeuledhours: any
   ) {
     const str: String[] = AdditionalJobClassifications.split('@');
 
@@ -361,8 +361,8 @@ export class hireEmployeePage {
       await this.empType.fill(EmployeeType);
       await this.page.waitForTimeout(1000);
       await this.empType.press('Enter');
-      await this.page.waitForTimeout(1000);
-      await this.page.keyboard.press('Enter');
+      // await this.page.waitForTimeout(1000);
+      // await this.page.keyboard.press('Enter');
 
 
       await this.jobprofile.waitFor();
@@ -398,24 +398,28 @@ export class hireEmployeePage {
       await this.addcls.fill(str[1].toString());
       await this.page.keyboard.press('Enter');
     }
+    const workshifUS = this.page.getByLabel('Default Work Shift (United States of America)', { exact: true })
+    if (!(await workshifUS.count()> 0)) {
+     
+      await this.workshift.waitFor();
+      await this.workshift.click();
 
-    await this.workshift.waitFor();
-    await this.workshift.click();
+      await this.page.waitForTimeout(500);
+      await this.workshiftExp.waitFor();
+      await this.workshiftExp.fill(workshift);
+      await this.page.waitForTimeout(500);
+      await this.workshiftExp.press('Enter');
+    } 
 
-    await this.page.waitForTimeout(500);
-    await this.workshiftExp.waitFor();
-    await this.workshiftExp.fill(workshift);
-    await this.page.waitForTimeout(500);
-    await this.workshiftExp.press('Enter');
 
     await this.schdeuledHours.waitFor();
-    await this.schdeuledHours.fill(schdeuledhours);
+    await this.schdeuledHours.fill(schdeuledhours.toString());
     await this.page.waitForTimeout(500);
 
     // await this.defaultHours.waitFor();
     // await this.defaultHours.fill(defaultHours);
 
-    if (!EmployeeType.includes('Permanent')) {
+    if (!(EmployeeType.includes('Permanent') || EmployeeType.includes('Regular'))) {
       await this.endEmploymentDate.waitFor();
       //await this.page.getByLabel('End Employment Date').fill('01/12/2025');
       // await this.endEmploymentDate.fill('01/12/2024');

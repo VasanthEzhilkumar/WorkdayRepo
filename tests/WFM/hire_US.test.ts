@@ -6,20 +6,22 @@ import ExcelJS from 'exceljs';
 import path from 'path';
 import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel } from '@lib/ExcelUtils';
 import { generateRandomName } from 'utils/functional/utils';
+import { hireEmpUSPage } from '@pages/USPages/hireEmpUSPage';
+import { hrInboxUSPage } from '@pages/USPages/hrInboxUSPage';
+import { employeeInboxUSPage } from '@pages/USPages/employeeInboxUSPage';
+
 
 
 let empNum: string;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testData.xlsx';
+const excelFileName = 'testDataUS.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
 const sheetsJson = excelToJson(excelFilePath);
 
 
-
-// test.use({ viewport: { width: 1920, height: 1080 } }); 
 
 // Iterate over each dataset and run the test
 for (const sheetName in sheetsJson) {
@@ -32,11 +34,14 @@ for (const sheetName in sheetsJson) {
     const { givenName, familyName }  = generateRandomName();
     
 
-    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy,hirepageUS }) => {
       try {
-        await page.setViewportSize({ width: 1918, height: 1038 });
+        //await page.setViewportSize({ width: 1918, height: 1038 });
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
+        const hrInboxUS = new hrInboxUSPage(page, context, givenName, familyName)
+        const empInboxUS = new employeeInboxUSPage(page, context);
+        const hireempUS = new hireEmpUSPage(page, context);
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
 
@@ -47,15 +52,13 @@ for (const sheetName in sheetsJson) {
         await login.goto("Slovakia");
         await login.sigIn(username, password);
 
-        
-
         await home.searchHireEmployee();
 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
-        await hireEmployee.legalNameInformation(givenName, familyName);
+        await hirepageUS.legalInfo(givenName,familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        await hireEmployee.contactInformationAddress(data.Street, data.PostalCode, data.City, data.County, data.Type);
+        await hireempUS.contactInfoUS(data.AdressLine1, data.PostalCode, data.City, data.State, data.Type);
         await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
         await hireEmployee.okHireButton();
         await hireEmployee.hireEmployeeJobDetails(
@@ -83,28 +86,27 @@ for (const sheetName in sheetsJson) {
         await proxy.startProxy(HRPartner);
         await appCommon.ClickInbox();
 
-        await hrInbxPage.EnterGovID(data.Country1, data.NationalIDType1, data.NIDPersonal, "", "", "", "", "", "", "");
-        await appCommon.refreshInbox();
-        await appCommon.SuccessEventHandle();
-
-        await hrInbxPage.hrcontractsubmit(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
-        await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
-        await hrInbxPage.hrHireAdditionalDataDependentSK(data.MealVoucher, data.HealthInsuranceType);
-        
-        await appCommon.SuccessEventHandle();
-        await hrInbxPage.hrHireAdditionalDataSK(data.MealVoucher, data.HealthInsuranceType);
-        await appCommon.SuccessEventHandle();
-
-        // await hrInbxPage.hrManageProbation(data.ProbationReviewDate);
-        // await appCommon.SuccessEventHandle();
+         //await hrInbxPage.EnterGovID(data.Country1, data.NationalIDType1, data.NIDPersonal, "", "", "", "", "", "", "");
         // await appCommon.refreshInbox();
+          // await appCommon.SuccessEventHandle();
+          
+          await hrInboxUS.onboardSetup();
+
+        //await hrInbxPage.hrcontractsubmit(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
+        await appCommon.SuccessEventHandle();
+        //await appCommon.refreshInbox();
+        //await hrInbxPage.hrHireAdditionalDataDependentSK(data.MealVoucher, data.HealthInsuranceType);
+        
+        // await appCommon.SuccessEventHandle();
+        // await hrInbxPage.hrHireAdditionalDataSK(data.MealVoucher, data.HealthInsuranceType);
+        // await appCommon.SuccessEventHandle();
+
+        await hrInboxUS.hrManageProbation(data.ProbationEndDate);
+        await appCommon.SuccessEventHandle();
+        await appCommon.refreshInbox();
 
         await hrInbxPage.hrProposeCompensationHire();
-        await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
-        await appCommon.SuccessEventHandle();
-        const empNum = await hrInbxPage.hrgetemployeenumber();
+        const empNum = await hrInboxUS.hrGetEmpNum();
         console.log(empNum, givenName, familyName);
         await appCommon.SuccessEventHandle();
         await appCommon.ClickInbox();
@@ -121,26 +123,53 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empaddPhoto();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.changepersonalinformationSubmit();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.changeGovIDInformation();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.AddEmergecyInformation();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.reviewDocumentSubmitSK();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.addCertificationSubmit();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.addeducationSubmit();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.addMaidenNameSubmit();
+        await empInboxUS.changepersonalinformationSubmit(data.DateOfBirth,data.Race_Ethnicity);
         await appCommon.SuccessEventHandle();
 
+        // await empInboxpage.changepersonalinformationSubmit();
+        // await appCommon.SuccessEventHandle();
+
+
+
+        // await empInboxpage.changePersonalInformation(data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
+        // await appCommon.SuccessEventHandle();
+
+        await empInboxUS.changeGovIDInformation();
+
+        await hrInboxUS.EnterGovID(data.Country1, data.NationalIDType1, data.AddEditID1, "", "", "", "", "", "", "");
+        
+
+        await empInboxUS.changeGovIDInformationSubmit();
+        await appCommon.SuccessEventHandle();
+
+
+        await empInboxpage.AddEmergecyInformation();
+        await appCommon.SuccessEventHandle();
+
+        await empInboxUS.reviewDocUS();
+        await appCommon.SuccessEventHandle();
+        await empInboxUS.electronicPayAcceptance();
+        await appCommon.SuccessEventHandle();
+
+        await empInboxUS.completeFormI9();
+        await appCommon.SuccessEventHandle();
+
+        await empInboxUS.handBookUS();
+        await appCommon.SuccessEventHandle();
+
+        await empInboxpage.addCertificationSubmit();
+        await appCommon.SuccessEventHandle();
+
+        await empInboxpage.changeContactInformation();
+        await appCommon.SuccessEventHandle();
+        // await empInboxpage.addMaidenNameSubmit();
+        // await appCommon.SuccessEventHandle();
+
         await appCommon.Searchbox("Start Proxy");
-        await proxy.startProxy(HRPartner);
+        await proxy.startProxy("10239663");
         await appCommon.ClickInbox();
+
+        await hrInboxUS.formI9Review(data.HireDate,data.PostalCode, data.City, data.State)
 
         await hrInbxPage.updateWorkerContactInfo();
         await appCommon.SuccessEventHandle();
