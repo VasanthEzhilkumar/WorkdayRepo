@@ -34,7 +34,7 @@ for (const sheetName in sheetsJson) {
     const { givenName, familyName }  = generateRandomName();
     
 
-    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy,hirepageUS }) => {
+    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
         //await page.setViewportSize({ width: 1918, height: 1038 });
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
@@ -55,7 +55,7 @@ for (const sheetName in sheetsJson) {
         await home.searchHireEmployee();
 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
-        await hirepageUS.legalInfo(givenName,familyName);
+        await hireempUS.legalInfo(givenName,familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
         await hireempUS.contactInfoUS(data.AdressLine1, data.PostalCode, data.City, data.State, data.Type);
