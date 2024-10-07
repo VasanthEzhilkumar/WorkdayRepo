@@ -84,91 +84,91 @@ for (const sheetName in sheetsJson) {
         // }
         // });
         // search Hire employee on Home Page after login
-      //   await home.searchHireEmployee();
+        await home.searchHireEmployee();
 
-      //   // set Supervisisroy Organazation 
-      //   await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
+        // set Supervisisroy Organazation 
+        await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
 
-      //   await hireEmployee.legalNameInformation(givenName, familyName);
-      //   await hireEmployee.contactInformationpage();
-      //   await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-      //   await homePageRon.contactInformationAddress(data.Street, data.PostalCode, data.City, data.County, data.Type, data.buildingNumber);
-      //   await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
-      //   await hireEmployee.okHireButton(); /// should be inside or on page level
-      //   await jobDetailsPageObj.genericJobDetails(
-      //     data.HireDate,
-      //     data.EmployeeType,
-      //     data.JobProfile,
-      //     data.TimeType,
-      //     data.WorkShift,
-      //     data.AdditionalJobClassifications,
-      //     data.Position,
-      //     data.ScheduledWeeklyHours,
-      //     data.defaultHours,
-      //     data.Location,
-      //     data.EndEmploymentDate
-      //   );
+        await hireEmployee.legalNameInformation(givenName, familyName);
+        await hireEmployee.contactInformationpage();
+        await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
+        await homePageRon.contactInformationAddress(data.Street, data.PostalCode, data.City, data.County, data.Type, data.buildingNumber);
+        await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
+        await hireEmployee.okHireButton(); /// should be inside or on page level
+        await jobDetailsPageObj.genericJobDetails(
+          data.HireDate,
+          data.EmployeeType,
+          data.JobProfile,
+          data.TimeType,
+          data.WorkShift,
+          data.AdditionalJobClassifications,
+          data.Position,
+          data.ScheduledWeeklyHours,
+          data.defaultHours,
+          data.Location,
+          data.EndEmploymentDate
+        );
 
-      //   await appCommon.SuccessEventHandle();
-      //   await appCommon.MyTasks();
+        await appCommon.SuccessEventHandle();
+        await appCommon.MyTasks();
 
-      //   await empInboxpage.setDeparmentAndCostCenter(data.CostCenter, data.DepartmentSection, givenName, familyName);
-      //   // //await empInboxpage.setCostCenter(data.CostCenter);
-      //   await capObj.checkForScreenErrors();
-      //   await appCommon.SuccessEventHandle();
-      //   // //await appCommon.MyTasks();
-      //   // await appCommon.ClickInbox();
-      //   // await capObj.checkForScreenErrors();
+        await empInboxpage.setDeparmentAndCostCenter(data.CostCenter, data.DepartmentSection, givenName, familyName);
+        // //await empInboxpage.setCostCenter(data.CostCenter);
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+        // //await appCommon.MyTasks();
+        // await appCommon.ClickInbox();
+        // await capObj.checkForScreenErrors();
 
-      //   const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
+        const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
 
-      //   await appCommon.Searchbox("Start Proxy");
-      //   await proxy.startProxy(HRPartner);
-      //   await appCommon.ClickInbox();
-      //   await appCommon.MyTasks();
-      //   await capObj.checkForScreenErrors();
-      //   //fill Government IDs  Details for Employee
-      //   await governemntIDs.setGovernmentIDsRomania(data.Country1, data.Country2, data.NationalIDType1,
-      //     data.NationalIDType2, data.DepartmentSection1, data.DepartmentSection2, data.IssuedDate1, data.IssuedDate2,
-      //     data.ExpirationDate1, data.ExpirationDate2, data.IssuedBy2, data.series2);
-      //   await capObj.checkForScreenErrors();
-      //   // await appCommon.refreshInbox();
-      //   await appCommon.SuccessEventHandle();
+        await appCommon.Searchbox("Start Proxy");
+        await proxy.startProxy(HRPartner);
+        await appCommon.ClickInbox();
+        await appCommon.MyTasks();
+        await capObj.checkForScreenErrors();
+        //fill Government IDs  Details for Employee
+        await governemntIDs.setGovernmentIDsRomania(data.Country1, data.Country2, data.NationalIDType1,
+          data.NationalIDType2, data.DepartmentSection1, data.DepartmentSection2, data.IssuedDate1, data.IssuedDate2,
+          data.ExpirationDate1, data.ExpirationDate2, data.IssuedBy2, data.series2);
+        await capObj.checkForScreenErrors();
+        // await appCommon.refreshInbox();
+        await appCommon.SuccessEventHandle();
 
-      //   //fill Contract Details for Employee
-      //   await contractObj.setContractDetailsRomania(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
-      //  await capObj.checkForScreenErrors();
-      //   await appCommon.SuccessEventHandle();
-      //   // await appCommon.refreshInbox();
+        //fill Contract Details for Employee
+        await contractObj.setContractDetailsRomania(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
+       await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+        // await appCommon.refreshInbox();
 
-      //   await hireAdditionalData.setHireAdditionalInfoDataRomania(data.HealthHouse, data.MealVoucher, data.BasicFunction
-      //     , data.Pensioner, data.NegotiatedLeave);
-      //   await capObj.checkForScreenErrors();
-      //   await appCommon.SuccessEventHandle();
-      //   await hireAdditionalData.setDependentAdditionalInfoRomania();
-      //   await capObj.checkForScreenErrors();
-      //   await appCommon.SuccessEventHandle();
+        await hireAdditionalData.setHireAdditionalInfoDataRomania(data.HealthHouse, data.MealVoucher, data.BasicFunction
+          , data.Pensioner, data.NegotiatedLeave);
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+        await hireAdditionalData.setDependentAdditionalInfoRomania();
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
 
-      //   await hrInbxPage.setManageProbation(data.ProbationReviewDate);
-      //   //await capObj.checkForScreenErrors();
-      //   await appCommon.SuccessEventHandle();
+        await hrInbxPage.setManageProbation(data.ProbationReviewDate);
+        //await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
 
-      //   // await appCommon.ClickInbox();
-      //   await appCommon.MyTasks();
-      //   await hrInbxPage.hrProposeCompensationHire();
-      //   await capObj.checkForScreenErrors();
-      //   await appCommon.SuccessEventHandle();
-      //   // await appCommon.refreshInbox();
+        // await appCommon.ClickInbox();
+        await appCommon.MyTasks();
+        await hrInbxPage.hrProposeCompensationHire();
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+        // await appCommon.refreshInbox();
         
-      //   await hrInbxPage.clickEditNoticePeriodsforHireSubmit()
-      //   await capObj.checkForScreenErrors();
-      //   empNum = await hrInbxPage.getEmployeeIDFromEditNoticePeriodPage();
+        await hrInbxPage.clickEditNoticePeriodsforHireSubmit()
+        await capObj.checkForScreenErrors();
+        empNum = await hrInbxPage.getEmployeeIDFromEditNoticePeriodPage();
 
-      //   console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
-      //   await appCommon.ClickInbox();
-      //   await appCommon.Searchbox("Stop Proxy");
-      //   await proxy.stopproxy();
-      empNum = String(data.EmployeeID);
+        console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
+        await appCommon.ClickInbox();
+        await appCommon.Searchbox("Stop Proxy");
+        await proxy.stopproxy();
+     // empNum = String(data.EmployeeID);
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
         await appCommon.ClickInbox();
@@ -198,7 +198,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SearchClickLink(empNum)
         //need to make it generic method for adding additional name such maiden name, fathers name
         await empInboxpage.addAdditionalName(data.NameType, data.GivenName1, data.FamilyName1);
-       let HRPartner = "10559802";
+       //let HRPartner = "10559802";
         // await appCommon.Searchbox("Start Proxy");
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(HRPartner);
