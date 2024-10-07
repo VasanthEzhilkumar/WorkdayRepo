@@ -49,8 +49,8 @@ for (const sheetName in sheetsJson) {
         //   document.body.style.transformOrigin = '0 0'; // Set origin for scaling
         // });
 
-        const givenName: string = "Ursula";
-        const familyName: string = "Sporer";
+        // const givenName: string = "Ursula";
+        // const familyName: string = "Sporer";
 
         // const givenName: string = "Tressa";
         // const familyName: string = "Boehm";
