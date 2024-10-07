@@ -1,3 +1,4 @@
+import { appCommons } from '@lib/appCommons';
 import { Page, BrowserContext, Locator, expect } from '@playwright/test';
 import { WebActionsPage } from 'lib/WebActionPage';
 
@@ -60,12 +61,12 @@ export class jobDetailsPage extends WebActionsPage {
   readonly emailAddressmgr: Locator;
   readonly emailTypemgr: Locator;
   readonly defaultHours: Locator;
-
+  readonly context: BrowserContext;
 
   constructor(page: Page, context: BrowserContext) {
     super(page);
     this.page = page;
-
+    this.context = context;
     this.supervisorysearch = page.locator('text=Supervisory OrganizationSupervisory Organization0 items selected >> [placeholder="Search"]');
     this.supervisorysearchexp = page.locator('text=Supervisory OrganizationSupervisory OrganizationOptions Expanded >> [placeholder="Search"]');
     this.supervisorhamburger = page.locator('text=Supervisory OrganizationSupervisory OrganizationOptions Expanded >> svg[role="presentation"]');
@@ -100,7 +101,7 @@ export class jobDetailsPage extends WebActionsPage {
     //Hire Employee Locators
     this.hireDate = page.locator('[aria-label="Day"]');
 
-    this.position = page.getByLabel('Position');
+    this.position = page.getByLabel('Position').first();
     //this.hireDate = page.locator('text=Hire DateHire Datecurrentvalue is DD/MM/YYYYDD/MM/YYYYuse right and left arrows >> div[role="group"]');
     this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
     this.empType = page.getByLabel('Employee Type');//locator('text=Employee TypeEmployee Type0 items selected >> [placeholder="Search"]');
@@ -117,18 +118,16 @@ export class jobDetailsPage extends WebActionsPage {
     this.additionalJobClassificationClick = page.locator('text=Additional Job ClassificationsAdditional Job Classifications1 item selected, C - >> [placeholder="Search"]');
     this.additionalJobsecondItm = page.locator('text=Additional Job ClassificationsAdditional Job Classifications2 items selected, C  >> [placeholder="Search"]');
     this.workshift = page.getByLabel('Work Shift')//locator('text=0 items selectedError: Select a Work Shift. >> [placeholder="Search"]');
-    this.workshiftExp = page.locator('text=Options ExpandedError: Select a Work Shift. >> [placeholder="Search"]');
+    this.workshiftExp = page.locator("//label[contains(.,'Work Shift')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
     this.schdeuledHours = page.getByLabel('Scheduled Weekly Hours')//locator('label:has-text("Scheduled Weekly Hours")');
     this.defaultHours = page.getByLabel('Default Weekly Hours');
-    this.endEmploymentDate = page.getByLabel('End Employment Date');
-
-
-
+    this.endEmploymentDate = page.locator("//label[contains(.,'End Employment Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
     this.contactPhoneNumbermgr = page.getByLabel('Phone Number');
     this.contactPhonedevicemgr = page.getByRole('button', { name: 'Phone Device' });
     this.contactPhoneTypemgr = page.getByLabel('Type');
 
 
+    
     this.addressstreetmgr = page.getByRole('textbox', { name: 'Street' });
     this.addressPostalCodemgr = page.getByLabel('Postal Code');
     this.addcitymgr = page.getByLabel('City');
@@ -267,72 +266,10 @@ export class jobDetailsPage extends WebActionsPage {
   async fillpersonaldetails() {
 
   }
-  //   async hireEmployeeJobDetails(HireDate: string, EmployeeType: string, jobprofile: string, timetype: string, workshift: string, AdditionalJobClassifications: string ,position : string,schdeuledhours :string) {
-  //     var str: String[] = AdditionalJobClassifications.split('@') ;
-  //     await this.page.waitForTimeout(1500);
-  //     await this.hireDate.fill(HireDate);
-  //     await this.reason.fill("New Hire");
-  // await this.page.waitForTimeout(1000);
-  //     await this.page.keyboard.press('Enter');
-  //     if (!position.includes('Auto')){
 
-  //       await this.empType.fill(EmployeeType);
-  //     await this.page.waitForTimeout(500);
-  //     await this.empType.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     await this.page.keyboard.press('Enter');
-  //     await this.jobprofile.fill(jobprofile);
-  //     await this.page.waitForTimeout(500);
-  //     await this.jobprofile.press('Enter');
-  //     await this.page.waitForTimeout(1000);
-  //     await this.page.keyboard.press('Enter');
-  //     await this.timetype.fill(timetype);
-  //     await this.page.waitForTimeout(500);
-  //     await this.timetype.press('Enter');
-  //     await this.location.fill('880');
-  //     await this.page.waitForTimeout(500);
-  //     await this.location.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     }
-
-  //     await this.additionlInformation.click();
-  //     await this.additonaljobClassification.fill(str[0].toString());
-  //     await this.additonaljobClassification.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     await this.addcls.fill(str[1].toString());
-  //     await this.page.keyboard.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     // await this.addcls.fill(str[2].toString());
-  //     // await this.page.keyboard.press('Enter');
-  //     // await this.page.waitForTimeout(500);
-  //     // await this.additionalJobClassificationClick.click();
-  //     // await this.additionalJobClassificationEXp.fill(str[1].toString());
-  //     // await this.additionalJobClassificationEXp.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     await this.page.mouse.wheel(10,10);
-  //     //await this.additionalJobsecondItm.click();
-  //     // await this.additionalJobClassificationEXp.fill(str[2].toString());
-  //     // await this.additionalJobClassificationEXp.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     await this.workshift.click();
-  //     await this.workshiftExp.fill(workshift);
-  //     await this.workshiftExp.press('Enter');
-
-  //     await this.schdeuledHours.fill(schdeuledhours);
-
-  //     await this.defaultHours.fill(schdeuledhours);
-
-  //     if(!EmployeeType.includes('Permanent'))
-  //     {
-  //       await this.endEmploymentDate.fill('01/12/2024');
-  //     }
-  //     await this.submitButton.click();
-  //     await this.page.waitForTimeout(1000);
-
-  //   }
 
   async genericJobDetails(
-    HireDate: string,
+    HireDate1: string,
     EmployeeType: string,
     jobprofile: string,
     timetype: string,
@@ -341,14 +278,15 @@ export class jobDetailsPage extends WebActionsPage {
     position: string,
     schdeuledhours: string,
     defaultHours: string,
-    location: string,
+    location: number,
+    EndEmploymentDate: string,
   ) {
     const str: String[] = AdditionalJobClassifications.split('@');
-
+      //await super.selectDatePicker(HireDate1);
     await this.hireDate.waitFor();
+    await this.hireDate.click();
     await this.page.waitForTimeout(2000);
-    const [day, month, year] = HireDate.split('/');
-
+    const [day, month, year] = HireDate1.split('/');
 
     // Optionally: Focus and type the value
     await this.page.focus('input[placeholder="DD"]');
@@ -364,185 +302,41 @@ export class jobDetailsPage extends WebActionsPage {
     //await this.page.getByText('DD', { exact: true }).fill(day);
     await this.page.getByLabel('Month').fill(month);
     await this.page.getByLabel('Year').fill(year);
-    //await this.hireDate.fill(HireDate);
-    await this.reason.fill("New Hire");
-    await this.page.waitForTimeout(1000);
+
+    await super.setTextWithEnter(this.reason, "New Hire");
     await this.page.keyboard.press('Enter');
-
     if (!position.includes('Auto')) {
-      await this.empType.waitFor();
-      await this.empType.fill(EmployeeType);
-      await this.page.waitForTimeout(1000);
-      await this.empType.press('Enter');
-      await this.page.waitForTimeout(1000);
+      await super.setTextWithEnter(this.empType, EmployeeType);
       await this.page.keyboard.press('Enter');
+      await super.selectFromCustomDropDrown(this.jobprofile, jobprofile);
+      await super.setTextWithEnter(this.timetype, timetype);
+      await super.setTextWithEnter(this.location, location.toString());
 
-
-      await this.jobprofile.waitFor();
-      await this.jobprofile.fill(jobprofile);
-      await this.page.waitForTimeout(1000);
-      await this.jobprofile.press('Enter');
-      await this.page.getByText(jobprofile).click();
-      await this.page.waitForTimeout(1000);
-
-
-
-      await this.timetype.waitFor();
-      await this.timetype.fill(timetype);
-      await this.page.waitForTimeout(1000);
-      await this.timetype.press('Enter');
-      await this.page.waitForTimeout(500);
-      //await this.page.getByText(timetype).click();
-
-      await this.location.waitFor();
-      await this.location.fill('880');
-      await this.location.press('Enter');
     }
-
-    await this.additionlInformation.waitFor();
-    await this.additionlInformation.click();
+    await super.click(this.additionlInformation);
 
     for (let i = 0; i < str.length; i++) {
-      await this.additonaljobClassification.waitFor();
-      await this.additonaljobClassification.fill(str[i].toString());
-      await this.additonaljobClassification.press('Enter');
-      await this.page.waitForTimeout(500);
+      await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
     }
-
-    // if (str[1]) {
-    //   await this.addcls.waitFor();
-    //   await this.addcls.fill(str[1].toString());
-    //   await this.page.keyboard.press('Enter');
-    // }
-
-    await this.workshift.waitFor();
-    await this.workshift.click();
-
-    await this.page.waitForTimeout(500);
-    await this.workshiftExp.waitFor();
-    await this.workshiftExp.fill(workshift);
-    await this.page.waitForTimeout(500);
-    await this.workshiftExp.press('Enter');
-
-    await this.schdeuledHours.waitFor();
-    await this.schdeuledHours.fill(schdeuledhours);
-    await this.page.waitForTimeout(500);
-
-    // await this.defaultHours.waitFor();
-    // await this.defaultHours.fill(defaultHours);
+    await super.click(this.workshift);
+    await super.setTextWithEnter(this.workshiftExp, workshift);
+    await super.setText(this.schdeuledHours, schdeuledhours);
+    if (await this.defaultHours.isVisible() && defaultHours != "NaN" && defaultHours != "N/A" && defaultHours != undefined) {
+      await super.setText(this.defaultHours, defaultHours);
+    }
 
     if (!EmployeeType.includes('Permanent')) {
-      await this.endEmploymentDate.waitFor();
-      //await this.page.getByLabel('End Employment Date').fill('01/12/2025');
-      // await this.endEmploymentDate.fill('01/12/2024');
-      // Focus and fill Day (DD)
-      await this.page.getByLabel('End Employment Date').getByPlaceholder('DD').focus();
-      await this.page.getByLabel('End Employment Date').getByPlaceholder('DD').type('31');
-
-      // Focus and fill Month (MM)
-      await this.page.getByLabel('End Employment Date').getByPlaceholder('MM').focus();
-      await this.page.getByLabel('End Employment Date').getByPlaceholder('MM').type('12');
-
-      // Focus and fill Year (YYYY)
-      await this.page.getByLabel('End Employment Date').getByPlaceholder('YYYY').focus();
-      await this.page.getByLabel('End Employment Date').getByPlaceholder('YYYY').type('2025');
-
+      await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
     }
-
-    await this.submitButton.waitFor();
-    await this.submitButton.click();
-
-    await this.page.waitForTimeout(1000);
-
+    await super.click(this.submitButton);
     // Check for error button
     const errorButton = this.page.getByRole('button', { name: 'Error' });
     if (await errorButton.count() > 0) {
       await errorButton.click();
-
-      // // Wait for the error message to be visible
-      // const errorMessageLocator = this.page.locator('.error-message'); // Adjust the selector as necessary
-      // await errorMessageLocator.waitFor();
-
-      // // Extract and log the error message
-      // const errorMessage = await errorMessageLocator.textContent();
-      // console.log('Error Message:', errorMessage);
-
-      // // Optionally, you can throw an error or handle it as needed
-      // throw new Error(`Form submission failed with error: ${errorMessage}`);
     }
+    // Wait for navigation or network idle state if applicable
     //await this.page.waitForLoadState('networkidle');
   }
-
-
-  // async hireEmployeeJobDetailsMgr(HireDate: string, EmployeeType: string, jobprofile: string, timetype: string, workshift: string, AdditionalJobClassifications: string ,position : string,schdeuledhours :string,positionName : string) {
-  //   var str: String[] = AdditionalJobClassifications.split('@') ;
-  //   await this.page.waitForTimeout(1500);
-  //   await this.hireDate.fill(HireDate);
-  //   await this.reason.fill("New Hire");
-  //   await this.page.waitForTimeout(1000);
-  //   await this.page.keyboard.press('Enter');
-  //   if (!position.includes('Auto')){
-
-  //     await this.empType.fill(EmployeeType);
-  //   await this.page.waitForTimeout(500);
-  //   await this.empType.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.page.keyboard.press('Enter');
-  //   await this.jobprofile.fill(jobprofile);
-  //   await this.page.waitForTimeout(500);
-  //   await this.jobprofile.press('Enter');
-  //   await this.page.waitForTimeout(1000);
-  //   await this.page.keyboard.press('Enter');
-  //   await this.timetype.fill(timetype);
-  //   await this.page.waitForTimeout(500);
-  //   await this.timetype.press('Enter');
-  //   await this.location.fill('880');
-  //   await this.page.waitForTimeout(500);
-  //   await this.location.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   }
-  //   else{
-  //     await this.position.fill(positionName);
-  //     await this.page.waitForTimeout(500);
-  //     await this.position.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //   }
-
-
-  //   await this.additionlInformation.click();
-  //   await this.additonaljobClassification.fill(str[0].toString());
-  //   await this.additonaljobClassification.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.addcls.fill(str[1].toString());
-  //   await this.page.keyboard.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.addcls.fill(str[2].toString());
-  //   await this.page.keyboard.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   // await this.additionalJobClassificationClick.click();
-  //   // await this.additionalJobClassificationEXp.fill(str[1].toString());
-  //   // await this.additionalJobClassificationEXp.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.page.mouse.wheel(10,10);
-  //   //await this.additionalJobsecondItm.click();
-  //   // await this.additionalJobClassificationEXp.fill(str[2].toString());
-  //   // await this.additionalJobClassificationEXp.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.workshift.click();
-  //   await this.workshiftExp.fill(workshift);
-  //   await this.workshiftExp.press('Enter');
-
-  //   await this.schdeuledHours.fill(schdeuledhours);
-
-  //   // if(!EmployeeType.includes('Permanent'))
-  //   // {
-  //   //   await this.endEmploymentDate.fill('01/12/2023');
-  //   // }
-  //   await this.submitButton.click();
-  //   await this.page.waitForTimeout(1000);
-
-  // }
-
 
 
 

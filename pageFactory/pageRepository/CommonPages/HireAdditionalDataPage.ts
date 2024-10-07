@@ -333,7 +333,7 @@ export class HireAdditionalData extends WebActionsPage {
             await super.click(this.chkPensioner);
         }
         if(negotiatedLeave != undefined){
-            await super.selectCustomDropDown(this.drpNegotiatedLeave, negotiatedLeave);
+            await super.selectFromCustomDropDrown(this.drpNegotiatedLeave, negotiatedLeave);
         }
         await super.click(this.hrSubmit);
     }

@@ -1,7 +1,7 @@
 import { Page, BrowserContext, Locator, expect } from '@playwright/test';
 import { throws } from 'assert';
 import { promises } from 'dns';
-
+import moment, { months } from "moment";
 
 export class WebActionsPage {
     readonly page: Page;
@@ -11,7 +11,7 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 500;
+        this.timeOut = 800;
     }
 
     async setText(locator: Locator, varString: String,) {
@@ -57,10 +57,9 @@ export class WebActionsPage {
             await locator.fill(String(varString));
             await locator.press('Enter');
             await this.page.keyboard.press('Enter');
-            const custumLocator: Locator = this.page.locator("//div[text()='" + varString + "']");
+            const custumLocator: Locator = this.page.locator("(//div[@data-automation-label='"+ varString+"' or text()='" + varString + "'])[1]");
             await this.page.waitForTimeout(this.timeOut);
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
-                //await custumLocator.waitFor();
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
             }
@@ -120,7 +119,7 @@ export class WebActionsPage {
             await this.page.waitForTimeout(this.timeOut);
             await locator.waitFor();
             if (await locator.count() > 0 && await locator.isVisible()) {
-                await locator.scrollIntoViewIfNeeded();
+                //await locator.scrollIntoViewIfNeeded();
                 await locator.click();
             }
         } catch (error) {
@@ -150,16 +149,7 @@ export class WebActionsPage {
 
     async setValueUsingJS(locator: string, varString: string) {
         // Use JavaScript execution to assign a value to an input field
-
         await this.page.$eval(locator, (element: HTMLElement) => element.ariaValueText = varString);
-
-        // await this.page.evaluate(() => {
-        //     const  inputField = document.querySelector(locator); // Adjust the selector
-        //     if (inputField) {
-        //         inputField.value = varString; // Set the desired value
-        //     }
-        // });
-
     }
 
 
@@ -232,15 +222,61 @@ export class WebActionsPage {
 
     }
 
+
+    async selectDatePicker(dateToSelect: string) {
+        const [day, month, year] = dateToSelect.split('/');
+        // Extract day, month (as a string), and year
+        let month1 = Number(month);
+        let monthAsString: string;
+        // Array of month names
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        let monthMap: Map<number, string> = new Map();
+
+        // Populate the map using the monthNames array
+        monthNames.forEach((month, index) => {
+            monthMap.set(index + 1, month);
+        });
+
+        // Log the map to see the result
+        console.log("Month As string -"+monthMap.get(month1));
+        monthAsString = monthMap.get(month1).toString();
+        ///--------------------------------------------------------------------------------------------
+        await this.page.waitForTimeout(this.timeOut);
+        await this.page.click("(//*[@aria-label='Calendar' and @role= 'button'])[1]")
+        const mmYY = this.page.locator('(//*[@data-automation-id="monthPickerHeader"]//span[@data-automation-id="datePickerMonth"])[1]');
+        const prev = this.page.locator('(//*[@data-automation-id="datePicker"]//button[@data-automation-id="previousControl"])[1]');
+        const next = this.page.locator('(//*[@data-automation-id="datePicker"]//button[@data-automation-id="nextControl"])[1]');
+        const mothYear = monthAsString.trim() + " " + year;
+        // let dateToSelect: string = "May 2019";
+        const thisMonth = moment(mothYear.trim(), "MMMM YYYY").isBefore();
+        console.log("this month? " + thisMonth);
+        const thisMonth1 = monthAsString.trim() + "  " + year;
+        await this.page.waitForTimeout(this.timeOut);
+        while (await mmYY.textContent() != thisMonth1) {
+            if (thisMonth) {
+                await prev.click();
+            } else {
+                await next.click();
+            }
+        }
+        await this.page.waitForTimeout(this.timeOut);
+        await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").waitFor();
+        await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").click();
+        await this.page.waitForTimeout(this.timeOut);
+    }
+
     async selectCustomDropDown(locator: Locator, varString: string) {
 
         await this.page.waitForTimeout(this.timeOut);
         await locator.waitFor();
         if (await locator.count() > 0 && await locator.isVisible()) {
             await locator.scrollIntoViewIfNeeded();
-            await locator.fill(varString);
+            await locator.fill(String(varString));
             await locator.press("Enter");
-            await this.page.locator("Need to write custom xpath for this");
+            // await this.page.locator("Need to write custom xpath for this");
         } else {
             //need to write error logs here
         }

@@ -1,6 +1,8 @@
 import { Page, BrowserContext, Locator, expect } from '@playwright/test';
 import { WebActionsPage } from './WebActionPage';
 
+
+
 export class appCommons extends WebActionsPage {
   readonly page: Page;
   readonly inboxtitle: Locator;
@@ -53,54 +55,59 @@ export class appCommons extends WebActionsPage {
     await this.inboxtitle.click();
   }
 
- 
+
 
   async Searchbox(searchtext: string) {
     if (await this.clearSearch.isVisible()) {
       await this.clearSearch.click();
     }
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(700);
     await this.searchboxhome.fill(searchtext);
     await this.searchboxhome.press('Enter');
   }
 
   async SearchboxEmp(searchtext: string) {
     await this.page.waitForTimeout(500);
+    await this.searchboxhome.clear();
     await this.searchboxhome.fill(searchtext);
     await this.searchboxhome.press('Enter');
+  }
+
+  async SearchClickLink(searchtext: string) {
+    await super.setTextWithEnter(this.searchboxhome,searchtext);
+    await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a)[1]"));
   }
 
   async SuccessEventHandle() {
     await this.page.waitForTimeout(2000);
     if (await this.successEvent.isVisible()) {
-      await this.successClose.click();
+      await super.click(this.successClose);
     } else if (await this.eventApproved.isVisible()) {
-      await this.successClose.click();
+      await super.click(this.successClose);
     } else if (await this.eventSubmitted.isVisible()) {
-      await this.successClose.click();
+      await super.click(this.successClose);
     } else if (await this.markedcompleted.isVisible()) {
-      await this.successClose.click();
+      await super.click(this.successClose);
     }
+    
   }
 
   async refreshInbox() {
-    await this.page.waitForTimeout(2000);
     if (await this.refreshButton.isVisible()) {
-      await this.refreshButton.click();
+      await super.click(this.refreshButton);
     }
   }
 
   async clickCollpaseMyTasks() {
     await this.page.waitForTimeout(2000);
     if (await this.btnMyTaskCollapse.isVisible()) {
-      await this.btnMyTaskCollapse.click();
+      await super.click(this.btnMyTaskCollapse);
     }
 
   }
 
   async MyTasks() {
     await super.click(this.page.getByLabel('My Tasks Items'));
-    //await this.page.getByLabel('My Tasks Items').click();
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();
   }
@@ -147,12 +154,13 @@ export class appCommons extends WebActionsPage {
 
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
     await this.page.waitForTimeout(5000);
-    const HrDetails: string = await this.getInnerText(this.page, this.lblHrDetails2);
+    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
   }
 
-  async getInnerText(page: Page, fieldSelector: Locator): Promise<string> {
+
+  async getInnerText1(page: Page, fieldSelector: Locator): Promise<string> {
     await fieldSelector.waitFor;
     await fieldSelector.scrollIntoViewIfNeeded();
     await expect(fieldSelector).toBeVisible();

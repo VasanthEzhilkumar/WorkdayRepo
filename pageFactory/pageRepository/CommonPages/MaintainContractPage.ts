@@ -252,13 +252,14 @@ export class MaintainContractPage extends WebActionsPage {
     async setContractDetailsRomania(contractType: string, contractStatus: string,
         DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
         await super.click(this.contract);
-        await super.click(this.contractReason);
+       
         //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
         if (await reason != 'N/A' && await reason != 'NaN' && await reason != undefined) {
+            await super.click(this.contractReason);
             await super.selectFromCustomDropDrown(this.contractReason, reason);
         }
         if (await contractType != 'N/A' && await contractType != 'NaN' && await contractType != undefined) {
-            await super.setTextWithEnter(this.contractType, contractType);
+            await super.selectFromCustomDropDrown(this.contractType, contractType);
         }
 
         if (await contractStatus != 'N/A' && await contractStatus != 'NaN' && await contractStatus != undefined) {
@@ -280,7 +281,12 @@ export class MaintainContractPage extends WebActionsPage {
             await super.setTextWithType(this.contractEndate, contractEnddate);
         }
         await super.click(this.hrSubmit);
-        if (this.contractWarningAlert.isVisible()){
+        await this.page.waitForTimeout(2000);
+        if (await this.contractWarningAlert.isVisible()){
+            await super.click(this.hrSubmit);
+        }
+        await this.page.waitForTimeout(2000);
+        if (await this.contractWarningAlert.isVisible()){
             await super.click(this.hrSubmit);
         }
        
