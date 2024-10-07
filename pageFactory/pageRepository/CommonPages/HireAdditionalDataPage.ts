@@ -1,8 +1,7 @@
-import { WebActionsPage } from '@lib/WebActionPage';
 import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { UnexpectedResponseException } from 'pdfjs-dist-es5';
+import { WebActionsPage } from 'lib/WebActionPage';
 
-export class HrInboxPage extends WebActionsPage {
+export class HireAdditionalData extends WebActionsPage {
     readonly page: Page;
     readonly context: BrowserContext;
     readonly hrassignPaygroup: Locator;
@@ -58,24 +57,34 @@ export class HrInboxPage extends WebActionsPage {
     readonly fillAmount: Locator;
     readonly saveSalary: Locator;
     readonly submit: Locator;
-    readonly lblEditNoticePeriod: Locator;
-    readonly lnkViewDetails: Locator;
-    readonly lblEditNoticeforHire: Locator;
-    readonly lblprocessCompletedSuccessfully: Locator;
-    readonly btnDone: Locator;
+    readonly contractDateEmployeeSigned: Locator;
+    readonly contractDateEmployerSigned: Locator;
+
+    //readonly txtYoungParentEffectiveDate: Locator;
+    readonly txtMedicalHealthInsurance: Locator;
+    readonly txtHealthHouse: Locator;
+    readonly txtPartTimeDeclaration: Locator;
+    readonly chkPensioner: Locator;
+    readonly chkMealVoucher: Locator;
+    readonly chkBasicFunction: Locator;
+    readonly drpNegotiatedLeave: Locator;
+
 
     EmployeeNumber: string[];
 
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
-        super(page);
+        super(page)
         this.page = page;
         this.context = context;
-        this.lblEditNoticePeriod = page.locator("//h2/span[contains(.,'Edit Notice Periods for')]");
 
-        this.lnkViewDetails = page.locator("//button[contains(.,'View Details')]");
-        this.lblEditNoticeforHire = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Edit Notice Periods for')]");
-        this.lblprocessCompletedSuccessfully = page.locator("//div[@data-automation-id='textView' or contains(text(),'Process Successfully Completed')]");
-        this.btnDone = page.locator("//span[contains(.,'Done')]/ancestor::button[@title='Done']");
+        this.chkPensioner = page.locator(" //label[contains(.,'Pensioner')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.chkMealVoucher = page.locator(" //label[contains(.,'Meal Voucher')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.chkBasicFunction = page.locator(" //label[contains(.,'Basic Function')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.drpNegotiatedLeave = page.locator(" //label[contains(.,'Negotiated Leave')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+
+        this.txtMedicalHealthInsurance = page.locator("//label[contains(.,'Medical/health insurance')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+        this.txtHealthHouse = page.locator("//label[contains(.,'Health House')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+        this.txtPartTimeDeclaration = page.locator("//label[contains(.,'Part Time Declaration')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
 
         this.hrassignPaygroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         this.validatePayGroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
@@ -99,9 +108,10 @@ export class HrInboxPage extends WebActionsPage {
         this.contractReason = page.getByLabel('Reason')//locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
         this.contractStatus = page.getByLabel('Status')//page.locator('text=StatusStatus0 items selected >> [placeholder="Search"]');
         this.contractType = page.getByLabel('Contract Type', { exact: true })//page.locator('text=Contract TypeContract Type0 items selected >> [placeholder="Search"]');
-        this.DEmployerSigned = page.locator('text=Date Employer SignedDate Employer Signedcurrent value is DD/MM/YYYYDD/MM/YYYYuse >> [aria-label="Day"]');
-        this.DEmployeSigned = page.locator('text=Date Employee SignedDate Employee Signedcurrent value is DD/MM/YYYYDD/MM/YYYYuse >> [aria-label="Day"]');
-        this.contractEndate = page.locator('text=current value is DD/MM/YYYYDD/MM/YYYYuse right and left arrows to navigate spin  >> [aria-label="Day"]');
+        //this.DEmployerSigned = page.locator("//label[contains(.,'Date Employer Signed')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionMonth-input']");
+        this.DEmployerSigned = page.getByLabel('Date Employer Signed').getByPlaceholder('DD')
+        this.DEmployeSigned = page.locator("//label[contains(.,'Date Employee Signed')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
+        this.contractEndate = page.locator("//label[contains(.,'Contract End Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.contractAddendum = page.locator('[aria-label="Inbox Items"] >> text=Contract:' + ' ' + givenname + ' ' + FamilyName + '');
         this.contractAddendumtext = page.locator('h3:has-text("Romania Contract Addendum Info")');
         this.hireAdditiondata = page.locator(':nth-match(:text("Hire: ' + '' + givenname + ' ' + FamilyName + '"),2)');
@@ -255,98 +265,49 @@ export class HrInboxPage extends WebActionsPage {
 
 
 
-    async EnterGovID(
-        country1: string,
-        NationalIDType1: string,
-        NIDPersonal: string,
-        IssuedDate1: string,
-        ExpirationDate1: string,
-        Country2: string,
-        NationalIDType2: string,
-        IDCardNumber: string,
-        IssuedDate2: string,
-        ExpirationDate2: string
-    ) {
-        await this.idChange.click();
-        await this.addId.click();
-        await this.fillGovIDDetails(country1, NationalIDType1, NIDPersonal, IssuedDate1, ExpirationDate1, true);
-
-        if (!country1.includes("Slovakia")) {
-            // Adding second ID
-            await this.page.waitForTimeout(500);
-            await this.addId.click();
-            await this.fillGovIDDetails(Country2, NationalIDType2, IDCardNumber, IssuedDate2, ExpirationDate2, false);
+    async setContractDetailsRomania(contractType: string, contractStatus: string,
+        DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
+        await super.click(this.contract);
+        await super.click(this.contractReason);
+        //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
+        if (await reason != 'N/A' && await reason != 'NaN' && await reason != undefined) {
+            await super.selectFromCustomDropDrown(this.contractReason, reason);
+        }
+        if (await contractType != 'N/A' && await contractType != 'NaN' && await contractType != undefined) {
+            await super.setTextWithEnter(this.contractType, contractType);
         }
 
-        await this.submit.click();
-    }
+        if (await contractStatus != 'N/A' && await contractStatus != 'NaN' && await contractStatus != undefined) {
+            await super.setTextWithEnter(this.contractStatus, contractStatus);
+        }
 
-    async fillGovIDDetails(
-        country: string,
-        nationalIDType: string,
-        idNumber: string,
-        issuedDate: string,
-        expirationDate: string,
-        isFirstID: boolean
-    ) {
-        await this.GCountry.fill(country);
-        await this.GCountry.press('Enter');
-        await this.page.waitForTimeout(500);
 
-        await this.GNationalIDType.fill(String(nationalIDType));
+        if (await DEmpsigned != 'N/A' && await DEmpsigned != 'NaN' && await DEmpsigned != undefined) {
+            await super.click(this.DEmployeSigned);
+            await super.setTextWithType(this.DEmployeSigned, DEmpsigned);
+        }
+        if (await DEmplyersigned != 'N/A' && await DEmplyersigned != 'NaN' && await DEmplyersigned != undefined) {
+            await super.click(this.DEmployerSigned);
+            await super.setTextWithType(this.DEmployerSigned, DEmplyersigned);
+        }
 
-        await this.page.waitForTimeout(500);
-        await this.GNationalIDType.press('Enter');
-        await this.page.waitForTimeout(500);
+        if (await contractEnddate != 'N/A' && await contractEnddate != 'NaN' && await contractEnddate != undefined) {
+            await super.click(this.contractEndate);
+            await super.setTextWithType(this.contractEndate, contractEnddate);
+        }
 
-        await this.page.getByLabel('Content Area').locator('input[type="text"]').fill(String(idNumber));
-
-        // await this.page.keyboard.press('Tab');
+        // await this.contract.click();
+        // await this.contractReason.click();
         // await this.page.waitForTimeout(500);
-        // await this.GID.press('Control+a');
-        // await this.page.keyboard.type(idNumber);
 
-        if (!isFirstID) {
-            await this.page.keyboard.press('Tab');
-            await this.page.waitForTimeout(500);
-            await this.GIssuedDate.click();
-            await this.GIssuedDate.type(issuedDate);
-
-            await this.GExpirationDate.click();
-            await this.GExpirationDate.type(expirationDate);
-
-            await this.GID.press('Control+a');
-
-            await this.page.keyboard.press('Tab');
-            await this.page.waitForTimeout(500);
-            await this.page.keyboard.press('Tab');
-            await this.page.waitForTimeout(500);
-            await this.page.keyboard.type(issuedDate);
-
-            await this.page.keyboard.press('Tab');
-            await this.page.waitForTimeout(500);
-            await this.page.keyboard.press('Tab');
-            await this.page.waitForTimeout(500);
-            await this.page.keyboard.type(expirationDate);
-
-            await this.IssuedBy.fill('Test');
-            await this.series.fill('Test');
-        }
-    }
-
-    async hrcontractsubmit(contractType: string, contractStatus: string, DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
-        await this.contract.click();
-        await this.contractReason.click();
-        await this.page.waitForTimeout(500);
-
-        await this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main').click();
-        await this.fillField(this.contractType, contractType);
-        await this.fillField(this.contractStatus, contractStatus);
+        // await this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main').click();
+        // await this.fillField(this.contractType, contractType);
+        // await this.fillField(this.contractStatus, contractStatus);
         // await this.fillField(this.DEmployerSigned, DEmplyersigned);
         // await this.fillField(this.DEmployeSigned, DEmpsigned);
         // await this.fillField(this.contractEndate, contractEnddate);
-
-        await this.hrSubmit.click();
+        await super.click(this.hrSubmit);
+        // await this.hrSubmit.click();
     }
 
     async hrcontractAddendum() {
@@ -358,22 +319,29 @@ export class HrInboxPage extends WebActionsPage {
         }
     }
 
-    async hrHireAdditionalDataSK(mealvoucher: string, insuracneType: string) {
-        await this.hireAdditiondata.click();
-        await this.page.waitForTimeout(500);
-
-        const warningText = '*Do not enter more than 6 Dependents. A maximum of 6 Dependents will be sent to Payroll*';
-        const isWarningPresent = await this.page.locator('b').allTextContents();
-
-        if (!isWarningPresent.includes(warningText)) {
-            await this.fillField(this.mealvoucher, mealvoucher);
-            await this.fillField(this.healthSK, insuracneType);
+    async setHireAdditionalInfoDataRomania(healthHouse: string, mealvoucher:string,  
+        basicFunction:string, pensioner:string, negotiatedLeave:string) {
+        await super.click(this.hireAdditiondata);
+        if(mealvoucher == "Yes"){
+            await super.click(this.chkMealVoucher);
         }
-
-        await this.hrSubmit.click();
-        await this.page.waitForTimeout(500); // Consider reducing or removing this if possible
+        await super.selectCustomDropDown(this.txtHealthHouse, healthHouse);
+        if(basicFunction == "Yes"){
+            await super.click(this.chkBasicFunction);
+        }
+        if(pensioner == "Yes"){
+            await super.click(this.chkPensioner);
+        }
+        if(negotiatedLeave != undefined){
+            await super.selectCustomDropDown(this.drpNegotiatedLeave, negotiatedLeave);
+        }
+        await super.click(this.hrSubmit);
     }
 
+    async setDependentAdditionalInfoRomania(medicalins: string, health: string) {
+        await super.click(this.hireAdditiondata);
+        await super.click(this.hrSubmit)
+    }
 
     async hrHireAdditionalDataDependentSK(medicalins: string, health: string) {
 
@@ -384,9 +352,6 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.getByRole('textbox').nth(1).fill('Childone');
         await this.page.getByRole('textbox').nth(1).press('Tab');
         await this.page.getByRole('textbox').nth(2).fill('1234567891');
-
-
-
         await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
@@ -410,33 +375,6 @@ export class HrInboxPage extends WebActionsPage {
             await this.fillField(this.mealvoucher, insuracneType);
             await this.hrSubmit.click();
         }
-    }
-
-    async setManageProbation(probReviewDate: string) {
-        await super.click(this.manageProbation);
-        // await this.manageProbation.click();
-        // await this.page.waitForTimeout(500);
-        // await super.setTextWithType(this.prbStartDate, '');
-        // await super.setTextWithType(this.prbEndDate, '');
-        if (probReviewDate != 'NaN' && probReviewDate != 'N/A' && probReviewDate != undefined) {
-            await super.setTextWithType(this.prbReviewDate, probReviewDate);
-        }
-
-        await super.click(this.hrSubmit);
-        // await this.hrSubmit.click();
-        // await this.page.waitForTimeout(500);
-
-        if (await super.checkExistsOrIsVisible(this.manageProbation)) {
-            await super.click(this.hrSubmit);
-            // await this.page.waitForTimeout(500);
-            // await this.hrSubmit.click();
-        }
-    }
-
-    
-    async clickEditNoticePeriodsforHireSubmit() {
-        await super.click(this.editNoticePeriod);
-        await super.click(this.hrSubmit)
     }
 
     async hrManageProbation(probReviewDate: string) {
@@ -466,19 +404,12 @@ export class HrInboxPage extends WebActionsPage {
         return this.EmployeeNumber[0].toString();
     }
 
-    async getEmployeeIDFromEditNoticePeriodPage() {
-        //await super.click(this.lblEditNoticeforHire);
-        this.EmployeeNumber = await super.getAllInnerText(this.lblEditNoticeforHire);
-        this.EmployeeNumber = this.EmployeeNumber.toString().split('(');
-        this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
-        return this.EmployeeNumber[0].toString();
-    }
-
     async hrProposeCompensationHire() {
         await this.page.waitForTimeout(500);
         await this.proposeCompensation.click();
         await this.hrSubmit.click();
     }
+
 
     // Helper method to fill fields
     async fillField(fieldLocator: Locator, value: string) {

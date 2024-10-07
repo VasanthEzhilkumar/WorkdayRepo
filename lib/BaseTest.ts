@@ -50,7 +50,6 @@ import { homepage } from '@pages/homePage';
 import { hireEmployeePage } from '@pages/hireEmployeePage';
 import { proxyPage } from '@pages/proxyPage';
 import { appCommons } from './appCommons';
-import { hireEmpUSPage } from '@pages/USPages/hireEmpUSPage';
 
 const test = baseTest.extend<{
   login: loginpage;
@@ -58,8 +57,7 @@ const test = baseTest.extend<{
   hireEmployee: hireEmployeePage;
   appCommon: appCommons;
   proxy: proxyPage;
-  hirepageUS: hireEmpUSPage;
-
+  
 }>({
   login: async ({ page, context }, use) => {
     await use(new loginpage(page, context));
@@ -76,9 +74,6 @@ const test = baseTest.extend<{
   proxy: async ({ page, context }, use) => {
     await use(new proxyPage(page, context));
   },
-  hirepageUS: async ({ page, context }, use) => {
-    await use(new hireEmpUSPage(page, context));
-  }
 });
 
 export default test;

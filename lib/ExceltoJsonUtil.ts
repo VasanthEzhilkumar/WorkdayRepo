@@ -22,16 +22,9 @@ export function getExcelFilePath(fileName: string): string {
 
 
 
-function excelDateToJSDate(excelDate: number): string {
+function excelDateToJSDate(excelDate: number): Date {
     const jsDate = new Date((excelDate - 25569) * 86400 * 1000);
-        // Extract day, month, and year
-        const day = String(jsDate.getDate()).padStart(2, '0');  // Add leading 0 if needed
-        const month = String(jsDate.getMonth() + 1).padStart(2, '0'); // Month is 0-based
-        const year = jsDate.getFullYear();
-    
-        // Return in DD/MM/YYYY format
-        return `${day}/${month}/${year}`;
-    
+    return jsDate;
 }
 
 export function excelToJson(filePath: string): Record<string, any[]> {

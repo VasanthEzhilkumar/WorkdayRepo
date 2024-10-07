@@ -1,7 +1,8 @@
 import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { WebActionsPage } from 'lib/WebActionPage';
 
 
-export class hireEmployeePage {
+export class jobDetailsPage extends WebActionsPage {
   readonly page: Page;
   readonly supervisorysearch: Locator;
   readonly supervisorysearchexp: Locator;
@@ -62,7 +63,9 @@ export class hireEmployeePage {
 
 
   constructor(page: Page, context: BrowserContext) {
+    super(page);
     this.page = page;
+
     this.supervisorysearch = page.locator('text=Supervisory OrganizationSupervisory Organization0 items selected >> [placeholder="Search"]');
     this.supervisorysearchexp = page.locator('text=Supervisory OrganizationSupervisory OrganizationOptions Expanded >> [placeholder="Search"]');
     this.supervisorhamburger = page.locator('text=Supervisory OrganizationSupervisory OrganizationOptions Expanded >> svg[role="presentation"]');
@@ -101,11 +104,13 @@ export class hireEmployeePage {
     //this.hireDate = page.locator('text=Hire DateHire Datecurrentvalue is DD/MM/YYYYDD/MM/YYYYuse right and left arrows >> div[role="group"]');
     this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
     this.empType = page.getByLabel('Employee Type');//locator('text=Employee TypeEmployee Type0 items selected >> [placeholder="Search"]');
-    this.jobprofile = page.getByLabel('Job Profile', { exact: true })//locator('text=Job ProfileJob Profile0 items selected >> [placeholder="Search"]');
-    this.timetype = page.getByLabel('Time Type', { exact: true })//locator('text=Time TypeTime Type0 items selected >> [placeholder="Search"]');
+    this.jobprofile = page.getByLabel('Job Profile', { exact: true });//locator('text=Job ProfileJob Profile0 items selected >> [placeholder="Search"]');
+    this.timetype = page.getByLabel('Time Type', { exact: true });//locator('text=Time TypeTime Type0 items selected >> [placeholder="Search"]');
     this.location = page.getByLabel('Location', { exact: true });//locator('text=LocationLocation0 items selected >> [placeholder="Search"]');
     this.additionlInformation = page.getByText('Additional Information');//locator('text=Additional Information');
-    this.additonaljobClassification = page.getByLabel('Additional Job Classifications');//locator('text=Additional Job ClassificationsAdditional Job Classifications0 items selected >> [placeholder="Search"]');
+    // this.additonaljobClassification = page.getByLabel('Additional Job Classifications');//locator('text=Additional Job ClassificationsAdditional Job Classifications0 items selected >> [placeholder="Search"]');
+
+    this.additonaljobClassification = page.locator("//label[contains(.,'Additional Job Classifications')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
     // text=Options ExpandedC - Regular labour contract (Romania Contract Types-Romania) >> [placeholder="Search"]
     this.addcls = page.locator('label:has-text("Additional Job Classifications")');
     this.additionalJobClassificationEXp = page.locator('text=Additional Job ClassificationsAdditional Job ClassificationsOptions Expanded >> [placeholder="Search"]');
@@ -156,7 +161,7 @@ export class hireEmployeePage {
     await this.contactPhoneDevice.click();
     await this.contactPhoneDevicetext.click();
     await this.contactphoneType.fill(phoneType);
-    //await this.contactphoneType.press('Enter');
+    await this.contactphoneType.press('Enter');
     await this.page.waitForTimeout(500);
 
   }
@@ -172,17 +177,23 @@ export class hireEmployeePage {
   }
 
   async contactInformationAddress(StreetNumber: string, PostalCode: number, city: string, County: string, addressType: string) {
-    await this.page.waitForTimeout(500);
-    await this.addAddress.click();
-    await this.addressStreet.fill(StreetNumber);
-    await this.addressPostalCode.fill(PostalCode.toString());
-    await this.addressCity.fill(city);
+
+    await super.click(this.addAddress);
+    await super.setText(this.addressStreet, StreetNumber);
+    await super.setText(this.addressPostalCode, PostalCode.toString());
+    await super.setText(this.addressCity, city);
+    await super.click(this.addressType);
+    // await this.page.waitForTimeout(500);
+    // await this.addAddress.click();
+    // await this.addressStreet.fill(StreetNumber);
+    // await this.addressPostalCode.fill(PostalCode.toString());
+    //await this.addressCity.fill(city);
     if (!city.includes('Bratislava')) {
       //  await this.addressCounty.fill(County);
     }
-    await this.addressType.click()
-
-    await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+    //await this.addressType.click()
+    await super.checkBoxIsChecked(this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox'));
+    ///await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
 
   }
 
@@ -320,7 +331,7 @@ export class hireEmployeePage {
 
   //   }
 
-  async hireEmployeeJobDetails(
+  async genericJobDetails(
     HireDate: string,
     EmployeeType: string,
     jobprofile: string,
@@ -328,12 +339,14 @@ export class hireEmployeePage {
     workshift: string,
     AdditionalJobClassifications: string,
     position: string,
-    schdeuledhours: string
+    schdeuledhours: string,
+    defaultHours: string,
+    location: string,
   ) {
     const str: String[] = AdditionalJobClassifications.split('@');
 
     await this.hireDate.waitFor();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(2000);
     const [day, month, year] = HireDate.split('/');
 
 
@@ -382,22 +395,25 @@ export class hireEmployeePage {
       //await this.page.getByText(timetype).click();
 
       await this.location.waitFor();
-      await this.location.fill('870');
+      await this.location.fill('880');
       await this.location.press('Enter');
     }
 
     await this.additionlInformation.waitFor();
     await this.additionlInformation.click();
 
-    await this.additonaljobClassification.waitFor();
-    await this.additonaljobClassification.fill(str[0].toString());
-    await this.additonaljobClassification.press('Enter');
-
-    if (str[1]) {
-      await this.addcls.waitFor();
-      await this.addcls.fill(str[1].toString());
-      await this.page.keyboard.press('Enter');
+    for (let i = 0; i < str.length; i++) {
+      await this.additonaljobClassification.waitFor();
+      await this.additonaljobClassification.fill(str[i].toString());
+      await this.additonaljobClassification.press('Enter');
+      await this.page.waitForTimeout(500);
     }
+
+    // if (str[1]) {
+    //   await this.addcls.waitFor();
+    //   await this.addcls.fill(str[1].toString());
+    //   await this.page.keyboard.press('Enter');
+    // }
 
     await this.workshift.waitFor();
     await this.workshift.click();
