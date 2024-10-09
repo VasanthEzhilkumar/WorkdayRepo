@@ -63,6 +63,24 @@ export class HrInboxPage extends WebActionsPage {
     readonly lblEditNoticeforHire: Locator;
     readonly lblprocessCompletedSuccessfully: Locator;
     readonly btnDone: Locator;
+    readonly contractWarningAlert: Locator;
+    readonly checkWarningAndAlert: Locator;
+    readonly lblGradeProfile: Locator;
+    readonly lblBasePayRange: Locator;
+    readonly lblProratedAmount: Locator;
+    readonly txtStep: Locator;
+    //readonly txtStep1: Locator;
+    readonly txtSalaryAmount: Locator;
+
+    readonly txtJobChangeSalaryAmount: Locator;
+    readonly btnEditSalary: Locator;
+    readonly btnSaveSalary: Locator;
+    readonly btnEditHourly: Locator;
+    readonly btnSaveHourly: Locator;
+    readonly txtGradeProfile: Locator;
+
+    readonly givenName1: string;
+    readonly fimilyName1: string;
 
     EmployeeNumber: string[];
 
@@ -70,7 +88,25 @@ export class HrInboxPage extends WebActionsPage {
         super(page);
         this.page = page;
         this.context = context;
+        this.givenName1 = givenname;
+        this.fimilyName1 = FamilyName;
+        this.lblGradeProfile = page.locator("//label[contains(.,'Grade Profile')]");
+        this.lblBasePayRange = page.locator("(//label[contains(.,'Total Base Pay Range')]/parent::div/following-sibling::div//div[@data-automation-id='promptOption'])[1]");
+        this.lblProratedAmount = page.locator("//label[contains(.,'Prorated Amount')]/parent::div/following-sibling::div//div[@data-automation-id='numericText']");
+        this.txtGradeProfile = page.locator("//label[contains(.,'Grade Profile')]/parent::div/following-sibling::div//input[@placeholder='Search']");
+        this.txtStep = page.locator("//label[contains(.,'Step')]/parent::div/following-sibling::div//input[@placeholder='Search']");
+        //this.txtStep1 = page.locator("//div[@data-automation-checked='Not Checked']/div[contains(text(),'')]");
+        this.txtSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text']");
+        this.txtJobChangeSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text']");
+        this.btnEditSalary = page.locator("//button[@aria-label='Edit Salary']");
+        this.btnSaveSalary = page.locator("//button[@aria-label='Save Salary']");
+
+        this.btnEditHourly = page.locator("//button[@aria-label='Edit Hourly']");
+        this.btnSaveHourly = page.locator("//button[@aria-label='Save Hourly']");
+
         this.lblEditNoticePeriod = page.locator("//h2/span[contains(.,'Edit Notice Periods for')]");
+        this.contractWarningAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
+        this.checkWarningAndAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
 
         this.lnkViewDetails = page.locator("//button[contains(.,'View Details')]");
         this.lblEditNoticeforHire = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Edit Notice Periods for')]");
@@ -122,7 +158,7 @@ export class HrInboxPage extends WebActionsPage {
         this.payElection = page.locator('[aria-label="Inbox Items"] >> text=Payment Election: ' + ' ' + givenname + ' ' + FamilyName);
         this.upWorker = page.locator('text=Update worker\'s contact information: Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.addbank = page.locator('text=Add Worker\'s Bank Details: Hire:' + ' ' + givenname + ' ' + FamilyName);
-        this.perInfochgn = page.locator('text=Personal Information Change: ' + ' ' + givenname + ' ' + FamilyName);
+        this.perInfochgn = page.locator('text=Personal Information Change: ' + ' ' + givenname + ' ' + FamilyName).first();
         this.assignPaygroup = page.locator('text=Assign Paygroup for Payroll: ' + ' ' + givenname + ' ' + FamilyName);
         this.assignPg = page.getByLabel('Proposed Pay Group', { exact: true })//locator('label:has-text("Proposed Pay Group")');
         this.assignPGApprove = page.locator('text=Assign Pay Group for Hire:' + ' ' + givenname + ' ' + FamilyName);
@@ -221,6 +257,19 @@ export class HrInboxPage extends WebActionsPage {
         await this.perInfochgn.click();
         await this.hrSubmit.click();
     }
+    async changePersonalInformationApproveAndSubmit(): Promise<void> {
+
+        // if (await this.perInfochgn.isVisible()) {
+        await super.click(this.perInfochgn);
+        await this.page.waitForTimeout(2000);
+        await this.hrSubmit.waitFor();
+        if (await this.hrSubmit.isVisible()) {
+            await super.click(this.hrSubmit);
+        } else if (await this.Approve.isVisible()) {
+            await super.click(this.Approve);
+        }
+        // }
+    }
 
     async assignPayrollPayGroup(): Promise<void> {
         await this.assignPaygroup.click();
@@ -243,7 +292,8 @@ export class HrInboxPage extends WebActionsPage {
     async assignPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
 
         await this.assignPaygroup.click();
-        await this.assignPg.fill(ProposedPayGroup.toString());
+        //await this.assignPg.fill(ProposedPayGroup.toString());
+        await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Approve' }).click();
 
     }
@@ -251,6 +301,16 @@ export class HrInboxPage extends WebActionsPage {
     async updatePassportsAndVisa(): Promise<void> {
         await this.passportVisa.click();
         await this.page.getByRole('button', { name: 'Approve' }).click();
+    }
+
+    async clickInboxMyTaskAndSubmit(varString: string) {
+        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]"));
+        await super.click(this.hrSubmit);
+    }
+
+    async clickInboxMyTaskAndApprove(varString: string) {
+        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]"));
+        await super.click(this.page.getByRole('button', { name: 'Approve' }));
     }
 
 
@@ -418,22 +478,28 @@ export class HrInboxPage extends WebActionsPage {
         // await this.page.waitForTimeout(500);
         // await super.setTextWithType(this.prbStartDate, '');
         // await super.setTextWithType(this.prbEndDate, '');
-        if (probReviewDate != 'NaN' && probReviewDate != 'N/A' && probReviewDate != undefined) {
-            await super.setTextWithType(this.prbReviewDate, probReviewDate);
+        if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
+            ///await super.setTextWithType(this.prbReviewDate, probReviewDate);
         }
 
         await super.click(this.hrSubmit);
         // await this.hrSubmit.click();
-        // await this.page.waitForTimeout(500);
-
-        if (await super.checkExistsOrIsVisible(this.manageProbation)) {
+        await this.page.waitForTimeout(2000);
+        if (await this.contractWarningAlert.isVisible()) {
             await super.click(this.hrSubmit);
-            // await this.page.waitForTimeout(500);
-            // await this.hrSubmit.click();
         }
+        await this.page.waitForTimeout(2000);
+        if (await this.contractWarningAlert.isVisible()) {
+            await super.click(this.hrSubmit);
+        }
+        // if (await super.checkExistsOrIsVisible(this.manageProbation)) {
+        //     await super.click(this.hrSubmit);
+        //     // await this.page.waitForTimeout(500);
+        //     // await this.hrSubmit.click();
+        // }
     }
 
-    
+
     async clickEditNoticePeriodsforHireSubmit() {
         await super.click(this.editNoticePeriod);
         await super.click(this.hrSubmit)
@@ -457,27 +523,70 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async hrgetemployeenumber() {
-        await this.page.waitForTimeout(500);
-        await this.upWorker.click();
+        // await this.page.waitForTimeout(500);
+        // await this.upWorker.click();
+        await super.click(this.upWorker);
         this.EmployeeNumber = await this.upWorker.allInnerTexts();
+        // this.EmployeeNumber = await super.getAllInnerText(this.upWorker);
         this.EmployeeNumber = this.EmployeeNumber.toString().split('(');
-
         this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
         return this.EmployeeNumber[0].toString();
     }
 
     async getEmployeeIDFromEditNoticePeriodPage() {
-        //await super.click(this.lblEditNoticeforHire);
+        await super.click(this.lnkViewDetails);
         this.EmployeeNumber = await super.getAllInnerText(this.lblEditNoticeforHire);
         this.EmployeeNumber = this.EmployeeNumber.toString().split('(');
         this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
         return this.EmployeeNumber[0].toString();
     }
 
-    async hrProposeCompensationHire() {
+    async hrProposeCompensationHire(GradeProfile: string, Step: string, Salary: String) {
         await this.page.waitForTimeout(500);
         await this.proposeCompensation.click();
+        if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined) {
+            await super.click(this.lblGradeProfile);
+            await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
+            if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && await (this.txtStep.isVisible())) {
+                await super.click(this.txtStep);
+                await super.setTextWithDoubleEnter(this.txtStep, Step);
+            }
+
+        }
+        if (Salary != "N/A" && Salary != "NaN" && Salary != undefined && Salary != "Defaulted") {
+            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
+                await this.click(this.btnEditSalary);
+                await super.setText(this.txtSalaryAmount, Salary);
+                await super.click(this.saveSalary);
+            }
+        } else {
+
+            // if (await this.lblBasePayRange.isVisible) {
+            await this.page.waitForTimeout(500);
+            let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
+            let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
+            const strLow = strTotalBasePayRangeValueArray[0];
+            const strHingh = strTotalBasePayRangeValueArray[2];
+            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
+                await this.click(this.btnEditSalary);
+                await super.setText(this.txtSalaryAmount, strLow.toString());
+                await super.click(this.saveSalary);
+            }
+
+            // }
+        }
+
+
         await this.hrSubmit.click();
+
+        await this.page.waitForTimeout(2000);
+        if (await this.checkWarningAndAlert.isVisible()) {
+            await super.click(this.hrSubmit);
+        }
+        await this.page.waitForTimeout(2000);
+        if (await this.checkWarningAndAlert.isVisible()) {
+            await super.click(this.hrSubmit);
+        }
     }
 
     // Helper method to fill fields

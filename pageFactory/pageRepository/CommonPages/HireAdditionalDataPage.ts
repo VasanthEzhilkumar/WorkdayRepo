@@ -325,7 +325,7 @@ export class HireAdditionalData extends WebActionsPage {
         if(mealvoucher == "Yes"){
             await super.click(this.chkMealVoucher);
         }
-        await super.selectCustomDropDown(this.txtHealthHouse, healthHouse);
+        await super.selectFromCustomDropDrown(this.txtHealthHouse, healthHouse);
         if(basicFunction == "Yes"){
             await super.click(this.chkBasicFunction);
         }
@@ -333,13 +333,13 @@ export class HireAdditionalData extends WebActionsPage {
             await super.click(this.chkPensioner);
         }
         if(negotiatedLeave != undefined){
-            await super.selectCustomDropDown(this.drpNegotiatedLeave, negotiatedLeave);
+            await super.selectFromCustomDropDrown(this.drpNegotiatedLeave, negotiatedLeave);
         }
         await super.click(this.hrSubmit);
     }
 
-    async setDependentAdditionalInfoRomania(medicalins: string, health: string) {
-        await super.click(this.hireAdditiondata);
+    async setDependentAdditionalInfoRomania() {
+        await super.click(this.hireadditiondatasub);
         await super.click(this.hrSubmit)
     }
 

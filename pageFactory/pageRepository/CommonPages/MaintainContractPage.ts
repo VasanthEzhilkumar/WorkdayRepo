@@ -59,6 +59,7 @@ export class MaintainContractPage extends WebActionsPage {
     readonly submit: Locator;
     readonly contractDateEmployeeSigned: Locator;
     readonly contractDateEmployerSigned: Locator;
+    readonly contractWarningAlert: Locator;
 
 
 
@@ -123,6 +124,7 @@ export class MaintainContractPage extends WebActionsPage {
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
         this.fillAmount = page.getByLabel('Amount');
         this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
+        this.contractWarningAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -250,13 +252,14 @@ export class MaintainContractPage extends WebActionsPage {
     async setContractDetailsRomania(contractType: string, contractStatus: string,
         DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
         await super.click(this.contract);
-        await super.click(this.contractReason);
+       
         //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
         if (await reason != 'N/A' && await reason != 'NaN' && await reason != undefined) {
+            await super.click(this.contractReason);
             await super.selectFromCustomDropDrown(this.contractReason, reason);
         }
         if (await contractType != 'N/A' && await contractType != 'NaN' && await contractType != undefined) {
-            await super.setTextWithEnter(this.contractType, contractType);
+            await super.selectFromCustomDropDrown(this.contractType, contractType);
         }
 
         if (await contractStatus != 'N/A' && await contractStatus != 'NaN' && await contractStatus != undefined) {
@@ -277,19 +280,16 @@ export class MaintainContractPage extends WebActionsPage {
             await super.click(this.contractEndate);
             await super.setTextWithType(this.contractEndate, contractEnddate);
         }
-
-        // await this.contract.click();
-        // await this.contractReason.click();
-        // await this.page.waitForTimeout(500);
-
-        // await this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main').click();
-        // await this.fillField(this.contractType, contractType);
-        // await this.fillField(this.contractStatus, contractStatus);
-        // await this.fillField(this.DEmployerSigned, DEmplyersigned);
-        // await this.fillField(this.DEmployeSigned, DEmpsigned);
-        // await this.fillField(this.contractEndate, contractEnddate);
         await super.click(this.hrSubmit);
-        // await this.hrSubmit.click();
+        await this.page.waitForTimeout(2000);
+        if (await this.contractWarningAlert.isVisible()){
+            await super.click(this.hrSubmit);
+        }
+        await this.page.waitForTimeout(2000);
+        if (await this.contractWarningAlert.isVisible()){
+            await super.click(this.hrSubmit);
+        }
+       
     }
 
     async hrcontractAddendum() {

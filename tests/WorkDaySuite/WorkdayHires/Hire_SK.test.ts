@@ -121,7 +121,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empaddPhoto();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
+        await empInboxpage.changePersonalInformation(data.Gender,data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();
         await appCommon.SuccessEventHandle();

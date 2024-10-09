@@ -113,6 +113,9 @@ export const writeUniqueNamesToExcel = async (filePath: string, sheetName: strin
 
 
 
+
+
+
 // Function to write test results to Excel
 export const writeResultsToExcel = async (filePath: string, sheetName: string, rowIndex: number, empNum: string, status: string) => {
   const workbook = new ExcelJS.Workbook();
@@ -163,3 +166,41 @@ export const writeResultsToExcel = async (filePath: string, sheetName: string, r
   }
 };
 
+
+
+// Function to write Position to Excel
+export const writePositionToExcel = async (filePath: string, sheetName: string, rowIndex: number, columnValue: string, columnName: string) => {
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.readFile(filePath);
+  const worksheet = workbook.getWorksheet(sheetName);
+
+  // Find the column indices for Position
+  const headerRow = worksheet.getRow(1);
+  let positionIdCol = -1;
+
+  headerRow.eachCell((cell, colNumber) => {
+    if (cell.value === columnName) {
+      positionIdCol = colNumber;
+    }
+  });
+
+  if (positionIdCol !== -1) {
+    const row = worksheet.getRow(rowIndex + 2); // Adjust for 1-based index and header row
+    const empIdCell = row.getCell(positionIdCol);
+    empIdCell.value = columnValue;
+
+    if (columnValue.includes('Auto')) {
+      // Apply green fill to the cell if the test passed
+      empIdCell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF00FF01' } // Green color
+      };
+    }
+
+    row.commit();
+    await workbook.xlsx.writeFile(filePath);
+  } else {
+    console.error('Position column not found');
+  }
+};

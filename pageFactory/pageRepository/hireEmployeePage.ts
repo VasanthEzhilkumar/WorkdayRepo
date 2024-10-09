@@ -1,7 +1,8 @@
+import { WebActionsPage } from '@lib/WebActionPage';
 import { Page, BrowserContext, Locator, expect } from '@playwright/test';
 
 
-export class hireEmployeePage {
+export class hireEmployeePage extends WebActionsPage {
   readonly page: Page;
   readonly supervisorysearch: Locator;
   readonly supervisorysearchexp: Locator;
@@ -62,6 +63,7 @@ export class hireEmployeePage {
 
 
   constructor(page: Page, context: BrowserContext) {
+    super(page)
     this.page = page;
     this.supervisorysearch = page.locator('text=Supervisory OrganizationSupervisory Organization0 items selected >> [placeholder="Search"]');
     this.supervisorysearchexp = page.locator('text=Supervisory OrganizationSupervisory OrganizationOptions Expanded >> [placeholder="Search"]');
@@ -221,11 +223,20 @@ export class hireEmployeePage {
 
   async searchSupervisoryOrganization(supervisoryOrganisation: string, givenname: string) {
 
+    // await super.sleep(1000);
+    // await super.setTextWithDoubleEnter(this.supervisorMgrPage, supervisoryOrganisation);
+    await super.sleep(1000);
+    let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
+    let supervisoryOrganisation2 = supervisoryOrganisation1[0];
+    await super.setTextWithDoubleEnter(this.supervisorMgrPage, supervisoryOrganisation2);
+    await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
+    await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
+   
     // Fill the supervisory organization field
-    await this.supervisorMgrPage.fill(supervisoryOrganisation);
+    //await this.supervisorMgrPage.fill(supervisoryOrganisation);
 
     // Wait for the suggestion list to appear and press Enter
-    await this.page.getByLabel('Supervisory Organization', { exact: true }).press('Enter');
+    // await this.page.getByLabel('Supervisory Organization', { exact: true }).press('Enter');
 
 
     await this.newPreHire.click();
@@ -237,88 +248,19 @@ export class hireEmployeePage {
 
   ///Managers
   async searchSupervisoryOrganizationMgr(supervisoryOrganisation: string) {
-
-    await this.supervisorysearch.fill(supervisoryOrganisation, { timeout: 2000 });
-
-    await this.page.waitForTimeout(2000);
-    await this.page.keyboard.press('Enter');
-    await this.page.waitForTimeout(2000);
-    await this.page.keyboard.press('Enter');
-    await this.page.waitForTimeout(5000);
-
-    await this.okButtonHireEmployee.click();
-    await this.page.waitForTimeout(3000);
-
+    await super.sleep(1000);
+    let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
+    let supervisoryOrganisation2 = supervisoryOrganisation1[0];
+    await super.setTextWithDoubleEnter(this.supervisorMgrPage, supervisoryOrganisation2);
+    await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
+    await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
+    //await super.selectFromCustomDropDrown(this.supervisorMgrPage,supervisoryOrganisation)
+    // Wait for the suggestion list to appear and press Enter
+    //await this.page.getByLabel('Supervisory Organization', { exact: true }).press('Enter');
+    // await this.page.keyboard.press('Enter');
+    // await this.page.keyboard.press('Enter');
+    await super.click(this.okButtonHireEmployee);
   }
-
-
-
-  async fillpersonaldetails() {
-
-  }
-  //   async hireEmployeeJobDetails(HireDate: string, EmployeeType: string, jobprofile: string, timetype: string, workshift: string, AdditionalJobClassifications: string ,position : string,schdeuledhours :string) {
-  //     var str: String[] = AdditionalJobClassifications.split('@') ;
-  //     await this.page.waitForTimeout(1500);
-  //     await this.hireDate.fill(HireDate);
-  //     await this.reason.fill("New Hire");
-  // await this.page.waitForTimeout(1000);
-  //     await this.page.keyboard.press('Enter');
-  //     if (!position.includes('Auto')){
-
-  //       await this.empType.fill(EmployeeType);
-  //     await this.page.waitForTimeout(500);
-  //     await this.empType.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     await this.page.keyboard.press('Enter');
-  //     await this.jobprofile.fill(jobprofile);
-  //     await this.page.waitForTimeout(500);
-  //     await this.jobprofile.press('Enter');
-  //     await this.page.waitForTimeout(1000);
-  //     await this.page.keyboard.press('Enter');
-  //     await this.timetype.fill(timetype);
-  //     await this.page.waitForTimeout(500);
-  //     await this.timetype.press('Enter');
-  //     await this.location.fill('880');
-  //     await this.page.waitForTimeout(500);
-  //     await this.location.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     }
-
-  //     await this.additionlInformation.click();
-  //     await this.additonaljobClassification.fill(str[0].toString());
-  //     await this.additonaljobClassification.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     await this.addcls.fill(str[1].toString());
-  //     await this.page.keyboard.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     // await this.addcls.fill(str[2].toString());
-  //     // await this.page.keyboard.press('Enter');
-  //     // await this.page.waitForTimeout(500);
-  //     // await this.additionalJobClassificationClick.click();
-  //     // await this.additionalJobClassificationEXp.fill(str[1].toString());
-  //     // await this.additionalJobClassificationEXp.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     await this.page.mouse.wheel(10,10);
-  //     //await this.additionalJobsecondItm.click();
-  //     // await this.additionalJobClassificationEXp.fill(str[2].toString());
-  //     // await this.additionalJobClassificationEXp.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //     await this.workshift.click();
-  //     await this.workshiftExp.fill(workshift);
-  //     await this.workshiftExp.press('Enter');
-
-  //     await this.schdeuledHours.fill(schdeuledhours);
-
-  //     await this.defaultHours.fill(schdeuledhours);
-
-  //     if(!EmployeeType.includes('Permanent'))
-  //     {
-  //       await this.endEmploymentDate.fill('01/12/2024');
-  //     }
-  //     await this.submitButton.click();
-  //     await this.page.waitForTimeout(1000);
-
-  //   }
 
   async hireEmployeeJobDetails(
     HireDate: string,
@@ -456,79 +398,6 @@ export class hireEmployeePage {
     }
     //await this.page.waitForLoadState('networkidle');
   }
-
-
-  // async hireEmployeeJobDetailsMgr(HireDate: string, EmployeeType: string, jobprofile: string, timetype: string, workshift: string, AdditionalJobClassifications: string ,position : string,schdeuledhours :string,positionName : string) {
-  //   var str: String[] = AdditionalJobClassifications.split('@') ;
-  //   await this.page.waitForTimeout(1500);
-  //   await this.hireDate.fill(HireDate);
-  //   await this.reason.fill("New Hire");
-  //   await this.page.waitForTimeout(1000);
-  //   await this.page.keyboard.press('Enter');
-  //   if (!position.includes('Auto')){
-
-  //     await this.empType.fill(EmployeeType);
-  //   await this.page.waitForTimeout(500);
-  //   await this.empType.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.page.keyboard.press('Enter');
-  //   await this.jobprofile.fill(jobprofile);
-  //   await this.page.waitForTimeout(500);
-  //   await this.jobprofile.press('Enter');
-  //   await this.page.waitForTimeout(1000);
-  //   await this.page.keyboard.press('Enter');
-  //   await this.timetype.fill(timetype);
-  //   await this.page.waitForTimeout(500);
-  //   await this.timetype.press('Enter');
-  //   await this.location.fill('880');
-  //   await this.page.waitForTimeout(500);
-  //   await this.location.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   }
-  //   else{
-  //     await this.position.fill(positionName);
-  //     await this.page.waitForTimeout(500);
-  //     await this.position.press('Enter');
-  //     await this.page.waitForTimeout(500);
-  //   }
-
-
-  //   await this.additionlInformation.click();
-  //   await this.additonaljobClassification.fill(str[0].toString());
-  //   await this.additonaljobClassification.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.addcls.fill(str[1].toString());
-  //   await this.page.keyboard.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.addcls.fill(str[2].toString());
-  //   await this.page.keyboard.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   // await this.additionalJobClassificationClick.click();
-  //   // await this.additionalJobClassificationEXp.fill(str[1].toString());
-  //   // await this.additionalJobClassificationEXp.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.page.mouse.wheel(10,10);
-  //   //await this.additionalJobsecondItm.click();
-  //   // await this.additionalJobClassificationEXp.fill(str[2].toString());
-  //   // await this.additionalJobClassificationEXp.press('Enter');
-  //   await this.page.waitForTimeout(500);
-  //   await this.workshift.click();
-  //   await this.workshiftExp.fill(workshift);
-  //   await this.workshiftExp.press('Enter');
-
-  //   await this.schdeuledHours.fill(schdeuledhours);
-
-  //   // if(!EmployeeType.includes('Permanent'))
-  //   // {
-  //   //   await this.endEmploymentDate.fill('01/12/2023');
-  //   // }
-  //   await this.submitButton.click();
-  //   await this.page.waitForTimeout(1000);
-
-  // }
-
-
-
 
   async hireEmployeeJobDetailsMgr(
     HireDate: string,
