@@ -30,6 +30,7 @@ export class appCommons extends WebActionsPage {
     super(page);
     this.page = page;
     this.inboxtitle = page.getByLabel('My Tasks Items');
+    //this.inboxtitle = page.getByLabel('//div[@aria-label="My Tasks"]/button').firs();
     this.searchboxhome = page.locator('[aria-label="Search Workday "]');
     this.successEvent = page.locator('h2:has-text("Success! Event submitted")');
     this.eventApproved = page.locator('text=Success! Event approved');
@@ -46,9 +47,6 @@ export class appCommons extends WebActionsPage {
     this.listSelectAll = page.locator("/*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
     this.lblHrDetails2 = page.locator("((//div[contains(text(),'Awaiting Action')]//ancestor::td//following-sibling::td)[3])[1]");
     this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']");
-
-
-
   }
 
   async ClickInbox() {

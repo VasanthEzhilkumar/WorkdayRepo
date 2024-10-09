@@ -34,6 +34,7 @@ export  class homepage {
 
   async searchHireEmployee() {
     
+    await this.searchboxHome.clear();
     await this.searchboxHome.fill('Hire Employee');
    // await this.searchboxHome.fill('int030 cd peci outbound ');
     await this.searchboxHome.press('Enter');

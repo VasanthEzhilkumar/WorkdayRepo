@@ -11,7 +11,7 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 800;
+        this.timeOut = 500;
     }
 
     async setText(locator: Locator, varString: String,) {
@@ -19,6 +19,7 @@ export class WebActionsPage {
         await this.page.waitForTimeout(this.timeOut);
         await locator.waitFor();
         if (await locator.count() > 0 && await locator.isVisible()) {
+            await locator.clear();
             await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(varString));
         }
@@ -30,6 +31,7 @@ export class WebActionsPage {
         await this.page.waitForTimeout(this.timeOut);
         await locator.waitFor();
         if (await locator.count() > 0 && await locator.isVisible()) {
+            await locator.clear();
             await locator.scrollIntoViewIfNeeded();
             await locator.type(String(varString));
         }
@@ -41,6 +43,7 @@ export class WebActionsPage {
         await this.page.waitForTimeout(this.timeOut);
         await locator.waitFor();
         if (await locator.count() > 0 && await locator.isVisible()) {
+            await locator.clear();
             await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(varString));
             await locator.press('Enter');
@@ -74,6 +77,7 @@ export class WebActionsPage {
         await locator.waitFor();
         if (await locator.count() > 0 && await locator.isVisible()) {
             await locator.scrollIntoViewIfNeeded();
+            await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
             await this.page.keyboard.press('Enter');
@@ -166,6 +170,7 @@ export class WebActionsPage {
         }
 
     }
+
     async sleep(timeOut: number) {
         await this.page.waitForTimeout(this.timeOut);
     }
@@ -266,21 +271,6 @@ export class WebActionsPage {
         await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").waitFor();
         await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").click();
         await this.page.waitForTimeout(this.timeOut);
-    }
-
-    async selectCustomDropDown(locator: Locator, varString: string) {
-
-        await this.page.waitForTimeout(this.timeOut);
-        await locator.waitFor();
-        if (await locator.count() > 0 && await locator.isVisible()) {
-            await locator.scrollIntoViewIfNeeded();
-            await locator.fill(String(varString));
-            await locator.press("Enter");
-            // await this.page.locator("Need to write custom xpath for this");
-        } else {
-            //need to write error logs here
-        }
-
     }
 
 }

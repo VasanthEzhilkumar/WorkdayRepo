@@ -67,7 +67,7 @@ export class employeeInboxPage extends WebActionsPage {
     readonly saveCostCenterbtn: Locator;
     readonly btnAddPaymentElections: Locator;
     readonly appCommon: appCommons;
-    readonly addBankDetails1:Locator;
+    readonly addBankDetails1: Locator;
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
         super(page)
@@ -81,10 +81,9 @@ export class employeeInboxPage extends WebActionsPage {
         this.editCostCenter = page.getByLabel('Edit Cost Center')
         this.txtCostCenter = page.getByLabel('Content Area').getByPlaceholder('Search').first();
 
-
         this.assignOrg = page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + FamilyName + ' ' }).first();//locator('[aria-label="Inbox Items"] >> text=Assign Organizations: Hire:'+' '+givenname+' '+FamilyName+' ');
         this.editOther = page.locator('[aria-label="Edit Other"]');
-        this.setDeparment = page.locator('text=Department/Section0 items selected >> [placeholder="Search"]');
+        this.setDeparment = page.locator("//div[contains(./text(),'Department/Section')]/ancestor::li/following-sibling::li/descendant::input[@placeholder='Search']").first();
         this.saveDep = page.locator('[aria-label="Save Other"]');
         this.saveCostCenterbtn = page.locator('[aria-label="Save Cost Center"]');
 
@@ -200,22 +199,21 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     //used to set Cost Center and Deparment fields on Assign Organization page.
-    async setDeparmentAndCostCenter(CostCenter: string, Department: string, givenname: string, Familyname: string) {
-        await this.page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + Familyname + ' ' }).first().click();
-        await this.editCostCenter.click();
-        await this.txtCostCenter.fill(String(CostCenter));
-        await this.txtCostCenter.press('Enter');
-        await this.page.waitForTimeout(500);
-        await this.saveCostCenterbtn.click();
+    async setDeparmentAndCostCenter(position: string, CostCenter: string, Department: string, givenname: string, Familyname: string) {
 
-        await this.page.waitForTimeout(500);
-        await this.editOther.click();
-        await this.setDeparment.fill(Department);
-        await this.setDeparment.press('Enter');
-        await this.page.waitForTimeout(500);
-        await this.saveDep.click();
-        await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500);
+        if (position.includes('Auto')) {
+            await super.click(this.page.getByRole('button', { name: 'Assign Organizations: Create Position: ' + position }).first());
+        } else {
+            await this.page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + Familyname + ' ' }).first().click();
+        }
+        await super.click(this.editCostCenter);
+        await super.setTextWithDoubleEnter(this.txtCostCenter,String(CostCenter));
+        await super.click(this.saveCostCenterbtn);
+
+        await super.click(this.editOther);
+        await super.setTextWithDoubleEnter(this.setDeparment,String(Department));
+        await super.click(this.saveDep);
+        await super.click(this.paygroupSubmit);
     }
 
     async assignDeparment(CostCenter: string, givenname: string, Familyname: string) {
@@ -288,7 +286,7 @@ export class employeeInboxPage extends WebActionsPage {
 
     async addEmployeeBankDetails(bankName: string, bankidentificationnumber: string,
         accNumber: string, IBANNumber: string) {
-            await super.click(this.addBankDetails1);
+        await super.click(this.addBankDetails1);
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
         await super.setText(this.bankName, bankName);

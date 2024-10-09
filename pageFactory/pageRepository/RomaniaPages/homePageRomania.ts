@@ -31,21 +31,17 @@ export class homePageRomania {
     } 
 
     async contactInformationAddress(StreetNumber: string, PostalCode: number, city: string, County: string, addressType: string, BuildingNumber:string) {
+       
         await this.page.waitForTimeout(500);
         await this.addAddress.click();
         await this.street.fill(StreetNumber);
         //await this.city.fill(PostalCode.toString());
         await this.city.fill(city);
         await this.postalCode.fill(PostalCode.toString());
-        await this.buildingNumber.fill('1');
+        await this.buildingNumber.fill(BuildingNumber.toString());
         await this.county.fill(County);
         await this.county.press('Enter');
-
-        if (!city.includes('Bratislava')) {
-            //  await this.addressCounty.fill(County);
-        }
         await this.addressType.click()
-
         await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
 
     }

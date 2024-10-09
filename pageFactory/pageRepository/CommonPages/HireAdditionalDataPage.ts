@@ -325,7 +325,7 @@ export class HireAdditionalData extends WebActionsPage {
         if(mealvoucher == "Yes"){
             await super.click(this.chkMealVoucher);
         }
-        await super.selectCustomDropDown(this.txtHealthHouse, healthHouse);
+        await super.selectFromCustomDropDrown(this.txtHealthHouse, healthHouse);
         if(basicFunction == "Yes"){
             await super.click(this.chkBasicFunction);
         }

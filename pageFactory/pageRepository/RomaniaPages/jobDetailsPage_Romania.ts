@@ -127,7 +127,7 @@ export class jobDetailsPage extends WebActionsPage {
     this.contactPhoneTypemgr = page.getByLabel('Type');
 
 
-    
+
     this.addressstreetmgr = page.getByRole('textbox', { name: 'Street' });
     this.addressPostalCodemgr = page.getByLabel('Postal Code');
     this.addcitymgr = page.getByLabel('City');
@@ -282,7 +282,7 @@ export class jobDetailsPage extends WebActionsPage {
     EndEmploymentDate: string,
   ) {
     const str: String[] = AdditionalJobClassifications.split('@');
-      //await super.selectDatePicker(HireDate1);
+    //await super.selectDatePicker(HireDate1);
     await this.hireDate.waitFor();
     await this.hireDate.click();
     await this.page.waitForTimeout(2000);
@@ -305,13 +305,15 @@ export class jobDetailsPage extends WebActionsPage {
 
     await super.setTextWithEnter(this.reason, "New Hire");
     await this.page.keyboard.press('Enter');
+
     if (!position.includes('Auto')) {
       await super.setTextWithEnter(this.empType, EmployeeType);
       await this.page.keyboard.press('Enter');
       await super.selectFromCustomDropDrown(this.jobprofile, jobprofile);
       await super.setTextWithEnter(this.timetype, timetype);
       await super.setTextWithEnter(this.location, location.toString());
-
+    }else{
+      await super.selectFromCustomDropDrown(this.position,position);
     }
     await super.click(this.additionlInformation);
 
@@ -325,7 +327,7 @@ export class jobDetailsPage extends WebActionsPage {
       await super.setText(this.defaultHours, defaultHours);
     }
 
-    if (!EmployeeType.includes('Permanent')) {
+    if (EmployeeType != "N/A" && EmployeeType != "NaN" && EmployeeType != undefined ) {
       await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
     }
     await super.click(this.submitButton);
