@@ -1,20 +1,10 @@
 import test from '@lib/BaseTest';
 
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
-import { employeeInboxPage } from '@pages/employeeInboxpage';
-import { HrInboxPage } from '@pages/hrInboxPage';
-import ExcelJS from 'exceljs';
-import path from 'path';
-import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel } from '@lib/ExcelUtils';
+import { writeResultsToExcel } from '@lib/ExcelUtils';
 import { generateRandomName } from 'utils/functional/utils';
-import { homePageRomania } from '@pages/RomaniaPages/homePageRomania';
-import { jobDetailsPage } from '@pages/RomaniaPages/jobDetailsPage_Romania'
-import { GovernmentsIDPageRomania } from '@pages/RomaniaPages/GovernmentIDsRomaniaPage'
-import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage'
 import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage'
-import { error } from 'console';
 import { CaptureAlertErrors } from '@lib/CaptureErrors';
-import { expect } from '@playwright/test';
 import { employeeCareerPage } from '@pages/employeeCareerPage';
 
 
@@ -38,26 +28,18 @@ for (const sheetName in sheetsJson) {
     const dataSet = sheetsJson[sheetName];
 
     dataSet.forEach((data, index) => {
-        //  const givenName = givenName || `GivenName_${index + 1}`;
-        //  const familyName = familyName || `FamilyName_${index + 1}`;
-        const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
+       
         const { givenName, familyName } = generateRandomName();
 
         test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
             try {
                 await page.setViewportSize({ width: 1920, height: 920 });
                 const empCareerPage = new employeeCareerPage(page, context);
-                const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
-                const homePageRon = new homePageRomania(page, context)
-                const jobDetailsPageObj = new jobDetailsPage(page, context)
-                const governemntIDs = new GovernmentsIDPageRomania(page, givenName, familyName, context);
-                const contractObj = new MaintainContractPage(page, givenName, familyName, context)
                 capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
                 const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
 
                 console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
 
-                // writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
                 const username = "90001655";
                 const password = "Primark123!!";
