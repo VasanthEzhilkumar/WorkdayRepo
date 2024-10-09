@@ -180,19 +180,19 @@ export class WebActionsPage {
         await this.page.waitForTimeout(this.timeOut);
     }
 
-    async getInnerText(locator: Locator): Promise<string | null> {
-        try {
-            await this.page.waitForTimeout(this.timeOut);
-            // await this.locator.waitFor();
-            if (await locator.count() > 0 && await locator.isVisible()) {
-                await locator.scrollIntoViewIfNeeded();
-                return await locator.innerText();
-            }
-        } catch (error) {
+    // async getInnerText(locator: Locator): Promise<string | null> {
+    //     try {
+    //         await this.page.waitForTimeout(this.timeOut);
+    //         // await this.locator.waitFor();
+    //         if (await locator.count() > 0 && await locator.isVisible()) {
+    //             await locator.scrollIntoViewIfNeeded();
+    //             return await locator.innerText();
+    //         }
+    //     } catch (error) {
 
-        }
+    //     }
 
-    }
+    // }
 
     async getAllInnerText(locator: Locator): Promise<string[] | null> {
         try {

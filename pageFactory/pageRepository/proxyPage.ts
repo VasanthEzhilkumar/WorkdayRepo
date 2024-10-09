@@ -37,6 +37,7 @@ async stopproxy (){
     await this.proxystop.click();
 
     await this.okButton.click();
+    await this.page.waitForTimeout(500);
 
 }
 
