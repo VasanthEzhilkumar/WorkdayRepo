@@ -542,8 +542,8 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async hrProposeCompensationHire(GradeProfile: string, Step: string, Salary: String) {
-        await this.page.waitForTimeout(500);
-        await this.proposeCompensation.click();
+
+        await super.click(this.proposeCompensation);
         if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined) {
             await super.click(this.lblGradeProfile);
             await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
@@ -551,42 +551,46 @@ export class HrInboxPage extends WebActionsPage {
                 await super.click(this.txtStep);
                 await super.setTextWithDoubleEnter(this.txtStep, Step);
             }
-
         }
         if (Salary != "N/A" && Salary != "NaN" && Salary != undefined && Salary != "Defaulted") {
             if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
                 await this.click(this.btnEditSalary);
-                await super.setText(this.txtSalaryAmount, Salary);
+                if (this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
                 await super.click(this.saveSalary);
             }
         } else {
-
             // if (await this.lblBasePayRange.isVisible) {
-            await this.page.waitForTimeout(500);
+            await this.page.waitForTimeout(1500);
             let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
+            await this.page.waitForTimeout(1500);
+            // if(strTotalBasePayRangeValue != undefined && strTotalBasePayRangeValue != 'NaN'){
             let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
             const strLow = strTotalBasePayRangeValueArray[0];
             const strHingh = strTotalBasePayRangeValueArray[2];
+
             if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
                 await this.click(this.btnEditSalary);
-                await super.setText(this.txtSalaryAmount, strLow.toString());
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
                 await super.click(this.saveSalary);
             }
+            //}
 
-            // }
         }
-
-
         await this.hrSubmit.click();
-
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(1500);
         if (await this.checkWarningAndAlert.isVisible()) {
             await super.click(this.hrSubmit);
         }
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(1500);
         if (await this.checkWarningAndAlert.isVisible()) {
             await super.click(this.hrSubmit);
         }
+        await this.page.waitForTimeout(2800);
     }
 
     // Helper method to fill fields

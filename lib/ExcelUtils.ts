@@ -168,7 +168,7 @@ export const writeResultsToExcel = async (filePath: string, sheetName: string, r
 
 
 
-// Function to write Position to Excel
+// Generic Function to write values to Excel
 export const writePositionToExcel = async (filePath: string, sheetName: string, rowIndex: number, columnValue: string, columnName: string) => {
   const workbook = new ExcelJS.Workbook();
   await workbook.xlsx.readFile(filePath);
@@ -188,16 +188,14 @@ export const writePositionToExcel = async (filePath: string, sheetName: string, 
     const row = worksheet.getRow(rowIndex + 2); // Adjust for 1-based index and header row
     const empIdCell = row.getCell(positionIdCol);
     empIdCell.value = columnValue;
-
-    if (columnValue.includes('Auto')) {
-      // Apply green fill to the cell if the test passed
-      empIdCell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FF00FF01' } // Green color
-      };
-    }
-
+    // if (columnValue.includes('Auto')) {
+    //   // Apply green fill to the cell if the test passed
+    //   empIdCell.fill = {
+    //     type: 'pattern',
+    //     pattern: 'solid',
+    //     fgColor: { argb: 'FF00FF01' } // Green color
+    //   };
+    // }
     row.commit();
     await workbook.xlsx.writeFile(filePath);
   } else {

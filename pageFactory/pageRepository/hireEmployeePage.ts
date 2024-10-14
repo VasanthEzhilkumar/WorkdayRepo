@@ -225,12 +225,14 @@ export class hireEmployeePage extends WebActionsPage {
 
     // await super.sleep(1000);
     // await super.setTextWithDoubleEnter(this.supervisorMgrPage, supervisoryOrganisation);
-    await super.sleep(1000);
+    //await super.sleep(1000);
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
-    await super.setTextWithDoubleEnter(this.supervisorMgrPage, supervisoryOrganisation2);
-    await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
-    await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
+    await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
+    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()){
+      await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
+      await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
+    }
    
     // Fill the supervisory organization field
     //await this.supervisorMgrPage.fill(supervisoryOrganisation);
@@ -248,13 +250,16 @@ export class hireEmployeePage extends WebActionsPage {
 
   ///Managers
   async searchSupervisoryOrganizationMgr(supervisoryOrganisation: string) {
-    await super.sleep(1000);
+    //await super.sleep(1000);
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
-    await super.setTextWithDoubleEnter(this.supervisorMgrPage, supervisoryOrganisation2);
-    await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
-    await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
-    //await super.selectFromCustomDropDrown(this.supervisorMgrPage,supervisoryOrganisation)
+    await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
+    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()){
+      await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
+      await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
+    }
+    
+     //await super.selectFromCustomDropDrown(this.supervisorMgrPage,supervisoryOrganisation)
     // Wait for the suggestion list to appear and press Enter
     //await this.page.getByLabel('Supervisory Organization', { exact: true }).press('Enter');
     // await this.page.keyboard.press('Enter');

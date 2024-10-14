@@ -139,7 +139,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.romFather = page.locator('[aria-label="Inbox Items"] >> text=Romania Father');
 
         this.agreeCheckbox = page.locator('[id="\\32 97-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2)
-        this.agreeCheckboxGrid1 = page.locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\35 6\\$202639--uid152"] div')
+        this.agreeCheckboxGrid1 = page.locator('//div[contains(@data-automation-id,"checkboxPanel")]');//locator('[id="\\35 6\\$202639--uid152"] div')
         this.agreeCheckboxGrid2 = page.locator('[id="\\33 43-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\35 6\\$202639--uid142"] div')//locator('label:has-text("I Agree")');locator('[id="\\35 6\\$202639--uid162"] div')
         this.addEdu = page.getByRole('button', { name: 'Add Education', exact: true });
 
@@ -480,11 +480,14 @@ export class employeeInboxPage extends WebActionsPage {
             await this.reviewDoc.waitFor();
             await this.reviewDoc.click();
             if (await this.agreeCheckbox.isVisible()) {
-                await this.agreeCheckbox.click();
-                if (await this.agreeCheckboxGrid1.isVisible()) {
-                    await this.agreeCheckboxGrid1.click();
-                    await this.agreeCheckboxGrid2.click();
-                }
+                //making generic why if there is 10 agree checkbox, this wont fail it will click 10 AgreeeCheckBox.
+                for(let i=0;i<await this.agreeCheckboxGrid1.count();i++)
+                   await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])['+i+']'));
+                //await this.agreeCheckbox.click();
+                // if (await this.agreeCheckboxGrid1.isVisible()) {
+                //     await this.agreeCheckboxGrid1.click();
+                //     await this.agreeCheckboxGrid2.click();
+                // }
             }
             await this.paygroupSubmit.click();
         }

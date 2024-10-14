@@ -30,7 +30,7 @@ export class appCommons extends WebActionsPage {
     super(page);
     this.page = page;
     this.inboxtitle = page.getByLabel('My Tasks Items');
-    //this.inboxtitle = page.getByLabel('//div[@aria-label="My Tasks"]/button').firs();
+    //this.inboxtitle = page.getByLabel('//div[@aria-label="My Tasks"]/button').first();
     this.searchboxhome = page.locator('[aria-label="Search Workday "]');
     this.successEvent = page.locator('h2:has-text("Success! Event submitted")');
     this.eventApproved = page.locator('text=Success! Event approved');
@@ -59,6 +59,7 @@ export class appCommons extends WebActionsPage {
     if (await this.clearSearch.isVisible()) {
       await this.clearSearch.click();
     }
+    //await this.searchboxhome.clear();
     await this.page.waitForTimeout(700);
     await this.searchboxhome.fill(searchtext);
     await this.searchboxhome.press('Enter');
@@ -97,7 +98,7 @@ export class appCommons extends WebActionsPage {
   }
 
   async clickCollpaseMyTasks() {
-    await this.page.waitForTimeout(2000);
+    //await this.page.waitForTimeout(2000);
     if (await this.btnMyTaskCollapse.isVisible()) {
       await super.click(this.btnMyTaskCollapse);
     }
@@ -105,7 +106,11 @@ export class appCommons extends WebActionsPage {
   }
 
   async MyTasks() {
+    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").isVisible()){
+       await super.click( this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
+    }
     await super.click(this.page.getByLabel('My Tasks Items'));
+    //await super.click(this.page.locator('//*[@aria-label="My Tasks"]//button)').first());
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();
   }

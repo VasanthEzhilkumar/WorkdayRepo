@@ -13,8 +13,7 @@ const config: PlaywrightTestConfig = {
   globalSetup: `./global-setup`,
 
   //sets timeout for each test case
-  timeout: 120000,
-
+  timeout: 600000,
   //number of retries if test case fails
   retries: 0,
   workers: 2,
@@ -27,13 +26,15 @@ const config: PlaywrightTestConfig = {
   projects: [
     {
       name: 'Chrome',
-      use: { ...devices['Desktop Chrome'] ,
+      use: { 
+        ...devices['Desktop Chrome'] ,
        viewport: { width: 1275, height: 592 },
         //Browser Mode
         headless: false,
 
          //Enable File Downloads in Chrome
          acceptDownloads: true,
+        // actionTimeout:10000,
 
          //Artifacts
          screenshot: 'on',

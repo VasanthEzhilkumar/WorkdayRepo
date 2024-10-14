@@ -79,11 +79,11 @@ export class HireAdditionalData extends WebActionsPage {
 
         this.chkPensioner = page.locator(" //label[contains(.,'Pensioner')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
         this.chkMealVoucher = page.locator(" //label[contains(.,'Meal Voucher')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
-        this.chkBasicFunction = page.locator(" //label[contains(.,'Basic Function')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.chkBasicFunction = page.locator("//label[contains(.,'Basic Function')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkbox']");
         this.drpNegotiatedLeave = page.locator(" //label[contains(.,'Negotiated Leave')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
 
         this.txtMedicalHealthInsurance = page.locator("//label[contains(.,'Medical/health insurance')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
-        this.txtHealthHouse = page.locator("//label[contains(.,'Health House')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+        this.txtHealthHouse = page.locator("//label[contains(.,'Health House')]//parent::div//following-sibling::div//descendant::input[@placeholder='Search']");
         this.txtPartTimeDeclaration = page.locator("//label[contains(.,'Part Time Declaration')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
 
         this.hrassignPaygroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
@@ -325,7 +325,7 @@ export class HireAdditionalData extends WebActionsPage {
         if(mealvoucher == "Yes"){
             await super.click(this.chkMealVoucher);
         }
-        await super.selectFromCustomDropDrown(this.txtHealthHouse, healthHouse);
+        await super.setTextWithDoubleEnter(this.txtHealthHouse, healthHouse);
         if(basicFunction == "Yes"){
             await super.click(this.chkBasicFunction);
         }
@@ -335,6 +335,7 @@ export class HireAdditionalData extends WebActionsPage {
         if(negotiatedLeave != undefined){
             await super.selectFromCustomDropDrown(this.drpNegotiatedLeave, negotiatedLeave);
         }
+        await this.page.waitForTimeout(500);
         await super.click(this.hrSubmit);
     }
 

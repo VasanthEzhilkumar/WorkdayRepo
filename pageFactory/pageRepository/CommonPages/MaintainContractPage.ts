@@ -248,7 +248,7 @@ export class MaintainContractPage extends WebActionsPage {
     }
 
 
-
+// need to Generic
     async setContractDetailsRomania(contractType: string, contractStatus: string,
         DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
         await super.click(this.contract);

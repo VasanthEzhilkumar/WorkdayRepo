@@ -15,6 +15,7 @@ constructor (page: Page,context: BrowserContext)
 {
     this.page = page;
     this.actas = page.locator ('text=Act AsAct As0 items selected >> [placeholder="Search"]');
+
     this.proxyokButton = page.locator ('button:has-text("OK")');
     this.searchboxhome = page.locator('[aria-label="Search Workday "]');
     this.proxystop = page.locator ('text=Stop Proxy');
@@ -26,6 +27,8 @@ async startProxy(actastxt: string) {
 
     //await this.searchboxhome.fill(searchtext);
     await this.startproxyClick.click();
+    await this.page.waitForTimeout(500);
+    await this.actas.clear();
     await this.actas.fill(actastxt);
     await this.actas.press('Enter');
     await this.page.waitForTimeout(500);
@@ -35,7 +38,6 @@ async startProxy(actastxt: string) {
 async stopproxy (){
     
     await this.proxystop.click();
-
     await this.okButton.click();
 
 }

@@ -1,4 +1,4 @@
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { Page, test, BrowserContext, Locator, expect } from '@playwright/test';
 import { error } from 'console';
 import { WebActionsPage } from 'lib/WebActionPage';
 import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel } from '@lib/ExcelUtils';
@@ -65,27 +65,24 @@ export class CaptureAlertErrors extends WebActionsPage {
     async checkForScreenErrors(): Promise<boolean> {
         let errorMsg: string;
         try {
-           super.sleep(6000);
+            await this.page.waitForTimeout(5000);
             // Check for side error bar
-          if ( await this.btnSideErrorBar1.isVisible())
-        {         
-                super.sleep(5000);
+            if (await this.btnSideErrorBar1.isVisible()) {
+                await this.page.waitForTimeout(4000);
                 await super.click(this.btnSideErrorBar);
                 const message1 = await super.getText(this.lblAlertMessageTitle);
                 // const message2 = await super.getText(this.lblAlertMessageDescription);
                 errorMsg = message1 + " ";
                 await this.logScreenErrors(message1);
-
             } else if (await this.btnMainErrorBar1.isVisible()) {
-                super.sleep(5000);
+                await this.page.waitForTimeout(4000);
                 await super.click(this.btnMainErrorBar);
                 const message1 = await super.getText(this.lblAlertMessageTitle);
                 //const message2 = await super.getText(this.lblAlertMessageDescription);
                 errorMsg = message1 + " ";
                 await this.logScreenErrors(message1);
-
             }
-            if (errorMsg != undefined) {
+            if (errorMsg != undefined && errorMsg != 'NaN' ) {
                 await expect(errorMsg).toBeNull();
             }
             return false;
@@ -94,6 +91,11 @@ export class CaptureAlertErrors extends WebActionsPage {
                 let error1 = "Test failed for '" + this.givenName + " " + this.familyNmae + "' Employee: " + errorMsg;
                 error1 = error1.toString();
                 await this.setUpdateError(error1);
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                // Take a screenshot and save it with a specific name
+                const screenshotPath = "H:/WorkDaySuite_Playwright/WorkdayFailedScreenshot/"+timestamp+".png";
+                await this.page.screenshot({ path: screenshotPath });
+                error1 = error1+"& find failed Screenshot Path:->"+screenshotPath;
                 // Write the failure status to the Excel file and captured screen error as well.
                 writeResultsToExcel(this.excelFilePath, this.sheetName, this.index, error1, 'Failed');
                 return true;
