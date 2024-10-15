@@ -258,7 +258,7 @@ export class WebActionsPage {
         // Log the map to see the result
         console.log("Month As string -" + monthMap.get(month1));
         monthAsString = monthMap.get(month1).toString();
-        
+
         await this.page.waitForTimeout(this.timeOut);
         await this.page.click("(//*[@aria-label='Calendar' and @role= 'button'])[1]")
         const mmYY = this.page.locator('(//*[@data-automation-id="monthPickerHeader"]//span[@data-automation-id="datePickerMonth"])[1]');
