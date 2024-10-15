@@ -61,8 +61,13 @@ for (const sheetName in sheetsJson) {
           const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
           const createPostition = new createPositionPage(page);
 
+<<<<<<< HEAD
           console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
           writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
+=======
+        // const givenName: string = "Ursula";
+        // const familyName: string = "Sporer";
+>>>>>>> 6bc4f14fdedbf30d1139b594b94e51aa1472ac91
 
           const username = "90001655";
           const password = "Primark123!!";

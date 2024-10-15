@@ -178,6 +178,7 @@ export class WebActionsPage {
         }
     }
 
+<<<<<<< HEAD
     async getInnerText(locator: Locator): Promise<string | null> {
         try {
             await this.page.waitForTimeout(this.timeOut);
@@ -187,10 +188,21 @@ export class WebActionsPage {
                 return await locator.innerText();
             }
         } catch (error) {
+=======
+    // async getInnerText(locator: Locator): Promise<string | null> {
+    //     try {
+    //         await this.page.waitForTimeout(this.timeOut);
+    //         // await this.locator.waitFor();
+    //         if (await locator.count() > 0 && await locator.isVisible()) {
+    //             await locator.scrollIntoViewIfNeeded();
+    //             return await locator.innerText();
+    //         }
+    //     } catch (error) {
+>>>>>>> 6bc4f14fdedbf30d1139b594b94e51aa1472ac91
 
-        }
+    //     }
 
-    }
+    // }
 
     async getAllInnerText(locator: Locator): Promise<string[] | null> {
         try {
