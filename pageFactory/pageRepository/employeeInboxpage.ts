@@ -329,14 +329,24 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
         await super.click(this.editDob);
         await this.page.waitForTimeout(1000);
-        await this.page.keyboard.type(dob);
-        await this.page.keyboard.press('Enter');
+        await super.setTextWithType(this.page.getByPlaceholder('DD'),dob);
+        // await this.page.keyboard.type(dob);
+        // await this.page.keyboard.press('Enter');
+        await super.click(this.page.getByLabel('Save Date of Birth'));
+
         await super.click(this.editPlace);
         await super.setTextWithEnter(this.cityofBirth, city);
+        await super.click(this.page.getByLabel('Save Place of Birth'));
+
         await super.click(this.editmartial);
         await super.setTextWithEnter(this.martialstatus, martialstat);
+        await super.click(this.page.getByLabel('Save Marital Status'));
+
         await super.click(this.editCitizenship);
         await super.selectFromCustomDropDrown(this.citizenship, citizen);
+        //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
+        await super.click(this.page.getByLabel('Save Citizenship Status'));
+        
         await super.click(this.editNationality);
         await super.setTextWithDoubleEnter(this.nationality, national);
         await this.page.waitForTimeout(1000);

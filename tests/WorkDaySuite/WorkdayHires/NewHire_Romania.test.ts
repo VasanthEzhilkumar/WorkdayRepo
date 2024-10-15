@@ -30,9 +30,7 @@ const excelFilePath = getExcelFilePath(excelFileName);
 // Convert the Excel sheets to JSON format
 const sheetsJson = excelToJson(excelFilePath);
 
-
 // test.use({ viewport: { width: 1920, height: 1080 } }); 
-
 // Iterate over each dataset and run the test
 for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
@@ -53,9 +51,6 @@ for (const sheetName in sheetsJson) {
           // const givenName: string = "Gussie";
           // const familyName: string = "Stanton";
 
-          // const givenName: string = "Tressa";
-          // const familyName: string = "Boehm";
-
           const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
           const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
           const homePageRon = new homePageRomania(page, context)
@@ -71,13 +66,14 @@ for (const sheetName in sheetsJson) {
 
           const username = "90001655";
           const password = "Primark123!!";
+
           // initlize the web environment 
           await login.goto("Romania");
 
           // login into application 
           await login.sigIn(username, password);
 
-          // // create position for Managements hires
+          // // create position for Management hires
           if (data.JobProfile.includes("Manager")) {
             await appCommon.SearchClickLink("Create Position");
             await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
@@ -103,7 +99,7 @@ for (const sheetName in sheetsJson) {
           await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
           await homePageRon.contactInformationAddress(data.Street, data.PostalCode, data.City, data.County, data.Type, data.BuildingNumber);
           await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
-          await hireEmployee.okHireButton(); /// should be inside or on page level
+          await hireEmployee.okHireButton(); 
           await capObj.checkForScreenErrors();
 
           await jobDetailsPageObj.genericJobDetails(
@@ -119,6 +115,7 @@ for (const sheetName in sheetsJson) {
             data.Location,
             data.EndEmploymentDate
           );
+
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
           await appCommon.MyTasks();
@@ -134,6 +131,7 @@ for (const sheetName in sheetsJson) {
           await proxy.startProxy(HRPartner);
           await appCommon.MyTasks();
           await capObj.checkForScreenErrors();
+          
           //fill Government IDs  Details for Employee
           await governemntIDs.setGovernmentIDsRomania(data.Country1, data.Country2, data.NationalIDType1,
             data.NationalIDType2, data.DepartmentSection1, data.DepartmentSection2, data.IssuedDate1, data.IssuedDate2,
@@ -142,7 +140,7 @@ for (const sheetName in sheetsJson) {
           await appCommon.SuccessEventHandle();
 
           //fill Contract Details for Employee
-          await contractObj.setContractDetailsRomania(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
+          await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
           await appCommon.refreshInbox();

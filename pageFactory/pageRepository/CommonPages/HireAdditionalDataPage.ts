@@ -83,7 +83,8 @@ export class HireAdditionalData extends WebActionsPage {
         this.drpNegotiatedLeave = page.locator(" //label[contains(.,'Negotiated Leave')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
 
         this.txtMedicalHealthInsurance = page.locator("//label[contains(.,'Medical/health insurance')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
-        this.txtHealthHouse = page.locator("//label[contains(.,'Health House')]//parent::div//following-sibling::div//descendant::input[@placeholder='Search']");
+        this.txtHealthHouse = page.locator("//label[text()='Health House']//parent::div//following-sibling::div//descendant::input[@placeholder='Search']");
+        //this.txtHealthHouse = page.getByLabel('Health House', { exact: true });//.getByPlaceholder('Search');
         this.txtPartTimeDeclaration = page.locator("//label[contains(.,'Part Time Declaration')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
 
         this.hrassignPaygroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
@@ -264,52 +265,6 @@ export class HireAdditionalData extends WebActionsPage {
     }
 
 
-
-    async setContractDetailsRomania(contractType: string, contractStatus: string,
-        DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
-        await super.click(this.contract);
-        await super.click(this.contractReason);
-        //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
-        if (await reason != 'N/A' && await reason != 'NaN' && await reason != undefined) {
-            await super.selectFromCustomDropDrown(this.contractReason, reason);
-        }
-        if (await contractType != 'N/A' && await contractType != 'NaN' && await contractType != undefined) {
-            await super.setTextWithEnter(this.contractType, contractType);
-        }
-
-        if (await contractStatus != 'N/A' && await contractStatus != 'NaN' && await contractStatus != undefined) {
-            await super.setTextWithEnter(this.contractStatus, contractStatus);
-        }
-
-
-        if (await DEmpsigned != 'N/A' && await DEmpsigned != 'NaN' && await DEmpsigned != undefined) {
-            await super.click(this.DEmployeSigned);
-            await super.setTextWithType(this.DEmployeSigned, DEmpsigned);
-        }
-        if (await DEmplyersigned != 'N/A' && await DEmplyersigned != 'NaN' && await DEmplyersigned != undefined) {
-            await super.click(this.DEmployerSigned);
-            await super.setTextWithType(this.DEmployerSigned, DEmplyersigned);
-        }
-
-        if (await contractEnddate != 'N/A' && await contractEnddate != 'NaN' && await contractEnddate != undefined) {
-            await super.click(this.contractEndate);
-            await super.setTextWithType(this.contractEndate, contractEnddate);
-        }
-
-        // await this.contract.click();
-        // await this.contractReason.click();
-        // await this.page.waitForTimeout(500);
-
-        // await this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main').click();
-        // await this.fillField(this.contractType, contractType);
-        // await this.fillField(this.contractStatus, contractStatus);
-        // await this.fillField(this.DEmployerSigned, DEmplyersigned);
-        // await this.fillField(this.DEmployeSigned, DEmpsigned);
-        // await this.fillField(this.contractEndate, contractEnddate);
-        await super.click(this.hrSubmit);
-        // await this.hrSubmit.click();
-    }
-
     async hrcontractAddendum() {
         await this.contractAddendum.click();
         await this.page.waitForTimeout(500);
@@ -319,20 +274,20 @@ export class HireAdditionalData extends WebActionsPage {
         }
     }
 
-    async setHireAdditionalInfoDataRomania(healthHouse: string, mealvoucher:string,  
-        basicFunction:string, pensioner:string, negotiatedLeave:string) {
+    async setHireAdditionalInfoDataRomania(healthHouse: string, mealvoucher: string,
+        basicFunction: string, pensioner: string, negotiatedLeave: string) {
         await super.click(this.hireAdditiondata);
-        if(mealvoucher == "Yes"){
+        if (mealvoucher == "Yes") {
             await super.click(this.chkMealVoucher);
         }
-        await super.setTextWithDoubleEnter(this.txtHealthHouse, healthHouse);
-        if(basicFunction == "Yes"){
+        await super.setTextWithEnter(this.txtHealthHouse, healthHouse);
+        if (basicFunction == "Yes") {
             await super.click(this.chkBasicFunction);
         }
-        if(pensioner == "Yes"){
+        if (pensioner == "Yes") {
             await super.click(this.chkPensioner);
         }
-        if(negotiatedLeave != undefined){
+        if (negotiatedLeave != undefined) {
             await super.selectFromCustomDropDrown(this.drpNegotiatedLeave, negotiatedLeave);
         }
         await this.page.waitForTimeout(500);
@@ -345,7 +300,6 @@ export class HireAdditionalData extends WebActionsPage {
     }
 
     async hrHireAdditionalDataDependentSK(medicalins: string, health: string) {
-
         await this.hireadditiondatasub.click();
         await expect(this.page.locator('b')).toContainText('*Do not enter more than 6 Dependents. A maximum of 6 Dependents will be sent to Payroll*');
         await this.page.getByLabel('Add Row').click();
@@ -363,7 +317,6 @@ export class HireAdditionalData extends WebActionsPage {
         if (await this.mealvoucher.isVisible()) {
             await this.fillField(this.mealvoucher, insuracneType);
         }
-
         await this.hrSubmit.click();
     }
 
@@ -381,14 +334,8 @@ export class HireAdditionalData extends WebActionsPage {
     async hrManageProbation(probReviewDate: string) {
         await this.manageProbation.click();
         await this.page.waitForTimeout(500);
-
-        // await this.fillField(this.prbStartDate, '');
-        // await this.fillField(this.prbEndDate, '');
-        // await this.fillField(this.prbReviewDate, probReviewDate);
-
         await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
-
         if (await this.manageProbation.isVisible()) {
             await this.page.waitForTimeout(500);
             await this.hrSubmit.click();
@@ -400,7 +347,6 @@ export class HireAdditionalData extends WebActionsPage {
         await this.upWorker.click();
         this.EmployeeNumber = await this.upWorker.allInnerTexts();
         this.EmployeeNumber = this.EmployeeNumber.toString().split('(');
-
         this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
         return this.EmployeeNumber[0].toString();
     }
