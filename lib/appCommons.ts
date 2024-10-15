@@ -30,7 +30,6 @@ export class appCommons extends WebActionsPage {
     super(page);
     this.page = page;
     this.inboxtitle = page.getByLabel('My Tasks Items');
-    //this.inboxtitle = page.getByLabel('//div[@aria-label="My Tasks"]/button').first();
     this.searchboxhome = page.locator('[aria-label="Search Workday "]');
     this.successEvent = page.locator('h2:has-text("Success! Event submitted")');
     this.eventApproved = page.locator('text=Success! Event approved');
@@ -106,8 +105,8 @@ export class appCommons extends WebActionsPage {
   }
 
   async MyTasks() {
-    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").first().isVisible()){
-       await super.click( this.page.locator("//*[contains(@aria-label,'Close notification 1')]").first());
+    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").isVisible()){
+       await super.click( this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
     }
     await super.click(this.page.getByLabel('My Tasks Items'));
     //await super.click(this.page.locator('//*[@aria-label="My Tasks"]//button)').first());

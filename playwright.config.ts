@@ -25,7 +25,6 @@ const config: PlaywrightTestConfig = {
 
   projects: [
     {
-<<<<<<< HEAD
       name: 'Chrome',
       use: {
         ...devices['Desktop Chrome'],
@@ -67,40 +66,19 @@ const config: PlaywrightTestConfig = {
     //     headless: false,
 
 
-=======
-      name: `Chrome`,
-      
-      
-      use: {
-        // Configure the browser to use.
-        browserName: `chromium`,
 
-        //Chrome Browser Config
-        channel: `chrome`,
+        // //Browser height and width
+        // viewport: { width: 1920, height: 1080 },
+        // // ignoreHTTPSErrors: true,
 
-        //Picks Base Url based on User input
-       // baseURL: testConfig[ENV],
-        baseURL: testConfig.WFM,
-        //Browser Mode
-        headless: false,
-    
-        
-        
->>>>>>> 6bc4f14fdedbf30d1139b594b94e51aa1472ac91
+        // //Enable File Downloads in Chrome
+        // acceptDownloads: true,
 
-        //Browser height and width
-        viewport: { width: 1920, height: 1080 },
-        // ignoreHTTPSErrors: true,
+        // //Artifacts
+        // screenshot: 'on',
+        // video: `retain-on-failure`,
+        // trace: `retain-on-failure`,
 
-        //Enable File Downloads in Chrome
-        acceptDownloads: true,
-
-        //Artifacts
-        screenshot: 'on',
-        video: `retain-on-failure`,
-        trace: `retain-on-failure`,
-
-<<<<<<< HEAD
     //     //Slows down execution by ms
     //     launchOptions: {
     //       args:["--start-maximized"],
@@ -243,149 +221,6 @@ const config: PlaywrightTestConfig = {
          baseURL: testConfig[ENV]
        }
      }*/
-=======
-        //Slows down execution by ms
-        launchOptions: {
-          args:["--start-maximized"],
-          slowMo: 0
-        }
-      },
-    },
-   /* {
-      name: `Chrome- 4W`,
-      use: {
-        // Configure the browser to use.
-        browserName: `chromium`,
-
-        //Chrome Browser Config
-        channel: `chrome`,
-
-        //Picks Base Url based on User input
-       // baseURL: testConfig[ENV],
-        baseURL: testConfig.WFM,
-        //Browser Mode
-        headless: false,
-        
-        
-
-        //Browser height and width
-        viewport: { width: 1500, height: 730 },
-        ignoreHTTPSErrors: true,
-
-        //Enable File Downloads in Chrome
-        acceptDownloads: true,
-
-        //Artifacts
-        screenshot: 'on',
-        video: `retain-on-failure`,
-        trace: `retain-on-failure`,
-
-        //Slows down execution by ms
-        launchOptions: {
-          slowMo: 0
-        }
-      },
-    },
-    {
-      name: `Chromium`,
-      use: {
-        browserName: `chromium`,
-        baseURL: testConfig[ENV],
-        headless: false,
-        viewport: { width: 1500, height: 730 },
-        ignoreHTTPSErrors: true,
-        acceptDownloads: true,
-        screenshot: `only-on-failure`,
-        video: `retain-on-failure`,
-        trace: `retain-on-failure`,
-        launchOptions: {
-          slowMo: 0
-        }
-      },
-    },
-
-    {
-      name: `Firefox`,
-      use: {
-        browserName: `firefox`,
-        baseURL: testConfig[ENV],
-        headless: true,
-        viewport: { width: 1500, height: 730 },
-        ignoreHTTPSErrors: true,
-        acceptDownloads: true,
-        screenshot: `only-on-failure`,
-        video: `retain-on-failure`,
-        trace: `retain-on-failure`,
-        launchOptions: {
-          slowMo: 0
-        }
-      },
-    },
-
-    {
-      name: `Edge`,
-      use: {
-        browserName: `chromium`,
-        channel: `msedge`,
-        baseURL: testConfig[ENV],
-        headless: false,
-        viewport: { width: 1500, height: 730 },
-        ignoreHTTPSErrors: true,
-        acceptDownloads: true,
-        screenshot: `only-on-failure`,
-        video: `retain-on-failure`,
-        trace: `retain-on-failure`,
-        launchOptions: {
-          slowMo: 0
-        }
-      },
-    },
-    {
-      name: `WebKit`,
-      use: {
-        browserName: `webkit`,
-        baseURL: testConfig[ENV],
-        headless: true,
-        viewport: { width: 1500, height: 730 },
-        ignoreHTTPSErrors: true,
-        acceptDownloads: true,
-        screenshot: `only-on-failure`,
-        video: `retain-on-failure`,
-        trace: `retain-on-failure`,
-        launchOptions: {
-          slowMo: 0
-        }
-      },
-    },
-    {
-      name: `Device`,
-      use: {
-        ...devices[`Pixel 4a (5G)`],
-        browserName: `chromium`,
-        channel: `chrome`,
-        baseURL: testConfig[ENV],
-        headless: true,
-        ignoreHTTPSErrors: true,
-        acceptDownloads: true,
-        screenshot: `only-on-failure`,
-        video: `retain-on-failure`,
-        trace: `retain-on-failure`,
-        launchOptions: {
-          slowMo: 0
-        }
-      },
-    },
-    {
-      name: `DB`
-    },
-
-    {
-      name: `API`,
-      use: {
-        baseURL: testConfig[ENV]
-      }
-    }*/
->>>>>>> 6bc4f14fdedbf30d1139b594b94e51aa1472ac91
   ],
 };
 export default config;

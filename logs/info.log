@@ -3231,3 +3231,16 @@
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 4 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 4  Status : interrupted"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"error","message":"SyntaxError: h:\\WorkDaySuite_Playwright\\lib\\WebActionPage.ts: Unexpected token (181:0)\n\n\u001b[0m \u001b[90m 179 |\u001b[39m     }\n \u001b[90m 180 |\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 181 |\u001b[39m \u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<<\u001b[39m\u001b[33m<\u001b[39m \u001b[33mHEAD\u001b[39m\n \u001b[90m     |\u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 182 |\u001b[39m     \u001b[36masync\u001b[39m getInnerText(locator\u001b[33m:\u001b[39m \u001b[33mLocator\u001b[39m)\u001b[33m:\u001b[39m \u001b[33mPromise\u001b[39m\u001b[33m<\u001b[39m\u001b[33mstring\u001b[39m \u001b[33m|\u001b[39m \u001b[36mnull\u001b[39m\u001b[33m>\u001b[39m {\n \u001b[90m 183 |\u001b[39m         \u001b[36mtry\u001b[39m {\n \u001b[90m 184 |\u001b[39m             \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mwaitForTimeout(\u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mtimeOut)\u001b[33m;\u001b[39m\u001b[0m"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}

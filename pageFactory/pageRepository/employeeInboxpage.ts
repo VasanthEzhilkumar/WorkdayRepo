@@ -231,13 +231,10 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async onBoardingGuide() {
-
         await this.page.waitForTimeout(500);
         await this.onBoarding.click();
-
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
-
     }
 
     async empaddPhoto() {

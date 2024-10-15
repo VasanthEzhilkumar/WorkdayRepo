@@ -11,14 +11,14 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 1000;
+        this.timeOut = 700;
     }
 
     async setText(locator: Locator, varString: String,) {
 
         await this.page.waitForTimeout(this.timeOut);
         if (await locator.count() > 0) {
-            //await locator.scrollIntoViewIfNeeded();
+            await locator.scrollIntoViewIfNeeded();
             await locator.waitFor();
             await locator.clear();
             await locator.fill(String(varString));
@@ -178,38 +178,27 @@ export class WebActionsPage {
         }
     }
 
-<<<<<<< HEAD
     async getInnerText(locator: Locator): Promise<string | null> {
         try {
             await this.page.waitForTimeout(this.timeOut);
-            //await this.locator.waitFor();
-            if (await locator.count() > 0 && await locator.isVisible()) {
+            if (await locator.count() > 0) {
                 await locator.scrollIntoViewIfNeeded();
+                await locator.waitFor();
                 return await locator.innerText();
             }
         } catch (error) {
-=======
-    // async getInnerText(locator: Locator): Promise<string | null> {
-    //     try {
-    //         await this.page.waitForTimeout(this.timeOut);
-    //         // await this.locator.waitFor();
-    //         if (await locator.count() > 0 && await locator.isVisible()) {
-    //             await locator.scrollIntoViewIfNeeded();
-    //             return await locator.innerText();
-    //         }
-    //     } catch (error) {
->>>>>>> 6bc4f14fdedbf30d1139b594b94e51aa1472ac91
 
-    //     }
+        }
 
-    // }
+    }
 
     async getAllInnerText(locator: Locator): Promise<string[] | null> {
         try {
             await this.page.waitForTimeout(this.timeOut);
             // await this.locator.waitFor();
-            if (await locator.count() > 0 && await locator.isVisible()) {
+            if (await locator.count() > 0 ) {
                 await locator.scrollIntoViewIfNeeded();
+                await locator.waitFor()
                 return await locator.allInnerTexts();
             }
         } catch (error) {
@@ -269,7 +258,7 @@ export class WebActionsPage {
         // Log the map to see the result
         console.log("Month As string -" + monthMap.get(month1));
         monthAsString = monthMap.get(month1).toString();
-        ///--------------------------------------------------------------------------------------------
+        
         await this.page.waitForTimeout(this.timeOut);
         await this.page.click("(//*[@aria-label='Calendar' and @role= 'button'])[1]")
         const mmYY = this.page.locator('(//*[@data-automation-id="monthPickerHeader"]//span[@data-automation-id="datePickerMonth"])[1]');
