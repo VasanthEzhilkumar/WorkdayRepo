@@ -36,7 +36,7 @@ for (const sheetName in sheetsJson) {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
-        //await page.setViewportSize({ width: 1918, height: 1038 });
+        await page.setViewportSize({ width: 1920, height: 920 });
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
         const hrInboxUS = new hrInboxUSPage(page, context, givenName, familyName)
@@ -61,7 +61,7 @@ for (const sheetName in sheetsJson) {
         await hireempUS.contactInfoUS(data.AdressLine1, data.PostalCode, data.City, data.State, data.Type);
         await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
         await hireEmployee.okHireButton();
-        await hireEmployee.hireEmployeeJobDetails(
+        await hireempUS.hireEmployeeJobDetails(
           data.HireDate,
           data.EmployeeType,
           data.JobProfile,
@@ -80,7 +80,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.assigncostCenter(data.CostCenter)
         await appCommon.SuccessEventHandle();
 
-        const HRPartner = await appCommon.clickHRPartnerLink(givenName, familyName);
+        const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
@@ -105,7 +105,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
         await appCommon.refreshInbox();
 
-        await hrInbxPage.hrProposeCompensationHire();
+        await hrInbxPage.hrProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
         const empNum = await hrInboxUS.hrGetEmpNum();
         console.log(empNum, givenName, familyName);
         await appCommon.SuccessEventHandle();

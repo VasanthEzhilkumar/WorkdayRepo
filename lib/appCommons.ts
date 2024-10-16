@@ -72,8 +72,8 @@ export class appCommons extends WebActionsPage {
   }
 
   async SearchClickLink(searchtext: string) {
-    await super.setTextWithEnter(this.searchboxhome,searchtext);
-    await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a)[1]"));
+    await super.setTextWithEnter(this.searchboxhome, searchtext);
+    await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a[contains(text(),'" + searchtext.trim() + "')])[1]"));
   }
 
   async SuccessEventHandle() {
@@ -87,7 +87,7 @@ export class appCommons extends WebActionsPage {
     } else if (await this.markedcompleted.isVisible()) {
       await super.click(this.successClose);
     }
-    
+
   }
 
   async refreshInbox() {
@@ -105,8 +105,8 @@ export class appCommons extends WebActionsPage {
   }
 
   async MyTasks() {
-    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").isVisible()){
-       await super.click( this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
+    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").isVisible()) {
+      await super.click(this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
     }
     await super.click(this.page.getByLabel('My Tasks Items'));
     //await super.click(this.page.locator('//*[@aria-label="My Tasks"]//button)').first());

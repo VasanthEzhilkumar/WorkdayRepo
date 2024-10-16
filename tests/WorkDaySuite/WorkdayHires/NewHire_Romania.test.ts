@@ -74,7 +74,7 @@ for (const sheetName in sheetsJson) {
         await login.sigIn(username, password);
 
         // // create position for Management hires
-        if (data.JobProfile.includes("Manager")) {
+        if (data.JobProfile.toString().includes("Manager")) {
           await appCommon.SearchClickLink("Create Position");
           await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
           position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, data.EmployeeType, data.JobProfile, data.TimeType, data.Location);
@@ -228,7 +228,7 @@ for (const sheetName in sheetsJson) {
 
         await hrInbxPage.addWorkerBankDetails();
         await appCommon.SuccessEventHandle();
-
+        
         await hrInbxPage.clickInboxMyTaskAndSubmit("Personal Information Change:");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -238,6 +238,7 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await appCommon.MyTasks();
+        
         // await appCommon.Searchbox("Stop Proxy");
         // await proxy.stopproxy();
 

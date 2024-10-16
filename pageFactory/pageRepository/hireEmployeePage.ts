@@ -346,6 +346,7 @@ export class hireEmployeePage extends WebActionsPage {
       await this.page.keyboard.press('Enter');
     }
 
+    
     await this.workshift.waitFor();
     await this.workshift.click();
 

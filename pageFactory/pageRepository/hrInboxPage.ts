@@ -483,7 +483,6 @@ export class HrInboxPage extends WebActionsPage {
         }
 
         await super.click(this.hrSubmit);
-        // await this.hrSubmit.click();
         await this.page.waitForTimeout(2000);
         if (await this.contractWarningAlert.isVisible()) {
             await super.click(this.hrSubmit);
@@ -492,11 +491,6 @@ export class HrInboxPage extends WebActionsPage {
         if (await this.contractWarningAlert.isVisible()) {
             await super.click(this.hrSubmit);
         }
-        // if (await super.checkExistsOrIsVisible(this.manageProbation)) {
-        //     await super.click(this.hrSubmit);
-        //     // await this.page.waitForTimeout(500);
-        //     // await this.hrSubmit.click();
-        // }
     }
 
 

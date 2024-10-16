@@ -34,7 +34,7 @@ const config: PlaywrightTestConfig = {
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,
-        // actionTimeout:10000,
+        actionTimeout:10000,
 
         //Artifacts
         screenshot: 'on',

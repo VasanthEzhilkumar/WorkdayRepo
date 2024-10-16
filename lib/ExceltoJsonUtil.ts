@@ -22,10 +22,14 @@ export function getExcelFilePath(fileName: string): string {
 
 
 
-function excelDateToJSDate(excelDate: number): Date {
+function excelDateToJSDate(excelDate: number): string {
     const jsDate = new Date((excelDate - 25569) * 86400 * 1000);
-    return jsDate;
+    const day = String(jsDate.getUTCDate()).padStart(2, '0'); // Get day and pad to 2 digits
+    const month = String(jsDate.getUTCMonth() + 1).padStart(2, '0'); // Get month (0-indexed, so add 1) and pad to 2 digits
+    const year = jsDate.getUTCFullYear(); // Get the full year
+    return `${day}/${month}/${year}`; // Format as dd/MM/yyyy
 }
+
 
 export function excelToJson(filePath: string): Record<string, any[]> {
     const workbook = XLSX.readFile(filePath);
