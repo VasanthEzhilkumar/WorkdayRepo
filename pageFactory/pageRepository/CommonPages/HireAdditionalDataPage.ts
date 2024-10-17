@@ -290,7 +290,6 @@ export class HireAdditionalData extends WebActionsPage {
         if (negotiatedLeave != undefined) {
             await super.selectFromCustomDropDrown(this.drpNegotiatedLeave, negotiatedLeave);
         }
-        await this.page.waitForTimeout(500);
         await super.click(this.hrSubmit);
     }
 

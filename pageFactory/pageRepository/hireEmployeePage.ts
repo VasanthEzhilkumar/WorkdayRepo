@@ -169,7 +169,7 @@ export class hireEmployeePage extends WebActionsPage {
     await this.contactPhoneDevicetext.click();
     await this.contactPhoneTypemgr.fill(phoneType);
     await this.contactPhoneTypemgr.press('Enter');
-    await this.page.waitForTimeout(500);
+    //await this.page.waitForTimeout(500);
 
   }
 
@@ -222,48 +222,28 @@ export class hireEmployeePage extends WebActionsPage {
   }
 
   async searchSupervisoryOrganization(supervisoryOrganisation: string, givenname: string) {
-
-    // await super.sleep(1000);
-    // await super.setTextWithDoubleEnter(this.supervisorMgrPage, supervisoryOrganisation);
-    //await super.sleep(1000);
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
+    await this.page.waitForTimeout(1000);
     if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()){
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
     }
-   
-    // Fill the supervisory organization field
-    //await this.supervisorMgrPage.fill(supervisoryOrganisation);
-
-    // Wait for the suggestion list to appear and press Enter
-    // await this.page.getByLabel('Supervisory Organization', { exact: true }).press('Enter');
-
-
     await this.newPreHire.click();
-
     await this.okButtonHireEmployee.click();
-
-
   }
 
   ///Managers
   async searchSupervisoryOrganizationMgr(supervisoryOrganisation: string) {
-    //await super.sleep(1000);
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
+    await this.page.waitForTimeout(1000);
     if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()){
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
     }
-    
-     //await super.selectFromCustomDropDrown(this.supervisorMgrPage,supervisoryOrganisation)
-    // Wait for the suggestion list to appear and press Enter
-    //await this.page.getByLabel('Supervisory Organization', { exact: true }).press('Enter');
-    // await this.page.keyboard.press('Enter');
-    // await this.page.keyboard.press('Enter');
     await super.click(this.okButtonHireEmployee);
   }
 

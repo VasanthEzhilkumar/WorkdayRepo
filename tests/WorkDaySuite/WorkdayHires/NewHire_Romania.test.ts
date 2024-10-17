@@ -7,8 +7,8 @@ import ExcelJS from 'exceljs';
 import path from 'path';
 import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel, writePositionToExcel } from '@lib/ExcelUtils';
 import { generateRandomName } from 'utils/functional/utils';
-import { homePageRomania } from '@pages/RomaniaPages/homePageRomania';
-import { jobDetailsPage } from '@pages/RomaniaPages/jobDetailsPage_Romania'
+import { contactInformationAddressRomania } from '@pages/RomaniaPages/ContactInformationAddressRomania';
+import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
 import { GovernmentsIDPageRomania } from '@pages/RomaniaPages/GovernmentIDsRomaniaPage'
 import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage'
 import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage'
@@ -16,6 +16,7 @@ import { error } from 'console';
 import { CaptureAlertErrors } from '@lib/CaptureErrors';
 import { expect } from '@playwright/test';
 import { createPositionPage } from '@pages/createPositionpage';
+import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
 
 
 let empNum: string;
@@ -53,8 +54,9 @@ for (const sheetName in sheetsJson) {
 
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
-        const homePageRon = new homePageRomania(page, context)
-        const jobDetailsPageObj = new jobDetailsPage(page, context)
+        const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
+        const homePageRon = new contactInformationAddressRomania(page, context)
+        const jobDetailsPageObj = new JobDetailsPage(page, context)
         const governemntIDs = new GovernmentsIDPageRomania(page, givenName, familyName, context);
         const contractObj = new MaintainContractPage(page, givenName, familyName, context)
         capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
@@ -92,6 +94,7 @@ for (const sheetName in sheetsJson) {
 
         // search Hire employee on Home Page after login
         await home.searchHireEmployee();
+
         // set Supervisisroy Organazation 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
         await hireEmployee.legalNameInformation(givenName, familyName);
@@ -102,7 +105,7 @@ for (const sheetName in sheetsJson) {
         await hireEmployee.okHireButton();
         await capObj.checkForScreenErrors();
 
-        await jobDetailsPageObj.genericJobDetails(
+        await jobDetailsPageObj.setJobDetails(
           data.HireDate,
           data.EmployeeType,
           data.JobProfile,
@@ -131,7 +134,6 @@ for (const sheetName in sheetsJson) {
         await proxy.startProxy(HRPartner);
         await appCommon.ClickInbox();
         await appCommon.MyTasks();
-        
         await capObj.checkForScreenErrors();
 
         //fill Government IDs  Details for Employee
@@ -155,13 +157,13 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await hrInbxPage.setManageProbation(data.ProbationReviewDate);
+        await hrInbxPage.setManageProbation("NaN", "NaN");
         //await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
         // await appCommon.ClickInbox();
         await appCommon.MyTasks();
-        await hrInbxPage.hrProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
+        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
@@ -172,8 +174,8 @@ for (const sheetName in sheetsJson) {
 
         console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
         await appCommon.MyTasks();
-        await appCommon.Searchbox("Stop Proxy");
-        await proxy.stopproxy();
+        // await appCommon.Searchbox("Stop Proxy");
+        // await proxy.stopproxy();
 
         // empNum = String(data.EmployeeID);
         await appCommon.SearchboxEmp("Start Proxy");
@@ -228,7 +230,7 @@ for (const sheetName in sheetsJson) {
 
         await hrInbxPage.addWorkerBankDetails();
         await appCommon.SuccessEventHandle();
-        
+
         await hrInbxPage.clickInboxMyTaskAndSubmit("Personal Information Change:");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -237,15 +239,13 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        await appCommon.MyTasks();
-        
-        // await appCommon.Searchbox("Stop Proxy");
-        // await proxy.stopproxy();
 
+        await appCommon.SearchClickLink(empNum)
+        await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";
-
+        //await appCommon.tearDown();
       } catch (error) {
         console.error(`Test failed for ${givenName} ${familyName}:`, error);
         if ((await capObj.getUpdateError()) == undefined) {

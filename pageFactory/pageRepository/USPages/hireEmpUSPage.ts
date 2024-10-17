@@ -1,9 +1,9 @@
+import { WebActionsPage } from "@lib/WebActionPage";
 import { Page, BrowserContext, Locator, expect } from "@playwright/test";
 import { stat } from "fs";
 
-export class hireEmpUSPage {
-
-  readonly page: Page
+export class hireEmpUSPage extends WebActionsPage {
+ readonly page: Page
   readonly fName: Locator;
   readonly lName: Locator;
   readonly addressStreet: Locator;
@@ -38,6 +38,7 @@ export class hireEmpUSPage {
 
 
   constructor(page: Page, context: BrowserContext) {
+    super(page);
     this.page = page;
     this.fName = page.getByLabel('First Name');
     this.lName = page.getByLabel('Last Name');
@@ -135,11 +136,12 @@ export class hireEmpUSPage {
     await this.page.keyboard.press('Enter');
 
     if (!position.includes('Auto')) {
-      await this.empType.waitFor();
-      await this.empType.fill(EmployeeType);
-      await this.page.waitForTimeout(1000);
-      await this.empType.press('Enter');
+      // await this.empType.waitFor();
+      // await this.empType.fill(EmployeeType);
       // await this.page.waitForTimeout(1000);
+      await super.selectFromCustomDropDrown(this.empType,EmployeeType);
+      // await this.empType.press('Enter');
+          // await this.page.waitForTimeout(1000);
       // await this.page.keyboard.press('Enter');
 
 

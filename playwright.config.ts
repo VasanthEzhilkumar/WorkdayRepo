@@ -13,7 +13,7 @@ const config: PlaywrightTestConfig = {
   globalSetup: `./global-setup`,
 
   //sets timeout for each test case
-  timeout: 600000,
+  timeout: 500000,
   //number of retries if test case fails
   retries: 0,
   workers: 1,

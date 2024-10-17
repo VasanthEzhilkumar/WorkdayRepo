@@ -22,9 +22,8 @@ export class appCommons extends WebActionsPage {
   readonly listSelectAll: Locator;
   readonly lblHrDetails2: Locator;
   readonly btnMyTaskCollapse: Locator;
-
-
-
+  readonly btnPay:Locator;
+  readonly txtPayGroup: Locator;
 
   constructor(page: Page, context: BrowserContext) {
     super(page);
@@ -46,6 +45,8 @@ export class appCommons extends WebActionsPage {
     this.listSelectAll = page.locator("/*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
     this.lblHrDetails2 = page.locator("((//div[contains(text(),'Awaiting Action')]//ancestor::td//following-sibling::td)[3])[1]");
     this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']");
+    this.btnPay=page.getByRole('link', { name: 'Pay' });
+    this.txtPayGroup = page.locator("//label[contains(text(),'Pay Group')]//parent::div//following-sibling::div//descendant ::div[@data-automation-id='promptOption']");
   }
 
   async ClickInbox() {
@@ -72,6 +73,7 @@ export class appCommons extends WebActionsPage {
   }
 
   async SearchClickLink(searchtext: string) {
+    // await this.page.waitForLoadState();
     await super.setTextWithEnter(this.searchboxhome, searchtext);
     await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a[contains(text(),'" + searchtext.trim() + "')])[1]"));
   }
@@ -175,7 +177,16 @@ export class appCommons extends WebActionsPage {
     return matches ? matches.join('') : '';
   }
 
+  async tearDown() {
+    this.page.close();
+  }
 
+  async assignPaygroupValidation(PayGroup: string) {
+    await this.btnPay.click();
+    let actulValue:string = await super.getInnerText(this.txtPayGroup);
+    expect(actulValue).toEqual(PayGroup);
+    await this.page.screenshot();
+}
 
 
 

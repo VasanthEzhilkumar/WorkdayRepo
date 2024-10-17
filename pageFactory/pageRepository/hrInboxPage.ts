@@ -94,7 +94,8 @@ export class HrInboxPage extends WebActionsPage {
         this.lblBasePayRange = page.locator("(//label[contains(.,'Total Base Pay Range')]/parent::div/following-sibling::div//div[@data-automation-id='promptOption'])[1]");
         this.lblProratedAmount = page.locator("//label[contains(.,'Prorated Amount')]/parent::div/following-sibling::div//div[@data-automation-id='numericText']");
         this.txtGradeProfile = page.locator("//label[contains(.,'Grade Profile')]/parent::div/following-sibling::div//input[@placeholder='Search']");
-        this.txtStep = page.locator("//label[contains(.,'Step')]/parent::div/following-sibling::div//input[@placeholder='Search']");
+        // this.txtStep = page.locator("//label[contains(.,'Step')]/parent::div/following-sibling::div//input[@placeholder='Search']");
+        this.txtStep = page.getByLabel('Step');
         //this.txtStep1 = page.locator("//div[@data-automation-checked='Not Checked']/div[contains(text(),'')]");
         this.txtSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text']");
         this.txtJobChangeSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text']");
@@ -290,12 +291,9 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async assignPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
-
         await this.assignPaygroup.click();
-        //await this.assignPg.fill(ProposedPayGroup.toString());
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Approve' }).click();
-
     }
 
     async updatePassportsAndVisa(): Promise<void> {
@@ -472,22 +470,26 @@ export class HrInboxPage extends WebActionsPage {
         }
     }
 
-    async setManageProbation(probReviewDate: string) {
+    async setManageProbation(probEndDate: string, probReviewDate: string) {
         await super.click(this.manageProbation);
         // await this.manageProbation.click();
         // await this.page.waitForTimeout(500);
         // await super.setTextWithType(this.prbStartDate, '');
         // await super.setTextWithType(this.prbEndDate, '');
+        if (await probEndDate != 'NaN' && await probEndDate != 'N/A' && await probEndDate != undefined) {
+            await super.setTextWithType(this.prbEndDate, probEndDate);
+        }
+
         if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
-            ///await super.setTextWithType(this.prbReviewDate, probReviewDate);
+            await super.setTextWithType(this.prbReviewDate, probReviewDate);
         }
 
         await super.click(this.hrSubmit);
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(1500);
         if (await this.contractWarningAlert.isVisible()) {
             await super.click(this.hrSubmit);
         }
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(500);
         if (await this.contractWarningAlert.isVisible()) {
             await super.click(this.hrSubmit);
         }

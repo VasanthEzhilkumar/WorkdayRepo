@@ -19,17 +19,14 @@ export class homepage {
 
 
   async searchHireEmployee() {
-    
     await this.searchboxHome.clear();
     await this.searchboxHome.fill('Hire Employee');
-    // await this.searchboxHome.fill('int030 cd peci outbound ');
     await this.searchboxHome.press('Enter');
     await this.hireEmployeetask.click();
     await this.page.waitForTimeout(2000)
   }
 
   async CreatePoistion() {
-
     await this.searchboxHome.fill('Create Position');
     await this.searchboxHome.press('Enter');
     await this.createpoistion.click();
@@ -37,61 +34,23 @@ export class homepage {
   }
 
   async searchHireEmployeeMgr() {
-
     // await this.searchboxHome.fill('Hire Employee');
     // await this.searchboxHome.press('Enter');
     await this.hireEmployeetask.click();
     await this.page.waitForTimeout(2000)
   }
+  
   async searchEmp(strEmp: any): Promise<void> {
-
-
     await this.page.waitForTimeout(5000)
     // Wait until the searchboxHome is visible
     await this.searchboxHome.waitFor({ state: 'visible' });
-
     // Fill the search box
     await this.searchboxHome.fill(strEmp.toString());
-
     // Press Enter
     await this.searchboxHome.press('Enter');
-
-
     // await this.searchboxHome.fill(strEmp.toString());
     // await this.searchboxHome.press('Enter');
-    await this.page.waitForTimeout(5000)
-
-
-    // // Get all link elements with role 'link'
-    // const elements = await this.page.getByRole('link').all();
-
-    // // Loop through each element
-    // for (const element of elements) {
-    //   // Extract the text content from the element
-    //   const name = await element.textContent();
-
-    //   // Check if the text content matches the pattern 'First Last (ID)'
-    //   if (name && /\(\d+\)/.test(name)) {
-    //     // Split the text by spaces and parentheses
-    //     const splitName = name.split(' ');
-
-    //     // Extract the first name (first part)
-    //     const firstName = splitName[0];
-
-    //     // Extract the given name (second part)
-    //     const givenName = splitName[1];
-
-    //     // Extract the ID (last part inside parentheses)
-    //     const id = splitName[splitName.length - 1].replace(/[()]/g, '');
-    //     if (id != strEmp) {
-    //       console.log(`id: ${id}`)
-    //       return id
-    //     }
-
-
-    //   }
-  
-
+    await this.page.waitForTimeout(3000)
 }
 
   async getEmpName(strEmp: any): Promise < string > {
@@ -112,14 +71,10 @@ export class homepage {
     // Extract first name (first part) and given name (second part)
     const firstName = splitName[0];
     const givenName = splitName[1];
-
     // Extract the ID (last part inside parentheses)
     const id = splitName[splitName.length - 1].replace(/[()]/g, '');
-
     console.log(`${firstName} ${givenName}`);
-
     await element.click()
-
     return `${firstName} ${givenName}`;
 
   }
