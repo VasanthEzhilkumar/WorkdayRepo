@@ -10,36 +10,34 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 500;
+        this.timeOut = 200;
     }
 
     async setText(locator: Locator, varString: String,) {
         try {
-            //console.log(`Entering  "${varString}" value on: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             // await locator.scrollIntoViewIfNeeded();
             await locator.clear();
             await locator.fill(String(varString));
             // await this.page.waitForTimeout(300);
-            console.log(`Entered "${varString}" value on: ${locator}`);
+            console.log(`Entering "${varString}" value on: ${locator}`);
         } catch (error) {
-            console.log(`Entering value on failed : ${locator}` + error);
+            console.error(`Entering value "${varString}" Failed on : ${locator}` + error);
         }
 
     }
 
     async setTextWithType(locator: Locator, varString: String,) {
         try {
-            // console.log(`Typing "${varString}" into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             //await locator.scrollIntoViewIfNeeded();
             //await locator.waitFor();
             await locator.clear();
             await locator.type(String(varString));
             await this.page.waitForTimeout(300);
-            console.log(`Typied "${varString}" into: ${locator}`);
+            console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
-            console.log(`Typing "${varString}" into: ${locator} failed` + error);
+            console.error(`Typing "${varString}" into: ${locator} failed` + error);
 
         }
 
@@ -47,22 +45,20 @@ export class WebActionsPage {
 
     async setTextWithEnter(locator: Locator, varString: String,) {
         try {
-            // console.log(`Filling Value with press One Enter "${varString}" into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
-            console.log(`Entered "${varString}" value into: ${locator}`);
+            console.log(`Entering "${varString}" value into: ${locator}`);
 
         } catch (error) {
-            console.log(`Entering  "${varString}" value with single Enter - into: ${locator} failed` + error);
+            console.error(`Entering  "${varString}" value with single Enter - into: ${locator} failed` + error);
         }
 
     }
 
     async selectFromCustomDropDrown(locator: Locator, varString: String,) {
         try {
-            //console.log(`selecting Value from Custom DropDown -"${varString}" into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(varString));
@@ -75,37 +71,36 @@ export class WebActionsPage {
                 await custumLocator.click();
             }
             // await this.page.waitForTimeout(this.timeOut);
-            console.log(`Selected "${varString}" from Custom DropDown - into: ${locator}`);
+            console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {
-            console.log(`Selecting  "${varString}" value from Custom DropDown- into: ${locator} failed` + error);
+            console.error(`Selecting  "${varString}" value from Custom DropDown- into: ${locator} failed` + error);
         }
 
     }
 
     async setTextWithDoubleEnter(locator: Locator, varString: String,) {
         try {
-            //console.log(`set ${varString} Value With Double Enter -"into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
             await this.page.keyboard.press('Enter');
+            console.log(`Entering ${varString} Value With Double Enter -"into: ${locator}`);
         } catch (error) {
-            console.log(`Selecting  "${varString}" value from Custom DropDown- into: ${locator} failed` + error);
+            console.error(`Entering ${varString} Value With Double Enter -into: ${locator} failed` + error);
         }
     }
 
     //check checkbox is checked 
     async checkBoxIsChecked(locator: Locator): Promise<boolean | void> {
         try {
-            console.log(`Checking checkbox is checked or not-"into: ${locator}`);
+            //console.log(`Checking checkbox is checked or not-"into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.waitFor();
             await locator.scrollIntoViewIfNeeded();
             return await locator.check();
-            // console.log(`Checking checkbox is checked or not-"into: ${locator}`);
         } catch (error) {
-            console.log(`checking checkbox is : ${locator} failed ` + error);
+            console.error(`checking checkbox is checked failed: ${locator}  ` + error);
         }
 
     }
@@ -121,7 +116,7 @@ export class WebActionsPage {
                 }
             }
             catch (error) {
-                console.log("Could you please check your Locator- encotered this error =>" + error);
+                console.log("ERROR-" + error);
                 return false;
             }
         }
@@ -134,21 +129,20 @@ export class WebActionsPage {
             // console.log(`Clicking on : ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.click();
-            console.log(`Clicked on : ${locator}`);
+            console.log(`Clicking on : ${locator}`);
         } catch (error) {
-            console.log(`clicking on : ${locator} failed ` + error);
+            console.error(`clicking on : ${locator} - failed ` + error);
         }
     }
 
     async doubleClick(locator: Locator) {
         try {
-            // console.log(`Double Clicking on : ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.scrollIntoViewIfNeeded();
             await locator.dblclick();
-            console.log(`Double Clicked on : ${locator}`);
+            console.log(`Double Clicking on : ${locator}`);
         } catch (error) {
-            console.log(`Double Clicking on : ${locator} failed ` + error);
+            console.error(`Double Clicking on : ${locator} failed ` + error);
         }
     }
 
@@ -170,24 +164,22 @@ export class WebActionsPage {
     async getText(locator: Locator): Promise<string | null> {
         try {
             let text;
-            //console.log(`Getting text from: ${locator}, text: "${text}"`);
             await this.page.waitForTimeout(this.timeOut);
             // await this.locator.waitFor();
             if (await locator.count() > 0 && await locator.isVisible()) {
                 await locator.scrollIntoViewIfNeeded();
                 text = await locator.textContent();
             }
-            console.log(`Got text from: ${locator}, text: "${text}"`);
+            console.log(`Getting text from: ${locator}, text: "${text}"`);
             return text;
         } catch (error) {
-            console.log(`Getting text from : ${locator} failed ` + error);
+            console.error(`Getting text from : ${locator} failed ` + error);
         }
     }
 
     async getInnerText(locator: Locator): Promise<string | null> {
         try {
             let text;
-           // console.log(`Getting Inner text from: ${locator}, text: "${text}"`);
             await this.page.waitForTimeout(this.timeOut);
             if (await locator.count() > 0) {
                 await locator.scrollIntoViewIfNeeded();
@@ -197,7 +189,7 @@ export class WebActionsPage {
             console.log(`Getting Inner text from: ${locator}, text: "${text}"`);
             return text;
         } catch (error) {
-            console.log(`Getting Inner text from : ${locator} failed ` + error);
+            console.error(`Getting Inner text from : ${locator} failed ` + error);
         }
 
     }
@@ -205,7 +197,6 @@ export class WebActionsPage {
     async getAllInnerText(locator: Locator): Promise<string[] | null> {
         try {
             let text;
-            // console.log(`Getting All Inner text from: ${locator}, text: "${text}"`);
             await this.page.waitForTimeout(this.timeOut);
             if (await locator.count() > 0) {
                 await locator.scrollIntoViewIfNeeded();
@@ -215,7 +206,7 @@ export class WebActionsPage {
             console.log(`Getting All Inner text from: ${locator}, text: "${text}"`);
             return text;
         } catch (error) {
-            console.log(`Getting All Inner text from : ${locator} failed ` + error);
+            console.error(`Getting All Inner text from : ${locator} failed ` + error);
         }
     }
 
@@ -232,20 +223,19 @@ export class WebActionsPage {
             console.log(`Getting all text(Using textContext) from: ${locator}, text: "${text}"`);
             return text;
         } catch (error) {
-            console.log(`Getting All text(Using textContext) from : ${locator} failed ` + error);
+            console.error(`Getting All text(Using textContext) from : ${locator} failed ` + error);
         }
     }
 
     async selectDropDown(locator: Locator, varString: string) {
         try {
-           // console.log(`Selecting ${varString} value (Using SelectOption) from: ${locator}, Value: "${varString}"`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.waitFor();
             await locator.scrollIntoViewIfNeeded();
             await locator.selectOption(varString);
             console.log(`Selecting ' ${varString}'  value (Using SelectOption) from: ${locator}, Value: "${varString}"`);
         } catch (error) {
-            console.log(`Selecting ${varString} value (Using textContext) from : ${locator} failed ` + error);
+            console.error(`Selecting ${varString} value (Using textContext) from : ${locator} failed ` + error);
         }
     }
     async retryWebElement(locator: Locator): Promise<boolean> {

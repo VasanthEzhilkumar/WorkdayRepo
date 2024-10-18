@@ -30,11 +30,11 @@ const config: PlaywrightTestConfig = {
         ...devices['Desktop Chrome'],
         viewport: { width: 1275, height: 592 },
         //Browser Mode
-        headless: true,
+        headless: false,
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,
-        actionTimeout:10000,
+        //actionTimeout:10000,
 
         //Artifacts
         screenshot: 'on',

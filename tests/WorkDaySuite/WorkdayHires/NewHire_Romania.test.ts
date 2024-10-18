@@ -239,13 +239,14 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
+        
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
+        await appCommon.tearDown();
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";
-        //await appCommon.tearDown();
+        
       } catch (error) {
         console.error(`Test failed for ${givenName} ${familyName}:`, error);
         if ((await capObj.getUpdateError()) == undefined) {
@@ -255,9 +256,6 @@ for (const sheetName in sheetsJson) {
           empNum = "";
         }
       }
-
     });
-    // }
   });
-
 }

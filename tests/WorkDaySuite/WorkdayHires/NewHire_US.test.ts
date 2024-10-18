@@ -135,13 +135,10 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
-        //await empInboxpage.changeContactInformation();
         await appCommon.SuccessEventHandle();
-        // await empInboxpage.addMaidenNameSubmit();
-        // await appCommon.SuccessEventHandle();
 
         await appCommon.Searchbox("Start Proxy");
-        await proxy.startProxy("10239663");
+        await proxy.startProxy(HRPartner);
         await appCommon.ClickInbox();
 
         await hrInboxUS.formI9Review(data.HireDate, data.PostalCode, data.City, data.State)
@@ -169,11 +166,11 @@ for (const sheetName in sheetsJson) {
         await appCommon.Searchbox("Stop Proxy");
         await proxy.stopproxy();
 
-        await page.waitForTimeout(3000);
-
+        await appCommon.SearchClickLink(empNum)
+        await appCommon.assignPaygroupValidation(data.PayGroup);
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
-
+        // empNum = "";
       } catch (error) {
         console.error(`Test failed for ${givenName} ${familyName}:`, error);
         // Write the failure status to the Excel file

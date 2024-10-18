@@ -256,3 +256,27 @@
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 14 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 14  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 14 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 14  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 13 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 13  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 15 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 15  Status : passed"}
+{"level":"error","message":"Error: Test ended.\n\n\u001b[31mFailed worker ran 1 test:\u001b[39m\n[Chrome] › tests\\WorkDaySuite\\WorkdayHires\\NewHire_Romania.test.ts:48:9 › @Hire Employee - Test 15 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 12 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 12  Status : passed"}
+{"level":"error","message":"Error: Test ended.\n\n\u001b[31mFailed worker ran 1 test:\u001b[39m\n[Chrome] › tests\\WorkDaySuite\\WorkdayHires\\NewHire_Romania.test.ts:48:9 › @Hire Employee - Test 12 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 11 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 11  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 6  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 7 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 7  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 8 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 8  Status : passed"}
+{"level":"error","message":"Error: Test ended.\n\n\u001b[31mFailed worker ran 1 test:\u001b[39m\n[Chrome] › tests\\WorkDaySuite\\WorkdayHires\\NewHire_Romania.test.ts:48:9 › @Hire Employee - Test 8 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 9 "}

@@ -193,8 +193,6 @@ export class hrInboxUSPage {
 
         await this.i9AgreeChkbox.click();
         await this.i9OverDueReason.fill("Audit Revealed that New Hire Was Not Run")
-
-
         await this.i9EmpTitle.fill("Test")
         await this.i9EmpBusiness.fill("Test")
         await this.i9EmpFirstName.fill("Test")
@@ -203,9 +201,6 @@ export class hrInboxUSPage {
         await this.i9city.fill(city)
         await this.i9state.fill(state)
         await this.i9zipcode.fill(zipcode)
-
-
-
     }
 
 }
