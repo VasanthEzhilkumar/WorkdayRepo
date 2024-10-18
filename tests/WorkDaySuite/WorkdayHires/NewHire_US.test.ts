@@ -10,8 +10,6 @@ import { hireEmpUSPage } from '@pages/USPages/hireEmpUSPage';
 import { hrInboxUSPage } from '@pages/USPages/hrInboxUSPage';
 import { employeeInboxUSPage } from '@pages/USPages/employeeInboxUSPage';
 
-
-
 let empNum: string;
 
 // Define the relative directory path to your Excel file
