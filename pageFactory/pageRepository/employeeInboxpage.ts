@@ -102,7 +102,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.IBAN = page.locator('label:has-text("IBAN")');
         this.okButton = page.locator('button:has-text("OK")');
 
-        this.chgContactInformation = page.locator('[aria-label="Inbox Items"] >> text=Change/Update My Contact Information');
+        this.chgContactInformation = page.getByRole('button', { name: 'Change/Update My Contact Information', exact: true })
         this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true })//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.buttonchgpersonal = page.locator('button:has-text("Change My Personal Information")');
 

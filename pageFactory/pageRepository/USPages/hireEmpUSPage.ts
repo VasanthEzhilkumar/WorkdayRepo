@@ -139,8 +139,8 @@ export class hireEmpUSPage {
       await this.empType.fill(EmployeeType);
       await this.page.waitForTimeout(1000);
       await this.empType.press('Enter');
-      // await this.page.waitForTimeout(1000);
-      // await this.page.keyboard.press('Enter');
+      await this.page.waitForTimeout(1000);
+      await this.page.keyboard.press('Enter');
 
 
       await this.jobprofile.waitFor();

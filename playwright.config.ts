@@ -25,16 +25,24 @@ const config: PlaywrightTestConfig = {
 
   projects: [
     {
-      name: 'Chrome',
+      name: `Chrome`,
+      
+      
       use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1275, height: 592 },
+        // Configure the browser to use.
+        browserName: `chromium`,
+
+        //Chrome Browser Config
+        channel: `chrome`,
+
+        //Picks Base Url based on User input
+       // baseURL: testConfig[ENV],
+        baseURL: testConfig.WFM,
         //Browser Mode
         headless: false,
-
+    
         //Enable File Downloads in Chrome
         acceptDownloads: true,
-        // actionTimeout:10000,
 
         //Artifacts
         screenshot: 'on',
@@ -43,7 +51,7 @@ const config: PlaywrightTestConfig = {
 
         //Slows down execution by ms
         launchOptions: {
-          args: ["--start-maximized"],
+          args:["--start-maximized"],
           slowMo: 0
         }
       },

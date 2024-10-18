@@ -1,9 +1,10 @@
 import { da } from "@faker-js/faker";
+import { WebActionsPage } from "@lib/WebActionPage";
 import { Page, BrowserContext, expect, Locator } from "@playwright/test";
 import { stat } from "fs";
 import { LogCallback } from "winston";
 
-export class hrInboxUSPage {
+export class hrInboxUSPage extends WebActionsPage{
 
     readonly page: Page;
     readonly onboardtxt: Locator;
@@ -33,9 +34,20 @@ export class hrInboxUSPage {
     readonly i9EmpOrg: Locator;
     readonly i9AgreeChkbox: Locator;
     readonly i9OverDueReason: Locator;
+    readonly proposeCompensation: Locator;
+    readonly Approve: Locator;
+    readonly documentTitle: Locator;
+    readonly selectIssuingAuthority: Locator;
+    readonly finalise: Locator;
+    readonly awaitinginfoClose: Locator;
+    readonly employmentVerification: Locator;
+    readonly assignPaygroup: Locator;
+    readonly assignPg: Locator;
 
 
-    constructor(page: Page, context: BrowserContext, givenName: string, familyName: string) {
+    constructor(page: Page, context: BrowserContext, givenName: string, familyName: string, jobProfile: string) {
+        
+        super(page);
 
         this.page = page;
         this.i9EmpTitle = page.getByLabel('Title of Employer or')
@@ -50,7 +62,11 @@ export class hrInboxUSPage {
         this.i9Documentnumber = page.locator("(//label[contains(.,'Document Number')]/parent::div/following-sibling::div/descendant::input)[1]")
         this.i9FirstEmpDate = page.locator("(//input[@data-automation-id='dateSectionDay-input' and @role='spinbutton'])[6]/parent::div/input")
         this.i9AgreeChkbox = page.locator("(//div[contains(@data-automation-id,'checkboxPanel')])[12]")
-        this.i9OverDueReason = page.locator("(//label[contains(.,'Overdue Reason')]/parent::div/following-sibling::div/descendant::input)[1]")
+        this.i9OverDueReason = page.getByLabel('Overdue Reason')
+        this.Approve = page.getByRole('button', { name: 'Approve', exact: true });
+
+        this.documentTitle = page.locator("(//input[@placeholder='Search'])[2]")
+        this.selectIssuingAuthority = page.locator("(//input[@placeholder='Search'])[2]")
 
 
         this.onboardtxt = page.getByRole('button', { name: `Onboarding Setup for Hire: ${givenName} ${familyName}` });
@@ -71,7 +87,14 @@ export class hrInboxUSPage {
         this.GIssuedDate = page.locator('[id="\\35 6\\$533356"] div[role="group"] >> text=DD');
         this.completeI9Review = page.getByRole('button', { name: `Complete Form I-9: ${givenName}` })
         //this.IssuedBy = page.locator('text=1 item selected, RomaniaRomania1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$149635"] input[role="textbox"]');
+        this.proposeCompensation = page.locator('text=Propose Compensation Hire: ' + ' ' + givenName + ' ' + familyName);
 
+        this.finalise = page.getByRole('button', { name: `Finalise: ${jobProfile} - ${givenName} ${familyName}` });
+        this.awaitinginfoClose = page.getByLabel('items selected for U.S.').locator('svg');
+        this.employmentVerification = page.getByLabel('U.S. Employment Verification');
+
+        this.assignPaygroup = page.locator(`text=Assign Paygroup for Payroll: ${givenName} ${familyName}`);
+        this.assignPg = page.getByLabel('Proposed Pay Group', { exact: true })
 
     }
 
@@ -85,7 +108,7 @@ export class hrInboxUSPage {
 
     async hrManageProbation(probReviewDate: string): Promise<void> {
         await this.manageProbation.click();
-        await this.page.waitForTimeout(4000);
+        await this.page.waitForTimeout(500);
         const [day, month, year] = probReviewDate.split('/');
 
         await this.page.waitForTimeout(500);
@@ -99,11 +122,11 @@ export class hrInboxUSPage {
         await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
 
-        if (await this.manageProbation.isVisible()) {
-            await this.page.waitForTimeout(500);
-            await this.hrSubmit.click();
-        }
-        await this.page.waitForTimeout(500);
+        // if (await this.manageProbation.isVisible()) {
+        //     await this.page.waitForTimeout(500);
+        //     await this.hrSubmit.click();
+        // }
+        // await this.page.waitForTimeout(500);
     }
 
 
@@ -169,7 +192,7 @@ export class hrInboxUSPage {
     }
 
 
-    async formI9Review(hireDate: any,zipcode:string,city:string,state: string): Promise<void> {
+    async formI9Review(hireDate: any,zipcode:any,city:string,state: string): Promise<void> {
 
         // Get the current date and time as a string
         let strTitle1: string = new Date().toString();
@@ -188,13 +211,27 @@ export class hrInboxUSPage {
        // await this.completeI9Review.click();
 
         await this.i9Documentnumber.fill(strDocument_No)
-       // await this.i9FirstEmpDate.fill(hireDate.toString())
-        await this.i9ExpirationDate.fill("01/01/2047")
+
+        await this.documentTitle.fill('U.S. Passport or U.S. Passport Card');
+        await this.page.keyboard.press('Enter')
+        await this.page.waitForTimeout(500);
+
+        await this.selectIssuingAuthority.fill('MaryLand');
+        await this.page.keyboard.press('Enter')
+        await this.page.waitForTimeout(500);
+        //await this.i9FirstEmpDate.fill(hireDate.toString())
+
+        const dayInput = this.page.getByRole('group', { name: 'current value is DD/MM/YYYY', exact: true }).getByPlaceholder('DD')
+        await dayInput.type(hireDate.toString()); // Replace '14' with the desired day
+
+        await this.page.locator('[id="\\35 6\\$415411"]').getByPlaceholder('DD').type('31/12/2047')
+      
+
+        
+      
+       // await this.i9ExpirationDate.fill("01/01/2047")
 
         await this.i9AgreeChkbox.click();
-        await this.i9OverDueReason.fill("Audit Revealed that New Hire Was Not Run")
-
-
         await this.i9EmpTitle.fill("Test")
         await this.i9EmpBusiness.fill("Test")
         await this.i9EmpFirstName.fill("Test")
@@ -202,9 +239,47 @@ export class hrInboxUSPage {
         await this.i9EmpOrg.fill("Test")
         await this.i9city.fill(city)
         await this.i9state.fill(state)
-        await this.i9zipcode.fill(zipcode)
+        await this.i9zipcode.fill(zipcode.toString())
+
+        await this.i9OverDueReason.fill("Audit Revealed that New Hire Was Not Run")
+        await this.page.waitForTimeout(500);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(1000);
 
 
+        await this.Approve.click();
+        await this.page.waitForTimeout(1000);
+
+
+    }
+
+    async hrProposeCompensationHire() {
+        await this.page.waitForTimeout(500);
+        await this.proposeCompensation.click();
+        await this.hrSubmit.click();
+    }
+
+    async finaliseEmpVerification(empstatus: string): Promise<void>{
+
+        await this.finalise.click();
+        await this.awaitinginfoClose.click();
+        await this.employmentVerification.fill(empstatus);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(1000);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(500);
+
+        await this.hrSubmit.click();
+        await this.page.waitForTimeout(500);
+
+    }
+
+    async assignPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
+
+        await this.assignPaygroup.click();
+        //await this.assignPg.fill(ProposedPayGroup.toString());
+        await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
+        await this.page.getByRole('button', { name: 'Approve' }).click();
 
     }
 

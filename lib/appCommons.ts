@@ -130,10 +130,10 @@ export class appCommons extends WebActionsPage {
 
     await this.MyTasks();
     await this.Archive.click();
-    await this.page.waitForTimeout(10000);
+    await this.page.waitForTimeout(500);
     await this.page.waitForSelector(`button:has-text('Hire: ${givenname} ${familyname}')`);
 
-    const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
+    const buttons = this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
 
     // Iterate over the found buttons and click the one that starts with 'Hire'
     for (let i = 0; i < await buttons.count(); i++) {
@@ -155,7 +155,7 @@ export class appCommons extends WebActionsPage {
     }
 
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
-    await this.page.waitForTimeout(5000);
+    await this.page.waitForTimeout(500);
     const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
