@@ -1,7 +1,4 @@
-import { th } from '@faker-js/faker';
 import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { throws } from 'assert';
-import { promises } from 'dns';
 import moment, { months } from "moment";
 /*
 @Author      : @ Madhukar Kirkan
@@ -18,12 +15,12 @@ export class WebActionsPage {
 
     async setText(locator: Locator, varString: String,) {
         try {
-            console.log(`Entering  "${varString}" value on: ${locator}`);
+            //console.log(`Entering  "${varString}" value on: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             // await locator.scrollIntoViewIfNeeded();
             await locator.clear();
             await locator.fill(String(varString));
-           // await this.page.waitForTimeout(300);
+            // await this.page.waitForTimeout(300);
             console.log(`Entered "${varString}" value on: ${locator}`);
         } catch (error) {
             console.log(`Entering value on failed : ${locator}` + error);
@@ -33,7 +30,7 @@ export class WebActionsPage {
 
     async setTextWithType(locator: Locator, varString: String,) {
         try {
-            console.log(`Typing "${varString}" into: ${locator}`);
+            // console.log(`Typing "${varString}" into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             //await locator.scrollIntoViewIfNeeded();
             //await locator.waitFor();
@@ -42,7 +39,7 @@ export class WebActionsPage {
             await this.page.waitForTimeout(300);
             console.log(`Typied "${varString}" into: ${locator}`);
         } catch (error) {
-            console.log(`Typied "${varString}" into: ${locator} failed` + error);
+            console.log(`Typing "${varString}" into: ${locator} failed` + error);
 
         }
 
@@ -50,12 +47,12 @@ export class WebActionsPage {
 
     async setTextWithEnter(locator: Locator, varString: String,) {
         try {
-            console.log(`Filling Value with press One Enter "${varString}" into: ${locator}`);
+            // console.log(`Filling Value with press One Enter "${varString}" into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
-            console.log(`Filled "${varString}" value into: ${locator}`);
+            console.log(`Entered "${varString}" value into: ${locator}`);
 
         } catch (error) {
             console.log(`Entering  "${varString}" value with single Enter - into: ${locator} failed` + error);
@@ -65,14 +62,14 @@ export class WebActionsPage {
 
     async selectFromCustomDropDrown(locator: Locator, varString: String,) {
         try {
-            console.log(`selecting Value from Custom DropDown -"${varString}" into: ${locator}`);
+            //console.log(`selecting Value from Custom DropDown -"${varString}" into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
-            //await locator.scrollIntoViewIfNeeded();
+            await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(varString));
             await locator.press('Enter');
             await this.page.keyboard.press('Enter');
             const custumLocator: Locator = this.page.locator("(//div[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
-            await this.page.waitForTimeout(this.timeOut);
+            await this.page.waitForTimeout(1000);
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
@@ -87,7 +84,7 @@ export class WebActionsPage {
 
     async setTextWithDoubleEnter(locator: Locator, varString: String,) {
         try {
-            console.log(`set ${varString} Value With Double Enter -"into: ${locator}`);
+            //console.log(`set ${varString} Value With Double Enter -"into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.clear();
             await locator.fill(String(varString));
@@ -106,8 +103,9 @@ export class WebActionsPage {
             await locator.waitFor();
             await locator.scrollIntoViewIfNeeded();
             return await locator.check();
+            // console.log(`Checking checkbox is checked or not-"into: ${locator}`);
         } catch (error) {
-            console.log(`checking checkbox is checked into: ${locator} failed ` + error);
+            console.log(`checking checkbox is : ${locator} failed ` + error);
         }
 
     }
@@ -133,7 +131,7 @@ export class WebActionsPage {
 
     async click(locator: Locator) {
         try {
-            console.log(`Clicking on : ${locator}`);
+            // console.log(`Clicking on : ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.click();
             console.log(`Clicked on : ${locator}`);
@@ -144,12 +142,11 @@ export class WebActionsPage {
 
     async doubleClick(locator: Locator) {
         try {
-            console.log(`Double Clicking on : ${locator}`);
+            // console.log(`Double Clicking on : ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
             await locator.scrollIntoViewIfNeeded();
-            console.log(`Double Clicked on : ${locator}`);
             await locator.dblclick();
-        
+            console.log(`Double Clicked on : ${locator}`);
         } catch (error) {
             console.log(`Double Clicking on : ${locator} failed ` + error);
         }
@@ -173,7 +170,7 @@ export class WebActionsPage {
     async getText(locator: Locator): Promise<string | null> {
         try {
             let text;
-            console.log(`Getting text from: ${locator}, text: "${text}"`);
+            //console.log(`Getting text from: ${locator}, text: "${text}"`);
             await this.page.waitForTimeout(this.timeOut);
             // await this.locator.waitFor();
             if (await locator.count() > 0 && await locator.isVisible()) {
@@ -190,14 +187,14 @@ export class WebActionsPage {
     async getInnerText(locator: Locator): Promise<string | null> {
         try {
             let text;
-            console.log(`Getting Inner text from: ${locator}, text: "${text}"`);
+           // console.log(`Getting Inner text from: ${locator}, text: "${text}"`);
             await this.page.waitForTimeout(this.timeOut);
             if (await locator.count() > 0) {
                 await locator.scrollIntoViewIfNeeded();
                 //  await locator.waitFor();
                 text = await locator.innerText();
             }
-            console.log(`Inner text from: ${locator}, text: "${text}"`);
+            console.log(`Getting Inner text from: ${locator}, text: "${text}"`);
             return text;
         } catch (error) {
             console.log(`Getting Inner text from : ${locator} failed ` + error);
@@ -208,14 +205,14 @@ export class WebActionsPage {
     async getAllInnerText(locator: Locator): Promise<string[] | null> {
         try {
             let text;
-            console.log(`Getting All Inner text from: ${locator}, text: "${text}"`);
+            // console.log(`Getting All Inner text from: ${locator}, text: "${text}"`);
             await this.page.waitForTimeout(this.timeOut);
             if (await locator.count() > 0) {
                 await locator.scrollIntoViewIfNeeded();
                 //  await locator.waitFor();
                 text = await locator.allInnerTexts();
             }
-            console.log(`All Inner text from: ${locator}, text: "${text}"`);
+            console.log(`Getting All Inner text from: ${locator}, text: "${text}"`);
             return text;
         } catch (error) {
             console.log(`Getting All Inner text from : ${locator} failed ` + error);
@@ -223,16 +220,16 @@ export class WebActionsPage {
     }
 
     async getListOfText(locator: Locator): Promise<string[] | null> {
-         try {
-            let text:string[];
-            console.log(`Getting text(Using textContext) from: ${locator}, text: "${text}"`);
+        try {
+            let text: string[];
+            //console.log(`Getting text(Using textContext) from: ${locator}, text: "${text}"`);
             await this.page.waitForTimeout(this.timeOut);
             // await this.locator.waitFor();
             if (await locator.count() > 0 && await locator.isVisible()) {
                 await locator.scrollIntoViewIfNeeded();
-                text  = await locator.allTextContents();
+                text = await locator.allTextContents();
             }
-            console.log(`Got all text(Using textContext) from: ${locator}, text: "${text}"`);
+            console.log(`Getting all text(Using textContext) from: ${locator}, text: "${text}"`);
             return text;
         } catch (error) {
             console.log(`Getting All text(Using textContext) from : ${locator} failed ` + error);
@@ -241,12 +238,13 @@ export class WebActionsPage {
 
     async selectDropDown(locator: Locator, varString: string) {
         try {
-            console.log(`Selecting ${varString} value (Using SelectOption) from: ${locator}, Value: "${varString}"`);
-        await this.page.waitForTimeout(this.timeOut);
-        await locator.waitFor();
-        await locator.scrollIntoViewIfNeeded();
-        await locator.selectOption(varString);
-        }catch(error){
+           // console.log(`Selecting ${varString} value (Using SelectOption) from: ${locator}, Value: "${varString}"`);
+            await this.page.waitForTimeout(this.timeOut);
+            await locator.waitFor();
+            await locator.scrollIntoViewIfNeeded();
+            await locator.selectOption(varString);
+            console.log(`Selecting ' ${varString}'  value (Using SelectOption) from: ${locator}, Value: "${varString}"`);
+        } catch (error) {
             console.log(`Selecting ${varString} value (Using textContext) from : ${locator} failed ` + error);
         }
     }
@@ -274,16 +272,13 @@ export class WebActionsPage {
             "July", "August", "September", "October", "November", "December"
         ];
         let monthMap: Map<number, string> = new Map();
-
         // Populate the map using the monthNames array
         monthNames.forEach((month, index) => {
             monthMap.set(index + 1, month);
         });
-
         // Log the map to see the result
         console.log("Month As string -" + monthMap.get(month1));
         monthAsString = monthMap.get(month1).toString();
-
         await this.page.waitForTimeout(this.timeOut);
         await this.page.click("(//*[@aria-label='Calendar' and @role= 'button'])[1]")
         const mmYY = this.page.locator('(//*[@data-automation-id="monthPickerHeader"]//span[@data-automation-id="datePickerMonth"])[1]');
@@ -307,5 +302,4 @@ export class WebActionsPage {
         await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").click();
         await this.page.waitForTimeout(this.timeOut);
     }
-
 }
