@@ -1,6 +1,6 @@
 import { PlaywrightTestConfig, devices } from '@playwright/test';
-import { testConfig } from './testConfig';
-const ENV = process.env.npm_config_ENV;
+// import { testConfig } from './testConfig';
+// const ENV = process.env.npm_config_ENV;
 
 /*if (!ENV || !['WFM',`qa`, `dev`, `qaApi`, `devApi`].includes(ENV)) {
  console.log(`Please provide a correct environment value after command like "--ENV=qa|dev|qaApi|devApi"`);
@@ -28,7 +28,7 @@ const config: PlaywrightTestConfig = {
       name: 'Chrome',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1275, height: 592 },
+        viewport: { width: 1280, height: 650 },
         //Browser Mode
         headless: false,
 

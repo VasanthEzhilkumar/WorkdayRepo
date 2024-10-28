@@ -3,20 +3,17 @@ import test from '@lib/BaseTest';
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import ExcelJS from 'exceljs';
-import path from 'path';
-import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel, writePositionToExcel } from '@lib/ExcelUtils';
-import { generateRandomName } from 'utils/functional/utils';
-import { contactInformationAddressRomania } from '@pages/RomaniaPages/ContactInformationAddressRomania';
+import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
+import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage';
 import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
-import { GovernmentsIDPageRomania } from '@pages/RomaniaPages/GovernmentIDsRomaniaPage'
-import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage'
-import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage'
-import { error } from 'console';
+import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage';
+import { contactInformationAddressRomania } from '@pages/RomaniaPages/ContactInformationAddressRomania';
+import { GovernmentsIDPageRomania } from '@pages/RomaniaPages/GovernmentIDsRomaniaPage';
+import { generateRandomName } from 'utils/functional/utils';
 import { CaptureAlertErrors } from '@lib/CaptureErrors';
-import { expect } from '@playwright/test';
-import { createPositionPage } from '@pages/createPositionpage';
 import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
+import { createPositionPage } from '@pages/createPositionpage';
+
 
 
 let empNum: string;
@@ -25,7 +22,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataRomania.xlsx';
+const excelFileName = 'Hires/testDataRomania.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -41,25 +38,25 @@ for (const sheetName in sheetsJson) {
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
     const { givenName, familyName } = generateRandomName();
+
     // const givenName = data.GivenName;
     // const familyName = data.FamilyName;
+    // const givenName: string = "Gussie";
+    // const familyName: string = "Stanton";
     // if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
-        await page.setViewportSize({ width: 1275, height: 592 });
-
-        // const givenName: string = "Gussie";
-        // const familyName: string = "Stanton";
+        await page.setViewportSize({ width: 1280, height: 650 });
 
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
         const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
         const homePageRon = new contactInformationAddressRomania(page, context)
-        const jobDetailsPageObj = new JobDetailsPage(page, context)
+        const jobDetailsPage = new JobDetailsPage(page, context)
         const governemntIDs = new GovernmentsIDPageRomania(page, givenName, familyName, context);
         const contractObj = new MaintainContractPage(page, givenName, familyName, context)
-        capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
+        capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index);
         const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
         const createPostition = new createPositionPage(page);
 
@@ -90,6 +87,8 @@ for (const sheetName in sheetsJson) {
           // Write the results to the Excel file
           writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
           await appCommon.MyTasks();
+        } else {
+          position = "DummyValue";
         }
 
         // search Hire employee on Home Page after login
@@ -105,7 +104,7 @@ for (const sheetName in sheetsJson) {
         await hireEmployee.okHireButton();
         await capObj.checkForScreenErrors();
 
-        await jobDetailsPageObj.setJobDetails(
+        await jobDetailsPage.setJobDetails(
           data.HireDate,
           data.EmployeeType,
           data.JobProfile,
@@ -239,14 +238,13 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        
+
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
-        await appCommon.tearDown();
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";
-        
+        await appCommon.tearDown();
       } catch (error) {
         console.error(`Test failed for ${givenName} ${familyName}:`, error);
         if ((await capObj.getUpdateError()) == undefined) {
@@ -257,5 +255,10 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+
+    // test.afterEach(`Tear down ${test.name}`, async ({ page, context})=>{
+    //   await new appCommons(page, context).tearDown();
+    // });
+
   });
 }

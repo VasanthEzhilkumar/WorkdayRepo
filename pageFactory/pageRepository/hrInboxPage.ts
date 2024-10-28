@@ -1,6 +1,5 @@
 import { WebActionsPage } from '@lib/WebActionPage';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { UnexpectedResponseException } from 'pdfjs-dist-es5';
+import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 
 export class HrInboxPage extends WebActionsPage {
     readonly page: Page;
@@ -78,9 +77,15 @@ export class HrInboxPage extends WebActionsPage {
     readonly btnEditHourly: Locator;
     readonly btnSaveHourly: Locator;
     readonly txtGradeProfile: Locator;
-
+    readonly txtYoungParentEffectiveDate: Locator;
     readonly givenName1: string;
     readonly fimilyName1: string;
+    readonly chkYoungParent: Locator;
+
+    readonly txtTaxFreeAmountEffectiveDate: Locator;
+    readonly txtPensioneffectiveDate: Locator;
+    readonly chkTaxFreeAmount: Locator;
+
 
     EmployeeNumber: string[];
 
@@ -168,6 +173,12 @@ export class HrInboxPage extends WebActionsPage {
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
         this.fillAmount = page.getByLabel('Amount');
         this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
+        this.txtYoungParentEffectiveDate = page.locator("//label[contains(.,'Young Parent Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
+        this.chkYoungParent = page.locator("//label[contains(.,'Young Parent')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.txtTaxFreeAmountEffectiveDate = page.locator("//label[contains(.,'Tax Free Amount Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
+        this.txtPensioneffectiveDate = page.locator("//label[contains(.,'Pension effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
+        this.chkTaxFreeAmount = page.locator("//label[contains(.,'Tax Free Amount')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -392,21 +403,7 @@ export class HrInboxPage extends WebActionsPage {
         }
     }
 
-    async hrcontractsubmit(contractType: string, contractStatus: string, DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
-        await this.contract.click();
-        await this.contractReason.click();
-        await this.page.waitForTimeout(500);
-
-        await this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main').click();
-        await this.fillField(this.contractType, contractType);
-        await this.fillField(this.contractStatus, contractStatus);
-        // await this.fillField(this.DEmployerSigned, DEmplyersigned);
-        // await this.fillField(this.DEmployeSigned, DEmpsigned);
-        // await this.fillField(this.contractEndate, contractEnddate);
-
-        await this.hrSubmit.click();
-    }
-
+   
     async hrcontractAddendum() {
         await this.contractAddendum.click();
         await this.page.waitForTimeout(500);
@@ -416,22 +413,33 @@ export class HrInboxPage extends WebActionsPage {
         }
     }
 
-    async hrHireAdditionalDataSK(mealvoucher: string, insuracneType: string) {
-        await this.hireAdditiondata.click();
-        await this.page.waitForTimeout(500);
+    async hrHireAdditionalDataSK(mealvoucher: string, insuracneType: string, youngParent: string,
+        youngParentEffectiveDate: string, taxFreeAmount: string, taxFreeAmountEffectiveDate: string, pensioneffectiveDate: string) {
 
+        await super.click(this.hireAdditiondata);
         const warningText = '*Do not enter more than 6 Dependents. A maximum of 6 Dependents will be sent to Payroll*';
         const isWarningPresent = await this.page.locator('b').allTextContents();
 
         if (!isWarningPresent.includes(warningText)) {
-            await this.fillField(this.mealvoucher, mealvoucher);
-            await this.fillField(this.healthSK, insuracneType);
+            await super.setTextWithDoubleEnter(this.mealvoucher, mealvoucher);
+            await this.setTextWithDoubleEnter(this.healthSK, insuracneType);
         }
-
-        await this.hrSubmit.click();
-        await this.page.waitForTimeout(500); // Consider reducing or removing this if possible
+        if (youngParent == "Yes" && youngParent != undefined) {
+            await super.click(this.chkYoungParent);
+            //  data.TaxFreeAmount, data.PensioneffectiveDate, data.
+            if (youngParentEffectiveDate != undefined && youngParentEffectiveDate != "NaN") {
+                await super.setTextWithType(this.txtYoungParentEffectiveDate, youngParentEffectiveDate);
+            }
+        }
+        if (taxFreeAmount == "Yes" && taxFreeAmount != undefined) {
+            await super.setText(this.chkTaxFreeAmount, taxFreeAmount);
+            await super.setTextWithEnter(this.txtTaxFreeAmountEffectiveDate, taxFreeAmountEffectiveDate);
+        }
+        if (pensioneffectiveDate == "Yes" && pensioneffectiveDate != undefined) {
+            await super.setTextWithType(this.txtPensioneffectiveDate, pensioneffectiveDate);
+        }
+        await super.click(this.hrSubmit);
     }
-
 
     async hrHireAdditionalDataDependentSK(medicalins: string, health: string) {
 
@@ -442,20 +450,15 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.getByRole('textbox').nth(1).fill('Childone');
         await this.page.getByRole('textbox').nth(1).press('Tab');
         await this.page.getByRole('textbox').nth(2).fill('1234567891');
-
-
-
         await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
 
     async hrHireAdditionalData(mealvoucher: string, insuracneType: string) {
         await this.hireAdditiondata.click();
-
         if (await this.mealvoucher.isVisible()) {
             await this.fillField(this.mealvoucher, insuracneType);
         }
-
         await this.hrSubmit.click();
     }
 
@@ -471,30 +474,29 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setManageProbation(probEndDate: string, probReviewDate: string) {
-        await super.click(this.manageProbation);
-        // await this.manageProbation.click();
-        // await this.page.waitForTimeout(500);
-        // await super.setTextWithType(this.prbStartDate, '');
-        // await super.setTextWithType(this.prbEndDate, '');
-        if (await probEndDate != 'NaN' && await probEndDate != 'N/A' && await probEndDate != undefined) {
-            await super.setTextWithType(this.prbEndDate, probEndDate);
+        if (await this.manageProbation.isVisible() && await this.manageProbation.count() > 0) {
+            await super.click(this.manageProbation);
+            // await super.setTextWithType(this.prbStartDate, '');
+            if (await probEndDate != 'NaN' && await probEndDate != 'N/A' && await probEndDate != undefined) {
+                await super.setTextWithType(this.prbEndDate, probEndDate);
+            }
+            if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
+                await super.setTextWithType(this.prbReviewDate, probReviewDate);
+            }
+            await super.click(this.hrSubmit);
+            await this.page.waitForTimeout(1000);
+            if (await this.contractWarningAlert.isVisible()) {
+                await super.click(this.hrSubmit);
+            }
+            await this.page.waitForTimeout(500);
+            if (await this.contractWarningAlert.isVisible()) {
+                await super.click(this.hrSubmit);
+            }
+        }else{
+            console.log("Manage Probation Period Page is missing for This job profiles.");
         }
 
-        if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
-            await super.setTextWithType(this.prbReviewDate, probReviewDate);
-        }
-
-        await super.click(this.hrSubmit);
-        await this.page.waitForTimeout(1500);
-        if (await this.contractWarningAlert.isVisible()) {
-            await super.click(this.hrSubmit);
-        }
-        await this.page.waitForTimeout(500);
-        if (await this.contractWarningAlert.isVisible()) {
-            await super.click(this.hrSubmit);
-        }
     }
-
 
     async clickEditNoticePeriodsforHireSubmit() {
         await super.click(this.editNoticePeriod);
@@ -502,20 +504,20 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async hrManageProbation(probReviewDate: string) {
-        await this.manageProbation.click();
         await this.page.waitForTimeout(500);
-
-        // await this.fillField(this.prbStartDate, '');
-        // await this.fillField(this.prbEndDate, '');
-        // await this.fillField(this.prbReviewDate, probReviewDate);
-
-        await this.hrSubmit.click();
-        await this.page.waitForTimeout(500);
-
-        if (await this.manageProbation.isVisible()) {
-            await this.page.waitForTimeout(500);
+        if (await this.manageProbation.isVisible() && await this.manageProbation.count() > 0) {
+            await this.manageProbation.click();
+            // await this.fillField(this.prbStartDate, '');
+            // await this.fillField(this.prbEndDate, '');
+            // await this.fillField(this.prbReviewDate, probReviewDate);
             await this.hrSubmit.click();
+            await this.page.waitForTimeout(500);
+            if (await this.manageProbation.isVisible()) {
+                await this.page.waitForTimeout(500);
+                await this.hrSubmit.click();
+            }
         }
+
     }
 
     async hrgetemployeenumber() {
@@ -537,58 +539,7 @@ export class HrInboxPage extends WebActionsPage {
         return this.EmployeeNumber[0].toString();
     }
 
-    async hrProposeCompensationHire(GradeProfile: string, Step: string, Salary: String) {
-
-        await super.click(this.proposeCompensation);
-        if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined) {
-            await super.click(this.lblGradeProfile);
-            await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
-            if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && await (this.txtStep.isVisible())) {
-                await super.click(this.txtStep);
-                await super.setTextWithDoubleEnter(this.txtStep, Step);
-            }
-        }
-        if (Salary != "N/A" && Salary != "NaN" && Salary != undefined && Salary != "Defaulted") {
-            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
-                await this.click(this.btnEditSalary);
-                if (this.txtSalaryAmount.isVisible()) {
-                    await super.setText(this.txtSalaryAmount, Salary.toString());
-                }
-                await super.click(this.saveSalary);
-            }
-        } else {
-            // if (await this.lblBasePayRange.isVisible) {
-            await this.page.waitForTimeout(1500);
-            let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
-            await this.page.waitForTimeout(1500);
-            // if(strTotalBasePayRangeValue != undefined && strTotalBasePayRangeValue != 'NaN'){
-            let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
-            const strLow = strTotalBasePayRangeValueArray[0];
-            const strHingh = strTotalBasePayRangeValueArray[2];
-
-            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
-                await this.click(this.btnEditSalary);
-                await this.page.waitForTimeout(1500);
-                if (await this.txtSalaryAmount.isVisible()) {
-                    await super.setText(this.txtSalaryAmount, strLow.toString());
-                }
-                await super.click(this.saveSalary);
-            }
-            //}
-
-        }
-        await this.hrSubmit.click();
-        await this.page.waitForTimeout(1500);
-        if (await this.checkWarningAndAlert.isVisible()) {
-            await super.click(this.hrSubmit);
-        }
-        await this.page.waitForTimeout(1500);
-        if (await this.checkWarningAndAlert.isVisible()) {
-            await super.click(this.hrSubmit);
-        }
-        await this.page.waitForTimeout(2800);
-    }
-
+    
     // Helper method to fill fields
     async fillField(fieldLocator: Locator, value: string) {
         await fieldLocator.fill(value);
