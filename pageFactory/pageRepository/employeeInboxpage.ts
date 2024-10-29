@@ -1,7 +1,6 @@
 import { appCommons } from '@lib/appCommons';
 import { WebActionsPage } from '@lib/WebActionPage';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { describe } from 'node:test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 export class employeeInboxPage extends WebActionsPage {
     readonly page: Page;
@@ -356,9 +355,7 @@ export class employeeInboxPage extends WebActionsPage {
         // await this.chgPersonalInformation.click();
         await this.perInformation.click();
         // if(await this.buttonchgpersonal.isVisible()){
-
         //await this.buttonchgpersonal.click();
-
         await this.editGender.click();
 
         await this.setGenderdrpDown.click();
@@ -376,12 +373,9 @@ export class employeeInboxPage extends WebActionsPage {
 
         await this.cityofBirth.fill(city);
         await this.page.keyboard.press('Enter');
-
-
         await this.editmartial.click();
         await this.martialstatus.fill(martialstat);
         await this.page.keyboard.press('Enter');
-
         await this.page.waitForTimeout(500);
         await this.editCitizenship.click();
         await this.page.waitForTimeout(500);
@@ -389,20 +383,15 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(500);
         await this.page.keyboard.press('Enter');
-
         await this.page.waitForTimeout(500);
-
         await this.editNationality.click();
         await this.page.waitForTimeout(500);
         await this.nationality.fill(national);
         await this.page.waitForTimeout(1000);
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(1000);
-
         await this.paygroupSubmit.click();
-
         // }
-
     }
 
     async changepersonalinformationSubmit() {
@@ -472,6 +461,7 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async reviewDocumentSubmitSK() {
+        await this.page.waitForTimeout(1000);
         if (await this.reviewDoc.isVisible()) {
             await super.click(this.reviewDoc);
             await this.page.waitForTimeout(1000);
@@ -487,9 +477,10 @@ export class employeeInboxPage extends WebActionsPage {
 
     //@Madhukar Kirkan -> Making this generic to ensure that if there are 10 "Agree" checkboxes, the test cases won't fail; it will click all 10 "Agree" checkboxes.
     async reviewDocumentSubmitGeneric() {
+        await this.page.waitForTimeout(1000);
         if (await this.reviewDoc.isVisible()) {
             await super.click(this.reviewDoc);
-            await this.page.waitForTimeout(1000);
+            await this.page.waitForTimeout(500);
             for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
                 if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
                     await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();

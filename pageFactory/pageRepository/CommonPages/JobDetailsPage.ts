@@ -99,9 +99,10 @@ export class JobDetailsPage extends WebActionsPage {
     this.emailTypeExtended = page.locator('text=TypeType0 items selected, press enter to view all options, or type to search and >> [placeholder="Search"]')
     
     //Hire Employee Locators
-    this.hireDate = page.locator('[aria-label="Day"][type="number"]').first();
+    //this.hireDate = page.locator('[aria-label="Day"][type="number"]').first();
+    this.hireDate = page.locator("//label[contains(.,'Hire Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
+    
     this.position = page.getByLabel('Position').first();
-
     //this.hireDate = page.locator('text=Hire DateHire Datecurrentvalue is DD/MM/YYYYDD/MM/YYYYuse right and left arrows >> div[role="group"]');
     this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
     this.empType = page.getByLabel('Employee Type');//locator('text=Employee TypeEmployee Type0 items selected >> [placeholder="Search"]');
@@ -150,8 +151,9 @@ export class JobDetailsPage extends WebActionsPage {
     EndEmploymentDate: string,
   ) {
 
-    await this.hireDate.waitFor();
+    //await this.hireDate.waitFor();
     await this.hireDate.focus();
+    await this.hireDate.click({ force: true });
     await super.setTextWithType(this.hireDate, HireDate1);
     await super.setTextWithEnter(this.reason, "New Hire");
     if (!position.includes('Auto')) {
@@ -172,7 +174,7 @@ export class JobDetailsPage extends WebActionsPage {
       }
     }
 
-    await super.click(this.workshiftExp);
+   // await super.click(this.workshiftExp);
     await super.setTextWithEnter(this.workshiftExp, workshift);
     if (await defaultHours != "NaN" && await defaultHours != "N/A" && await defaultHours != undefined) {
       await super.setText(this.defaultHours, defaultHours);

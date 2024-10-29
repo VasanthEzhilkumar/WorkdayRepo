@@ -4,6 +4,7 @@ import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
 import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
 import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
 import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage';
+import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
 import { createPositionPage } from '@pages/createPositionpage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
@@ -38,6 +39,7 @@ for (const sheetName in sheetsJson) {
         await page.setViewportSize({ width: 1275, height: 595 });//
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
+        const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
         const createPostition = new createPositionPage(page);
         const jobDetailsPage = new JobDetailsPage(page, context)
         captureErrors = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index);
@@ -101,8 +103,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.setDeparmentAndCostCenter("position", data.CostCenter, data.DepartmentSection1, givenName, familyName);
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
-        // const HRPartner = await appCommon.clickHRPartnerLink(givenName, familyName);
+       //It will get HR partner ID for hr proxy
         const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
 
         await appCommon.Searchbox("Start Proxy");
@@ -129,11 +130,11 @@ for (const sheetName in sheetsJson) {
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await hrInbxPage.setManageProbation("NaN",data.ProbationReviewDate);
+        await hrInbxPage.setManageProbation("NaN", data.ProbationReviewDate);
         await appCommon.SuccessEventHandle();
         await appCommon.refreshInbox();
 
-        await hrInbxPage.hrProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
+        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
         await captureErrors.checkForScreenErrors();
         // await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();

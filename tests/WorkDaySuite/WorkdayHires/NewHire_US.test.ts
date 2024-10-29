@@ -39,13 +39,13 @@ for (const sheetName in sheetsJson) {
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
         const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
-        const hrInboxUS = new hrInboxUSPage(page, context, givenName, familyName)
+        const hrInboxUS = new hrInboxUSPage(page, context, givenName, familyName, jobProfile)
         const empInboxUS = new employeeInboxUSPage(page, context);
         const hireempUS = new hireEmpUSPage(page, context);
         const createPostition = new createPositionPage(page);
         const jobDetailsPage = new JobDetailsPage(page, context)
         captureErrors = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index);
-        
+
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
@@ -108,8 +108,8 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
-
+        //await appCommon.ClickInbox();
+        await appCommon.MyTasks();
         await hrInboxUS.onboardSetup();
         await appCommon.SuccessEventHandle();
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
@@ -121,14 +121,15 @@ for (const sheetName in sheetsJson) {
         console.log(empNum, givenName, familyName);
 
         await appCommon.SuccessEventHandle();
-        await appCommon.ClickInbox();
+        //await appCommon.ClickInbox();
 
         await appCommon.Searchbox("Stop Proxy");
         await proxy.stopproxy();
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
-        await appCommon.ClickInbox();
+       // await appCommon.ClickInbox();
+        await appCommon.MyTasks();
 
         await empInboxpage.onBoardingGuide();
         await appCommon.SuccessEventHandle();
@@ -140,18 +141,20 @@ for (const sheetName in sheetsJson) {
 
         await empInboxUS.changeGovIDInformation();
         await hrInboxUS.EnterGovID(data.Country1, data.NationalIDType1, data.AddEditID1, "", "", "", "", "", "", "");
+        await captureErrors.checkForScreenErrors();
         await empInboxUS.changeGovIDInformationSubmit();
-        await appCommon.SuccessEventHandle();
+        await captureErrors.checkForScreenErrors();
+        // await appCommon.SuccessEventHandle();
         await empInboxpage.AddEmergecyInformation();
-        await appCommon.SuccessEventHandle();
-
-        await empInboxUS.reviewDocUS();
-        await appCommon.SuccessEventHandle();
+        // await appCommon.SuccessEventHandle();
+        await empInboxpage.reviewDocumentSubmitGeneric();
+        //await appCommon.SuccessEventHandle();
         await empInboxUS.electronicPayAcceptance();
-        await appCommon.SuccessEventHandle();
+        //await appCommon.SuccessEventHandle();
 
         await empInboxUS.completeFormI9();
-        await appCommon.SuccessEventHandle();
+        await captureErrors.checkForScreenErrors();
+        // await appCommon.SuccessEventHandle();
 
         await empInboxUS.handBookUS();
         await appCommon.SuccessEventHandle();
@@ -164,35 +167,25 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
+        //await appCommon.ClickInbox();
+        await appCommon.MyTasks();
 
-        await hrInboxUS.formI9Review(data.HireDate, data.PostalCode, data.City, data.State)
-
-        await hrInbxPage.updateWorkerContactInfo();
+        await hrInboxUS.formI9Review(data.HireDate, data.PostalCode, data.City, data.State, data.IssuingAuthority, data.I9ExpirationDate);
+        await captureErrors.checkForScreenErrors();
+        await hrInboxUS.finaliseEmpVerification(data.USEmploymentVerificationStatus);
+        await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await appCommon.Searchbox(empNum)
-        await empInboxpage.empaddBankDetails(data.BankName, data.BankCode, data.AccountNumber, data.IBAN);
-        await appCommon.ClickInbox();
-        await hrInbxPage.addWorkerBankDetails();
+        await hrInboxUS.assignPayGroupSubmit(data.ProposedPayGroupFinal);
+        await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await hrInbxPage.changePersonalInformation();
-        await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
-
-        await hrInbxPage.updatePassportsAndVisa();
-        await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
-        await hrInbxPage.assignPayGroupSubmit(data.PayGroup);
-        await appCommon.SuccessEventHandle();
-        await appCommon.ClickInbox();
-
-        await appCommon.Searchbox("Stop Proxy");
-        await proxy.stopproxy();
+        //await appCommon.ClickInbox();
+        await appCommon.MyTasks();
 
         await appCommon.SearchClickLink(empNum)
-        await appCommon.assignPaygroupValidation(data.PayGroup);
+        await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
+
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";
