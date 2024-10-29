@@ -228,17 +228,11 @@ export class hireEmployeePage extends WebActionsPage {
     //await super.sleep(1000);
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
-<<<<<<< Updated upstream
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
     if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()){
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
     }
-=======
-    await super.setTextWithDoubleEnter(this.supervisorMgrPage, supervisoryOrganisation2);
-    // await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
-    // await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
->>>>>>> Stashed changes
    
     // Fill the supervisory organization field
     //await this.supervisorMgrPage.fill(supervisoryOrganisation);

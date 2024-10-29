@@ -16,8 +16,8 @@ const config: PlaywrightTestConfig = {
   timeout: 600000,
   //number of retries if test case fails
   retries: 0,
-  workers: 1,
-  //fullyParallel: true,
+  workers: 2,
+  fullyParallel: true,
   //fullyParallel : true,
 
   //Reporters
@@ -25,16 +25,31 @@ const config: PlaywrightTestConfig = {
 
   projects: [
     {
-      name: 'Chrome',
+      name: `Chrome`,
+      
+      
       use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1275, height: 592 },
+        // Configure the browser to use.
+        browserName: `chromium`,
+
+        //Chrome Browser Config
+        channel: `chrome`,
+
+        //Picks Base Url based on User input
+       // baseURL: testConfig[ENV],
+        baseURL: testConfig.WFM,
         //Browser Mode
         headless: false,
+    
+        
+        
+
+        //Browser height and width
+        viewport: { width: 1920, height: 1080 },
+        // ignoreHTTPSErrors: true,
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,
-        // actionTimeout:10000,
 
         //Artifacts
         screenshot: 'on',
@@ -43,7 +58,7 @@ const config: PlaywrightTestConfig = {
 
         //Slows down execution by ms
         launchOptions: {
-          args: ["--start-maximized"],
+          args:["--start-maximized"],
           slowMo: 0
         }
       },
