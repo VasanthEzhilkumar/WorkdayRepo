@@ -1,6 +1,6 @@
 import { PlaywrightTestConfig, devices } from '@playwright/test';
-import { testConfig } from './testConfig';
-const ENV = process.env.npm_config_ENV;
+// import { testConfig } from './testConfig';
+// const ENV = process.env.npm_config_ENV;
 
 /*if (!ENV || !['WFM',`qa`, `dev`, `qaApi`, `devApi`].includes(ENV)) {
  console.log(`Please provide a correct environment value after command like "--ENV=qa|dev|qaApi|devApi"`);
@@ -13,11 +13,11 @@ const config: PlaywrightTestConfig = {
   globalSetup: `./global-setup`,
 
   //sets timeout for each test case
-  timeout: 600000,
+  timeout: 550000,
   //number of retries if test case fails
   retries: 0,
-  workers: 2,
-  fullyParallel: true,
+  workers: 1,
+  //fullyParallel: true,
   //fullyParallel : true,
 
   //Reporters
@@ -25,31 +25,16 @@ const config: PlaywrightTestConfig = {
 
   projects: [
     {
-      name: `Chrome`,
-      
-      
+      name: 'Chrome',
       use: {
-        // Configure the browser to use.
-        browserName: `chromium`,
-
-        //Chrome Browser Config
-        channel: `chrome`,
-
-        //Picks Base Url based on User input
-       // baseURL: testConfig[ENV],
-        baseURL: testConfig.WFM,
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 650 },
         //Browser Mode
         headless: false,
-    
-        
-        
-
-        //Browser height and width
-        viewport: { width: 1920, height: 1080 },
-        // ignoreHTTPSErrors: true,
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,
+        //actionTimeout:10000,
 
         //Artifacts
         screenshot: 'on',
@@ -58,7 +43,7 @@ const config: PlaywrightTestConfig = {
 
         //Slows down execution by ms
         launchOptions: {
-          args:["--start-maximized"],
+          args: ["--start-maximized"],
           slowMo: 0
         }
       },

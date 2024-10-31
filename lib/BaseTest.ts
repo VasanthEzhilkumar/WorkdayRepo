@@ -50,6 +50,7 @@ import { homepage } from '@pages/homePage';
 import { hireEmployeePage } from '@pages/hireEmployeePage';
 import { proxyPage } from '@pages/proxyPage';
 import { appCommons } from './appCommons';
+import { fileValidationPage } from '@pages/fileValidationPage';
 
 const test = baseTest.extend<{
   login: loginpage;
@@ -57,6 +58,9 @@ const test = baseTest.extend<{
   hireEmployee: hireEmployeePage;
   appCommon: appCommons;
   proxy: proxyPage;
+  fileValidationUK : fileValidationPage;
+  fileValidationCZ : fileValidationPage;
+
   
 }>({
   login: async ({ page, context }, use) => {
@@ -74,6 +78,13 @@ const test = baseTest.extend<{
   proxy: async ({ page, context }, use) => {
     await use(new proxyPage(page, context));
   },
+  fileValidationUK: async ({ page, context }, use) => {
+    await use(new fileValidationPage(page, context));
+  },
+  fileValidationCZ: async ({ page, context }, use) => {
+    await use(new fileValidationPage(page, context));
+  },
+
 });
 
 export default test;

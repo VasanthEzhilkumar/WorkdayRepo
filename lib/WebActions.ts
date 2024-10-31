@@ -1,7 +1,7 @@
 import fs from 'fs';
 import * as CryptoJS from 'crypto-js';
 import type { Page } from '@playwright/test';
-import { BrowserContext, expect } from '@playwright/test';
+import { BrowserContext } from '@playwright/test';
 import { Workbook } from 'exceljs';
 import { testConfig } from '../testConfig';
 import * as pdfjslib from 'pdfjs-dist-es5';

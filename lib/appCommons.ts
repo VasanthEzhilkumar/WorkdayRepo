@@ -5,6 +5,7 @@ import { WebActionsPage } from './WebActionPage';
 
 export class appCommons extends WebActionsPage {
   readonly page: Page;
+  readonly context: BrowserContext;
   readonly inboxtitle: Locator;
   readonly searchboxhome: Locator;
   readonly successEvent: Locator;
@@ -22,13 +23,13 @@ export class appCommons extends WebActionsPage {
   readonly listSelectAll: Locator;
   readonly lblHrDetails2: Locator;
   readonly btnMyTaskCollapse: Locator;
-
-
-
+  readonly btnPay: Locator;
+  readonly txtPayGroup: Locator;
 
   constructor(page: Page, context: BrowserContext) {
     super(page);
     this.page = page;
+    this.context = context;
     this.inboxtitle = page.getByLabel('My Tasks Items');
     this.searchboxhome = page.locator('[aria-label="Search Workday "]');
     this.successEvent = page.locator('h2:has-text("Success! Event submitted")');
@@ -46,10 +47,13 @@ export class appCommons extends WebActionsPage {
     this.listSelectAll = page.locator("/*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
     this.lblHrDetails2 = page.locator("((//div[contains(text(),'Awaiting Action')]//ancestor::td//following-sibling::td)[3])[1]");
     this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']");
+    //this.btnPay=page.getByRole('link', { name: 'Pay' });
+    this.btnPay = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Pay')]");
+    this.txtPayGroup = page.locator("//label[contains(text(),'Pay Group')]//parent::div//following-sibling::div//descendant ::div[@data-automation-id='promptOption']");
   }
 
   async ClickInbox() {
-    await this.inboxtitle.click();
+    await this.inboxtitle.click({'force':true});
   }
 
 
@@ -73,8 +77,10 @@ export class appCommons extends WebActionsPage {
   }
 
   async SearchClickLink(searchtext: string) {
-    await super.setTextWithEnter(this.searchboxhome,searchtext);
-    await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a)[1]"));
+    // await this.page.waitForLoadState();
+    await this.searchboxhome.focus();
+    await super.setTextWithEnter(this.searchboxhome, searchtext);
+    await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a[contains(text(),'" + searchtext.trim() + "')])[1]"));
   }
 
   async SuccessEventHandle() {
@@ -88,7 +94,7 @@ export class appCommons extends WebActionsPage {
     } else if (await this.markedcompleted.isVisible()) {
       await super.click(this.successClose);
     }
-    
+
   }
 
   async refreshInbox() {
@@ -106,8 +112,8 @@ export class appCommons extends WebActionsPage {
   }
 
   async MyTasks() {
-    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").isVisible()){
-       await super.click( this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
+    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").isVisible()) {
+      await super.click(this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
     }
     await super.click(this.page.getByLabel('My Tasks Items'));
     //await super.click(this.page.locator('//*[@aria-label="My Tasks"]//button)').first());
@@ -131,22 +137,17 @@ export class appCommons extends WebActionsPage {
 
     await this.MyTasks();
     await this.Archive.click();
-    await this.page.waitForTimeout(10000);
+    await this.page.waitForTimeout(6000);
     await this.page.waitForSelector(`button:has-text('Hire: ${givenname} ${familyname}')`);
-
     const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
-
     // Iterate over the found buttons and click the one that starts with 'Hire'
     for (let i = 0; i < await buttons.count(); i++) {
       const buttonText = await buttons.nth(i).textContent();
       if (buttonText?.startsWith('Hire')) {
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(400);
         await buttons.nth(i).click();
-
       }
     }
-
-    // await this.page.getByRole('button', { name: 'Hire:'+' '+givenname+' '+familyname+' '}).first().click();
     await this.process.click();
     // Check if the field exists
     if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {
@@ -156,7 +157,7 @@ export class appCommons extends WebActionsPage {
     }
 
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
-    await this.page.waitForTimeout(5000);
+    await this.page.waitForTimeout(1000);
     const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
@@ -176,9 +177,16 @@ export class appCommons extends WebActionsPage {
     return matches ? matches.join('') : '';
   }
 
+  async tearDown() {
+    expect("Close").toEqual("Close");
+  }
 
-
-
+  async assignPaygroupValidation(PayGroup: string) {
+    await this.btnPay.click();
+    let actulValue: string = await super.getInnerText(this.txtPayGroup);
+    expect(actulValue).toEqual(PayGroup);
+    await this.page.screenshot();
+  }
 
 
 

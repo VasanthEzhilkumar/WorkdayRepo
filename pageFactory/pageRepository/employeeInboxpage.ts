@@ -1,7 +1,6 @@
 import { appCommons } from '@lib/appCommons';
 import { WebActionsPage } from '@lib/WebActionPage';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { describe } from 'node:test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 export class employeeInboxPage extends WebActionsPage {
     readonly page: Page;
@@ -138,7 +137,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.addCerti = page.getByRole('button', { name: 'Add Certifications (External)', exact: true })//locator('[aria-label="Inbox Items"] >> text=Add Certifications (External)');
         this.romFather = page.locator('[aria-label="Inbox Items"] >> text=Romania Father');
 
-        this.agreeCheckbox = page.locator('[id="\\32 97-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2)
+        // this.agreeCheckbox = page.locator('[id="\\32 97-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2)
+        this.agreeCheckbox = page.locator("(//div[contains(@data-automation-id,'checkboxPanel')])");
         this.agreeCheckboxGrid1 = page.locator('//div[contains(@data-automation-id,"checkboxPanel")]');//locator('[id="\\35 6\\$202639--uid152"] div')
         this.agreeCheckboxGrid2 = page.locator('[id="\\33 43-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\35 6\\$202639--uid142"] div')//locator('label:has-text("I Agree")');locator('[id="\\35 6\\$202639--uid162"] div')
         this.addEdu = page.getByRole('button', { name: 'Add Education', exact: true });
@@ -207,18 +207,15 @@ export class employeeInboxPage extends WebActionsPage {
             await this.page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + Familyname + ' ' }).first().click();
         }
         await super.click(this.editCostCenter);
-        await super.setTextWithDoubleEnter(this.txtCostCenter,String(CostCenter));
+        await super.setTextWithDoubleEnter(this.txtCostCenter, String(CostCenter));
         await super.click(this.saveCostCenterbtn);
-
         await super.click(this.editOther);
-        await super.setTextWithDoubleEnter(this.setDeparment,String(Department));
+        await super.setTextWithDoubleEnter(this.setDeparment, String(Department));
         await super.click(this.saveDep);
         await super.click(this.paygroupSubmit);
     }
 
     async assignDeparment(CostCenter: string, givenname: string, Familyname: string) {
-
-
         await this.page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + Familyname + ' ' }).first().click();
         await this.editOther.click();
         await this.setDeparment.fill(CostCenter);
@@ -238,30 +235,20 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async empaddPhoto() {
-
-
         await this.page.waitForTimeout(500);
         await this.addPhoto.click();
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
-
     }
 
     async empaddBankDetails(bankname: string, bankidentificationnumber: string, accnumber: any, ibannum: any) {
 
-
         await this.relatedActionsEmp.click();
-
         await this.hoverPersonalData.hover();
-
         await this.PaymentElectionsEmp.click();
-
-
         await this.page.waitForTimeout(500);
         await this.addBankDetails.click();
-
         // await this.paymentElections.click();
-
         await this.bankName.click();
         await this.bankName.fill(bankname);
 
@@ -298,6 +285,9 @@ export class employeeInboxPage extends WebActionsPage {
         // }
         await this.paygroupSubmit.click();
     }
+
+
+
     async empaddBanksubmit() {
 
         await this.addBankDetails.click();
@@ -316,7 +306,7 @@ export class employeeInboxPage extends WebActionsPage {
 
     async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string, citizen: string, national: string) {
 
-        await this.page.waitForTimeout(500);
+        // await this.page.waitForTimeout(500);
         await this.chgPersonalInformation.click();
         // if (await this.buttonchgpersonal.isVisible()) {
         await super.click(this.buttonchgpersonal);
@@ -325,8 +315,8 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
         await super.click(this.editDob);
-        await this.page.waitForTimeout(1000);
-        await super.setTextWithType(this.page.getByPlaceholder('DD'),dob);
+        // await this.page.waitForTimeout(1000);
+        await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
         // await this.page.keyboard.type(dob);
         // await this.page.keyboard.press('Enter');
         await super.click(this.page.getByLabel('Save Date of Birth'));
@@ -343,7 +333,7 @@ export class employeeInboxPage extends WebActionsPage {
         await super.selectFromCustomDropDrown(this.citizenship, citizen);
         //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
         await super.click(this.page.getByLabel('Save Citizenship Status'));
-        
+
         await super.click(this.editNationality);
         await super.setTextWithDoubleEnter(this.nationality, national);
         await this.page.waitForTimeout(1000);
@@ -365,9 +355,7 @@ export class employeeInboxPage extends WebActionsPage {
         // await this.chgPersonalInformation.click();
         await this.perInformation.click();
         // if(await this.buttonchgpersonal.isVisible()){
-
         //await this.buttonchgpersonal.click();
-
         await this.editGender.click();
 
         await this.setGenderdrpDown.click();
@@ -385,12 +373,9 @@ export class employeeInboxPage extends WebActionsPage {
 
         await this.cityofBirth.fill(city);
         await this.page.keyboard.press('Enter');
-
-
         await this.editmartial.click();
         await this.martialstatus.fill(martialstat);
         await this.page.keyboard.press('Enter');
-
         await this.page.waitForTimeout(500);
         await this.editCitizenship.click();
         await this.page.waitForTimeout(500);
@@ -398,20 +383,15 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(500);
         await this.page.keyboard.press('Enter');
-
         await this.page.waitForTimeout(500);
-
         await this.editNationality.click();
         await this.page.waitForTimeout(500);
         await this.nationality.fill(national);
         await this.page.waitForTimeout(1000);
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(1000);
-
         await this.paygroupSubmit.click();
-
         // }
-
     }
 
     async changepersonalinformationSubmit() {
@@ -455,7 +435,6 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async empFathername(namType: string, givenname: string, familyname: string) {
-
         //await this.peopleLink.click();
         await this.personaldetails.click();
         await this.addPersonalDetails.click();
@@ -477,24 +456,36 @@ export class employeeInboxPage extends WebActionsPage {
     async reviewDocumentSubmit() {
 
         await this.reviewDoc.click();
-
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
     }
-    async reviewDocumentSubmitSK() {
 
+    async reviewDocumentSubmitSK() {
+        await this.page.waitForTimeout(1000);
         if (await this.reviewDoc.isVisible()) {
-            await this.reviewDoc.waitFor();
-            await this.reviewDoc.click();
-            if (await this.agreeCheckbox.isVisible()) {
-                //making generic why if there is 10 agree checkbox, this wont fail it will click 10 AgreeeCheckBox.
-                for(let i=0;i<await this.agreeCheckboxGrid1.count();i++)
-                   await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])['+i+']'));
-                //await this.agreeCheckbox.click();
-                // if (await this.agreeCheckboxGrid1.isVisible()) {
-                //     await this.agreeCheckboxGrid1.click();
-                //     await this.agreeCheckboxGrid2.click();
-                // }
+            await super.click(this.reviewDoc);
+            await this.page.waitForTimeout(1000);
+            for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
+                if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                    await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
+                    await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+                }
+            }
+            await this.paygroupSubmit.click();
+        }
+    }
+
+    //@Madhukar Kirkan -> Making this generic to ensure that if there are 10 "Agree" checkboxes, the test cases won't fail; it will click all 10 "Agree" checkboxes.
+    async reviewDocumentSubmitGeneric() {
+        await this.page.waitForTimeout(1000);
+        if (await this.reviewDoc.isVisible()) {
+            await super.click(this.reviewDoc);
+            await this.page.waitForTimeout(500);
+            for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
+                if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                    await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
+                    await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+                }
             }
             await this.paygroupSubmit.click();
         }
