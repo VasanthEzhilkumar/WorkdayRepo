@@ -65,6 +65,7 @@ for (const sheetName in sheetsJson) {
                 if (empManager) {
                     await appCommon.Searchbox("Stop Proxy");
                     await proxy.stopproxy();
+                    await appCommon.Searchbox("Start Proxy")
                     await proxy.startProxy(empManager);
                     await appCommon.ClickInbox();
                     await empCareerPage.approveCertification(empName);

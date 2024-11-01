@@ -14,6 +14,9 @@ export class loginpage {
     this.username = page.locator('[aria-label="Username"]');
     this.password = page.locator('[aria-label="Password"]');
     this.signIn = page.locator('button:has-text("Sign In")');
+
+    // Log the headless mode status
+    console.log('Headless mode:', context.browser()?.isConnected());
   }
 
   async goto(country: string) {

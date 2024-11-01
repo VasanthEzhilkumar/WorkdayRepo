@@ -53,6 +53,7 @@ export class appCommons extends WebActionsPage {
   }
 
   async ClickInbox() {
+    await this.page.waitForTimeout(500)
     await this.inboxtitle.click({'force':true});
   }
 
