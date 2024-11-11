@@ -70,6 +70,7 @@ export class appCommons extends WebActionsPage {
     //await this.searchboxhome.clear();
     await this.page.waitForTimeout(700);
     await this.searchboxhome.fill(searchtext);
+    await this.page.waitForTimeout(500);
     await this.searchboxhome.press('Enter');
   }
 

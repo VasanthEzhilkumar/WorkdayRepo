@@ -31,9 +31,9 @@ for (const sheetName in sheetsJson) {
        
         const { givenName, familyName } = generateRandomName();
 
-        test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+        test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, appCommon, proxy }) => {
             try {
-                await page.setViewportSize({ width: 1920, height: 920 });
+               await page.setViewportSize({ width: 1920, height: 920 });
                 const empCareerPage = new employeeCareerPage(page, context);
                 capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
                 const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
@@ -61,15 +61,14 @@ for (const sheetName in sheetsJson) {
                 await empCareerPage.addEmpCertification(data.Job);
                 empManager = await empCareerPage.getEmpManager();
                 await appCommon.SuccessEventHandle();
-
-                await appCommon.Searchbox("Stop Proxy");
-                await proxy.stopproxy();
-                await appCommon.Searchbox("Start Proxy");
-                await proxy.startProxy(empManager);
-
-                await appCommon.ClickInbox();
-
-                await empCareerPage.approveCertification(empName)
+               
+                if (empManager) {
+                    await appCommon.Searchbox("Stop Proxy");
+                    await proxy.stopproxy();
+                    await proxy.startProxy(empManager);
+                    await appCommon.ClickInbox();
+                    await empCareerPage.approveCertification(empName);
+                }
 
                 writeResultsToExcel(excelFilePath, sheetName, index,data.EmployeeID , 'Passed');
 
@@ -78,7 +77,7 @@ for (const sheetName in sheetsJson) {
                 if ((await capObj.getUpdateError()) == undefined) {
                     //    // let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:" + err.toString();
                     //   // Write the failure status to the Excel file
-                    writeResultsToExcel(excelFilePath, sheetName, index, error, 'Failed');
+                    writeResultsToExcel(excelFilePath, sheetName, index, data.EmployeeID, 'Failed');
                 }
 
 
