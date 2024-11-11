@@ -1,4 +1,4 @@
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 export class homepage {
   readonly page: Page;
@@ -11,7 +11,7 @@ export class homepage {
   constructor(page: Page, context: BrowserContext) {
     this.page = page;
     this.searchboxHome = page.locator('[aria-label="Search Workday "]');
-    this.hireEmployeetask = page.locator('text=Hire Employee >> nth=1');
+    this.hireEmployeetask = page.getByRole('link', { name: 'Hire Employee' }).nth(1);
     this.searchIcon = page.locator('#wd-searchInput div svg[role="presentation"]');
     this.createpoistion = page.getByRole('link', { name: 'Create Position' });
   }

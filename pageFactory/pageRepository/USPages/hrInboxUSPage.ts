@@ -96,20 +96,19 @@ export class hrInboxUSPage extends WebActionsPage {
     }
 
 
-    async onboardSetup(): Promise<void> {
-
-        await this.onboardtxt.click();
-        await this.submit.click();
-
+    async onboardSetup(){
+        await this.page.waitForTimeout(5000);
+        if (await this.onboardtxt.isVisible()) {
+            await this.onboardtxt.click();
+            await this.submit.click();
+        }
     }
 
     async hrManageProbation(probReviewDate: string): Promise<void> {
         await this.manageProbation.click();
         await this.page.waitForTimeout(500);
         const [day, month, year] = probReviewDate.split('/');
-
         await this.page.waitForTimeout(500);
-
         //const testyear =
         await this.page.getByLabel('Probation End Date').getByPlaceholder('DD').type(day);
         await this.page.getByLabel('Probation End Date').getByPlaceholder('MM').type(month);
@@ -158,8 +157,6 @@ export class hrInboxUSPage extends WebActionsPage {
         await this.chgGovIds.click();
         await this.addId.click();
         await this.fillGovIDDetailsUS(country1, NationalIDType1, NIDPersonal, IssuedDate1, ExpirationDate1, true);
-
-
         await this.submit.click();
     }
 
@@ -189,7 +186,7 @@ export class hrInboxUSPage extends WebActionsPage {
     }
 
 
-    async formI9Review(hireDate: any, zipcode: any, city: string, state: string, issuingAuthority:string,i9ExpirationDate:string): Promise<void> {
+    async formI9Review(hireDate: any, zipcode: any, city: string, state: string, issuingAuthority: string, i9ExpirationDate: string): Promise<void> {
 
         // Get the current date and time as a string
         let strTitle1: string = new Date().toString();
@@ -203,8 +200,8 @@ export class hrInboxUSPage extends WebActionsPage {
         await this.completeI9Review.click();
         console.log(strDocument_No);
         await super.setTextWithEnter(this.documentTitle, 'U.S. Passport or U.S. Passport Card');
-        await super.setTextWithDoubleEnter(this.selectIssuingAuthority,issuingAuthority);
-        await this.page.keyboard.press('Enter');
+        await super.setTextWithDoubleEnter(this.selectIssuingAuthority, issuingAuthority);
+        await super.click(this.page.locator("(//*[@data-automation-label='" + issuingAuthority + "' and text()='" + issuingAuthority + "'])[1]"));
         await super.setText(this.i9Documentnumber, strDocument_No);
         await super.setTextWithType(this.i9ExpirationDate, i9ExpirationDate);
         await super.setTextWithType(this.page.getByRole('group', { name: 'current value is DD/MM/YYYY', exact: true }).getByPlaceholder('DD'), hireDate.toString());

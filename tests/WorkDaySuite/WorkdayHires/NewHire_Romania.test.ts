@@ -1,18 +1,18 @@
 import test from '@lib/BaseTest';
 
+import { CaptureAlertErrors } from '@lib/CaptureErrors';
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
-import { employeeInboxPage } from '@pages/employeeInboxpage';
-import { HrInboxPage } from '@pages/hrInboxPage';
 import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
 import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage';
 import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
 import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage';
+import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
+import { createPositionPage } from '@pages/createPositionpage';
+import { employeeInboxPage } from '@pages/employeeInboxpage';
+import { HrInboxPage } from '@pages/hrInboxPage';
 import { contactInformationAddressRomania } from '@pages/RomaniaPages/ContactInformationAddressRomania';
 import { GovernmentsIDPageRomania } from '@pages/RomaniaPages/GovernmentIDsRomaniaPage';
 import { generateRandomName } from 'utils/functional/utils';
-import { CaptureAlertErrors } from '@lib/CaptureErrors';
-import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
-import { createPositionPage } from '@pages/createPositionpage';
 
 
 
@@ -179,7 +179,7 @@ for (const sheetName in sheetsJson) {
         // empNum = String(data.EmployeeID);
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
-        await appCommon.ClickInbox();
+        //await appCommon.ClickInbox();
         await appCommon.MyTasks();
 
         await empInboxpage.onBoardingGuide();

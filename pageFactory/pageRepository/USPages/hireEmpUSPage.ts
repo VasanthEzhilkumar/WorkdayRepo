@@ -1,9 +1,8 @@
 import { WebActionsPage } from "@lib/WebActionPage";
-import { Page, BrowserContext, Locator, expect } from "@playwright/test";
-import { stat } from "fs";
+import { BrowserContext, Locator, Page } from "@playwright/test";
 
 export class hireEmpUSPage extends WebActionsPage {
- readonly page: Page
+  readonly page: Page
   readonly fName: Locator;
   readonly lName: Locator;
   readonly addressStreet: Locator;
@@ -89,13 +88,13 @@ export class hireEmpUSPage extends WebActionsPage {
   async contactInfoUS(address: string, PostalCode: number, city: string, state: string, addressType: string) {
     await this.page.waitForTimeout(500);
     await this.addAddress.click();
-    await this.addressStreet.fill(address);
-    await this.addressState.fill(state);
-    await this.addressPostalCode.fill(PostalCode.toString());
-    await this.addressCity.fill(city);
+    await super.setText(this.addressStreet, address);
+    await super.setText(this.addressCity, city);
+    await super.selectFromCustomDropDrown(this.addressState, state.trim());
+    await super.setText(this.addressPostalCode, PostalCode.toString());
+    await super.click(this.addressType);
     await this.addressType.click()
     await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
-
   }
 
 
@@ -139,9 +138,9 @@ export class hireEmpUSPage extends WebActionsPage {
       // await this.empType.waitFor();
       // await this.empType.fill(EmployeeType);
       // await this.page.waitForTimeout(1000);
-      await super.selectFromCustomDropDrown(this.empType,EmployeeType);
+      await super.selectFromCustomDropDrown(this.empType, EmployeeType);
       // await this.empType.press('Enter');
-          // await this.page.waitForTimeout(1000);
+      // await this.page.waitForTimeout(1000);
       // await this.page.keyboard.press('Enter');
 
 

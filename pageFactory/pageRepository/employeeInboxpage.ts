@@ -211,7 +211,7 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.saveCostCenterbtn);
         await super.click(this.editOther);
         await super.setTextWithDoubleEnter(this.setDeparment, String(Department));
-        await super.click(this.saveDep);
+        //await super.click(this.saveDep);
         await super.click(this.paygroupSubmit);
     }
 
@@ -279,13 +279,12 @@ export class employeeInboxPage extends WebActionsPage {
         await super.setText(this.IBAN, IBANNumber);
         //await super.setText(this.AccountName, 'TestAutomation');
         await super.click(this.okButton);
-        await this.appCommon.ClickInbox();
+        this.page.waitForTimeout(200);
+        //await this.appCommon.ClickInbox();
         await this.appCommon.MyTasks();
-        await super.click(this.addBankDetails1);
-        // }
+        await super.click(this.addBankDetails1);// }
         await this.paygroupSubmit.click();
     }
-
 
 
     async empaddBanksubmit() {
@@ -475,6 +474,7 @@ export class employeeInboxPage extends WebActionsPage {
         }
     }
 
+
     //@Madhukar Kirkan -> Making this generic to ensure that if there are 10 "Agree" checkboxes, the test cases won't fail; it will click all 10 "Agree" checkboxes.
     async reviewDocumentSubmitGeneric() {
         await this.page.waitForTimeout(1000);
@@ -488,6 +488,16 @@ export class employeeInboxPage extends WebActionsPage {
                 }
             }
             await this.paygroupSubmit.click();
+        }
+    }
+
+    async clickIAgreeCheckBox() {
+        await this.page.waitForTimeout(500);
+        for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
+            if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
+                await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+            }
         }
     }
 
@@ -523,12 +533,16 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async clickInboxMyTaskAndSubmit(varString: string) {
-        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]"));
-        await super.click(this.paygroupSubmit);
+        if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").isVisible()) {
+            await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]"));
+            await this.clickIAgreeCheckBox();
+            await super.click(this.paygroupSubmit);
+        }
     }
 
     async clickInboxMyTaskAndApprove(varString: string) {
         await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]"));
+        await this.clickIAgreeCheckBox();
         await super.click(this.page.getByRole('button', { name: 'Approve' }));
     }
 

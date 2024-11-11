@@ -474,7 +474,8 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setManageProbation(probEndDate: string, probReviewDate: string) {
-        if (await this.manageProbation.isVisible() && await this.manageProbation.count() > 0) {
+        // && await this.manageProbation.count() > 0
+        if (await this.manageProbation.isVisible()) {
             await super.click(this.manageProbation);
             // await super.setTextWithType(this.prbStartDate, '');
             if (await probEndDate != 'NaN' && await probEndDate != 'N/A' && await probEndDate != undefined) {

@@ -184,6 +184,7 @@ export class ProposeCompensationPage extends WebActionsPage {
   @Description : This generic method is used to set salary amount, Grade profile and step if required.
   @Author      : @ Madhukar Kirkan
   @Param       :  required test data such as GradeProfile, GradeProfile, GradeProfile.
+  @Upadated    : Added code for Hourly amount
   */
     async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String) {
 
@@ -195,6 +196,7 @@ export class ProposeCompensationPage extends WebActionsPage {
                 await super.click(this.txtStep);
                 await super.setTextWithDoubleEnter(this.txtStep, Step);
             }
+            await super.click(this.page.getByLabel('Save Guidelines'));
         }
         if (Salary != "N/A" && Salary != "NaN" && Salary != undefined && Salary != "Defaulted") {
             if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
@@ -203,6 +205,14 @@ export class ProposeCompensationPage extends WebActionsPage {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
                 await super.click(this.saveSalary);
+            }
+            if (await this.btnEditHourly.isVisible()) {
+                await this.click(this.btnEditHourly);
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
+                await super.click(this.btnSaveHourly);
             }
         } else {
             // if (await this.lblBasePayRange.isVisible) {
@@ -221,9 +231,18 @@ export class ProposeCompensationPage extends WebActionsPage {
                 }
                 await super.click(this.saveSalary);
             }
-            //}
 
+            if (await this.btnEditHourly.isVisible()) {
+                await this.click(this.btnEditHourly);
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
+                await super.click(this.btnSaveHourly);
+            }
+            //}
         }
+
         await this.hrSubmit.click();
         await this.page.waitForTimeout(1500);
         if (await this.checkWarningAndAlert.isVisible()) {

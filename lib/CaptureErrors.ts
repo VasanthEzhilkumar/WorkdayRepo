@@ -1,7 +1,6 @@
-import { Page, test, BrowserContext, Locator, expect } from '@playwright/test';
-import { error } from 'console';
+import { writeResultsToExcel } from '@lib/ExcelUtils';
+import { Locator, Page, expect } from '@playwright/test';
 import { WebActionsPage } from 'lib/WebActionPage';
-import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel } from '@lib/ExcelUtils';
 
 export class CaptureAlertErrors extends WebActionsPage {
     readonly page: Page;
@@ -77,7 +76,7 @@ export class CaptureAlertErrors extends WebActionsPage {
                 errorMsg = message1 + " ";
                 await this.logScreenErrors(message1);
             }
-            if (errorMsg != undefined && errorMsg != 'NaN' ) {
+            if (errorMsg != undefined && errorMsg != 'NaN') {
                 await expect(errorMsg).toBeNull();
             }
             return false;
@@ -88,9 +87,9 @@ export class CaptureAlertErrors extends WebActionsPage {
                 await this.setUpdateError(error1);
                 const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
                 // Take a screenshot and save it with a specific name
-                const screenshotPath = process.cwd()+"/WorkdayFailedScreenshot/"+timestamp+".png";
+                const screenshotPath = process.cwd() + "/WorkdayFailedScreenshot/" + timestamp + ".png";
                 await this.page.screenshot({ path: screenshotPath });
-                error1 = error1+"& find failed Screenshot Path:->"+screenshotPath;
+                error1 = error1 + "& find failed Screenshot Path:->" + screenshotPath;
                 // Write the failure status to the Excel file and captured screen error as well.
                 writeResultsToExcel(this.excelFilePath, this.sheetName, this.index, error1, 'Failed');
                 return true;
@@ -107,10 +106,6 @@ export class CaptureAlertErrors extends WebActionsPage {
     async getUpdateError(): Promise<string> {
         return this.updateError;
     }
-
-
-
-
 }
 
 
