@@ -54,6 +54,7 @@ export class appCommons extends WebActionsPage {
     this.btnJob = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Job')]").first();
     this.tbWorkerHistroy = page.locator("//ul[@data-automation-id='tabBar']/li[@role='tab']/div/div[contains(text(),'Worker History') and  @data-automation-id='tabLabel']").first();
     this.txtPayGroup = page.locator("//label[contains(text(),'Pay Group')]//parent::div//following-sibling::div//descendant ::div[@data-automation-id='promptOption']");
+
   }
 
   async ClickInbox() {
@@ -118,7 +119,8 @@ export class appCommons extends WebActionsPage {
 
   async MyTasks() {
     if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").isVisible()) {
-      await super.click(this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
+      //await super.click(this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
+      await super.click(this.page.getByLabel('Close notification'));
     }
     await super.click(this.page.getByLabel('My Tasks Items'));
     //await super.click(this.page.locator('//*[@aria-label="My Tasks"]//button)').first());

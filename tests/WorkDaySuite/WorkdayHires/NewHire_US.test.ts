@@ -98,6 +98,7 @@ for (const sheetName in sheetsJson) {
           data.Location,
           data.EndEmploymentDate
         );
+
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await appCommon.MyTasks();
@@ -142,7 +143,7 @@ for (const sheetName in sheetsJson) {
         await proxy.startProxy(empNum);
         await appCommon.ClickInbox();
         await appCommon.MyTasks();
-
+        //---------------------------------------------------------------------------------
         await empInboxpage.onBoardingGuide();
         await appCommon.SuccessEventHandle();
         await empInboxpage.empaddPhoto();
@@ -206,7 +207,6 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
-
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";

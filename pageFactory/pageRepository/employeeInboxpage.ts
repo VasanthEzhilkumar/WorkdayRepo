@@ -88,11 +88,9 @@ export class employeeInboxPage extends WebActionsPage {
 
         this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
         //text=Onboarding Guide: Retail Assistant_NEW - ZESKY ELVEN (10286606)
+
         this.addPhoto = page.getByRole('button', { name: 'Add a Photo', exact: true });
-
-
         this.addBankDetails1 = page.locator("//div[@data-automation-id='titleText'][contains(./text(),'Add Bank Details')]");
-
         this.addBankDetails = page.getByRole('button', { name: 'Add ' + givenname + ' ' + FamilyName + ' ' })
         this.paymentElections = page.locator('button:has-text("Add Payment Elections")');
         this.bankName = page.locator('label:has-text("Bank Name")');
@@ -426,6 +424,7 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.addPersonalDetails);
         await super.click(this.nameType);
         await super.click(this.fathersname);
+        await super.click(this.page.locator("text='" + namType + "'"));
         await super.setText(this.givenName, givenname);
         await super.click(this.familyName);
         await super.setText(this.familyName, familyname);

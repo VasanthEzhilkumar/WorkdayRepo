@@ -10,7 +10,7 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 400;
+        this.timeOut = 300;
     }
 
     async setText(locator: Locator, varString: String,) {

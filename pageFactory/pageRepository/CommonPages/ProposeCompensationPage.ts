@@ -1,6 +1,5 @@
 import { WebActionsPage } from '@lib/WebActionPage';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { UnexpectedResponseException } from 'pdfjs-dist-es5';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 /*
 @Author      : @ Madhukar Kirkan
@@ -81,6 +80,8 @@ export class ProposeCompensationPage extends WebActionsPage {
     readonly btnEditHourly: Locator;
     readonly btnSaveHourly: Locator;
     readonly txtGradeProfile: Locator;
+    readonly btnMainErrorBar1: Locator;
+    readonly btnSideErrorBar1: Locator;
 
     readonly givenName1: string;
     readonly fimilyName1: string;
@@ -109,7 +110,7 @@ export class ProposeCompensationPage extends WebActionsPage {
 
         this.lblEditNoticePeriod = page.locator("//h2/span[contains(.,'Edit Notice Periods for')]");
         this.contractWarningAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
-        this.checkWarningAndAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
+        this.checkWarningAndAlert = this.page.locator('(//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"])[1]');
 
         this.lnkViewDetails = page.locator("//button[contains(.,'View Details')]");
         this.lblEditNoticeforHire = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Edit Notice Periods for')]");
@@ -170,6 +171,9 @@ export class ProposeCompensationPage extends WebActionsPage {
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
         this.fillAmount = page.getByLabel('Amount');
         this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
+        this.btnMainErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarViewAllCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
+        this.btnSideErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
+
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -192,8 +196,8 @@ export class ProposeCompensationPage extends WebActionsPage {
         if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined) {
             await super.click(this.lblGradeProfile);
             await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
-            if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && await (this.txtStep.isVisible())) {
-                await super.click(this.txtStep);
+            if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && (await this.txtStep.isVisible())) {
+                //await super.click(this.txtStep);
                 await super.setTextWithDoubleEnter(this.txtStep, Step);
             }
             await super.click(this.page.getByLabel('Save Guidelines'));
@@ -242,15 +246,18 @@ export class ProposeCompensationPage extends WebActionsPage {
             }
             //}
         }
-
         await this.hrSubmit.click();
-        await this.page.waitForTimeout(1500);
+        await this.page.waitForTimeout(2500);
         if (await this.checkWarningAndAlert.isVisible()) {
-            await super.click(this.hrSubmit);
+            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+                await super.click(this.hrSubmit);
+            }
         }
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(3000);
         if (await this.checkWarningAndAlert.isVisible()) {
-            await super.click(this.hrSubmit);
+            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+                await super.click(this.hrSubmit);
+            }
         }
     }
 }

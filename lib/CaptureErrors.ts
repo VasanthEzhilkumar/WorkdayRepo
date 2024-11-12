@@ -59,7 +59,7 @@ export class CaptureAlertErrors extends WebActionsPage {
     async checkForScreenErrors(): Promise<boolean> {
         let errorMsg: string;
         try {
-            await this.page.waitForTimeout(3000);
+            await this.page.waitForTimeout(4000);
             // Check for side error bar
             if (await this.btnSideErrorBar1.isVisible()) {
                 await this.page.waitForTimeout(3000);
