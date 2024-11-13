@@ -1,5 +1,5 @@
 import { WebActionsPage } from '@lib/WebActionPage';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 
 export class hireEmployeePage extends WebActionsPage {
@@ -98,7 +98,6 @@ export class hireEmployeePage extends WebActionsPage {
     this.emailTypeExtended = page.locator('text=TypeType0 items selected, press enter to view all options, or type to search and >> [placeholder="Search"]')
     //Hire Employee Locators
     this.hireDate = page.locator('[aria-label="Day"]');
-
     this.position = page.getByLabel('Position');
     //this.hireDate = page.locator('text=Hire DateHire Datecurrentvalue is DD/MM/YYYYDD/MM/YYYYuse right and left arrows >> div[role="group"]');
     this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
@@ -142,12 +141,11 @@ export class hireEmployeePage extends WebActionsPage {
 
 
   async contactInformationpage() {
-
     await this.contactInformation.click();
-
   }
 
   async legalNameInformation(givenname: string, FamilyName: string) {
+    //await super.setTextWithDoubleEnter();
     await this.gName.fill(givenname);
     await this.fName.fill(FamilyName);
   }
@@ -160,8 +158,9 @@ export class hireEmployeePage extends WebActionsPage {
     await this.contactphoneType.fill(phoneType);
     //await this.contactphoneType.press('Enter');
     await this.page.waitForTimeout(500);
-
   }
+
+
   async contactInformationPhonemgr(phoneNumber: number, PhoneDevice: string, phoneType: string) {
     await this.addphone.click();
     await this.contactPhoneNumbermgr.fill(phoneNumber.toString());
@@ -226,7 +225,7 @@ export class hireEmployeePage extends WebActionsPage {
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
     await this.page.waitForTimeout(1000);
-    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()){
+    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()) {
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
     }
@@ -240,7 +239,7 @@ export class hireEmployeePage extends WebActionsPage {
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
     await this.page.waitForTimeout(1000);
-    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()){
+    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()) {
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
     }
@@ -326,7 +325,7 @@ export class hireEmployeePage extends WebActionsPage {
       await this.page.keyboard.press('Enter');
     }
 
-    
+
     await this.workshift.waitFor();
     await this.workshift.click();
 
