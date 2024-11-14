@@ -35,7 +35,7 @@ export class contactInformationAddressRomania {
         await this.page.waitForTimeout(500);
         await this.addAddress.click();
         await this.street.fill(StreetNumber);
-        //await this.city.fill(PostalCode.toString());
+        await this.city.fill(PostalCode.toString());
         await this.city.fill(city);
         await this.postalCode.fill(PostalCode.toString());
         await this.buildingNumber.fill(BuildingNumber.toString());

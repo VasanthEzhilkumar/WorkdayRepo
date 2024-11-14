@@ -76,6 +76,7 @@ export class appCommons extends WebActionsPage {
 
   async SearchClickLink(searchtext: string) {
     // await this.page.waitForLoadState();
+    await this.searchboxhome.focus();
     await super.setTextWithEnter(this.searchboxhome, searchtext);
     await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a[contains(text(),'" + searchtext.trim() + "')])[1]"));
   }

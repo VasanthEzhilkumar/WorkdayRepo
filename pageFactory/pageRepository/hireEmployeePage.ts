@@ -73,8 +73,8 @@ export class hireEmployeePage extends WebActionsPage {
     this.contactInformation = page.locator('text=Contact Information >> nth=0');
     // this.gName = page.locator('[id="\\35 6\\$551056--uid22-input"]');
     // this.fName = page.locator('[id="\\35 6\\$551056--uid23-input"]');
-    this.gName = page.locator('label:has-text("Given Name")');
-    this.fName = page.locator('label:has-text("Family Name")')
+    this.gName = page.locator('label:has-text("Given Name")').first();
+    this.fName = page.locator('label:has-text("Family Name")').first();
     this.addphone = page.locator('[aria-label="Add Phone"]');
     this.addAddress = page.locator('[aria-label="Add Address"]');
     this.addemail = page.locator('[aria-label="Add Email"]');

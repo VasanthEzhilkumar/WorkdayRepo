@@ -84,6 +84,8 @@ export class ProposeCompensationPage extends WebActionsPage {
 
     readonly givenName1: string;
     readonly fimilyName1: string;
+    readonly btnDeleteallowance: Locator;
+    readonly btnDeletePopup: Locator;
 
     EmployeeNumber: string[];
 
@@ -170,6 +172,10 @@ export class ProposeCompensationPage extends WebActionsPage {
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
         this.fillAmount = page.getByLabel('Amount');
         this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
+        //this.btnDeleteallowance = page.getByLabel('Delete Allowance');
+        //this.btnDeletePopup =page.getByRole('button', { name: 'Delete' })
+        this.btnDeletePopup = page.locator("//span[text()='Delete']/parent::button[@title='Delete']").first();
+        this.btnDeleteallowance = page.locator("(//button[@title = 'Delete' and @aria-label='Delete Allowance'])[1]");
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -179,13 +185,22 @@ export class ProposeCompensationPage extends WebActionsPage {
         }
     }
 
+    async clickDeletePopupbtn(): Promise<void> {
+
+        //if (await this.btnDeleteallowance.count()> 0 ) {
+            await this.btnDeleteallowance.click();
+            await this.page.waitForTimeout(500);
+            await this.btnDeletePopup.click();
+        //}
+    }
+
 
     /*
   @Description : This generic method is used to set salary amount, Grade profile and step if required.
   @Author      : @ Madhukar Kirkan
   @Param       :  required test data such as GradeProfile, GradeProfile, GradeProfile.
   */
-    async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String) {
+    async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: String) {
 
         await super.click(this.proposeCompensation);
         if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined) {
@@ -221,9 +236,14 @@ export class ProposeCompensationPage extends WebActionsPage {
                 }
                 await super.click(this.saveSalary);
             }
-            //}
-
         }
+        if (await Country == "Poland") {
+            //this.clickDeletePopupbtn();
+            await this.btnDeleteallowance.click();
+            await this.page.waitForTimeout(500);
+            await this.btnDeletePopup.click();
+        }
+
         await this.hrSubmit.click();
         await this.page.waitForTimeout(1500);
         if (await this.checkWarningAndAlert.isVisible()) {

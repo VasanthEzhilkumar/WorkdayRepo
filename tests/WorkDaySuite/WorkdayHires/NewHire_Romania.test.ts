@@ -47,7 +47,7 @@ for (const sheetName in sheetsJson) {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
-        await page.setViewportSize({ width: 1275, height: 592 });
+        await page.setViewportSize({ width: 1280, height: 600 });
 
         // const givenName: string = "Gussie";
         // const familyName: string = "Stanton";
@@ -242,7 +242,7 @@ for (const sheetName in sheetsJson) {
         
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
-        await appCommon.tearDown();
+        //await appCommon.tearDown();
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";

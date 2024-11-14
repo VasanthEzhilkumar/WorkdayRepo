@@ -27,7 +27,7 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Chrome',
       use: {
-        ...devices['Desktop Chrome'],
+        //...devices['Desktop Chrome'],
         viewport: { width: 1275, height: 592 },
         //Browser Mode
         headless: false,

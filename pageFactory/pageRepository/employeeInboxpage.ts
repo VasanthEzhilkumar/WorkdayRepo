@@ -68,6 +68,9 @@ export class employeeInboxPage extends WebActionsPage {
     readonly btnAddPaymentElections: Locator;
     readonly appCommon: appCommons;
     readonly addBankDetails1: Locator;
+    readonly maritalStatusDate: Locator;
+    readonly ChangeContactInfo: Locator;
+    readonly nameofbank:Locator;
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
         super(page)
@@ -90,20 +93,23 @@ export class employeeInboxPage extends WebActionsPage {
         this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
         //text=Onboarding Guide: Retail Assistant_NEW - ZESKY ELVEN (10286606)
         this.addPhoto = page.getByRole('button', { name: 'Add a Photo', exact: true });
+        this.ChangeContactInfo = page.getByRole('button', { name: 'Change/Update My Contact Information', exact: true });
 
+        
 
         this.addBankDetails1 = page.locator("//div[@data-automation-id='titleText'][contains(./text(),'Add Bank Details')]");
 
         this.addBankDetails = page.getByRole('button', { name: 'Add ' + givenname + ' ' + FamilyName + ' ' })
         this.paymentElections = page.locator('button:has-text("Add Payment Elections")');
         this.bankName = page.locator('label:has-text("Bank Name")');
-        this.bankIdentificationCode = page.locator('label:has-text("Bank Identification Code")');
+        this.bankIdentificationCode = page.getByLabel('Bank Identification Code');
         this.accountNumber = page.locator('label:has-text("Account Number")');
         this.IBAN = page.locator('label:has-text("IBAN")');
         this.okButton = page.locator('button:has-text("OK")');
+        this.nameofbank=page.getByLabel('Name On Account');
 
         this.chgContactInformation = page.locator('[aria-label="Inbox Items"] >> text=Change/Update My Contact Information');
-        this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true })//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
+        this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true });//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.buttonchgpersonal = page.locator('button:has-text("Change My Personal Information")');
 
         this.editGender = page.locator('[aria-label="Edit Gender"]');
@@ -137,8 +143,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true })//locator('[aria-label="Inbox Items"] >> text=Review Documents');
         this.addCerti = page.getByRole('button', { name: 'Add Certifications (External)', exact: true })//locator('[aria-label="Inbox Items"] >> text=Add Certifications (External)');
         this.romFather = page.locator('[aria-label="Inbox Items"] >> text=Romania Father');
-
-        this.agreeCheckbox = page.locator('[id="\\32 97-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2)
+        this.agreeCheckbox=page.locator('//div[@data-automation-id="checkboxPanel"]');
+        //this.agreeCheckbox = page.locator('[id="\\32 97-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2)
         this.agreeCheckboxGrid1 = page.locator('//div[contains(@data-automation-id,"checkboxPanel")]');//locator('[id="\\35 6\\$202639--uid152"] div')
         this.agreeCheckboxGrid2 = page.locator('[id="\\33 43-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\35 6\\$202639--uid142"] div')//locator('label:has-text("I Agree")');locator('[id="\\35 6\\$202639--uid162"] div')
         this.addEdu = page.getByRole('button', { name: 'Add Education', exact: true });
@@ -153,6 +159,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.hoverPersonalData = page.getByText('Personal Data');
         this.btnAddPaymentElections = page.locator("//button[@title='Add Payment Elections'][contains(.,'Add Payment Elections')]").first();
         this.AccountName = page.getByLabel('Name On Account');
+
+        this.maritalStatusDate = page.locator('');
 
 
     }
@@ -207,10 +215,10 @@ export class employeeInboxPage extends WebActionsPage {
             await this.page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + Familyname + ' ' }).first().click();
         }
         await super.click(this.editCostCenter);
-        await super.setTextWithDoubleEnter(this.txtCostCenter,String(CostCenter));
+        await super.setTextWithDoubleEnter(this.txtCostCenter, String(CostCenter));
         await super.click(this.saveCostCenterbtn);
         await super.click(this.editOther);
-        await super.setTextWithDoubleEnter(this.setDeparment,String(Department));
+        await super.setTextWithDoubleEnter(this.setDeparment, String(Department));
         await super.click(this.saveDep);
         await super.click(this.paygroupSubmit);
     }
@@ -237,6 +245,13 @@ export class employeeInboxPage extends WebActionsPage {
     async empaddPhoto() {
         await this.page.waitForTimeout(500);
         await this.addPhoto.click();
+        await this.paygroupSubmit.click();
+        await this.page.waitForTimeout(500);
+    }
+    //"@Gayatari"
+    async empChgeContactInformation() {
+        await this.page.waitForTimeout(500);
+        await this.ChangeContactInfo.click();
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
     }
@@ -267,9 +282,8 @@ export class employeeInboxPage extends WebActionsPage {
         await this.okButton.click();
         await this.page.waitForTimeout(500);
     }
-
     async addEmployeeBankDetails(bankName: string, bankidentificationnumber: string,
-        accNumber: string, IBANNumber: string) {
+        accNumber: string, IBANNumber: string ) {
         await super.click(this.addBankDetails1);
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
@@ -277,6 +291,8 @@ export class employeeInboxPage extends WebActionsPage {
         await super.setText(this.bankIdentificationCode, bankidentificationnumber);
         await super.setText(this.accountNumber, accNumber);
         await super.setText(this.IBAN, IBANNumber);
+        
+        
         //await super.setText(this.AccountName, 'TestAutomation');
         await super.click(this.okButton);
         await this.appCommon.ClickInbox();
@@ -288,6 +304,27 @@ export class employeeInboxPage extends WebActionsPage {
 
 
     
+    async addEmployeeBankDetailsPoland(bankName: string, bankidentificationnumber: string,
+        accNumber: string, IBANNumber: string ,nameonAccount: string) {
+        await super.click(this.addBankDetails1);
+        // if (await this.btnAddPaymentElections.isVisible()) {
+        await super.click(this.btnAddPaymentElections);
+        await super.setText(this.bankName, bankName);
+        await super.setText(this.bankIdentificationCode, bankidentificationnumber);
+        await super.setText(this.accountNumber, accNumber);
+        await super.setText(this.IBAN, IBANNumber);
+        await super.setText(this.nameofbank,nameonAccount);
+        //await super.setText(this.AccountName, 'TestAutomation');
+        await super.click(this.okButton);
+        await this.appCommon.ClickInbox();
+        await this.appCommon.MyTasks();
+        await super.click(this.addBankDetails1);
+        // }
+        await this.paygroupSubmit.click();
+    }
+
+
+
     async empaddBanksubmit() {
 
         await this.addBankDetails.click();
@@ -304,9 +341,9 @@ export class employeeInboxPage extends WebActionsPage {
 
     }
 
-    async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string, citizen: string, national: string) {
+    async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string, maritalStatusDate: string, citizen: string, national: string) {
 
-       // await this.page.waitForTimeout(500);
+        // await this.page.waitForTimeout(500);
         await this.chgPersonalInformation.click();
         // if (await this.buttonchgpersonal.isVisible()) {
         await super.click(this.buttonchgpersonal);
@@ -315,28 +352,34 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
         await super.click(this.editDob);
-       // await this.page.waitForTimeout(1000);
-        await super.setTextWithType(this.page.getByPlaceholder('DD'),dob);
-        // await this.page.keyboard.type(dob);
-        // await this.page.keyboard.press('Enter');
+        await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
         await super.click(this.page.getByLabel('Save Date of Birth'));
 
-        await super.click(this.editPlace);
-        await super.setTextWithEnter(this.cityofBirth, city);
-        await super.click(this.page.getByLabel('Save Place of Birth'));
-
+        if (city != "NaN" && city != "N/A" && city != undefined) {
+            await super.click(this.editPlace);
+            await super.setTextWithEnter(this.cityofBirth, city);
+            await super.click(this.page.getByLabel('Save Place of Birth'));
+        }
         await super.click(this.editmartial);
         await super.setTextWithEnter(this.martialstatus, martialstat);
-        await super.click(this.page.getByLabel('Save Marital Status'));
 
+        //*@Gayatri for poland 
+        if (maritalStatusDate != "NaN" && maritalStatusDate != "N/A" && maritalStatusDate != undefined) {
+            await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
+            //await super.click(this.page.getByLabel('Marital Status Date'));
+            await super.click(this.page.getByLabel('Save Marital Status'));
+        }
         await super.click(this.editCitizenship);
         await super.selectFromCustomDropDrown(this.citizenship, citizen);
         //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
         await super.click(this.page.getByLabel('Save Citizenship Status'));
-        
-        await super.click(this.editNationality);
-        await super.setTextWithDoubleEnter(this.nationality, national);
-        await this.page.waitForTimeout(1000);
+
+        if (national != "NaN" && city != "N/A" && city != undefined) {
+            await super.click(this.editNationality);
+            await super.setTextWithDoubleEnter(this.nationality, national);
+            await this.page.waitForTimeout(1000);
+            //await super.click(this.paygroupSubmit);
+        }
         await super.click(this.paygroupSubmit);
     }
     async changePersonalInformationSubmit() {
@@ -474,12 +517,28 @@ export class employeeInboxPage extends WebActionsPage {
     async reviewDocumentSubmitSK() {
 
         if (await this.reviewDoc.isVisible()) {
-           // await this.reviewDoc.waitFor();
+            // await this.reviewDoc.waitFor();
             await this.reviewDoc.click();
             if (await this.agreeCheckbox.isVisible()) {
                 //making generic why if there is 10 agree checkbox, this wont fail it will click 10 AgreeeCheckBox.
-                for(let i=0;i<await this.agreeCheckboxGrid1.count();i++)
-                   await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])['+i+']'));
+                for (let i = 0; i < await this.agreeCheckboxGrid1.count(); i++)
+                    await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+            }
+            await this.paygroupSubmit.click();
+        }
+    }
+    async reviewDocumentSubmitGeneric() {
+ 
+        if (await this.reviewDoc.isVisible()) {
+            await super.click(this.reviewDoc);
+            await this.page.waitForTimeout(1500);
+            for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
+                // await this.page.waitForTimeout(1500);
+                if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                    // await this.page.waitForTimeout(1000);
+                    await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
+                    await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+                }
             }
             await this.paygroupSubmit.click();
         }
