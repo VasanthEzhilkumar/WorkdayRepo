@@ -9,6 +9,7 @@ export class hireEmployeePage extends WebActionsPage {
   readonly newPreHire: Locator;
   readonly gName: Locator;
   readonly fName: Locator;
+  readonly lName: Locator;
   readonly addphone: Locator;
   readonly addAddress: Locator;
   readonly addemail: Locator;
@@ -74,7 +75,8 @@ export class hireEmployeePage extends WebActionsPage {
     // this.gName = page.locator('[id="\\35 6\\$551056--uid22-input"]');
     // this.fName = page.locator('[id="\\35 6\\$551056--uid23-input"]');
     this.gName = page.locator('label:has-text("Given Name")');
-    this.fName = page.locator('label:has-text("Family Name")')
+    this.fName = page.locator('label:has-text("Family Name")');
+    this.lName = page.locator('label:has-text("Last Name")');
     this.addphone = page.locator('[aria-label="Add Phone"]');
     this.addAddress = page.locator('[aria-label="Add Address"]');
     this.addemail = page.locator('[aria-label="Add Email"]');
@@ -149,7 +151,7 @@ export class hireEmployeePage extends WebActionsPage {
 
   async legalNameInformation(givenname: string, FamilyName: string) {
     await this.gName.fill(givenname);
-    await this.fName.fill(FamilyName);
+    await this.lName.fill(FamilyName);
   }
 
   async contactInformationPhone(phoneNumber: number, PhoneDevice: string, phoneType: string) {

@@ -6,6 +6,7 @@ export class HrInboxPage extends WebActionsPage {
     readonly page: Page;
     readonly context: BrowserContext;
     readonly hrassignPaygroup: Locator;
+    readonly hrassignPaygroupInitial: Locator;
     readonly hrSubmit: Locator;
     readonly validatePayGroup: Locator;
     readonly idChange: Locator;
@@ -71,6 +72,9 @@ export class HrInboxPage extends WebActionsPage {
     readonly txtStep: Locator;
     //readonly txtStep1: Locator;
     readonly txtSalaryAmount: Locator;
+    readonly lblEmpID: Locator;
+    readonly rightToWork: Locator;
+    readonly assignPaygroupProfile: Locator;
 
     readonly txtJobChangeSalaryAmount: Locator;
     readonly btnEditSalary: Locator;
@@ -111,11 +115,16 @@ export class HrInboxPage extends WebActionsPage {
 
         this.lnkViewDetails = page.locator("//button[contains(.,'View Details')]");
         this.lblEditNoticeforHire = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Edit Notice Periods for')]");
+        this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
         this.lblprocessCompletedSuccessfully = page.locator("//div[@data-automation-id='textView' or contains(text(),'Process Successfully Completed')]");
         this.btnDone = page.locator("//span[contains(.,'Done')]/ancestor::button[@title='Done']");
 
         this.hrassignPaygroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         this.validatePayGroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
+        
+        this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Pay Group for Hire: '+ givenname + ' ' + FamilyName +'")]');
+        this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for '+ givenname + ' ' + FamilyName +'")]');
+
         this.hrSubmit = page.locator('button:has-text("Submit")');
         this.idChange = page.locator('text=ID Change: ' + givenname + ' ' + FamilyName + '');
         this.addId = page.locator('tbody').filter({ hasText: '*Country*National ID' }).getByLabel('Add Row')//page.locator('text=*Country*National ID TypeCurrent IDAdd/Edit IDIssued DateExpiration DateIssued B >> [aria-label="Add Row"]');
@@ -160,7 +169,8 @@ export class HrInboxPage extends WebActionsPage {
         this.upWorker = page.locator('text=Update worker\'s contact information: Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.addbank = page.locator('text=Add Worker\'s Bank Details: Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.perInfochgn = page.locator('text=Personal Information Change: ' + ' ' + givenname + ' ' + FamilyName).first();
-        this.assignPaygroup = page.locator('text=Assign Paygroup for Payroll: ' + ' ' + givenname + ' ' + FamilyName);
+        // this.assignPaygroup = page.locator('text=Assign Paygroup for Payroll: ' + ' ' + givenname + ' ' + FamilyName);
+        this.assignPaygroup = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Paygroup for Payroll") and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
         this.assignPg = page.getByLabel('Proposed Pay Group', { exact: true })//locator('label:has-text("Proposed Pay Group")');
         this.assignPGApprove = page.locator('text=Assign Pay Group for Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.passportVisa = page.locator('text=Passports and Visa Change: ' + ' ' + givenname + ' ' + FamilyName);
@@ -168,6 +178,7 @@ export class HrInboxPage extends WebActionsPage {
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
         this.fillAmount = page.getByLabel('Amount');
         this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
+        // this.assignPaygroupProfile = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Paygroup for Payroll: ' + jobProfile + 'Retail Assistant_NEW - Karl Hamill (10656422)")]');
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -285,6 +296,17 @@ export class HrInboxPage extends WebActionsPage {
         }
     }
 
+    async assignInitialPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
+        await this.hrassignPaygroupInitial.click();
+        await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
+        await this.page.getByRole('button', { name: 'Submit' }).click();
+    }
+
+    async setMaintainRightToWorkDocumentation(): Promise<void> {
+        await this.rightToWork.click();
+        await this.page.getByRole('button', { name: 'Submit' }).click();
+    }
+
     async assignPaygroupApprove(): Promise<void> {
         await this.assignPGApprove.click();
         await this.Approve.click();
@@ -293,7 +315,7 @@ export class HrInboxPage extends WebActionsPage {
     async assignPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
         await this.assignPaygroup.click();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
-        await this.page.getByRole('button', { name: 'Approve' }).click();
+        await this.page.getByRole('button', { name: 'Submit' }).click();
     }
 
     async updatePassportsAndVisa(): Promise<void> {
@@ -532,6 +554,14 @@ export class HrInboxPage extends WebActionsPage {
     async getEmployeeIDFromEditNoticePeriodPage() {
         await super.click(this.lnkViewDetails);
         this.EmployeeNumber = await super.getAllInnerText(this.lblEditNoticeforHire);
+        this.EmployeeNumber = this.EmployeeNumber.toString().split('(');
+        this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
+        return this.EmployeeNumber[0].toString();
+    }
+
+    async getEmployeeID() {
+        await super.click(this.lnkViewDetails);
+        this.EmployeeNumber = await super.getAllInnerText(this.lblEmpID);
         this.EmployeeNumber = this.EmployeeNumber.toString().split('(');
         this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
         return this.EmployeeNumber[0].toString();

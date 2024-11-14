@@ -18,8 +18,10 @@ export class fileValidationPage {
   readonly btnOK: Locator;
   readonly txtPayGroup: Locator;
   readonly txtPayGroupMembers: Locator;
+  readonly txtLastSuccessfulRunDateAndTime: Locator;
   readonly txtLastSuccesssfulRunDate: Locator;
-  readonly txtLastSuccesssfulRunTime: Locator;
+  readonly txtLastSuccesssfulRunTimeHour: Locator;
+  readonly txtLastSuccesssfulRunTimeTime: Locator;
   readonly lblOverallStatus: Locator;
   readonly lnkXMLFile: Locator;
 
@@ -46,8 +48,9 @@ export class fileValidationPage {
     this.txtPayGroup = page.locator('((//div[@id="workdayApplicationFrame"]//div[text()="Pay Group"])[2]/ancestor::td/following-sibling::td)[3]//input');
     this.txtPayGroupMembers = page.locator('((//div[text()="Pay Group"]/ancestor::td/following-sibling::td/ancestor::div)[17]//input)[2]');
     // this.txtPayGroupMembers = page.locator('tr').filter({ hasText: 'Pay Group MembersSpecify' }).getByPlaceholder('Search')
+    this.txtLastSuccessfulRunDateAndTime = page.locator('//div[@data-automation-id="dateTimeWidget"]/div');
     this.txtLastSuccesssfulRunDate = page.locator('//input[@data-automation-id="dateSectionDay-input"]');
-    this.txtLastSuccesssfulRunTime = page.locator('//span[@data-automation-id="timeSectionHour"]/preceding-sibling::input');
+    this.txtLastSuccesssfulRunTimeHour = page.locator('//span[@data-automation-id="timeSectionHour"]/preceding-sibling::input');
     this.lblOverallStatus = page.locator('//label[text()="Overall Status"]/parent::div/following-sibling::div//div[@data-automation-id="textView"]');
     this.lnkXMLFile = page.locator('(//div[@title="Deliverable"]/ancestor::td/preceding-sibling::td)[2]//div[@data-automation-id="promptOption"]/span');
   }
@@ -108,17 +111,33 @@ export class fileValidationPage {
   async setIntegrationCriteria() {
     await this.page.waitForTimeout(2000)
     await this.txtPayGroup.focus();
-    //await this.txtPayGroup.click();
-    //await this.txtPayGroup.fill("CZ Monthly");
+    // await this.txtPayGroup.click();
+    // await this.txtPayGroup.fill("CZ Monthly");
+    // await this.txtPayGroup.press("Enter");
     await this.page.keyboard.type("CZ Monthly");
-    await this.txtPayGroup.press("Enter");
-    // await this.page.keyboard.press('Enter');
+    await this.page.keyboard.press('Enter');
 
-    await this.txtPayGroupMembers.fill("10656093");
-    await this.txtPayGroupMembers.press("Enter");
+    await this.txtPayGroupMembers.focus();
+    // await this.txtPayGroupMembers.fill("10656093");
+    // await this.txtPayGroupMembers.press("Enter");
+    await this.page.keyboard.type("10656093");
+    await this.page.keyboard.press('Enter');
 
-    await this.txtLastSuccesssfulRunDate.fill("23/09/2024");
-    await this.txtLastSuccesssfulRunTime.fill("00:00:00");
+    await this.page.waitForTimeout(2000)
+    await this.txtLastSuccessfulRunDateAndTime.click();
+    await this.txtLastSuccesssfulRunDate.focus();
+    // await this.txtLastSuccesssfulRunDate.fill("23/09/2024");
+    await this.page.keyboard.type("23/09/2024");
+    await this.page.waitForTimeout(2000)
+    await this.txtLastSuccesssfulRunTimeHour.focus();
+    // await this.txtLastSuccesssfulRunTime.fill("00:00:00");
+    await this.page.waitForTimeout(2000)
+    await this.page.keyboard.type("00");
+    await this.page.waitForTimeout(1000)
+    await this.page.keyboard.type("00");
+    await this.page.waitForTimeout(1000)
+    await this.page.keyboard.type("00");
+    await this.page.waitForTimeout(1000)
 
     await this.btnOK.click();
     await this.page.waitForTimeout(2000)

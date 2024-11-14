@@ -280,3 +280,385 @@
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 8  Status : passed"}
 {"level":"error","message":"Error: Test ended.\n\n\u001b[31mFailed worker ran 1 test:\u001b[39m\n[Chrome] › tests\\WorkDaySuite\\WorkdayHires\\NewHire_Romania.test.ts:48:9 › @Hire Employee - Test 8 "}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 9 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 9  Status : passed"}
+{"level":"error","message":"Error: Test ended.\n\n\u001b[31mFailed worker ran 1 test:\u001b[39m\n[Chrome] › tests\\WorkDaySuite\\WorkdayHires\\NewHire_Romania.test.ts:48:9 › @Hire Employee - Test 9 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 10 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 10  Status : passed"}
+{"level":"error","message":"Error: Test ended.\n\n\u001b[31mFailed worker ran 1 test:\u001b[39m\n[Chrome] › tests\\WorkDaySuite\\WorkdayHires\\NewHire_Romania.test.ts:48:9 › @Hire Employee - Test 10 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 6  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 6  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 7 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"error","message":"Error: Test ended.\n\n\u001b[31mFailed worker ran 1 test:\u001b[39m\n[Chrome] › tests\\WorkDaySuite\\WorkdayHires\\NewHire_Romania.test.ts:48:9 › @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : timedOut"}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : timedOut"}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : timedOut"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 4 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 5 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 4  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 7 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 5  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 8 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 6  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 9 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 7  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 10 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 9  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 11 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 8  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 12 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 10  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 13 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 11  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 14 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 12  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 15 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 13  Status : passed"}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 15  Status : passed"}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 14  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 4 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 4  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 5 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 5  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 6  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 7 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 7  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 8 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 8  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 9 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 9  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 10 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 10  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 11 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 11  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 12 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 12  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 13 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 13  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 14 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 14  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 15 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 15  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 4 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 4  Status : timedOut"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 5 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 5  Status : timedOut"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 6  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 7 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 7  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 8 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 8  Status : timedOut"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 9 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 9  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 10 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 10  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 11 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 11  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 12 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 12  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 13 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 13  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 14 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 14  Status : timedOut"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 15 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 15  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 4 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 4  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 5 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 5  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 6  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 7 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 4 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 4  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 5 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 5  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 6  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 7 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 7  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 8 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 8  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 9 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 9  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 10 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 10  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 11 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 11  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 12 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 12  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 13 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 13  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 14 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 14  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 15 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 15  Status : passed"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 1 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 2 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 3 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 4 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 5 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 6 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 1 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 2 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 3 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 4 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 5 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"error","message":"Error: duplicate test title \"@Hire Employee - Test 6 \", first declared in tests\\WorkDaySuite\\WorkdayHires\\NewHire_Czechia.test.ts:48"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"error","message":"SyntaxError: H:\\Workday_Hire_Playwright\\WorkDaySuite_Playwright\\pageFactory\\pageRepository\\employeeInboxpage.ts: Missing semicolon. (343:47)\n\n\u001b[0m \u001b[90m 341 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mbtnAdd\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 342 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduCountry\u001b[33m.\u001b[39mfill(country)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 343 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m))\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 344 |\u001b[39m         \u001b[90m// await this.eduCountry.press(\"enter\");\u001b[39m\n \u001b[90m 345 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduSchool\u001b[33m.\u001b[39mfill(\u001b[33mSchool\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 346 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"}
+{"level":"error","message":"SyntaxError: H:\\Workday_Hire_Playwright\\WorkDaySuite_Playwright\\pageFactory\\pageRepository\\employeeInboxpage.ts: Missing semicolon. (343:47)\n\n\u001b[0m \u001b[90m 341 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mbtnAdd\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 342 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduCountry\u001b[33m.\u001b[39mfill(country)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 343 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m))\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 344 |\u001b[39m         \u001b[90m// await this.eduCountry.press(\"enter\");\u001b[39m\n \u001b[90m 345 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduSchool\u001b[33m.\u001b[39mfill(\u001b[33mSchool\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 346 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"}
+{"level":"error","message":"SyntaxError: H:\\Workday_Hire_Playwright\\WorkDaySuite_Playwright\\pageFactory\\pageRepository\\employeeInboxpage.ts: Missing semicolon. (343:47)\n\n\u001b[0m \u001b[90m 341 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mbtnAdd\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 342 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduCountry\u001b[33m.\u001b[39mfill(country)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 343 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m))\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 344 |\u001b[39m         \u001b[90m// await this.eduCountry.press(\"enter\");\u001b[39m\n \u001b[90m 345 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduSchool\u001b[33m.\u001b[39mfill(\u001b[33mSchool\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 346 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"}
+{"level":"error","message":"SyntaxError: H:\\Workday_Hire_Playwright\\WorkDaySuite_Playwright\\pageFactory\\pageRepository\\employeeInboxpage.ts: Missing semicolon. (343:47)\n\n\u001b[0m \u001b[90m 341 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mbtnAdd\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 342 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduCountry\u001b[33m.\u001b[39mfill(country)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 343 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m))\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 344 |\u001b[39m         \u001b[90m// await this.eduCountry.press(\"enter\");\u001b[39m\n \u001b[90m 345 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduSchool\u001b[33m.\u001b[39mfill(\u001b[33mSchool\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 346 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"}
+{"level":"error","message":"SyntaxError: H:\\Workday_Hire_Playwright\\WorkDaySuite_Playwright\\pageFactory\\pageRepository\\employeeInboxpage.ts: Missing semicolon. (343:47)\n\n\u001b[0m \u001b[90m 341 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mbtnAdd\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 342 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduCountry\u001b[33m.\u001b[39mfill(country)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 343 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m))\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 344 |\u001b[39m         \u001b[90m// await this.eduCountry.press(\"enter\");\u001b[39m\n \u001b[90m 345 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduSchool\u001b[33m.\u001b[39mfill(\u001b[33mSchool\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 346 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"}
+{"level":"error","message":"SyntaxError: H:\\Workday_Hire_Playwright\\WorkDaySuite_Playwright\\pageFactory\\pageRepository\\employeeInboxpage.ts: Missing semicolon. (343:47)\n\n\u001b[0m \u001b[90m 341 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mbtnAdd\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\n \u001b[90m 342 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduCountry\u001b[33m.\u001b[39mfill(country)\u001b[33m;\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 343 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m))\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m                                                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 344 |\u001b[39m         \u001b[90m// await this.eduCountry.press(\"enter\");\u001b[39m\n \u001b[90m 345 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39meduSchool\u001b[33m.\u001b[39mfill(\u001b[33mSchool\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m 346 |\u001b[39m         \u001b[36mawait\u001b[39m \u001b[36mthis\u001b[39m\u001b[33m.\u001b[39mpage\u001b[33m.\u001b[39mkeyboard\u001b[33m.\u001b[39mpress(\u001b[32m'Enter'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}

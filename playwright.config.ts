@@ -13,7 +13,7 @@ const config: PlaywrightTestConfig = {
   globalSetup: `./global-setup`,
 
   //sets timeout for each test case
-  timeout: 550000,
+  timeout: 150000,
   //number of retries if test case fails
   retries: 0,
   workers: 1,
@@ -27,7 +27,7 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Chrome',
       use: {
-        ...devices['Desktop Chrome'],
+        //...devices['Desktop Chrome'],
         viewport: { width: 1275, height: 592 },
         //Browser Mode
         headless: false,

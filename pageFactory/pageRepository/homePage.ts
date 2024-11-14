@@ -19,6 +19,7 @@ export class homepage {
 
 
   async searchHireEmployee() {
+    await this.page.waitForTimeout(3000)
     await this.searchboxHome.clear();
     await this.searchboxHome.fill('Hire Employee');
     await this.searchboxHome.press('Enter');
@@ -41,7 +42,7 @@ export class homepage {
   }
   
   async searchEmp(strEmp: any): Promise<void> {
-    await this.page.waitForTimeout(5000)
+    await this.page.waitForTimeout(2000)
     // Wait until the searchboxHome is visible
     await this.searchboxHome.waitFor({ state: 'visible' });
     // Fill the search box

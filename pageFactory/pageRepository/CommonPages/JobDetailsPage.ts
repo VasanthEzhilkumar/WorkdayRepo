@@ -133,9 +133,9 @@ export class JobDetailsPage extends WebActionsPage {
     this.emailTypemgr = page.getByRole('group', { name: 'Email' }).getByPlaceholder('Search');
   }
 
-/*
-@Description Method - It is Generic Method used to set Job Details of employee on Job detalis page(Hire employee Page)
-*/
+  /*
+  @Description Method - It is Generic Method used to set Job Details of employee on Job detalis page(Hire employee Page)
+  */
   async setJobDetails(
     HireDate1: string,
     EmployeeType: string,
@@ -149,13 +149,13 @@ export class JobDetailsPage extends WebActionsPage {
     location: number,
     EndEmploymentDate: string,
   ) {
-    const str: String[] = AdditionalJobClassifications.split('@');
+    // const str: String[] = AdditionalJobClassifications.split('@');
     if (position == undefined) {
       position = "DummyValue";
     }
     await this.hireDate.waitFor();
     await this.hireDate.focus();
-    await super.setTextWithType(this.hireDate,HireDate1);
+    await super.setTextWithType(this.hireDate, HireDate1);
     await super.setTextWithEnter(this.reason, "New Hire");
     if (!position.includes('Auto')) {
       await super.selectFromCustomDropDrown(this.empType, EmployeeType);
@@ -168,9 +168,14 @@ export class JobDetailsPage extends WebActionsPage {
     }
     await super.click(this.additionlInformation);
 
-    for (let i = 0; i < str.length; i++) {
-      await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
+    if (!AdditionalJobClassifications == undefined) {
+      const str: String[] = AdditionalJobClassifications.split('@');
+      for (let i = 0; i < str.length; i++) {
+        await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
+      }
+
     }
+
     await super.click(this.workshift);
     await super.setTextWithEnter(this.workshiftExp, workshift);
     await super.setText(this.schdeuledHours, schdeuledhours);

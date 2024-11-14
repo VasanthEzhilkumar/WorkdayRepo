@@ -72,16 +72,9 @@ export class employeeInboxUSPage {
         this.empHandbook = page.getByRole('button', { name: 'USA Employee Handbook: Retail' })
         this.handBookchkbox = page.locator("(//div[@class='WEDF'])[1]");
         this.handBookchkbox1 = page.locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2);
-
-
-
-
-
     }
 
     async chngpersonaInfo(): Promise<void> {
-
-
     }
 
     async changepersonalinformationSubmit(dob: string, race: string) {
