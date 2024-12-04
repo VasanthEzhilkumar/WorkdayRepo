@@ -36,7 +36,7 @@ for (const sheetName in sheetsJson) {
                await page.setViewportSize({ width: 1920, height: 920 });
                 const empCareerPage = new employeeCareerPage(page, context);
                 capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
-                const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
+                //const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
 
                 console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
 
@@ -71,6 +71,7 @@ for (const sheetName in sheetsJson) {
                     await empCareerPage.approveCertification(empName);
                 }
 
+
                 writeResultsToExcel(excelFilePath, sheetName, index,data.EmployeeID , 'Passed');
 
             } catch (error) {
@@ -78,6 +79,7 @@ for (const sheetName in sheetsJson) {
                 if ((await capObj.getUpdateError()) == undefined) {
                     //    // let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:" + err.toString();
                     //   // Write the failure status to the Excel file
+                    console.log(`Emp manager not found for ${data.EmployeeID}`)
                     writeResultsToExcel(excelFilePath, sheetName, index, data.EmployeeID, 'Failed');
                 }
 
