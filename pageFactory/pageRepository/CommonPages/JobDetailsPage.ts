@@ -174,7 +174,7 @@ export class JobDetailsPage extends WebActionsPage {
       }
     }
     // await super.click(this.workshiftExp);
-    await super.setTextWithEnter(this.workshiftExp, workshift.toString());
+    await super.selectFromCustomDropDrown(this.workshiftExp, workshift.toString());
     if (await defaultHours != "NaN" && await defaultHours != "N/A" && await defaultHours != undefined) {
       await super.setText(this.defaultHours, defaultHours);
     }

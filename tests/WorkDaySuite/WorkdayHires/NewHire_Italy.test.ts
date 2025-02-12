@@ -63,8 +63,8 @@ for (const sheetName in sheetsJson) {
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
-        const username = "90001655";
-        const password = "Primark123!!";
+        const username = "90002195";
+        const password = "Primark@123";
 
         // initlize the web environment 
         await login.goto("Romania");
@@ -98,7 +98,7 @@ for (const sheetName in sheetsJson) {
         await hireEmployee.legalNameInformation(givenName, familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        await homePageRon.contactInformationAddressItaly(data.Street, data.StreetOrPlaceName,data.StreetNumber, data.PostalCode, data.City, data.County, data.Type, data.Province);
+        await homePageRon.contactInformationAddressItaly(data.Street, data.StreetOrPlaceName, data.StreetNumber, data.PostalCode, data.City, data.County, data.Type, data.Province);
         await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
         await hireEmployee.okHireButton();
         await capObj.checkForScreenErrors();
@@ -135,7 +135,7 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
         await appCommon.SuccessEventHandle();
-//code working upto this LOC
+        //code working upto this LOC
         // await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
