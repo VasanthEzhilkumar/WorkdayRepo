@@ -81,14 +81,11 @@ export class HrInboxPage extends WebActionsPage {
     readonly btnEditHourly: Locator;
     readonly btnSaveHourly: Locator;
     readonly txtGradeProfile: Locator;
-<<<<<<< HEAD
     readonly addMedicalExam: Locator;
     readonly lblEmpID:Locator;
     readonly rightToWork:Locator;
 
-=======
     readonly txtYoungParentEffectiveDate: Locator;
->>>>>>> Madhukar
     readonly givenName1: string;
     readonly fimilyName1: string;
     readonly chkYoungParent: Locator;
@@ -185,20 +182,17 @@ export class HrInboxPage extends WebActionsPage {
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
         this.fillAmount = page.getByLabel('Amount');
         this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
-<<<<<<< HEAD
         this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
         //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
         this.setservicedateschange = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Service Dates Change: '+ givenname + ' ' + FamilyName +'")]');
         this.addMedicalExam=page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Medical Exam: '+ givenname + ' ' + FamilyName +'")]');
         this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
         this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for '+ givenname + ' ' + FamilyName +'")]');
-=======
         this.txtYoungParentEffectiveDate = page.locator("//label[contains(.,'Young Parent Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.chkYoungParent = page.locator("//label[contains(.,'Young Parent')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
         this.txtTaxFreeAmountEffectiveDate = page.locator("//label[contains(.,'Tax Free Amount Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.txtPensioneffectiveDate = page.locator("//label[contains(.,'Pension effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.chkTaxFreeAmount = page.locator("//label[contains(.,'Tax Free Amount')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
->>>>>>> Madhukar
 
     }
 
