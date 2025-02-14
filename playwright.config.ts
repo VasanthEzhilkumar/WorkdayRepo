@@ -27,13 +27,8 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Chrome',
       use: {
-<<<<<<< HEAD
-        //...devices['Desktop Chrome'],
-        viewport: { width: 1275, height: 592 },
-=======
         ...devices['Desktop Chrome'],
         viewport: { width: 1280, height: 650 },
->>>>>>> Madhukar
         //Browser Mode
         headless: false,
 
