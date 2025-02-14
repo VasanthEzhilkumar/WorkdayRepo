@@ -1,6 +1,6 @@
 import { PlaywrightTestConfig, devices } from '@playwright/test';
-import { testConfig } from './testConfig';
-const ENV = process.env.npm_config_ENV;
+// import { testConfig } from './testConfig';
+// const ENV = process.env.npm_config_ENV;
 
 /*if (!ENV || !['WFM',`qa`, `dev`, `qaApi`, `devApi`].includes(ENV)) {
  console.log(`Please provide a correct environment value after command like "--ENV=qa|dev|qaApi|devApi"`);
@@ -17,7 +17,7 @@ const config: PlaywrightTestConfig = {
   //number of retries if test case fails
   retries: 0,
   workers: 1,
-  //fullyParallel: true,
+  fullyParallel: false,
   //fullyParallel : true,
 
   //Reporters
@@ -27,8 +27,13 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Chrome',
       use: {
+<<<<<<< HEAD
         //...devices['Desktop Chrome'],
         viewport: { width: 1275, height: 592 },
+=======
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 650 },
+>>>>>>> Madhukar
         //Browser Mode
         headless: false,
 

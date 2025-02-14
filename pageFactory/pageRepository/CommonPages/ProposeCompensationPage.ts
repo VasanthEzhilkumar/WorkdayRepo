@@ -1,6 +1,5 @@
 import { WebActionsPage } from '@lib/WebActionPage';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { UnexpectedResponseException } from 'pdfjs-dist-es5';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 /*
 @Author      : @ Madhukar Kirkan
@@ -81,6 +80,8 @@ export class ProposeCompensationPage extends WebActionsPage {
     readonly btnEditHourly: Locator;
     readonly btnSaveHourly: Locator;
     readonly txtGradeProfile: Locator;
+    readonly btnMainErrorBar1: Locator;
+    readonly btnSideErrorBar1: Locator;
 
     readonly givenName1: string;
     readonly fimilyName1: string;
@@ -111,7 +112,7 @@ export class ProposeCompensationPage extends WebActionsPage {
 
         this.lblEditNoticePeriod = page.locator("//h2/span[contains(.,'Edit Notice Periods for')]");
         this.contractWarningAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
-        this.checkWarningAndAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
+        this.checkWarningAndAlert = this.page.locator('(//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"])[1]');
 
         this.lnkViewDetails = page.locator("//button[contains(.,'View Details')]");
         this.lblEditNoticeforHire = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Edit Notice Periods for')]");
@@ -176,6 +177,9 @@ export class ProposeCompensationPage extends WebActionsPage {
         //this.btnDeletePopup =page.getByRole('button', { name: 'Delete' })
         this.btnDeletePopup = page.locator("//span[text()='Delete']/parent::button[@title='Delete']").first();
         this.btnDeleteallowance = page.locator("(//button[@title = 'Delete' and @aria-label='Delete Allowance'])[1]");
+        this.btnMainErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarViewAllCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
+        this.btnSideErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
+
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -199,6 +203,7 @@ export class ProposeCompensationPage extends WebActionsPage {
   @Description : This generic method is used to set salary amount, Grade profile and step if required.
   @Author      : @ Madhukar Kirkan
   @Param       :  required test data such as GradeProfile, GradeProfile, GradeProfile.
+  @Upadated    : Added code for Hourly amount
   */
     async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: String) {
 
@@ -206,10 +211,11 @@ export class ProposeCompensationPage extends WebActionsPage {
         if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined) {
             await super.click(this.lblGradeProfile);
             await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
-            if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && await (this.txtStep.isVisible())) {
-                await super.click(this.txtStep);
+            if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && (await this.txtStep.isVisible())) {
+                //await super.click(this.txtStep);
                 await super.setTextWithDoubleEnter(this.txtStep, Step);
             }
+            await super.click(this.page.getByLabel('Save Guidelines'));
         }
         if (Salary != "N/A" && Salary != "NaN" && Salary != undefined && Salary != "Defaulted") {
             if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
@@ -218,6 +224,14 @@ export class ProposeCompensationPage extends WebActionsPage {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
                 await super.click(this.saveSalary);
+            }
+            if (await this.btnEditHourly.isVisible()) {
+                await this.click(this.btnEditHourly);
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
+                await super.click(this.btnSaveHourly);
             }
         } else {
             // if (await this.lblBasePayRange.isVisible) {
@@ -236,6 +250,16 @@ export class ProposeCompensationPage extends WebActionsPage {
                 }
                 await super.click(this.saveSalary);
             }
+
+            if (await this.btnEditHourly.isVisible()) {
+                await this.click(this.btnEditHourly);
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
+                await super.click(this.btnSaveHourly);
+            }
+            //}
         }
         if (await Country == "Poland") {
             //this.clickDeletePopupbtn();
@@ -245,13 +269,17 @@ export class ProposeCompensationPage extends WebActionsPage {
         }
 
         await this.hrSubmit.click();
-        await this.page.waitForTimeout(1500);
+        await this.page.waitForTimeout(2500);
         if (await this.checkWarningAndAlert.isVisible()) {
-            await super.click(this.hrSubmit);
+            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+                await super.click(this.hrSubmit);
+            }
         }
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(3000);
         if (await this.checkWarningAndAlert.isVisible()) {
-            await super.click(this.hrSubmit);
+            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+                await super.click(this.hrSubmit);
+            }
         }
     }
 }

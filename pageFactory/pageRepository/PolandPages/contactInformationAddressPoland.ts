@@ -1,6 +1,4 @@
-import { WebActions } from '@lib/WebActions';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { count } from 'console';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 export class contactInformationAddressPoland {
 

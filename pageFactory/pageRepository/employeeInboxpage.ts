@@ -1,7 +1,6 @@
 import { appCommons } from '@lib/appCommons';
 import { WebActionsPage } from '@lib/WebActionPage';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { describe } from 'node:test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 export class employeeInboxPage extends WebActionsPage {
     readonly page: Page;
@@ -70,7 +69,7 @@ export class employeeInboxPage extends WebActionsPage {
     readonly addBankDetails1: Locator;
     readonly maritalStatusDate: Locator;
     readonly ChangeContactInfo: Locator;
-    readonly nameofbank:Locator;
+    readonly nameofbank: Locator;
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
         super(page)
@@ -92,13 +91,10 @@ export class employeeInboxPage extends WebActionsPage {
 
         this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
         //text=Onboarding Guide: Retail Assistant_NEW - ZESKY ELVEN (10286606)
+
         this.addPhoto = page.getByRole('button', { name: 'Add a Photo', exact: true });
         this.ChangeContactInfo = page.getByRole('button', { name: 'Change/Update My Contact Information', exact: true });
-
-        
-
         this.addBankDetails1 = page.locator("//div[@data-automation-id='titleText'][contains(./text(),'Add Bank Details')]");
-
         this.addBankDetails = page.getByRole('button', { name: 'Add ' + givenname + ' ' + FamilyName + ' ' })
         this.paymentElections = page.locator('button:has-text("Add Payment Elections")');
         this.bankName = page.locator('label:has-text("Bank Name")');
@@ -106,7 +102,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.accountNumber = page.locator('label:has-text("Account Number")');
         this.IBAN = page.locator('label:has-text("IBAN")');
         this.okButton = page.locator('button:has-text("OK")');
-        this.nameofbank=page.getByLabel('Name On Account');
+        this.nameofbank = page.getByLabel('Name On Account');
 
         this.chgContactInformation = page.locator('[aria-label="Inbox Items"] >> text=Change/Update My Contact Information');
         this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true });//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
@@ -143,8 +139,9 @@ export class employeeInboxPage extends WebActionsPage {
         this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true })//locator('[aria-label="Inbox Items"] >> text=Review Documents');
         this.addCerti = page.getByRole('button', { name: 'Add Certifications (External)', exact: true })//locator('[aria-label="Inbox Items"] >> text=Add Certifications (External)');
         this.romFather = page.locator('[aria-label="Inbox Items"] >> text=Romania Father');
-        this.agreeCheckbox=page.locator('//div[@data-automation-id="checkboxPanel"]');
-        //this.agreeCheckbox = page.locator('[id="\\32 97-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2)
+
+        // this.agreeCheckbox = page.locator('[id="\\32 97-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2)
+        this.agreeCheckbox = page.locator("(//div[contains(@data-automation-id,'checkboxPanel')])");
         this.agreeCheckboxGrid1 = page.locator('//div[contains(@data-automation-id,"checkboxPanel")]');//locator('[id="\\35 6\\$202639--uid152"] div')
         this.agreeCheckboxGrid2 = page.locator('[id="\\33 43-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\35 6\\$202639--uid142"] div')//locator('label:has-text("I Agree")');locator('[id="\\35 6\\$202639--uid162"] div')
         this.addEdu = page.getByRole('button', { name: 'Add Education', exact: true });
@@ -219,7 +216,7 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.saveCostCenterbtn);
         await super.click(this.editOther);
         await super.setTextWithDoubleEnter(this.setDeparment, String(Department));
-        await super.click(this.saveDep);
+        //await super.click(this.saveDep);
         await super.click(this.paygroupSubmit);
     }
 
@@ -283,7 +280,7 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
     }
     async addEmployeeBankDetails(bankName: string, bankidentificationnumber: string,
-        accNumber: string, IBANNumber: string ) {
+        accNumber: string, IBANNumber: string) {
         await super.click(this.addBankDetails1);
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
@@ -291,21 +288,19 @@ export class employeeInboxPage extends WebActionsPage {
         await super.setText(this.bankIdentificationCode, bankidentificationnumber);
         await super.setText(this.accountNumber, accNumber);
         await super.setText(this.IBAN, IBANNumber);
-        
-        
+
+
         //await super.setText(this.AccountName, 'TestAutomation');
         await super.click(this.okButton);
-        await this.appCommon.ClickInbox();
+        this.page.waitForTimeout(200);
+        //await this.appCommon.ClickInbox();
         await this.appCommon.MyTasks();
-        await super.click(this.addBankDetails1);
-        // }
+        await super.click(this.addBankDetails1);// }
         await this.paygroupSubmit.click();
     }
 
-
-    
     async addEmployeeBankDetailsPoland(bankName: string, bankidentificationnumber: string,
-        accNumber: string, IBANNumber: string ,nameonAccount: string) {
+        accNumber: string, IBANNumber: string, nameonAccount: string) {
         await super.click(this.addBankDetails1);
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
@@ -313,7 +308,7 @@ export class employeeInboxPage extends WebActionsPage {
         await super.setText(this.bankIdentificationCode, bankidentificationnumber);
         await super.setText(this.accountNumber, accNumber);
         await super.setText(this.IBAN, IBANNumber);
-        await super.setText(this.nameofbank,nameonAccount);
+        await super.setText(this.nameofbank, nameonAccount);
         //await super.setText(this.AccountName, 'TestAutomation');
         await super.click(this.okButton);
         await this.appCommon.ClickInbox();
@@ -322,8 +317,6 @@ export class employeeInboxPage extends WebActionsPage {
         // }
         await this.paygroupSubmit.click();
     }
-
-
 
     async empaddBanksubmit() {
 
@@ -352,7 +345,10 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
         await super.click(this.editDob);
+        // await this.page.waitForTimeout(1000);
         await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
+        // await this.page.keyboard.type(dob);
+        // await this.page.keyboard.press('Enter');
         await super.click(this.page.getByLabel('Save Date of Birth'));
 
         if (city != "NaN" && city != "N/A" && city != undefined) {
@@ -374,7 +370,7 @@ export class employeeInboxPage extends WebActionsPage {
         //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
         await super.click(this.page.getByLabel('Save Citizenship Status'));
 
-        if (national != "NaN" && city != "N/A" && city != undefined) {
+        if (national != "NaN" && national != "N/A" && national != undefined) {
             await super.click(this.editNationality);
             await super.setTextWithDoubleEnter(this.nationality, national);
             await this.page.waitForTimeout(1000);
@@ -398,9 +394,7 @@ export class employeeInboxPage extends WebActionsPage {
         // await this.chgPersonalInformation.click();
         await this.perInformation.click();
         // if(await this.buttonchgpersonal.isVisible()){
-
         //await this.buttonchgpersonal.click();
-
         await this.editGender.click();
 
         await this.setGenderdrpDown.click();
@@ -418,12 +412,9 @@ export class employeeInboxPage extends WebActionsPage {
 
         await this.cityofBirth.fill(city);
         await this.page.keyboard.press('Enter');
-
-
         await this.editmartial.click();
         await this.martialstatus.fill(martialstat);
         await this.page.keyboard.press('Enter');
-
         await this.page.waitForTimeout(500);
         await this.editCitizenship.click();
         await this.page.waitForTimeout(500);
@@ -431,20 +422,15 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(500);
         await this.page.keyboard.press('Enter');
-
         await this.page.waitForTimeout(500);
-
         await this.editNationality.click();
         await this.page.waitForTimeout(500);
         await this.nationality.fill(national);
         await this.page.waitForTimeout(1000);
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(1000);
-
         await this.paygroupSubmit.click();
-
         // }
-
     }
 
     async changepersonalinformationSubmit() {
@@ -480,6 +466,7 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.addPersonalDetails);
         await super.click(this.nameType);
         await super.click(this.fathersname);
+        await super.click(this.page.locator("text='" + namType + "'"));
         await super.setText(this.givenName, givenname);
         await super.click(this.familyName);
         await super.setText(this.familyName, familyname);
@@ -488,7 +475,6 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async empFathername(namType: string, givenname: string, familyname: string) {
-
         //await this.peopleLink.click();
         await this.personaldetails.click();
         await this.addPersonalDetails.click();
@@ -510,37 +496,49 @@ export class employeeInboxPage extends WebActionsPage {
     async reviewDocumentSubmit() {
 
         await this.reviewDoc.click();
-
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
     }
-    async reviewDocumentSubmitSK() {
 
-        if (await this.reviewDoc.isVisible()) {
-            // await this.reviewDoc.waitFor();
-            await this.reviewDoc.click();
-            if (await this.agreeCheckbox.isVisible()) {
-                //making generic why if there is 10 agree checkbox, this wont fail it will click 10 AgreeeCheckBox.
-                for (let i = 0; i < await this.agreeCheckboxGrid1.count(); i++)
-                    await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
-            }
-            await this.paygroupSubmit.click();
-        }
-    }
-    async reviewDocumentSubmitGeneric() {
- 
+    async reviewDocumentSubmitSK() {
+        await this.page.waitForTimeout(1000);
         if (await this.reviewDoc.isVisible()) {
             await super.click(this.reviewDoc);
-            await this.page.waitForTimeout(1500);
+            await this.page.waitForTimeout(1000);
             for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
-                // await this.page.waitForTimeout(1500);
                 if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
-                    // await this.page.waitForTimeout(1000);
                     await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
                     await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
                 }
             }
             await this.paygroupSubmit.click();
+        }
+    }
+
+
+    //@Madhukar Kirkan -> Making this generic to ensure that if there are 10 "Agree" checkboxes, the test cases won't fail; it will click all 10 "Agree" checkboxes.
+    async reviewDocumentSubmitGeneric() {
+        await this.page.waitForTimeout(1000);
+        if (await this.reviewDoc.isVisible()) {
+            await super.click(this.reviewDoc);
+            await this.page.waitForTimeout(500);
+            for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
+                if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                    await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
+                    await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+                }
+            }
+            await this.paygroupSubmit.click();
+        }
+    }
+
+    async clickIAgreeCheckBox() {
+        await this.page.waitForTimeout(500);
+        for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
+            if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
+                await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+            }
         }
     }
 
@@ -576,12 +574,16 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async clickInboxMyTaskAndSubmit(varString: string) {
-        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]"));
-        await super.click(this.paygroupSubmit);
+        if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").isVisible()) {
+            await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]"));
+            await this.clickIAgreeCheckBox();
+            await super.click(this.paygroupSubmit);
+        }
     }
 
     async clickInboxMyTaskAndApprove(varString: string) {
         await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]"));
+        await this.clickIAgreeCheckBox();
         await super.click(this.page.getByRole('button', { name: 'Approve' }));
     }
 

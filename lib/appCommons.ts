@@ -1,4 +1,4 @@
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 import { WebActionsPage } from './WebActionPage';
 
 
@@ -23,7 +23,9 @@ export class appCommons extends WebActionsPage {
   readonly listSelectAll: Locator;
   readonly lblHrDetails2: Locator;
   readonly btnMyTaskCollapse: Locator;
-  readonly btnPay:Locator;
+  readonly btnPay: Locator;
+  readonly tbWorkerHistroy: Locator;
+  readonly btnJob: Locator;
   readonly txtPayGroup: Locator;
 
   constructor(page: Page, context: BrowserContext) {
@@ -47,11 +49,16 @@ export class appCommons extends WebActionsPage {
     this.listSelectAll = page.locator("/*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
     this.lblHrDetails2 = page.locator("((//div[contains(text(),'Awaiting Action')]//ancestor::td//following-sibling::td)[3])[1]");
     this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']");
-    this.btnPay=page.getByRole('link', { name: 'Pay' });
+    //this.btnPay=page.getByRole('link', { name: 'Pay' });
+    this.btnPay = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Pay')]");
+    this.btnJob = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Job')]").first();
+    this.tbWorkerHistroy = page.locator("//ul[@data-automation-id='tabBar']/li[@role='tab']/div/div[contains(text(),'Worker History') and  @data-automation-id='tabLabel']").first();
     this.txtPayGroup = page.locator("//label[contains(text(),'Pay Group')]//parent::div//following-sibling::div//descendant ::div[@data-automation-id='promptOption']");
+
   }
 
   async ClickInbox() {
+    // await this.inboxtitle.click({'force':true});
     await this.inboxtitle.click();
   }
 
@@ -64,6 +71,7 @@ export class appCommons extends WebActionsPage {
     //await this.searchboxhome.clear();
     await this.page.waitForTimeout(700);
     await this.searchboxhome.fill(searchtext);
+    await this.page.waitForTimeout(500);
     await this.searchboxhome.press('Enter');
   }
 
@@ -111,7 +119,8 @@ export class appCommons extends WebActionsPage {
 
   async MyTasks() {
     if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").isVisible()) {
-      await super.click(this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
+      //await super.click(this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
+      await super.click(this.page.getByLabel('Close notification'));
     }
     await super.click(this.page.getByLabel('My Tasks Items'));
     //await super.click(this.page.locator('//*[@aria-label="My Tasks"]//button)').first());
@@ -129,6 +138,25 @@ export class appCommons extends WebActionsPage {
     if (await this.lblPopUpWelcomeToMyTask.isVisible() && await !this.lblPopUpWelcomeToMyTask.isHidden && await this.lblPopUpWelcomeToMyTask.count() > 0) {
       await this.lblPopUpWelcomeToMyTask.click();
     }
+  }
+
+  /*
+  Author: Madhukar Kirkan
+  Description: This method allows us to extract the HR partner from the Employee Worker History.
+  Parameters: 1.employeeID : The ID of the employee.
+              2.taskName : The task from which we are extracting the HR partner ID.
+  */
+  async getHRpartnerIDFromEmployeeWorkerHistory(employeeID: string, taskName: string) {
+
+    await this.SearchClickLink(employeeID);
+    await super.click(this.btnJob);
+    await super.click(this.tbWorkerHistroy);
+    const lblHrByTaskname = this.page.locator("(//div[contains(.,'" + taskName + "')]/ancestor::td/following-sibling::td/descendant::div[contains(text(),'In Progress')]/ancestor::td/following-sibling::td/descendant::div[@data-automation-id='promptOption'])[1]");
+    // Wait for 3 seconds (consider using a more dynamic wait if possible)
+    await this.page.waitForTimeout(1000);
+    const HrDetails: string = await super.getInnerText(lblHrByTaskname);
+    const HrID = await this.getNumbersFromString(HrDetails);
+    return HrID;
   }
 
   async getHRpartnerID(givenname: string, familyname: string) {
@@ -176,15 +204,15 @@ export class appCommons extends WebActionsPage {
   }
 
   async tearDown() {
-    this.context.close();
+    expect("Close").toEqual("Close");
   }
 
   async assignPaygroupValidation(PayGroup: string) {
     await this.btnPay.click();
-    let actulValue:string = await super.getInnerText(this.txtPayGroup);
+    let actulValue: string = await super.getInnerText(this.txtPayGroup);
     expect(actulValue).toEqual(PayGroup);
     await this.page.screenshot();
-}
+  }
 
 
 

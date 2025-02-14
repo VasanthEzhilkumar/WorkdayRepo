@@ -1,22 +1,18 @@
 import test from '@lib/BaseTest';
 
+import { CaptureAlertErrors } from '@lib/CaptureErrors';
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
+import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
+import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage';
+import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
+import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage';
+import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
+import { createPositionPage } from '@pages/createPositionpage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import ExcelJS from 'exceljs';
-import path from 'path';
-import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel, writePositionToExcel } from '@lib/ExcelUtils';
+import { contactInformationAddressPoland } from '@pages/PolandPages/contactInformationAddressPoland';
+import { GovernmentsIDPagePoland } from '@pages/PolandPages/GovernmentIDsPolandPage';
 import { generateRandomName } from 'utils/functional/utils';
-import { contactInformationAddressPoland } from '@pages/PolandPages/contactInformationAddressPoland'
-import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
-import { GovernmentsIDPagePoland } from '@pages/PolandPages/GovernmentIDsPolandPage'
-import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage'
-import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage'
-import { error } from 'console';
-import { CaptureAlertErrors } from '@lib/CaptureErrors';
-import { expect } from '@playwright/test';
-import { createPositionPage } from '@pages/createPositionpage';
-import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
 
 
 
