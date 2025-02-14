@@ -126,9 +126,9 @@ for (const sheetName in sheetsJson) {
           await appCommon.Searchbox("Start Proxy");
           await proxy.startProxy(HRPartner2);
           await appCommon.MyTasks();
-          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
+          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"");
         } else {
-          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
+          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"");
         }
 
         empNum = await hrInboxUS.hrGetEmpNum();
