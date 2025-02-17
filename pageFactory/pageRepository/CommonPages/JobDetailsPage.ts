@@ -148,6 +148,7 @@ export class JobDetailsPage extends WebActionsPage {
     defaultHours: string,
     location: number,
     EndEmploymentDate: string,
+    PayRateType: string,
   ) {
     // const str: String[] = AdditionalJobClassifications.split('@');
     if (position == undefined) {
@@ -158,11 +159,12 @@ export class JobDetailsPage extends WebActionsPage {
     await super.setTextWithType(this.hireDate, HireDate1);
     await super.setTextWithEnter(this.reason, "New Hire");
     if (!position.includes('Auto')) {
-      await super.selectFromCustomDropDrown(this.empType, EmployeeType);
-      await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString());
+      await super.selectFromCustomDropDrown(this.empType, EmployeeType.trim());
+      await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString().trim());
       // await this.page.keyboard.press('Enter');
-      await super.setTextWithEnter(this.timetype, timetype);
+      await super.setTextWithEnter(this.timetype, timetype.trim());
       await super.setTextWithEnter(this.location, location.toString());
+      await super.selectFromCustomDropDrown(this.page.getByLabel('Pay Rate Type'), PayRateType.trim());
     } else {
       await super.selectFromCustomDropDrown(this.position, position);
     }
@@ -173,11 +175,11 @@ export class JobDetailsPage extends WebActionsPage {
       for (let i = 0; i < str.length; i++) {
         await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
       }
-
     }
 
     await super.click(this.workshift);
-    await super.setTextWithEnter(this.workshiftExp, workshift);
+    //await super.setTextWithEnter(this.workshiftExp, workshift);
+    await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
     await super.setText(this.schdeuledHours, schdeuledhours);
     if (await this.defaultHours.isVisible() && defaultHours != "NaN" && defaultHours != "N/A" && defaultHours != undefined) {
       await super.setText(this.defaultHours, defaultHours);

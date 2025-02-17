@@ -1,22 +1,20 @@
 import test from '@lib/BaseTest';
 
-import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
+import { CaptureAlertErrors } from '@lib/CaptureErrors';
+import { excelToJson, getExcelFilePath, copyFolderToSharedDrive } from '@lib/ExceltoJsonUtil';
+import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
+import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage';
+import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
+import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage';
+import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
+import { createPositionPage } from '@pages/createPositionpage';
+import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInformationAddressCzechia';
+import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import ExcelJS from 'exceljs';
+import * as fs from 'fs-extra';
 import path from 'path';
-import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel, writePositionToExcel } from '@lib/ExcelUtils';
 import { generateRandomName } from 'utils/functional/utils';
-import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInformationAddressCzechia';
-import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
-import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage'
-import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage'
-import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage'
-import { error } from 'console';
-import { CaptureAlertErrors } from '@lib/CaptureErrors';
-import { expect } from '@playwright/test';
-import { createPositionPage } from '@pages/createPositionpage';
-import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
 
 
 let empNum: string;
@@ -24,7 +22,7 @@ let position: string;
 let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataCzechia.xlsx';
+const excelFileName = 'testDataCzechiaMK_DryRun2.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -38,7 +36,7 @@ for (const sheetName in sheetsJson) {
   dataSet.forEach((data, index) => {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
-    const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
+    const jobProfile = (data.JobProfile || `JobProfile_${index + 1}`).trim();
     const { givenName, familyName } = generateRandomName();
     // const givenName = data.GivenName;
     // const familyName = data.FamilyName;
@@ -64,9 +62,8 @@ for (const sheetName in sheetsJson) {
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-
-        const username = "90002710";
-        const password = "Primark@12345!";
+        const username = "90002195";
+        const password = "Primark@123";
 
         // initlize the web environment 
         await login.goto("Czechia");
@@ -75,15 +72,15 @@ for (const sheetName in sheetsJson) {
         await login.sigIn(username, password);
 
         // // create position for Management hires
-        if (data.JobProfile.toString().includes("Manager")) {
+        if (data.JobProfile.toString().includes("Manager") || data.Process.toString() === "Yes") {
           await appCommon.SearchClickLink("Create Position");
           await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
-          position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, data.EmployeeType, data.JobProfile, data.TimeType, data.Location);
+          position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, String(data.EmployeeType).trim(), String((data.JobProfile)).trim(), String(data.TimeType).trim(), data.Location);
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
           await appCommon.MyTasks();
           //passing position created for selecting exact task from My Task (inbox).
-          await empInboxpage.setDeparmentAndCostCenter(position, data.CostCenter, data.DepartmentSection, givenName, familyName);
+          await empInboxpage.setDeparmentAndCostCenter(position, String(data.CostCenter.trim()), String(data.DepartmentSection).trim(), givenName, familyName);
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
           // Write the results to the Excel file
@@ -99,15 +96,15 @@ for (const sheetName in sheetsJson) {
         await hireEmployee.legalNameInformation(givenName, familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        await homePageRon.contactInformationAddress(data.StreetName, data.Postal_Code, data.City, data.County, data.Type, data.HouseNumber, data.ReferenceNumber, data.Locality, data.Region, data.UseFor);
+        await homePageRon.contactInformationAddress(data.StreetName, data.PostalCode, data.City, data.County, data.Type, data.HouseNumber, data.ReferenceNumber, data.Locality, data.Region, data.UseFor);
         await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
         await hireEmployee.okHireButton();
         await capObj.checkForScreenErrors();
 
         await jobDetailsPageObj.setJobDetails(
           data.HireDate,
-          data.EmployeeType,
-          data.JobProfile,
+          data.EmployeeType.trim(),
+          String(data.JobProfile).trim(),
           data.TimeType,
           data.WorkShift,
           data.AdditionalJobClassifications,
@@ -115,7 +112,8 @@ for (const sheetName in sheetsJson) {
           data.ScheduledWeeklyHours,
           data.defaultHours,
           data.Location,
-          data.EndEmploymentDate
+          data.EndEmploymentDate,
+          data.PayRateType
         );
 
         await capObj.checkForScreenErrors();
@@ -142,13 +140,13 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         //Probation Date Details for Employee
-        await appCommon.MyTasks();        
+        await appCommon.MyTasks();
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
         //await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
         //fill Contract Details for Employee
-        await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, "NaN");
+        await contractObj.setContractDetails(String(data.ContractType).trim(), data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
@@ -157,44 +155,42 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire("NaN", "NaN", "NaN", data.AllowanceAmount);
         await capObj.checkForScreenErrors();
-        // await appCommon.SuccessEventHandle();
-        // await appCommon.refreshInbox();
-
+        //await appCommon.SuccessEventHandle();
         empNum = await hrInbxPage.getEmployeeID();
-
         console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
-
+        // await appCommon.refreshInbox();
         //Maintain Right to Work Documentation
-        await appCommon.MyTasks();        
+        await appCommon.MyTasks();
         await hrInbxPage.setMaintainRightToWorkDocumentation();
+
         //await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+        // await appCommon.SuccessEventHandle();
 
         // empNum = String(data.EmployeeID);
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
         await appCommon.ClickInbox();
         await appCommon.MyTasks();
-
         await page.waitForTimeout(5000);
+
         await empInboxpage.reviewDocumentSubmitGeneric();
-        await appCommon.SuccessEventHandle();       
-        
+        await appCommon.SuccessEventHandle();
+
         await empInboxpage.empaddPhoto();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.empAddEducation(
-          data.Country,
-          data.School,
-          data.Degree,
-          data.DegreeReceived,
-          data.YearDegreeReceived,
-          data.FieldOfStudy,
-          data.FirstYearAttended,
-          data.LastYearAttended,
-          data.GradeAverage
-        );
-        await appCommon.SuccessEventHandle();
+        // await empInboxpage.empAddEducation(
+        //   data.Country,
+        //   data.School,
+        //   data.Degree,
+        //   data.DegreeReceived,
+        //   data.YearDegreeReceived,
+        //   data.FieldOfStudy,
+        //   data.FirstYearAttended,
+        //   data.LastYearAttended,
+        //   data.GradeAverage
+        // );
+        // await appCommon.SuccessEventHandle();
         await empInboxpage.empAddEducationSubmit();
         //await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -207,7 +203,7 @@ for (const sheetName in sheetsJson) {
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.BirthCity, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();
@@ -230,11 +226,12 @@ for (const sheetName in sheetsJson) {
         await governemntIDs.setGovernmentIDsCzechia(data.Country1, data.Country2, data.NationalIDType1,
           data.NationalIDType2, data.AddEditID1, data.AddEditID2, data.IssuedDate1, data.IssuedDate2,
           data.ExpirationDate1, data.ExpirationDate2, "NaN", "NaN");
+
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changeGovIDInformation();
         await appCommon.SuccessEventHandle();
-        
+
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.ClickInbox();
@@ -257,14 +254,14 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.assignPaygroupApprove();
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        
+
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
         //await appCommon.tearDown();
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";
-        
+
       } catch (error) {
         console.error(`Test failed for ${givenName} ${familyName}:`, error);
         if ((await capObj.getUpdateError()) == undefined) {
@@ -277,3 +274,17 @@ for (const sheetName in sheetsJson) {
     });
   });
 }
+
+// // Example usage
+// const sourceFolderexcel = "H:\\RamWorkday_Playwright\\data\\";
+// const sourceFolderHtmlReport = "H:\\RamWorkday_Playwright\\html-report\\"; // Path to your local folder
+// const sourceFolderScreenshot = "H:\\RamWorkday_Playwright\\WorkdayFailedScreenshot\\";
+
+// const testdata = 'S:\\Mkirkan\\ExecutionResults\\data\\'; // Path to shared drive
+// const htmlreport = 'S:\\Mkirkan\\ExecutionResults\\html-report\\';
+// const screendhots = 'S:\\Mkirkan\\ExecutionResults\\WorkdayFailedScreenshot\\';
+// test(`@Copying folder to share drive`, async () => {
+//   copyFolderToSharedDrive(sourceFolderexcel, testdata);
+//   copyFolderToSharedDrive(sourceFolderScreenshot, screendhots);
+//   copyFolderToSharedDrive(sourceFolderHtmlReport, htmlreport);
+// });

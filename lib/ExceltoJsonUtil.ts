@@ -1,6 +1,7 @@
 // excelToJsonUtil.ts
-import * as XLSX from 'xlsx';
 import path from 'path';
+import * as XLSX from 'xlsx';
+import * as fs from 'fs-extra';
 
 // export function excelToJson(filePath: string): Record<string, any[]> {
 //     const workbook = XLSX.readFile(filePath);
@@ -16,7 +17,7 @@ import path from 'path';
 
 // Helper function to get the absolute path to the Excel file from a specific directory
 export function getExcelFilePath(fileName: string): string {
-    const directory = path.resolve(__dirname,'../Data');
+    const directory = path.resolve(__dirname, '../Data');
     return path.resolve(directory, fileName);
 }
 
@@ -56,4 +57,15 @@ export function excelToJson(filePath: string): Record<string, any[]> {
     });
 
     return sheetsJson;
+}
+
+
+export async function copyFolderToSharedDrive(sourceDir: string, destinationDir: string) {
+    try {
+        // Use fs-extra's copy method to copy the folder to the shared drive
+        await fs.copy(sourceDir, destinationDir);
+        console.log(`Folder copied successfully from ${sourceDir} to ${destinationDir}`);
+    } catch (err) {
+        console.error('Error copying folder:', err);
+    }
 }

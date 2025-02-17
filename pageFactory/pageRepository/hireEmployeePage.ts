@@ -203,7 +203,7 @@ export class hireEmployeePage extends WebActionsPage {
 
   }
   async contactInformationEmail(EmailAddress: string, EmailType: string) {
-    await this.addemail.click();
+    await this.addemail.click({'force':true});
     await this.emailAddress.fill(EmailAddress);
     await this.emailType.fill(EmailType);
     await this.emailTypeExtended.press('Enter');
@@ -225,12 +225,13 @@ export class hireEmployeePage extends WebActionsPage {
 
   async searchSupervisoryOrganization(supervisoryOrganisation: string, givenname: string) {
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
-    let supervisoryOrganisation2 = supervisoryOrganisation1[0];
+    let supervisoryOrganisation2 = supervisoryOrganisation1[0]+'('+supervisoryOrganisation1[1];
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
     await this.page.waitForTimeout(1000);
-    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()){
-      await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
-      await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
+    const superOrg = await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]");
+    if (await superOrg.isVisible()) {
+      await superOrg.scrollIntoViewIfNeeded();
+      await superOrg.click();
     }
     await this.newPreHire.click();
     await this.okButtonHireEmployee.click();
@@ -242,7 +243,7 @@ export class hireEmployeePage extends WebActionsPage {
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
     await this.page.waitForTimeout(1000);
-    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()){
+    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()) {
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
     }
@@ -328,7 +329,7 @@ export class hireEmployeePage extends WebActionsPage {
       await this.page.keyboard.press('Enter');
     }
 
-    
+
     await this.workshift.waitFor();
     await this.workshift.click();
 

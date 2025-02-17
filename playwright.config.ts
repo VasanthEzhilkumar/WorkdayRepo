@@ -13,11 +13,11 @@ const config: PlaywrightTestConfig = {
   globalSetup: `./global-setup`,
 
   //sets timeout for each test case
-  timeout: 150000,
+  timeout: 900000,
   //number of retries if test case fails
   retries: 0,
-  workers: 1,
-  //fullyParallel: true,
+  workers: 2,
+  fullyParallel: true,
   //fullyParallel : true,
 
   //Reporters
@@ -30,7 +30,7 @@ const config: PlaywrightTestConfig = {
         //...devices['Desktop Chrome'],
         viewport: { width: 1275, height: 592 },
         //Browser Mode
-        headless: false,
+        headless: true,
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,
@@ -38,7 +38,7 @@ const config: PlaywrightTestConfig = {
 
         //Artifacts
         screenshot: 'on',
-        video: `retain-on-failure`,
+        video: `on`,
         trace: `retain-on-failure`,
 
         //Slows down execution by ms

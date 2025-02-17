@@ -200,7 +200,7 @@ export class employeeInboxPage extends WebActionsPage {
     //button:has-text("Submit")
 
     async reviewDocumentSubmitGeneric() {
- 
+        await this.page.waitForTimeout(500);
         if (await this.reviewDoc.isVisible()) {
             await super.click(this.reviewDoc);
             await this.page.waitForTimeout(1500);
@@ -212,6 +212,7 @@ export class employeeInboxPage extends WebActionsPage {
                     await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
                 }
             }
+            await this.page.waitForTimeout(500);
             await this.paygroupSubmit.click();
         }
     }
@@ -258,10 +259,10 @@ export class employeeInboxPage extends WebActionsPage {
             await this.page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + Familyname + ' ' }).first().click();
         }
         await super.click(this.editCostCenter);
-        await super.setTextWithDoubleEnter(this.txtCostCenter,String(CostCenter));
+        await super.setTextWithDoubleEnter(this.txtCostCenter, String(CostCenter));
         await super.click(this.saveCostCenterbtn);
         await super.click(this.editOther);
-        await super.setTextWithDoubleEnter(this.setDeparment,String(Department));
+        await super.setTextWithDoubleEnter(this.setDeparment, String(Department));
         await super.click(this.saveDep);
         await super.click(this.paygroupSubmit);
     }
@@ -318,6 +319,7 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.keyboard.type(String(mealVoucher));
         await this.page.waitForTimeout(2000);
         await this.saveMealVoucher.click();
+        await this.page.waitForTimeout(2000);
         // await this.page.waitForTimeout(500);
         // await this.setMealVoucher.press("enter");
         // await this.setMealVoucher.type(mealVoucher);
@@ -346,15 +348,15 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(1500);
         // await this.eduCountry.press("enter");
-        await super.setTextWithDoubleEnter(this.eduSchool,String(School));
+        await super.setTextWithDoubleEnter(this.eduSchool, String(School));
         await this.page.waitForTimeout(500);
-        await super.setTextWithDoubleEnter(this.eduDegree,String(Degree));
+        await super.setTextWithDoubleEnter(this.eduDegree, String(Degree));
         await this.page.waitForTimeout(500);
         await this.eduDegreeReceived.click();
-        await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="'+ DegreeReceived +'"]').click();
+        await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="' + DegreeReceived + '"]').click();
         await super.setTextWithType(this.eduYearDegreeReceived, YearDegreeReceived);
         await super.setTextWithDoubleEnter(this.eduFieldOfStudy, FieldOfStudy);
-        await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="'+ FieldOfStudy +'"]').click();
+        await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="' + FieldOfStudy + '"]').click();
 
         await super.setTextWithType(this.eduFirstYearAttened, FirstYearAttended);
         await super.setTextWithType(this.eduLastYearAttened, LastYearAttended);
@@ -364,7 +366,7 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async empAddEducationSubmit() {
-
+        await this.page.waitForTimeout(500);
         await this.addEducation.click();
 
         await this.paygroupSubmit.click();
@@ -398,18 +400,18 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async addEmployeeBankDetails(bankName: string, bankidentificationnumber: string, accNumber: string, IBANNumber: string, AccType: string) {
+        await this.page.waitForTimeout(1000);
         await super.click(this.addBankDetails1);
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
         await super.setText(this.bankName, bankName);
         await super.setText(this.bankIdentificationCode, bankidentificationnumber);
-        if(String(this.accountNumber) != "NaN" && String(this.accountNumber) != "N/A" && String(this.accountNumber) != undefined)
+        if (String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && String(accNumber) !== undefined) {
             await super.setText(this.accountNumber, accNumber);
-        
+        }
         await super.setText(this.IBAN, IBANNumber);
-        await this.page.locator('//label[@data-automation-label="'+ AccType +'"]').click();
+        await this.page.locator('//label[@data-automation-label="' + AccType + '"]').click();
         //await super.setText(this.AccountName, 'TestAutomation');
-
         await super.click(this.okButton);
         await this.appCommon.ClickInbox();
         await this.appCommon.MyTasks();
@@ -419,7 +421,7 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
 
-    
+
     async empaddBanksubmit() {
 
         await this.addBankDetails.click();
@@ -438,7 +440,7 @@ export class employeeInboxPage extends WebActionsPage {
 
     async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string, citizen: string, national: string) {
 
-       // await this.page.waitForTimeout(500);
+        // await this.page.waitForTimeout(500);
         await this.chgPersonalInformation.click();
         // if (await this.buttonchgpersonal.isVisible()) {
         await super.click(this.buttonchgpersonal);
@@ -447,8 +449,8 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
         await super.click(this.editDob);
-       // await this.page.waitForTimeout(1000);
-        await super.setTextWithType(this.page.getByPlaceholder('DD'),dob);
+        // await this.page.waitForTimeout(1000);
+        await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
         // await this.page.keyboard.type(dob);
         // await this.page.keyboard.press('Enter');
         await super.click(this.page.getByLabel('Save Date of Birth'));
@@ -465,9 +467,10 @@ export class employeeInboxPage extends WebActionsPage {
         await super.selectFromCustomDropDrown(this.citizenship, citizen);
         //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
         await super.click(this.page.getByLabel('Save Citizenship Status'));
-        
-        await super.click(this.editNationality);
-        await super.setTextWithDoubleEnter(this.nationality, national);
+        if (await this.editNationality.isVisible()) {
+            await super.click(this.editNationality);
+            await super.setTextWithDoubleEnter(this.nationality, national);
+        }
         await this.page.waitForTimeout(1000);
         await super.click(this.paygroupSubmit);
     }

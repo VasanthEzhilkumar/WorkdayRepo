@@ -163,7 +163,7 @@ for (const sheetName in sheetsJson) {
 
         // await appCommon.ClickInbox();
         await appCommon.MyTasks();
-        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
+        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
@@ -198,7 +198,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
         await empInboxpage.AddEmergecyInformation();
         await appCommon.SuccessEventHandle();
-        await empInboxpage.reviewDocumentSubmitSK();
+        await empInboxpage.reviewDocumentSubmitSK("");
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
@@ -239,14 +239,14 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        
+
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
         //await appCommon.tearDown();
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";
-        
+
       } catch (error) {
         console.error(`Test failed for ${givenName} ${familyName}:`, error);
         if ((await capObj.getUpdateError()) == undefined) {

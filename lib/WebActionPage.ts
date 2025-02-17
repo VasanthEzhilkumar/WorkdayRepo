@@ -64,7 +64,7 @@ export class WebActionsPage {
             await locator.fill(String(varString));
             await locator.press('Enter');
             await this.page.keyboard.press('Enter');
-            const custumLocator: Locator = this.page.locator("(//div[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
+            const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             await this.page.waitForTimeout(1000);
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
