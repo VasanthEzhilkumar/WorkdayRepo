@@ -5,6 +5,7 @@ export class HrInboxPage extends WebActionsPage {
     readonly page: Page;
     readonly context: BrowserContext;
     readonly hrassignPaygroup: Locator;
+    readonly hrassignPaygroupInitial: Locator;
     readonly hrSubmit: Locator;
     readonly validatePayGroup: Locator;
     readonly idChange: Locator;
@@ -68,12 +69,15 @@ export class HrInboxPage extends WebActionsPage {
     readonly lblBasePayRange: Locator;
     readonly lblProratedAmount: Locator;
     readonly txtStep: Locator;
-    readonly hrassignPaygroupInitial: Locator;
+    // readonly hrassignPaygroupInitial: Locator;
 
     //readonly txtStep1: Locator;
     readonly txtSalaryAmount: Locator;
-    readonly setservicedateschange:Locator;
-    readonly paygroupSubmit:Locator;
+    readonly setservicedateschange: Locator;
+    readonly paygroupSubmit: Locator;
+    readonly lblEmpID: Locator;
+    readonly rightToWork: Locator;
+    readonly assignPaygroupProfile: Locator;
 
     readonly txtJobChangeSalaryAmount: Locator;
     readonly btnEditSalary: Locator;
@@ -82,8 +86,8 @@ export class HrInboxPage extends WebActionsPage {
     readonly btnSaveHourly: Locator;
     readonly txtGradeProfile: Locator;
     readonly addMedicalExam: Locator;
-    readonly lblEmpID:Locator;
-    readonly rightToWork:Locator;
+    // readonly lblEmpID: Locator;
+    // readonly rightToWork: Locator;
 
     readonly txtYoungParentEffectiveDate: Locator;
     readonly givenName1: string;
@@ -122,13 +126,18 @@ export class HrInboxPage extends WebActionsPage {
         this.contractWarningAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
         this.checkWarningAndAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
 
-        this.lnkViewDetails = page.locator("//button[contains(.,'View Details')]");
+        this.lnkViewDetails = page.locator("(//button[contains(.,'View Details')])[1]");
         this.lblEditNoticeforHire = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Edit Notice Periods for')]");
+        this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
         this.lblprocessCompletedSuccessfully = page.locator("//div[@data-automation-id='textView' or contains(text(),'Process Successfully Completed')]");
         this.btnDone = page.locator("//span[contains(.,'Done')]/ancestor::button[@title='Done']");
 
         this.hrassignPaygroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         this.validatePayGroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
+        //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"' + givenname + ' ' + FamilyName + '")]');
+        this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '")]');
+        this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for ' + givenname + ' ' + FamilyName + '")]');
+
         this.hrSubmit = page.locator('button:has-text("Submit")');
         this.idChange = page.locator('text=ID Change: ' + givenname + ' ' + FamilyName + '');
         this.addId = page.locator('tbody').filter({ hasText: '*Country*National ID' }).getByLabel('Add Row')//page.locator('text=*Country*National ID TypeCurrent IDAdd/Edit IDIssued DateExpiration DateIssued B >> [aria-label="Add Row"]');
@@ -174,7 +183,7 @@ export class HrInboxPage extends WebActionsPage {
         this.addbank = page.locator('text=Add Worker\'s Bank Details: Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.perInfochgn = page.locator('text=Personal Information Change: ' + ' ' + givenname + ' ' + FamilyName).first();
         //this.assignPaygroup = page.locator('text=Assign Paygroup for Payroll: ' + ' ' + givenname + ' ' + FamilyName);
-        this.assignPaygroup = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Paygroup for Payroll") and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
+        this.assignPaygroup = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Paygroup for Payroll") and contains(text(),"' + givenname + ' ' + FamilyName + '")]');
         this.assignPg = page.getByLabel('Proposed Pay Group', { exact: true })//locator('label:has-text("Proposed Pay Group")');
         this.assignPGApprove = page.locator('text=Assign Pay Group for Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.passportVisa = page.locator('text=Passports and Visa Change: ' + ' ' + givenname + ' ' + FamilyName);
@@ -182,12 +191,11 @@ export class HrInboxPage extends WebActionsPage {
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
         this.fillAmount = page.getByLabel('Amount');
         this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
-        this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
         //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
-        this.setservicedateschange = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Service Dates Change: '+ givenname + ' ' + FamilyName +'")]');
-        this.addMedicalExam=page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Medical Exam: '+ givenname + ' ' + FamilyName +'")]');
+        this.setservicedateschange = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Service Dates Change: ' + givenname + ' ' + FamilyName + '")]');
+        this.addMedicalExam = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Medical Exam: ' + givenname + ' ' + FamilyName + '")]');
         this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
-        this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for '+ givenname + ' ' + FamilyName +'")]');
+        this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for ' + givenname + ' ' + FamilyName + '")]');
         this.txtYoungParentEffectiveDate = page.locator("//label[contains(.,'Young Parent Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.chkYoungParent = page.locator("//label[contains(.,'Young Parent')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
         this.txtTaxFreeAmountEffectiveDate = page.locator("//label[contains(.,'Tax Free Amount Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
@@ -202,7 +210,7 @@ export class HrInboxPage extends WebActionsPage {
             await this.hrSubmit.click();
         }
     }
-    
+
 
     async AddID(): Promise<void> {
         await this.idChange.click();
@@ -307,10 +315,7 @@ export class HrInboxPage extends WebActionsPage {
         this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
         return this.EmployeeNumber[0].toString();
     }
-    async setMaintainRightToWorkDocumentation(): Promise<void> {
-        await this.rightToWork.click();
-        await this.page.getByRole('button', { name: 'Submit' }).click();
-    }
+
 
     async assignPayrollPayGroup(): Promise<void> {
         await this.assignPaygroup.click();
@@ -325,15 +330,24 @@ export class HrInboxPage extends WebActionsPage {
         }
     }
 
-    async assignPaygroupApprove(): Promise<void> {
-        await this.assignPGApprove.click();
-        await this.Approve.click();
-    }
     async assignInitialPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
         await this.hrassignPaygroupInitial.click();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Submit' }).click();
     }
+
+
+    async setMaintainRightToWorkDocumentation(): Promise<void> {
+        await this.page.waitForTimeout(500);
+        await this.rightToWork.click();
+        await this.page.getByRole('button', { name: 'Submit' }).click();
+    }
+
+    async assignPaygroupApprove(): Promise<void> {
+        await this.assignPGApprove.click();
+        await this.Approve.click();
+    }
+
 
 
     async setServiceDates() {
@@ -452,7 +466,7 @@ export class HrInboxPage extends WebActionsPage {
         }
     }
 
-   
+
     async hrcontractAddendum() {
         await this.contractAddendum.click();
         await this.page.waitForTimeout(500);
@@ -542,10 +556,23 @@ export class HrInboxPage extends WebActionsPage {
             if (await this.contractWarningAlert.isVisible()) {
                 await super.click(this.hrSubmit);
             }
-        }else{
+        } else {
             console.log("Manage Probation Period Page is missing for This job profiles.");
         }
 
+        if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
+            await super.setTextWithType(this.prbReviewDate, probReviewDate);
+        }
+        await this.page.waitForTimeout(600);
+        await super.click(this.hrSubmit);
+        await this.page.waitForTimeout(1500);
+        if (await this.contractWarningAlert.isVisible()) {
+            await super.click(this.hrSubmit);
+        }
+        await this.page.waitForTimeout(500);
+        if (await this.contractWarningAlert.isVisible()) {
+            await super.click(this.hrSubmit);
+        }
     }
 
     async clickEditNoticePeriodsforHireSubmit() {
@@ -589,7 +616,61 @@ export class HrInboxPage extends WebActionsPage {
         return this.EmployeeNumber[0].toString();
     }
 
-    
+
+
+
+    async hrProposeCompensationHire(GradeProfile: string, Step: string, Salary: String) {
+
+        await super.click(this.proposeCompensation);
+        if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined) {
+            await super.click(this.lblGradeProfile);
+            await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
+            if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && await (this.txtStep.isVisible())) {
+                await super.click(this.txtStep);
+                await super.setTextWithDoubleEnter(this.txtStep, Step);
+            }
+        }
+        if (Salary != "N/A" && Salary != "NaN" && Salary != undefined && Salary != "Defaulted") {
+            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
+                await this.click(this.btnEditSalary);
+                if (this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
+                await super.click(this.saveSalary);
+            }
+        } else {
+            // if (await this.lblBasePayRange.isVisible) {
+            await this.page.waitForTimeout(1500);
+            let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
+            await this.page.waitForTimeout(1500);
+            // if(strTotalBasePayRangeValue != undefined && strTotalBasePayRangeValue != 'NaN'){
+            let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
+            const strLow = strTotalBasePayRangeValueArray[0];
+            const strHingh = strTotalBasePayRangeValueArray[2];
+
+            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
+                await this.click(this.btnEditSalary);
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
+                await super.click(this.saveSalary);
+            }
+            //}
+
+        }
+        await this.hrSubmit.click();
+        await this.page.waitForTimeout(1500);
+        if (await this.checkWarningAndAlert.isVisible()) {
+            await super.click(this.hrSubmit);
+        }
+        await this.page.waitForTimeout(1500);
+        if (await this.checkWarningAndAlert.isVisible()) {
+            await super.click(this.hrSubmit);
+        }
+        await this.page.waitForTimeout(2800);
+    }
+
     // Helper method to fill fields
     async fillField(fieldLocator: Locator, value: string) {
         await fieldLocator.fill(value);

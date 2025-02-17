@@ -113,7 +113,8 @@ for (const sheetName in sheetsJson) {
           data.ScheduledWeeklyHours,
           data.defaultHours,
           data.Location,
-          data.EndEmploymentDate
+          data.EndEmploymentDate,
+          data.PayRateType
         );
 
         await capObj.checkForScreenErrors();
@@ -155,7 +156,7 @@ for (const sheetName in sheetsJson) {
 
         // await appCommon.ClickInbox();
         await appCommon.MyTasks();
-        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country);
+        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country,"");
         await capObj.checkForScreenErrors();
         //await appCommon.SuccessEventHandle();
 

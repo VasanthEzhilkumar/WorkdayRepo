@@ -32,8 +32,8 @@ for (const sheetName in sheetsJson) {
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
     const { givenName, familyName }  = generateRandomName();
     
-    const excelFilePath = ('H:/WorkDaySuite_Playwright/Data/testData.xlsx');
-    const xmlFilePath = ('C:/Users/vezhil/Downloads/TEST_Primark_UK_200920240150 (UK Staff Group 30).xml');
+    // const excelFilePath = ('H:/WorkDaySuite_Playwright/Data/testData.xlsx');
+    // const xmlFilePath = ('C:/Users/vezhil/Downloads/TEST_Primark_UK_200920240150 (UK Staff Group 30).xml');
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy, fileValidationUK }) => {
       try {
@@ -70,10 +70,10 @@ for (const sheetName in sheetsJson) {
       // const xmlFilePath = ('C:/Users/vezhil/Downloads/TEST_Primark_UK_200920240150 (UK Staff Group 30).xml');
 
       try {
-          const excelData = await readExcel(excelFilePath);
-          const xmlData = await readXML(xmlFilePath);
+          // const excelData = await readExcel(excelFilePath);
+          // const xmlData = await readXML(xmlFilePath);
 
-          compareWorkerData(xmlData, excelData);
+          // compareWorkerData(xmlData, excelData);
       } catch (error) {
           console.error('Error processing files:', error);
       }

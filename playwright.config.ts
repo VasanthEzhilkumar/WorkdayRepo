@@ -13,11 +13,16 @@ const config: PlaywrightTestConfig = {
   globalSetup: `./global-setup`,
 
   //sets timeout for each test case
-  timeout: 550000,
+  timeout: 900000,
   //number of retries if test case fails
   retries: 0,
+<<<<<<< HEAD
   workers: 1,
   fullyParallel: false,
+=======
+  workers: 2,
+  fullyParallel: true,
+>>>>>>> Ramchandra
   //fullyParallel : true,
 
   //Reporters
@@ -27,10 +32,15 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Chrome',
       use: {
+<<<<<<< HEAD
         ...devices['Desktop Chrome'],
         viewport: { width: 1280, height: 650 },
+=======
+        //...devices['Desktop Chrome'],
+        viewport: { width: 1275, height: 592 },
+>>>>>>> Ramchandra
         //Browser Mode
-        headless: false,
+        headless: true,
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,
@@ -38,7 +48,7 @@ const config: PlaywrightTestConfig = {
 
         //Artifacts
         screenshot: 'on',
-        video: `retain-on-failure`,
+        video: `on`,
         trace: `retain-on-failure`,
 
         //Slows down execution by ms

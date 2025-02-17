@@ -1,0 +1,67 @@
+import { WebActions } from '@lib/WebActions';
+import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { count } from 'console';
+
+export class contactInformationAddressCzechia {
+
+    readonly page: Page;
+    readonly street: Locator;
+    readonly city: Locator;
+    readonly addAddress: Locator;
+    readonly addressType: Locator;
+    readonly postalCode: Locator;
+    readonly county: Locator;
+    readonly streetName: Locator;
+    readonly houseNumber: Locator;
+    readonly referenceNumber: Locator;
+    readonly locality: Locator;
+    readonly region: Locator;
+    readonly useFor: Locator;
+
+
+
+    constructor(page: Page, context: BrowserContext) {
+        //super(page:Page, context: BrowserContext);
+        this.page = page;
+        this.street = page.getByLabel('Street', { exact: true })
+        this.addAddress = page.locator('[aria-label="Add Address"]');
+        this.city = page.getByLabel('City');
+        this.addressType = page.getByLabel('Address', { exact: true }).getByLabel('Type');//locator('text=UsageTypeType0 items selectedPrimary WorkPrimary WorkPrimary HomePrimary HomeUse >> [placeholder="Search"]');//page.locator('text=TypeType0 items selected >> [placeholder="Search"]');//
+        this.county = page.locator("//h2[contains(./text(),'Address')]/ancestor::div[@data-automation-id='panelSet']/descendant::label[contains(./text(),'County')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+        this.streetName = page.locator("(//label[contains(./text(),'Street or Place Name')]/ancestor::li)[2]/descendant::div[@data-automation-id='textInput']//input");
+        this.houseNumber = page.locator("(//label[contains(./text(),'House Number')]/ancestor::li)[2]/descendant::div[@data-automation-id='textInput']//input");
+        this.postalCode = page.locator("(//label[contains(./text(),'Postal Code')]/ancestor::li)[2]/descendant::div[@data-automation-id='textInput']//input");
+        this.referenceNumber = page.locator("(//label[contains(./text(),'Reference Number')]/ancestor::li)[2]/descendant::div[@data-automation-id='textInput']//input");
+        this.locality = page.locator("(//label[contains(./text(),'Locality')]/ancestor::li)[2]/descendant::div[@data-automation-id='textInput']//input");
+        this.region = page.locator("(//label[contains(./text(),'Region')]/ancestor::div/following-sibling::div//input)[1]");
+        this.useFor = page.locator("(//label[contains(./text(),'Use For')]/ancestor::div/following-sibling::div//input)[1]");
+
+    } 
+
+    async contactInformationAddress(StreetName: string, PostalCode: number, city: string, County: string, addressType: string, houseNumber:string, referenceNumber: string, locality: string, region: string, useFor: string) {
+       
+        await this.page.waitForTimeout(500);
+        await this.addAddress.click();
+        await this.streetName.fill(StreetName);
+        await this.houseNumber.fill(houseNumber.toString());
+        await this.referenceNumber.fill(referenceNumber.toString());
+        await this.locality.fill(locality);
+        //await this.city.fill(PostalCode.toString());26401
+        // await this.postalCode.fill(PostalCode.toString());
+        await this.postalCode.fill(String(PostalCode));
+        await this.city.fill(city);
+        await this.region.fill(region);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(500);
+
+        // await this.county.fill(County);
+        // await this.county.press('Enter');
+        await this.addressType.click()
+        await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+        await this.useFor.fill(useFor);
+        await this.page.keyboard.press('Enter');
+    }
+
+
+
+}

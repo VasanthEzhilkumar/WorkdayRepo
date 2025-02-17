@@ -113,7 +113,8 @@ for (const sheetName in sheetsJson) {
           data.ScheduledWeeklyHours,
           data.defaultHours,
           data.Location,
-          data.EndEmploymentDate
+          data.EndEmploymentDate,
+          data.PayRateType
         );
 
         await capObj.checkForScreenErrors();
@@ -137,7 +138,7 @@ for (const sheetName in sheetsJson) {
         //code working upto this LOC
         // await appCommon.ClickInbox();
         await appCommon.MyTasks();
-        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"");
+        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"","");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
@@ -178,7 +179,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankCode, String(data.AccountNumber), String(data.IBAN));
+        await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankCode, String(data.AccountNumber), String(data.IBAN),"");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 

@@ -95,7 +95,8 @@ for (const sheetName in sheetsJson) {
           data.ScheduledWeeklyHours,
           data.DefaultWeeklyHours,
           data.Location,
-          data.EndEmploymentDate
+          data.EndEmploymentDate,
+          data.PayRateType
         );
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -134,7 +135,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
         await appCommon.refreshInbox();
 
-        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"");
+        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"","");
         await captureErrors.checkForScreenErrors();
         // await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();

@@ -83,6 +83,10 @@ export class ProposeCompensationPage extends WebActionsPage {
     readonly btnMainErrorBar1: Locator;
     readonly btnSideErrorBar1: Locator;
 
+    readonly btnEditAllowance: Locator;
+    readonly btnSaveAllowance: Locator;
+    readonly txtAllowanceAmount: Locator;
+
     readonly givenName1: string;
     readonly fimilyName1: string;
     readonly btnDeleteallowance: Locator;
@@ -106,6 +110,10 @@ export class ProposeCompensationPage extends WebActionsPage {
         this.txtJobChangeSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text']");
         this.btnEditSalary = page.locator("//button[@aria-label='Edit Salary']");
         this.btnSaveSalary = page.locator("//button[@aria-label='Save Salary']");
+
+        this.btnEditAllowance = page.locator("//button[@aria-label='Edit Allowance']");
+        this.btnSaveAllowance = page.locator("//button[@aria-label='Save Allowance']");
+        this.txtAllowanceAmount = page.locator("//label[text()='Amount']/parent::div/following-sibling::div//input");
 
         this.btnEditHourly = page.locator("//button[@aria-label='Edit Hourly']");
         this.btnSaveHourly = page.locator("//button[@aria-label='Save Hourly']");
@@ -192,9 +200,9 @@ export class ProposeCompensationPage extends WebActionsPage {
     async clickDeletePopupbtn(): Promise<void> {
 
         //if (await this.btnDeleteallowance.count()> 0 ) {
-            await this.btnDeleteallowance.click();
-            await this.page.waitForTimeout(500);
-            await this.btnDeletePopup.click();
+        await this.btnDeleteallowance.click();
+        await this.page.waitForTimeout(500);
+        await this.btnDeletePopup.click();
         //}
     }
 
@@ -203,9 +211,9 @@ export class ProposeCompensationPage extends WebActionsPage {
   @Description : This generic method is used to set salary amount, Grade profile and step if required.
   @Author      : @ Madhukar Kirkan
   @Param       :  required test data such as GradeProfile, GradeProfile, GradeProfile.
-  @Upadated    : Added code for Hourly amount
+  @updated on 25th Oct'24 by  : @ Ramchandra Desai - added Allowance Amount argument to make it more generic 
   */
-    async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: String) {
+    async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
 
         await super.click(this.proposeCompensation);
         if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined) {
@@ -266,6 +274,16 @@ export class ProposeCompensationPage extends WebActionsPage {
             await this.btnDeleteallowance.click();
             await this.page.waitForTimeout(500);
             await this.btnDeletePopup.click();
+        }
+        if (AllowanceAmount != "N/A" && AllowanceAmount != "NaN" && AllowanceAmount != undefined && AllowanceAmount != "Defaulted") {
+            if (await this.btnEditAllowance.isVisible()) {
+                //  && await this.editSalary.isVisible()) {
+                await this.click(this.btnEditAllowance);
+                if (this.txtAllowanceAmount.isVisible()) {
+                    await super.setText(this.txtAllowanceAmount, AllowanceAmount.toString());
+                }
+                await super.click(this.btnSaveAllowance);
+            }
         }
 
         await this.hrSubmit.click();
