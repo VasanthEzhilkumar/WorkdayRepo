@@ -150,11 +150,16 @@ export class JobDetailsPage extends WebActionsPage {
     location: number,
     EndEmploymentDate: string,
   ) {
+    const str: String[] = AdditionalJobClassifications.split('@');
+    if (position == undefined) {
+      position = "DummyValue";
+    }
 
     //await this.hireDate.waitFor();
     await this.hireDate.focus();
     await this.hireDate.click({ force: true });
     await super.setTextWithType(this.hireDate, HireDate1);
+    //await super.setTextWithType(this.hireDate,HireDate1);
     await super.setTextWithEnter(this.reason, "New Hire");
     if (!position.includes('Auto')) {
       await super.selectFromCustomDropDrown(this.empType, EmployeeType);

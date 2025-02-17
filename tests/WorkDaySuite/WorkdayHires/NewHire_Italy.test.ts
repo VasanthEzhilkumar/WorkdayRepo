@@ -15,7 +15,6 @@ import { GovernmentsIDPageRomania } from '@pages/RomaniaPages/GovernmentIDsRoman
 import { generateRandomName } from 'utils/functional/utils';
 
 
-
 let empNum: string;
 let position: string;
 let capObj: CaptureAlertErrors;
@@ -138,7 +137,7 @@ for (const sheetName in sheetsJson) {
         //code working upto this LOC
         // await appCommon.ClickInbox();
         await appCommon.MyTasks();
-        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary);
+        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
@@ -163,7 +162,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empaddPhoto();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality,"");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();

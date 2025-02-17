@@ -68,8 +68,12 @@ export class HrInboxPage extends WebActionsPage {
     readonly lblBasePayRange: Locator;
     readonly lblProratedAmount: Locator;
     readonly txtStep: Locator;
+    readonly hrassignPaygroupInitial: Locator;
+
     //readonly txtStep1: Locator;
     readonly txtSalaryAmount: Locator;
+    readonly setservicedateschange:Locator;
+    readonly paygroupSubmit:Locator;
 
     readonly txtJobChangeSalaryAmount: Locator;
     readonly btnEditSalary: Locator;
@@ -77,6 +81,10 @@ export class HrInboxPage extends WebActionsPage {
     readonly btnEditHourly: Locator;
     readonly btnSaveHourly: Locator;
     readonly txtGradeProfile: Locator;
+    readonly addMedicalExam: Locator;
+    readonly lblEmpID:Locator;
+    readonly rightToWork:Locator;
+
     readonly txtYoungParentEffectiveDate: Locator;
     readonly givenName1: string;
     readonly fimilyName1: string;
@@ -165,7 +173,8 @@ export class HrInboxPage extends WebActionsPage {
         this.upWorker = page.locator('text=Update worker\'s contact information: Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.addbank = page.locator('text=Add Worker\'s Bank Details: Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.perInfochgn = page.locator('text=Personal Information Change: ' + ' ' + givenname + ' ' + FamilyName).first();
-        this.assignPaygroup = page.locator('text=Assign Paygroup for Payroll: ' + ' ' + givenname + ' ' + FamilyName);
+        //this.assignPaygroup = page.locator('text=Assign Paygroup for Payroll: ' + ' ' + givenname + ' ' + FamilyName);
+        this.assignPaygroup = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Paygroup for Payroll") and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
         this.assignPg = page.getByLabel('Proposed Pay Group', { exact: true })//locator('label:has-text("Proposed Pay Group")');
         this.assignPGApprove = page.locator('text=Assign Pay Group for Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.passportVisa = page.locator('text=Passports and Visa Change: ' + ' ' + givenname + ' ' + FamilyName);
@@ -173,6 +182,12 @@ export class HrInboxPage extends WebActionsPage {
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
         this.fillAmount = page.getByLabel('Amount');
         this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
+        this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
+        //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
+        this.setservicedateschange = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Service Dates Change: '+ givenname + ' ' + FamilyName +'")]');
+        this.addMedicalExam=page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Medical Exam: '+ givenname + ' ' + FamilyName +'")]');
+        this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
+        this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for '+ givenname + ' ' + FamilyName +'")]');
         this.txtYoungParentEffectiveDate = page.locator("//label[contains(.,'Young Parent Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.chkYoungParent = page.locator("//label[contains(.,'Young Parent')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
         this.txtTaxFreeAmountEffectiveDate = page.locator("//label[contains(.,'Tax Free Amount Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
@@ -187,6 +202,7 @@ export class HrInboxPage extends WebActionsPage {
             await this.hrSubmit.click();
         }
     }
+    
 
     async AddID(): Promise<void> {
         await this.idChange.click();
@@ -282,6 +298,19 @@ export class HrInboxPage extends WebActionsPage {
         }
         // }
     }
+    async getEmployeeID() {
+        await super.click(this.lnkViewDetails);
+        await this.page.waitForTimeout(500);
+        this.EmployeeNumber = await super.getAllInnerText(this.lblEmpID);
+        await this.page.waitForTimeout(500);
+        this.EmployeeNumber = this.EmployeeNumber.toString().split('(');
+        this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
+        return this.EmployeeNumber[0].toString();
+    }
+    async setMaintainRightToWorkDocumentation(): Promise<void> {
+        await this.rightToWork.click();
+        await this.page.getByRole('button', { name: 'Submit' }).click();
+    }
 
     async assignPayrollPayGroup(): Promise<void> {
         await this.assignPaygroup.click();
@@ -300,11 +329,31 @@ export class HrInboxPage extends WebActionsPage {
         await this.assignPGApprove.click();
         await this.Approve.click();
     }
+    async assignInitialPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
+        await this.hrassignPaygroupInitial.click();
+        await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
+        await this.page.getByRole('button', { name: 'Submit' }).click();
+    }
+
+
+    async setServiceDates() {
+        await this.page.waitForTimeout(500);
+        await this.setservicedateschange.click();
+        await this.hrSubmit.click();
+        await this.page.waitForTimeout(500);
+    }
+    async SetMedicalExamForm() {
+        await this.page.waitForTimeout(500);
+        await this.addMedicalExam.click();
+        await this.hrSubmit.click();
+        await this.page.waitForTimeout(500);
+    }
+
 
     async assignPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
         await this.assignPaygroup.click();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
-        await this.page.getByRole('button', { name: 'Approve' }).click();
+        await this.page.getByRole('button', { name: 'Submit' }).click();
     }
 
     async updatePassportsAndVisa(): Promise<void> {

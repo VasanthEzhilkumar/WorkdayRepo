@@ -1,6 +1,5 @@
 import { WebActionsPage } from "@lib/WebActionPage";
-import { Page, BrowserContext, Locator, Expect } from "@playwright/test";
-import { lcov } from "node:test/reporters";
+import { BrowserContext, Locator, Page } from "@playwright/test";
 
 
 export class employeeCareerPage extends WebActionsPage{

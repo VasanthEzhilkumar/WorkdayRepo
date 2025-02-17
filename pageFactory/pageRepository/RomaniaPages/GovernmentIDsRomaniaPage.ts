@@ -1,4 +1,4 @@
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 import { WebActionsPage } from 'lib/WebActionPage';
 
 
