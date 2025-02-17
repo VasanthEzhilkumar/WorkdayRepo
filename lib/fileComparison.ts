@@ -1,4 +1,3 @@
-import { log } from 'console';
 import * as fs from 'fs';
 import * as xlsx from 'xlsx';
 import { parseStringPromise } from 'xml2js';
