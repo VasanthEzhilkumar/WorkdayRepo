@@ -3,7 +3,6 @@ import test from '@lib/BaseTest';
 import { CaptureAlertErrors } from '@lib/CaptureErrors';
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
 import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
-import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage';
 import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
 import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage';
 import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
@@ -57,14 +56,15 @@ for (const sheetName in sheetsJson) {
         const governemntIDs = new GovernmentsIDPagePoland(page, givenName, familyName, context);
         const contractObj = new MaintainContractPage(page, givenName, familyName, context);
         capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index);
-        const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context);
+        //const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context);
         const createPostition = new createPositionPage(page);
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
         const username = "90001655";
-        const password = "Primark123!!";
+        //const password = "Primark123!!";
+        const password = "Vasanth2025!";
 
         // initlize the web environment 
         await login.goto("Poland");
@@ -94,7 +94,7 @@ for (const sheetName in sheetsJson) {
 
         // set Supervisisroy Organazation 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
-        await hireEmployee.legalNameInformation(givenName, familyName);
+        await hireEmployee.legalNameInformationPoland(givenName, familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
         await homePagePoland.contactInformationAddress(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type);
@@ -114,7 +114,7 @@ for (const sheetName in sheetsJson) {
           data.defaultHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          "" //data.PayRateType
         );
 
         await capObj.checkForScreenErrors();
@@ -156,7 +156,7 @@ for (const sheetName in sheetsJson) {
 
         // await appCommon.ClickInbox();
         await appCommon.MyTasks();
-        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country,"");
+        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, "");
         await capObj.checkForScreenErrors();
         //await appCommon.SuccessEventHandle();
 
@@ -207,7 +207,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
         await empInboxpage.AddEmergecyInformation();
         await appCommon.SuccessEventHandle();
-        await empInboxpage.addEmployeeBankDetailsPoland(data.BankName, data.BankIdentificationCode,String(data.AccountNumber), String(data.IBAN),String(givenName));
+        await empInboxpage.addEmployeeBankDetailsPoland(data.BankName, data.BankIdentificationCode, String(data.AccountNumber), String(data.IBAN), String(givenName));
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.reviewDocumentSubmitGeneric();
@@ -232,7 +232,7 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-       
+
         await appCommon.MyTasks();
         await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
         await capObj.checkForScreenErrors();

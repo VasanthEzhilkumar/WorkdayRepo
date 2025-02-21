@@ -154,6 +154,12 @@ export class hireEmployeePage extends WebActionsPage {
     await this.lName.fill(FamilyName);
   }
 
+  async legalNameInformationPoland(givenname: string, FamilyName: string) {
+    //await super.setTextWithDoubleEnter();
+    await this.gName.fill(givenname);
+    await this.fName.fill(FamilyName);
+  }
+
   async contactInformationPhone(phoneNumber: number, PhoneDevice: string, phoneType: string) {
     await this.addphone.click();
     await this.contactPhoneNumber.fill(phoneNumber.toString());
@@ -164,6 +170,28 @@ export class hireEmployeePage extends WebActionsPage {
     await this.page.waitForTimeout(500);
   }
 
+  // async contactInformationPhonemgr(phoneNumber: number, PhoneDevice: string, phoneType: string) {
+  //   await this.addphone.click();
+  //   await this.contactPhoneNumbermgr.fill(phoneNumber.toString());
+  //   await this.contactPhonedevicemgr.click();
+  //   await this.contactPhoneDevicetext.click();
+  //   await this.contactPhoneTypemgr.fill(phoneType);
+  //   await this.contactPhoneTypemgr.press('Enter');
+  //   //await this.page.waitForTimeout(500);
+  // }
+
+  async contactInformationAddressBelgium(StreetNumber: string, PostalCode: number, city: string, County: string, addressType: string) {
+    await this.page.waitForTimeout(500);
+    await this.addAddress.click();
+    await this.addressStreet.fill(StreetNumber);
+    await this.addressPostalCode.fill(PostalCode.toString());
+    await this.addressCity.fill(city);
+    if (!city.includes('Bratislava')) {
+      //  await this.addressCounty.fill(County);
+    }
+    await this.addressType.click()
+    await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+  }
 
   async contactInformationPhonemgr(phoneNumber: number, PhoneDevice: string, phoneType: string) {
     await this.addphone.click();
@@ -173,7 +201,6 @@ export class hireEmployeePage extends WebActionsPage {
     await this.contactPhoneTypemgr.fill(phoneType);
     await this.contactPhoneTypemgr.press('Enter');
     //await this.page.waitForTimeout(500);
-
   }
 
   async contactInformationAddress(StreetNumber: string, PostalCode: number, city: string, County: string, addressType: string) {
@@ -221,7 +248,8 @@ export class hireEmployeePage extends WebActionsPage {
   }
 
   async okHireButton() {
-    await this.okButton.click();
+    //await this.okButton.click();
+    await this.page.locator('(//button[@title="OK"])[1]').click();
   }
 
   async searchSupervisoryOrganization(supervisoryOrganisation: string, givenname: string) {

@@ -1,4 +1,4 @@
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 import { WebActionsPage } from 'lib/WebActionPage';
 
 
@@ -358,11 +358,13 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
 
       // await this.IssuedBy.fill('Test');
       // await this.series.fill('Test');
-     
+      if (await this.IssuedBy.isVisible()) {
         await super.setText(this.IssuedBy, String('Test'));
-        await super.setText(this.series, String('Test'));
-      
+      }
 
+      if (await this.series.isVisible()) {
+        await super.setText(this.series, String('Test'));
+      }
     }
   }
 

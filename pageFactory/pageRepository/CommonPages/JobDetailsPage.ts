@@ -168,7 +168,11 @@ export class JobDetailsPage extends WebActionsPage {
       // await this.page.keyboard.press('Enter');
       await super.setTextWithEnter(this.timetype, timetype.trim());
       await super.setTextWithEnter(this.location, location.toString());
-      await super.selectFromCustomDropDrown(this.page.getByLabel('Pay Rate Type'), PayRateType.trim());
+      // if (await PayRateType !== undefined && await PayRateType !== null && PayRateType !== "") {
+      //   await super.click(this.page.getByLabel('Pay Rate Type', { exact: true }));
+      //   await super.selectFromCustomDropDrown(this.page.getByLabel('Pay Rate Type'), PayRateType.trim());
+      // }
+
     } else {
       await super.selectFromCustomDropDrown(this.position, position);
     }

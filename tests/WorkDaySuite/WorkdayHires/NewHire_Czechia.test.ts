@@ -1,9 +1,8 @@
 import test from '@lib/BaseTest';
 
 import { CaptureAlertErrors } from '@lib/CaptureErrors';
-import { excelToJson, getExcelFilePath, copyFolderToSharedDrive } from '@lib/ExceltoJsonUtil';
+import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
 import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
-import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage';
 import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
 import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage';
 import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
@@ -12,9 +11,6 @@ import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInf
 import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import * as fs from 'fs-extra';
-import path from 'path';
-import { generateRandomName } from 'utils/functional/utils';
 
 
 let empNum: string;
@@ -22,7 +18,7 @@ let position: string;
 let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataCzechiaMK_DryRun2.xlsx';
+const excelFileName = 'Copy of testDataCzechiaMK_DryRun2.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -37,9 +33,9 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = (data.JobProfile || `JobProfile_${index + 1}`).trim();
-    const { givenName, familyName } = generateRandomName();
-    // const givenName = data.GivenName;
-    // const familyName = data.FamilyName;
+    //const { givenName, familyName } = generateRandomName();
+    const givenName = data.GivenName;
+    const familyName = data.FamilyName;
     // if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
@@ -57,13 +53,16 @@ for (const sheetName in sheetsJson) {
         const governemntIDs = new GovernmentsIDPageCzechia(page, givenName, familyName, context);
         const contractObj = new MaintainContractPage(page, givenName, familyName, context)
         capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
-        const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
+        // const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
         const createPostition = new createPositionPage(page);
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-        const username = "90002195";
-        const password = "Primark@123";
+        // const username = "90002195";
+        // const password = "Primark@123";
+
+        const username = "90001655";
+        const password = "Vasanth2025!";
 
         // initlize the web environment 
         await login.goto("Czechia");
@@ -140,7 +139,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         //Probation Date Details for Employee
-        await appCommon.MyTasks();
+        //await appCommon.MyTasks();
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
         //await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -155,6 +154,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire("NaN", "NaN", "NaN", "", data.AllowanceAmount);
         await capObj.checkForScreenErrors();
+
         //await appCommon.SuccessEventHandle();
         empNum = await hrInbxPage.getEmployeeID();
         console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
@@ -163,15 +163,15 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await hrInbxPage.setMaintainRightToWorkDocumentation();
 
-        //await capObj.checkForScreenErrors();
-        // await appCommon.SuccessEventHandle();
-
         // empNum = String(data.EmployeeID);
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
         await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await page.waitForTimeout(5000);
+
+        await empInboxpage.reviewDocumentSubmitGeneric();
+        await appCommon.SuccessEventHandle();
 
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
@@ -203,7 +203,7 @@ for (const sheetName in sheetsJson) {
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality, "");
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, "", data.CitizenshipStatus, data.PrimaryNationality);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();

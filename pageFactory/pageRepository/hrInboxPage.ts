@@ -2,6 +2,7 @@ import { WebActionsPage } from '@lib/WebActionPage';
 import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 
 export class HrInboxPage extends WebActionsPage {
+
     readonly page: Page;
     readonly context: BrowserContext;
     readonly hrassignPaygroup: Locator;
@@ -97,6 +98,7 @@ export class HrInboxPage extends WebActionsPage {
     readonly txtTaxFreeAmountEffectiveDate: Locator;
     readonly txtPensioneffectiveDate: Locator;
     readonly chkTaxFreeAmount: Locator;
+    readonly txtHourlyRegime: Locator;
 
 
     EmployeeNumber: string[];
@@ -201,6 +203,7 @@ export class HrInboxPage extends WebActionsPage {
         this.txtTaxFreeAmountEffectiveDate = page.locator("//label[contains(.,'Tax Free Amount Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.txtPensioneffectiveDate = page.locator("//label[contains(.,'Pension effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.chkTaxFreeAmount = page.locator("//label[contains(.,'Tax Free Amount')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.chkTaxFreeAmount = page.locator("//label[contains(.,'Tax Free Amount')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
 
     }
 
@@ -209,6 +212,10 @@ export class HrInboxPage extends WebActionsPage {
         if (await this.validatePayGroup.isVisible()) {
             await this.hrSubmit.click();
         }
+    }
+    async setHourlyRegime(HourlyRegime: any) {
+        await super.selectFromCustomDropDrown(this.txtHourlyRegime, HourlyRegime);
+        await this.hrSubmit.click();
     }
 
 
@@ -341,6 +348,7 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
         await this.rightToWork.click();
         await this.page.getByRole('button', { name: 'Submit' }).click();
+        await this.page.waitForTimeout(700);
     }
 
     async assignPaygroupApprove(): Promise<void> {
@@ -537,8 +545,8 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setManageProbation(probEndDate: string, probReviewDate: string) {
-        // && await this.manageProbation.count() > 0
-        if (await this.manageProbation.isVisible()) {
+        await this.page.waitForTimeout(1000);
+        if (await this.manageProbation.count() > 0) {
             await super.click(this.manageProbation);
             // await super.setTextWithType(this.prbStartDate, '');
             if (await probEndDate != 'NaN' && await probEndDate != 'N/A' && await probEndDate != undefined) {
@@ -549,30 +557,30 @@ export class HrInboxPage extends WebActionsPage {
             }
             await super.click(this.hrSubmit);
             await this.page.waitForTimeout(1000);
-            if (await this.contractWarningAlert.isVisible()) {
+            if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
                 await super.click(this.hrSubmit);
             }
             await this.page.waitForTimeout(500);
-            if (await this.contractWarningAlert.isVisible()) {
+            if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
                 await super.click(this.hrSubmit);
             }
         } else {
             console.log("Manage Probation Period Page is missing for This job profiles.");
         }
 
-        if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
-            await super.setTextWithType(this.prbReviewDate, probReviewDate);
-        }
-        await this.page.waitForTimeout(600);
-        await super.click(this.hrSubmit);
-        await this.page.waitForTimeout(1500);
-        if (await this.contractWarningAlert.isVisible()) {
-            await super.click(this.hrSubmit);
-        }
-        await this.page.waitForTimeout(500);
-        if (await this.contractWarningAlert.isVisible()) {
-            await super.click(this.hrSubmit);
-        }
+        // if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
+        //     await super.setTextWithType(this.prbReviewDate, probReviewDate);
+        // }
+        // await this.page.waitForTimeout(600);
+        // await super.click(this.hrSubmit);
+        // await this.page.waitForTimeout(1500);
+        // if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
+        //     await super.click(this.hrSubmit);
+        // }
+        // await this.page.waitForTimeout(500);
+        // if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
+        //     await super.click(this.hrSubmit);
+        // }
     }
 
     async clickEditNoticePeriodsforHireSubmit() {

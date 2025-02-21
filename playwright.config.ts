@@ -16,14 +16,9 @@ const config: PlaywrightTestConfig = {
   timeout: 900000,
   //number of retries if test case fails
   retries: 0,
-<<<<<<< HEAD
-  workers: 1,
-  fullyParallel: false,
-=======
   workers: 2,
+  // fullyParallel: false,
   fullyParallel: true,
->>>>>>> Ramchandra
-  //fullyParallel : true,
 
   //Reporters
   reporter: [[`./CustomReporterConfig.ts`], [`allure-playwright`], [`html`, { outputFolder: 'html-report', open: 'never' }]],
@@ -32,15 +27,10 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Chrome',
       use: {
-<<<<<<< HEAD
         ...devices['Desktop Chrome'],
         viewport: { width: 1280, height: 650 },
-=======
-        //...devices['Desktop Chrome'],
-        viewport: { width: 1275, height: 592 },
->>>>>>> Ramchandra
         //Browser Mode
-        headless: true,
+        headless: false,
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,
@@ -77,17 +67,17 @@ const config: PlaywrightTestConfig = {
 
 
 
-        // //Browser height and width
-        // viewport: { width: 1920, height: 1080 },
-        // // ignoreHTTPSErrors: true,
+    // //Browser height and width
+    // viewport: { width: 1920, height: 1080 },
+    // // ignoreHTTPSErrors: true,
 
-        // //Enable File Downloads in Chrome
-        // acceptDownloads: true,
+    // //Enable File Downloads in Chrome
+    // acceptDownloads: true,
 
-        // //Artifacts
-        // screenshot: 'on',
-        // video: `retain-on-failure`,
-        // trace: `retain-on-failure`,
+    // //Artifacts
+    // screenshot: 'on',
+    // video: `retain-on-failure`,
+    // trace: `retain-on-failure`,
 
     //     //Slows down execution by ms
     //     launchOptions: {

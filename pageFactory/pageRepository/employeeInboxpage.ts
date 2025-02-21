@@ -155,7 +155,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.okButtonpage = page.locator('button:has-text("OK")');
         this.doneButton = page.locator('button:has-text("Done")');
 
-        this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true })//locator('[aria-label="Inbox Items"] >> text=Review Documents');
+        this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true }).first();//locator('[aria-label="Inbox Items"] >> text=Review Documents');
         this.addCerti = page.getByRole('button', { name: 'Add Certifications (External)', exact: true })//locator('[aria-label="Inbox Items"] >> text=Add Certifications (External)');
         this.romFather = page.locator('[aria-label="Inbox Items"] >> text=Romania Father');
 
@@ -268,7 +268,7 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.saveCostCenterbtn);
         await super.click(this.editOther);
         await super.setTextWithDoubleEnter(this.setDeparment, String(Department));
-        await super.click(this.saveDep);
+        //await super.click(this.saveDep);
         await super.click(this.paygroupSubmit);
     }
 
@@ -416,6 +416,7 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.addBankDetails1);
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
+        await this.page.waitForTimeout(1000);
         await super.setText(this.bankName, bankName);
         await super.setText(this.bankIdentificationCode, bankidentificationnumber);
         if (String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && String(accNumber) !== undefined) {
@@ -504,7 +505,7 @@ export class employeeInboxPage extends WebActionsPage {
         //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
         await super.click(this.page.getByLabel('Save Citizenship Status'));
 
-        if (national != "NaN" && national != "N/A" && national != undefined) {
+        if (national !== "" && national !== "NaN" && national !== "N/A" && national !== undefined) {
             await super.click(this.editNationality);
             await super.setTextWithDoubleEnter(this.nationality, national);
             await this.page.waitForTimeout(1000);

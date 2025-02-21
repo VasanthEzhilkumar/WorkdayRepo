@@ -1,7 +1,6 @@
 // excelToJsonUtil.ts
 import path from 'path';
 import * as XLSX from 'xlsx';
-import * as fs from 'fs-extra';
 
 // export function excelToJson(filePath: string): Record<string, any[]> {
 //     const workbook = XLSX.readFile(filePath);
@@ -60,12 +59,12 @@ export function excelToJson(filePath: string): Record<string, any[]> {
 }
 
 
-export async function copyFolderToSharedDrive(sourceDir: string, destinationDir: string) {
-    try {
-        // Use fs-extra's copy method to copy the folder to the shared drive
-        await fs.copy(sourceDir, destinationDir);
-        console.log(`Folder copied successfully from ${sourceDir} to ${destinationDir}`);
-    } catch (err) {
-        console.error('Error copying folder:', err);
-    }
-}
+// export async function copyFolderToSharedDrive(sourceDir: string, destinationDir: string) {
+//     try {
+//         // Use fs-extra's copy method to copy the folder to the shared drive
+//         await fs.copy(sourceDir, destinationDir);
+//         console.log(`Folder copied successfully from ${sourceDir} to ${destinationDir}`);
+//     } catch (err) {
+//         console.error('Error copying folder:', err);
+//     }
+// }
