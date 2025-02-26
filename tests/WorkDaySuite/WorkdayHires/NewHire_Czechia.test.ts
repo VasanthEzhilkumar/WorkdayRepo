@@ -11,6 +11,7 @@ import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInf
 import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
+import { generateRandomName } from 'utils/functional/utils';
 
 
 let empNum: string;
@@ -18,7 +19,7 @@ let position: string;
 let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Copy of testDataCzechiaMK_DryRun2.xlsx';
+const excelFileName = 'testDataCzechia_PK17_Playwright.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -33,9 +34,9 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = (data.JobProfile || `JobProfile_${index + 1}`).trim();
-    //const { givenName, familyName } = generateRandomName();
-    const givenName = data.GivenName;
-    const familyName = data.FamilyName;
+    const { givenName, familyName } = generateRandomName();
+    // const givenName = data.GivenName;
+    // const familyName = data.FamilyName;
     // if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
@@ -58,11 +59,13 @@ for (const sheetName in sheetsJson) {
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-        // const username = "90002195";
-        // const password = "Primark@123";
-
-        const username = "90001655";
-        const password = "Vasanth2025!";
+        /*Login creds for PK14*/
+        // const username = "90003057";
+        // const password = "Archana2025!";
+        
+        /*Login creds for PK17*/
+        const username = "90002196";
+        const password = "Wizos2025!";
 
         // initlize the web environment 
         await login.goto("Czechia");
@@ -71,7 +74,7 @@ for (const sheetName in sheetsJson) {
         await login.sigIn(username, password);
 
         // // create position for Management hires
-        if (data.JobProfile.toString().includes("Manager") || data.Process.toString() === "Yes") {
+        if (data.JobProfile.toString().includes("Manager") || data.Position.toString() != "No") {
           await appCommon.SearchClickLink("Create Position");
           await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
           position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, String(data.EmployeeType).trim(), String((data.JobProfile)).trim(), String(data.TimeType).trim(), data.Location);
@@ -114,7 +117,6 @@ for (const sheetName in sheetsJson) {
           data.EndEmploymentDate,
           data.PayRateType
         );
-
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await appCommon.MyTasks();
@@ -179,18 +181,19 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empaddPhoto();
         await appCommon.SuccessEventHandle();
 
-        // await empInboxpage.empAddEducation(
-        //   data.Country,
-        //   data.School,
-        //   data.Degree,
-        //   data.DegreeReceived,
-        //   data.YearDegreeReceived,
-        //   data.FieldOfStudy,
-        //   data.FirstYearAttended,
-        //   data.LastYearAttended,
-        //   data.GradeAverage
-        // );
-        // await appCommon.SuccessEventHandle();
+        await empInboxpage.empAddEducation(
+          data.Country,
+          data.School,
+          data.Degree,
+          data.DegreeReceived,
+          data.YearDegreeReceived,
+          data.FieldOfStudy,
+          data.FirstYearAttended,
+          data.LastYearAttended,
+          data.GradeAverage
+        );
+        await appCommon.ClickInbox();
+        await appCommon.SuccessEventHandle();
         await empInboxpage.empAddEducationSubmit();
         //await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -216,7 +219,8 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empaddDependents();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.addMaidenNameSubmit();
+        await appCommon.SearchClickLink(empNum)
+        await empInboxpage.addAdditionalNameSubmit(data.AdditionalNameType, data.AdditionalNameCountry, data.AdditionalNameGivenName, data.AdditionalNameFamilyName);
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.empHealthcareProviderMealVoucher(data.HealthInsuranceCompany, data.MealVoucher);

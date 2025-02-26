@@ -262,6 +262,7 @@ export class hireEmployeePage extends WebActionsPage {
       await superOrg.scrollIntoViewIfNeeded();
       await superOrg.click();
     }
+    await this.page.waitForTimeout(1000);
     await this.newPreHire.click();
     await this.okButtonHireEmployee.click();
   }

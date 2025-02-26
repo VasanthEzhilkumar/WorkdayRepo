@@ -42,8 +42,10 @@ export class employeeInboxPage extends WebActionsPage {
     readonly personaldetails: Locator;
     readonly addPersonalDetails: Locator;
     readonly nameType: Locator;
+    readonly countryName: Locator;
     readonly givenName: Locator;
     readonly familyName: Locator;
+    readonly lastName: Locator;
     readonly okButtonpage: Locator;
     readonly fathersname: Locator;
     readonly doneButton: Locator;
@@ -150,8 +152,10 @@ export class employeeInboxPage extends WebActionsPage {
         this.addPersonalDetails = page.locator('[aria-label="Names"] button:has-text("Add")');
         this.nameType = page.locator('text=Name TypeName Type0 items selected >> [placeholder="Search"]');
         this.fathersname = page.locator('text=Father\'s Name');
+        this.countryName = page.locator('label:has-text("Country")');
         this.givenName = page.locator('label:has-text("Given Name")');
         this.familyName = page.locator('label:has-text("Family Name")');
+        this.lastName = page.locator('label:has-text("Last Name")');
         this.okButtonpage = page.locator('button:has-text("OK")');
         this.doneButton = page.locator('button:has-text("Done")');
 
@@ -340,6 +344,13 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
     }
 
+    /*
+    @Brief description: Function to add education details.
+    @Author: Ramchandra Desai.
+    @Date: 25/02/2025.
+    @Parameters: country, School, Degree, DegreeReceived, YearDegreeReceived, FieldOfStudy, FirstYearAttended, LastYearAttended, GradeAverage.
+    @Returns: None.
+    */
     async empAddEducation(
         country: string,
         School: string,
@@ -704,6 +715,43 @@ export class employeeInboxPage extends WebActionsPage {
 
         await this.maidenName.click();
 
+        await this.paygroupSubmit.click();
+        await this.page.waitForTimeout(500);
+    }
+
+    /*
+    @Brief description: Generic function to add additional name details.
+    @Author: Ramchandra Desai.
+    @Date: 25/02/2025.
+    @Parameters: AdditionalNameType, AdditionalNameCountry, AdditionalNameGivenName, AdditionalNameFamilyName.
+    @Returns: None.
+    */
+    async addAdditionalNameSubmit(AdditionalNameType: string, AdditionalNameCountry: string, AdditionalNameGivenName: string, AdditionalNameFamilyName: string) {
+        await super.click(this.personaldetails);
+        await super.click(this.addPersonalDetails);
+        await super.click(this.nameType);
+        await super.click(this.page.locator('(//div[contains(@data-automation-label,"' + AdditionalNameType + '")])[1]'));
+        if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
+            // await super.click(this.countryName);
+            await super.setText(this.countryName, AdditionalNameCountry);
+            this.page.keyboard.press('Enter');
+        }
+        if (await this.givenName.isVisible()) {
+            // await super.click(this.givenName);
+            await super.setText(this.givenName, AdditionalNameGivenName);
+        }
+        if (await this.familyName.isVisible()) {
+            // await super.click(this.familyName);
+            await super.setText(this.familyName, AdditionalNameFamilyName);
+        }
+        if (await this.lastName.isVisible()) {
+            // await super.click(this.lastName);
+            await super.setText(this.lastName, AdditionalNameFamilyName);
+        }
+        await super.click(this.okButtonpage);
+        await super.click(this.doneButton);
+        await this.appCommon.ClickInbox();
+        await this.maidenName.click();
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
     }

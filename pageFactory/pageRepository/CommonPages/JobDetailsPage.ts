@@ -162,6 +162,7 @@ export class JobDetailsPage extends WebActionsPage {
     //await super.setTextWithType(this.hireDate,HireDate1);
     await super.setTextWithType(this.hireDate, HireDate1);
     await super.setTextWithEnter(this.reason, "New Hire");
+    await this.page.waitForTimeout(1000);
     if (!position.includes('Auto')) {
       await super.selectFromCustomDropDrown(this.empType, EmployeeType.trim());
       await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString().trim());
@@ -195,10 +196,12 @@ export class JobDetailsPage extends WebActionsPage {
     }
     await super.setText(this.schdeuledHours, schdeuledhours);
     if (EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
+      await super.click(this.additionlInformation);
       await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
     }
     await super.click(this.submitButton);
     // Check for error button
+    await this.page.waitForTimeout(1000);
     const errorButton = this.page.getByRole('button', { name: 'Error' });
     if (await errorButton.count() > 0) {
       await errorButton.click();
