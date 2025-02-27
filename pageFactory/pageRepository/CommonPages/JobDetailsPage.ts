@@ -158,11 +158,12 @@ export class JobDetailsPage extends WebActionsPage {
 
     //await this.hireDate.waitFor();
     // await this.hireDate.focus();
+    await this.page.waitForTimeout(1000);
     await this.hireDate.click({ force: true });
     //await super.setTextWithType(this.hireDate,HireDate1);
     await super.setTextWithType(this.hireDate, HireDate1);
     await super.setTextWithEnter(this.reason, "New Hire");
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(1500);
     if (!position.includes('Auto')) {
       await super.selectFromCustomDropDrown(this.empType, EmployeeType.trim());
       await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString().trim());
@@ -178,7 +179,18 @@ export class JobDetailsPage extends WebActionsPage {
       await super.selectFromCustomDropDrown(this.position, position);
     }
 
+    // await super.setText(this.schdeuledHours, schdeuledhours);
+    if (await this.defaultHours.isVisible() && defaultHours != "NaN" && defaultHours != "N/A" && defaultHours != undefined) {
+      await super.setText(this.defaultHours, defaultHours);
+    }
+    await super.setText(this.schdeuledHours, schdeuledhours);
+
+    await super.click(this.workshift);
+    //await super.setTextWithEnter(this.workshiftExp, workshift);
+    await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
+
     await super.click(this.additionlInformation);
+    await this.page.waitForTimeout(1500);
     if (AdditionalJobClassifications != undefined) {
       const str: string[] = AdditionalJobClassifications.split('@');
       for (let i = 0; i < str.length; i++) {
@@ -186,17 +198,7 @@ export class JobDetailsPage extends WebActionsPage {
       }
     }
 
-    await super.click(this.workshift);
-    //await super.setTextWithEnter(this.workshiftExp, workshift);
-    await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
-
-    await super.setText(this.schdeuledHours, schdeuledhours);
-    if (await this.defaultHours.isVisible() && defaultHours != "NaN" && defaultHours != "N/A" && defaultHours != undefined) {
-      await super.setText(this.defaultHours, defaultHours);
-    }
-    await super.setText(this.schdeuledHours, schdeuledhours);
     if (EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
-      await super.click(this.additionlInformation);
       await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
     }
     await super.click(this.submitButton);

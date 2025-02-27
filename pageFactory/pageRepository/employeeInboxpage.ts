@@ -372,15 +372,18 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(1500);
         // await this.eduCountry.press("enter");
         await super.setTextWithDoubleEnter(this.eduSchool, String(School));
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(1000);
         await super.setTextWithDoubleEnter(this.eduDegree, String(Degree));
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(1000);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(1000);
         await this.eduDegreeReceived.click();
+        await this.page.waitForTimeout(1500);
         await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="' + DegreeReceived + '"]').click();
         await super.setTextWithType(this.eduYearDegreeReceived, YearDegreeReceived);
         await super.setTextWithDoubleEnter(this.eduFieldOfStudy, FieldOfStudy);
+        await this.page.waitForTimeout(1500);
         await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="' + FieldOfStudy + '"]').click();
-
         await super.setTextWithType(this.eduFirstYearAttened, FirstYearAttended);
         await super.setTextWithType(this.eduLastYearAttened, LastYearAttended);
         await this.eduGradeAverage.fill(GradeAverage);

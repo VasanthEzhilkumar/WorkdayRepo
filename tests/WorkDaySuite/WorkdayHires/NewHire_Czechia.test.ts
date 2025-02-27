@@ -19,7 +19,7 @@ let position: string;
 let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataCzechia_PK17_Playwright.xlsx';
+const excelFileName = 'testDataCzechia_PK14.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -60,12 +60,12 @@ for (const sheetName in sheetsJson) {
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
         /*Login creds for PK14*/
-        // const username = "90003057";
-        // const password = "Archana2025!";
+        const username = "90003057";
+        const password = "Archana2025!";
         
         /*Login creds for PK17*/
-        const username = "90002196";
-        const password = "Wizos2025!";
+        // const username = "90002196";
+        // const password = "Wizos2025!";
 
         // initlize the web environment 
         await login.goto("Czechia");
@@ -74,6 +74,7 @@ for (const sheetName in sheetsJson) {
         await login.sigIn(username, password);
 
         // // create position for Management hires
+        position = "No";
         if (data.JobProfile.toString().includes("Manager") || data.Position.toString() != "No") {
           await appCommon.SearchClickLink("Create Position");
           await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
