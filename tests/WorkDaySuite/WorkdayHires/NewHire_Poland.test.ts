@@ -74,7 +74,7 @@ for (const sheetName in sheetsJson) {
 
         // // create position for Management hires
        // position = "No";
-        if (data.JobProfile.toString().includes("Manager") ) {
+        if (data.JobProfile.toString().includes("Manager")  || data.Position.toString() != "Yes"){
           await appCommon.SearchClickLink("Create Position");
           await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
           position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, String(data.EmployeeType).trim(), String((data.JobProfile)).trim(), String(data.TimeType).trim(), data.Location);
@@ -231,7 +231,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.AddEmergecyInformation();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.reviewDocumentSubmitGeneric;
+        await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.reviewDocumentSubmitGeneric();

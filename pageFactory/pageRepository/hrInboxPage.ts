@@ -378,13 +378,16 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
         await this.polandSchoolName.click();
         await this.polandSchoolName.fill(schoolName);
-        await super.setTextWithDoubleEnter(this.polandschoolType, schoolType);
+        await this.page.keyboard.press('Tab');
+        await super.selectFromCustomDropDrown(this.polandschoolType, schoolType);
+        await this.page.keyboard.press('Tab');
         await this.polandschoolStartDate.click();
         await super.setTextWithType(this.polandschoolStartDate, schoolStartDate);
+        await this.page.keyboard.press('Tab');
         await this.page.waitForTimeout(500);
         await this.polandschoolEndDate.click();
         await super.setTextWithType(this.polandschoolEndDate, schoolEndDate);
-        await this.page.waitForTimeout(500);
+        await this.page.keyboard.press('Tab');
         await this.hrSubmit.click();
  
         
@@ -398,9 +401,13 @@ export class HrInboxPage extends WebActionsPage {
 
         await super.selectFromCustomDropDrown(this.addUlgapodatkowa, Ulgapodatkowa);
         await super.selectFromCustomDropDrown(this.addCzęśćulgi, Częśćulgi);
+        await this.page.waitForTimeout(500);
+        
         await super.selectFromCustomDropDrown(this.addTypopodatkowania, Typopodatkowania);
+        await this.page.keyboard.press('Tab');
         await this.page.waitForTimeout(500);
         await super.selectFromCustomDropDrown(this.addidentyfikatorpodatkowy, identyfikatorpodatkowy);
+        await this.page.keyboard.press('Tab');
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();  
         
