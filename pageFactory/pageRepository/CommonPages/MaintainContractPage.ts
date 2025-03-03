@@ -92,11 +92,11 @@ export class MaintainContractPage extends WebActionsPage {
         this.Approve = page.locator('button:has-text("Approve")');
         this.contract = page.getByRole('button', { name: 'Contract: ' + givenname + ' ' + FamilyName + '', exact: true });
         //this.contract = page.locator('[aria-label="Inbox Items"] >> text=Contract:' + ' ' + givenname + ' ' + FamilyName + '');
-        this.contractReason = page.getByLabel('Reason')//locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
-        this.contractStatus = page.getByLabel('Status')//page.locator('text=StatusStatus0 items selected >> [placeholder="Search"]');
-        this.contractType = page.getByLabel('Contract Type', { exact: true })//page.locator('text=Contract TypeContract Type0 items selected >> [placeholder="Search"]');
+        this.contractReason = page.getByLabel('Reason').first();//locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
+        this.contractStatus = page.getByLabel('Status').first();//page.locator('text=StatusStatus0 items selected >> [placeholder="Search"]');
+        this.contractType = page.getByLabel('Contract Type', { exact: true }).first();//page.locator('text=Contract TypeContract Type0 items selected >> [placeholder="Search"]');
         //this.DEmployerSigned = page.locator("//label[contains(.,'Date Employer Signed')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionMonth-input']");
-        this.DEmployerSigned = page.getByLabel('Date Employer Signed').getByPlaceholder('DD')
+        this.DEmployerSigned = page.getByLabel('Date Employer Signed').getByPlaceholder('DD').first();
         this.DEmployeSigned = page.locator("//label[contains(.,'Date Employee Signed')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.contractEndate = page.locator("//label[contains(.,'Contract End Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.contractAddendum = page.locator('[aria-label="Inbox Items"] >> text=Contract:' + ' ' + givenname + ' ' + FamilyName + '');
@@ -144,7 +144,7 @@ export class MaintainContractPage extends WebActionsPage {
         //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
         if (await reason != 'N/A' && await reason != 'NaN' && await reason != undefined) {
             await super.click(this.contractReason);
-            await super.selectFromCustomDropDrown(this.contractReason, reason);
+            await super.setTextWithEnter(this.contractReason, reason.toString().trim());
         }
         if (await contractType != 'N/A' && await contractType != 'NaN' && await contractType != undefined) {
             await super.selectFromCustomDropDrown(this.contractType, contractType);
@@ -170,11 +170,11 @@ export class MaintainContractPage extends WebActionsPage {
         }
         await super.click(this.hrSubmit);
         await this.page.waitForTimeout(2000);
-        if (await this.contractWarningAlert.isVisible()) {
+        if (await this.contractWarningAlert.isVisible() && (await this.contractWarningAlert.textContent()).includes('Alert')) {
             await super.click(this.hrSubmit);
         }
         await this.page.waitForTimeout(2000);
-        if (await this.contractWarningAlert.isVisible()) {
+        if (await this.contractWarningAlert.isVisible() && (await this.contractWarningAlert.textContent()).includes('Alert')) {
             await super.click(this.hrSubmit);
         }
 

@@ -1,5 +1,4 @@
-import { appCommons } from '@lib/appCommons';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 import { WebActionsPage } from 'lib/WebActionPage';
 
 
@@ -98,8 +97,10 @@ export class JobDetailsPage extends WebActionsPage {
     this.okButton = page.getByRole('button', { name: 'OK' })
     this.submitButton = page.locator('button:has-text("SUBMIT")');
     this.emailTypeExtended = page.locator('text=TypeType0 items selected, press enter to view all options, or type to search and >> [placeholder="Search"]')
+
     //Hire Employee Locators
-    this.hireDate = page.locator('[aria-label="Day"]');
+    //this.hireDate = page.locator('[aria-label="Day"][type="number"]').first();
+    this.hireDate = page.locator("//label[contains(.,'Hire Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
 
     this.position = page.getByLabel('Position').first();
     //this.hireDate = page.locator('text=Hire DateHire Datecurrentvalue is DD/MM/YYYYDD/MM/YYYYuse right and left arrows >> div[role="group"]');
@@ -117,9 +118,9 @@ export class JobDetailsPage extends WebActionsPage {
     this.additionalJobClassificationEXp = page.locator('text=Additional Job ClassificationsAdditional Job ClassificationsOptions Expanded >> [placeholder="Search"]');
     this.additionalJobClassificationClick = page.locator('text=Additional Job ClassificationsAdditional Job Classifications1 item selected, C - >> [placeholder="Search"]');
     this.additionalJobsecondItm = page.locator('text=Additional Job ClassificationsAdditional Job Classifications2 items selected, C  >> [placeholder="Search"]');
-    this.workshift = page.getByLabel('Work Shift')//locator('text=0 items selectedError: Select a Work Shift. >> [placeholder="Search"]');
+    this.workshift = page.getByLabel('Work Shift');//locator('text=0 items selectedError: Select a Work Shift. >> [placeholder="Search"]');
     this.workshiftExp = page.locator("//label[contains(.,'Work Shift')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
-    this.schdeuledHours = page.getByLabel('Scheduled Weekly Hours')//locator('label:has-text("Scheduled Weekly Hours")');
+    this.schdeuledHours = page.getByLabel('Scheduled Weekly Hours');//locator('label:has-text("Scheduled Weekly Hours")');
     this.defaultHours = page.getByLabel('Default Weekly Hours');
     this.endEmploymentDate = page.locator("//label[contains(.,'End Employment Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
     this.contactPhoneNumbermgr = page.getByLabel('Phone Number');
@@ -133,9 +134,9 @@ export class JobDetailsPage extends WebActionsPage {
     this.emailTypemgr = page.getByRole('group', { name: 'Email' }).getByPlaceholder('Search');
   }
 
-/*
-@Description Method - It is Generic Method used to set Job Details of employee on Job detalis page(Hire employee Page)
-*/
+  /*
+  @Description Method - It is Generic Method used to set Job Details of employee on Job detalis page(Hire employee Page)
+  */
   async setJobDetails(
     HireDate1: string,
     EmployeeType: string,
@@ -148,36 +149,53 @@ export class JobDetailsPage extends WebActionsPage {
     defaultHours: string,
     location: number,
     EndEmploymentDate: string,
+    PayRateType: string,
   ) {
-    const str: String[] = AdditionalJobClassifications.split('@');
+    // const str: String[] = AdditionalJobClassifications.split('@');
     if (position == undefined) {
       position = "DummyValue";
     }
+
     //await this.hireDate.waitFor();
-    await this.hireDate.focus();
+    // await this.hireDate.focus();
+    await this.page.waitForTimeout(1000);
     await this.hireDate.click({ force: true });
-    await super.setTextWithType(this.hireDate, HireDate1);
     //await super.setTextWithType(this.hireDate,HireDate1);
+    await super.setTextWithType(this.hireDate, HireDate1);
     await super.setTextWithEnter(this.reason, "New Hire");
+    await this.page.waitForTimeout(1500);
     if (!position.includes('Auto')) {
-      await super.selectFromCustomDropDrown(this.empType, EmployeeType);
-      await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString());
+      await super.selectFromCustomDropDrown(this.empType, EmployeeType.trim());
+      await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString().trim());
       // await this.page.keyboard.press('Enter');
-      await super.setTextWithEnter(this.timetype, timetype);
+      await super.setTextWithEnter(this.timetype, timetype.trim());
       await super.setTextWithEnter(this.location, location.toString());
+      // if (await PayRateType !== undefined && await PayRateType !== null && PayRateType !== "") {
+      //   await super.click(this.page.getByLabel('Pay Rate Type', { exact: true }));
+      //   await super.selectFromCustomDropDrown(this.page.getByLabel('Pay Rate Type'), PayRateType.trim());
+      // }
+
     } else {
       await super.selectFromCustomDropDrown(this.position, position);
     }
-    await super.click(this.additionlInformation);
 
-    for (let i = 0; i < str.length; i++) {
-      await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
-    }
-    await super.click(this.workshift);
-    await super.setTextWithEnter(this.workshiftExp, workshift);
-    await super.setText(this.schdeuledHours, schdeuledhours);
+    // await super.setText(this.schdeuledHours, schdeuledhours);
     if (await this.defaultHours.isVisible() && defaultHours != "NaN" && defaultHours != "N/A" && defaultHours != undefined) {
       await super.setText(this.defaultHours, defaultHours);
+    }
+    await super.setText(this.schdeuledHours, schdeuledhours);
+
+    await super.click(this.workshift);
+    //await super.setTextWithEnter(this.workshiftExp, workshift);
+    await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
+
+    await super.click(this.additionlInformation);
+    await this.page.waitForTimeout(1500);
+    if (AdditionalJobClassifications != undefined) {
+      const str: string[] = AdditionalJobClassifications.split('@');
+      for (let i = 0; i < str.length; i++) {
+        await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
+      }
     }
 
     if (EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
@@ -185,16 +203,11 @@ export class JobDetailsPage extends WebActionsPage {
     }
     await super.click(this.submitButton);
     // Check for error button
+    await this.page.waitForTimeout(1000);
     const errorButton = this.page.getByRole('button', { name: 'Error' });
     if (await errorButton.count() > 0) {
       await errorButton.click();
     }
-    // Wait for navigation or network idle state if applicable
-    //await this.page.waitForLoadState('networkidle');
   }
-
-
-
-
 
 }

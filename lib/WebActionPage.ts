@@ -1,5 +1,5 @@
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import moment, { months } from "moment";
+import { Page, Locator, } from '@playwright/test';
+import moment from "moment";
 /*
 @Author      : @ Madhukar Kirkan
 */
@@ -17,12 +17,14 @@ export class WebActionsPage {
         try {
             await this.page.waitForTimeout(this.timeOut);
             // await locator.scrollIntoViewIfNeeded();
+            await locator.focus();
             await locator.clear();
             await locator.fill(String(varString));
             // await this.page.waitForTimeout(300);
             console.log(`Entering "${varString}" value on: ${locator}`);
         } catch (error) {
             console.error(`Entering value "${varString}" Failed on : ${locator}` + error);
+            throw error;
         }
 
     }
@@ -38,7 +40,7 @@ export class WebActionsPage {
             console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
             console.error(`Typing "${varString}" into: ${locator} failed` + error);
-
+            throw error;
         }
 
     }
@@ -46,6 +48,7 @@ export class WebActionsPage {
     async setTextWithEnter(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
+            await locator.focus();
             await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
@@ -53,6 +56,7 @@ export class WebActionsPage {
 
         } catch (error) {
             console.error(`Entering  "${varString}" value with single Enter - into: ${locator} failed` + error);
+            throw error;
         }
 
     }
@@ -60,20 +64,23 @@ export class WebActionsPage {
     async selectFromCustomDropDrown(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
+            await locator.focus();
             await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(varString));
             await locator.press('Enter');
             await this.page.keyboard.press('Enter');
-            const custumLocator: Locator = this.page.locator("(//div[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
+            const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             await this.page.waitForTimeout(1000);
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
+                await this.page.keyboard.press('Tab');
             }
             // await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {
             console.error(`Selecting  "${varString}" value from Custom DropDown- into: ${locator} failed` + error);
+            throw error;
         }
 
     }
@@ -81,13 +88,16 @@ export class WebActionsPage {
     async setTextWithDoubleEnter(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
+            await locator.focus();
             await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
+            await this.page.waitForTimeout(500);
             await this.page.keyboard.press('Enter');
             console.log(`Entering ${varString} Value With Double Enter -"into: ${locator}`);
         } catch (error) {
             console.error(`Entering ${varString} Value With Double Enter -into: ${locator} failed` + error);
+            throw error;
         }
     }
 
@@ -101,6 +111,7 @@ export class WebActionsPage {
             return await locator.check();
         } catch (error) {
             console.error(`checking checkbox is checked failed: ${locator}  ` + error);
+            throw error;
         }
 
     }
@@ -117,6 +128,7 @@ export class WebActionsPage {
             }
             catch (error) {
                 console.log("ERROR-" + error);
+                throw error;
                 return false;
             }
         }
@@ -128,10 +140,12 @@ export class WebActionsPage {
         try {
             // console.log(`Clicking on : ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
+            //await locator.click({'force':true});
             await locator.click();
             console.log(`Clicking on : ${locator}`);
         } catch (error) {
             console.error(`clicking on : ${locator} - failed ` + error);
+            throw error;
         }
     }
 
@@ -143,6 +157,7 @@ export class WebActionsPage {
             console.log(`Double Clicking on : ${locator}`);
         } catch (error) {
             console.error(`Double Clicking on : ${locator} failed ` + error);
+            throw error;
         }
     }
 
@@ -159,6 +174,7 @@ export class WebActionsPage {
     async waitForSelector(locator: Locator, options = {}) {
         console.log(`Waiting for selector: ${locator}`);
         await this.page.waitForSelector(String(locator), { timeout: 5000, ...options });
+
     }
 
     async getText(locator: Locator): Promise<string | null> {
@@ -174,6 +190,7 @@ export class WebActionsPage {
             return text;
         } catch (error) {
             console.error(`Getting text from : ${locator} failed ` + error);
+            throw error;
         }
     }
 
@@ -190,6 +207,7 @@ export class WebActionsPage {
             return text;
         } catch (error) {
             console.error(`Getting Inner text from : ${locator} failed ` + error);
+            throw error;
         }
 
     }
@@ -207,6 +225,7 @@ export class WebActionsPage {
             return text;
         } catch (error) {
             console.error(`Getting All Inner text from : ${locator} failed ` + error);
+            throw error;
         }
     }
 
@@ -224,6 +243,7 @@ export class WebActionsPage {
             return text;
         } catch (error) {
             console.error(`Getting All text(Using textContext) from : ${locator} failed ` + error);
+            throw error;
         }
     }
 
@@ -236,6 +256,7 @@ export class WebActionsPage {
             console.log(`Selecting ' ${varString}'  value (Using SelectOption) from: ${locator}, Value: "${varString}"`);
         } catch (error) {
             console.error(`Selecting ${varString} value (Using textContext) from : ${locator} failed ` + error);
+            throw error;
         }
     }
     async retryWebElement(locator: Locator): Promise<boolean> {

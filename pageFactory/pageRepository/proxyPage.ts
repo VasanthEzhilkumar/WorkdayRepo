@@ -1,4 +1,4 @@
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 
 export class proxyPage {
@@ -26,6 +26,7 @@ constructor (page: Page,context: BrowserContext)
 async startProxy(actastxt: string) {
 
     //await this.searchboxhome.fill(searchtext);
+    await this.page.waitForTimeout(500);
     await this.startproxyClick.click();
     await this.page.waitForTimeout(500);
     await this.actas.clear();

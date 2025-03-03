@@ -10,4 +10,8 @@ module.exports = {
     quotes: [`error`, `backtick`],
     semi: [`error`, `always`],
   },
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-unused-expressions": "warn"
+  }
 };

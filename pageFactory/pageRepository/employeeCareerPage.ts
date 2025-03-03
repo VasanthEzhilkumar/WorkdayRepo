@@ -1,6 +1,5 @@
 import { WebActionsPage } from "@lib/WebActionPage";
-import { Page, BrowserContext, Locator, Expect } from "@playwright/test";
-import { lcov } from "node:test/reporters";
+import { BrowserContext, Locator, Page } from "@playwright/test";
 
 
 export class employeeCareerPage extends WebActionsPage{
@@ -46,19 +45,24 @@ export class employeeCareerPage extends WebActionsPage{
 
     }
 
-    async getEmpManager(): Promise<string>{
-
-        await this.page.waitForTimeout(5000)
+    async getEmpManager(): Promise<string> {
+        await this.page.waitForTimeout(5000);
         let mgrNum = await this.page.getByText('You have submittedUp Next:').allInnerTexts();
         mgrNum = mgrNum.toString().split('(');
-        mgrNum = mgrNum[1].toString().split(')');
-        return mgrNum[0].toString();
+        if (mgrNum.length > 1) {
+            mgrNum = mgrNum[1].toString().split(')');
+            return mgrNum[0].toString();
+        } else {
+            return "";
+        }
     }
+    
 
     async approveCertification(empName: string): Promise<void>{
 
         await this.page.getByRole('button', { name: `Manage Certifications: ${empName}`, exact: true }).click();
         await this.btnApprove.click()
+        await this.page.waitForTimeout(1000)
     }
 
     

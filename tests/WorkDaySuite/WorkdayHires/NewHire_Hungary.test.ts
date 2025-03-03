@@ -3,9 +3,7 @@ import test from '@lib/BaseTest';
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import ExcelJS from 'exceljs';
-import path from 'path';
-import { generateUniqueString, writeUniqueNamesToExcel, writeResultsToExcel, writePositionToExcel } from '@lib/ExcelUtils';
+import { writeUniqueNamesToExcel, writeResultsToExcel, writePositionToExcel } from '@lib/ExcelUtils';
 import { generateRandomName } from 'utils/functional/utils';
 import { contactInformationAddressHungary } from 'pageFactory/HungaryPages/ContactInformationAddressHungary';
 import { contactInformationAddressRomania } from '@pages/RomaniaPages/ContactInformationAddressRomania';
@@ -13,9 +11,7 @@ import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
 import { GovernmentsIDPageRomania } from '@pages/RomaniaPages/GovernmentIDsRomaniaPage'
 import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage'
 import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage'
-import { error } from 'console';
 import { CaptureAlertErrors } from '@lib/CaptureErrors';
-import { expect } from '@playwright/test';
 import { createPositionPage } from '@pages/createPositionpage';
 import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
 
@@ -69,7 +65,7 @@ for (const sheetName in sheetsJson) {
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
         const username = "90002196";
-        const password = "Primark123!!";
+        const password = "Wizos2025!";
 
         // initlize the web environment 
         await login.goto("Hungary");
@@ -99,10 +95,10 @@ for (const sheetName in sheetsJson) {
 
         // set Supervisisroy Organazation 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
-        await hireEmployee.legalNameInformation(givenName, familyName);
+        await hireEmployee.legalNameInformationHungary(givenName, familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        await homePageHun.contactInformationAddress(data.StreetNumber, data.PostalCode, data.City, data.County, data.Type, data.StreetOrPlaceName,data.StreetOrPlaceType);
+        await homePageHun.contactInformationAddress(data.StreetNumber, data.PostalCode, data.City, data.County, data.Type, data.StreetOrPlaceName, data.StreetOrPlaceType);
         await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
         await hireEmployee.okHireButton();
         await capObj.checkForScreenErrors();
@@ -118,18 +114,22 @@ for (const sheetName in sheetsJson) {
           data.ScheduledWeeklyHours,
           data.defaultHours,
           data.Location,
-          data.EndEmploymentDate
+          data.EndEmploymentDate,
+          data.PayRateType
         );
+
+        //till this expect the additional details
 
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await appCommon.MyTasks();
 
-        await empInboxpage.setDeparmentAndCostCenter("position", data.CostCenter, data.DepartmentSection, givenName, familyName);
+
+        await empInboxpage.setDeparmentAndCostCenter("position", data.CostCenter, data.DepartmentSection, familyName, givenName);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
+        const HRPartner = await appCommon.getHRpartnerID(familyName, givenName);
         // //const HRPartner = "10554022"
         // const HRPartner = "10559802"
         await appCommon.Searchbox("Start Proxy");
@@ -137,9 +137,21 @@ for (const sheetName in sheetsJson) {
         await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
+        //till this working fine run on 25-02
+        //await empInboxpage.changePersonalInformation2(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality, '');
+        await empInboxpage.changePersonalInformationHun(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality, '', data.Country);
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+        await empInboxpage.changepersonalinformationSubmit();
+
+
+        await hrInbxPage.setManageProbation("NaN", "NaN");
+        //await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+
 
         //fill Government IDs  Details for Employee
-        await governemntIDs.setGovernmentIDsRomania(data.Country1, data.Country2, data.NationalIDType1,
+        await governemntIDs.setGovernmentIDsHungary(data.Country1, data.Country2, data.NationalIDType1,
           data.NationalIDType2, data.DepartmentSection1, data.DepartmentSection2, data.IssuedDate1, data.IssuedDate2,
           data.ExpirationDate1, data.ExpirationDate2, data.IssuedBy2, data.series2);
         await capObj.checkForScreenErrors();
@@ -150,6 +162,19 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await appCommon.refreshInbox();
+
+
+        await hireAdditionalData.setDependentAdditionalInfoHungary();
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+
+
+
+
+
+
+
+
 
         await hireAdditionalData.setHireAdditionalInfoDataRomania(data.HealthHouse, data.MealVoucher, data.BasicFunction
           , data.Pensioner, data.NegotiatedLeave);
@@ -165,7 +190,7 @@ for (const sheetName in sheetsJson) {
 
         // await appCommon.ClickInbox();
         await appCommon.MyTasks();
-        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,'');
+        // await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,'');
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
@@ -190,10 +215,6 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empaddPhoto();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality,'');
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.changepersonalinformationSubmit();
         //await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changeGovIDInformation();
@@ -206,7 +227,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankCode, String(data.AccountNumber), String(data.IBAN));
+        //await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankCode, String(data.AccountNumber), String(data.IBAN));
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
@@ -241,14 +262,14 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        
+
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
         //await appCommon.tearDown();
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";
-        
+
       } catch (error) {
         console.error(`Test failed for ${givenName} ${familyName}:`, error);
         if ((await capObj.getUpdateError()) == undefined) {

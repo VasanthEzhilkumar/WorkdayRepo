@@ -51,7 +51,7 @@ for (const sheetName in sheetsJson) {
         
         const username = "90002710";
         const password = "Primark@12345!";
-        await login.goto("Slovakia");
+        await login.goto("Czechia");
         await login.sigIn(username, password);
 
         await fileValidationCZ.searchIntegrationTitle();

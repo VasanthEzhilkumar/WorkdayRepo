@@ -1,6 +1,6 @@
 import { PlaywrightTestConfig, devices } from '@playwright/test';
-import { testConfig } from './testConfig';
-const ENV = process.env.npm_config_ENV;
+// import { testConfig } from './testConfig';
+// const ENV = process.env.npm_config_ENV;
 
 /*if (!ENV || !['WFM',`qa`, `dev`, `qaApi`, `devApi`].includes(ENV)) {
  console.log(`Please provide a correct environment value after command like "--ENV=qa|dev|qaApi|devApi"`);
@@ -13,12 +13,12 @@ const config: PlaywrightTestConfig = {
   globalSetup: `./global-setup`,
 
   //sets timeout for each test case
-  timeout: 550000,
+  timeout: 900000,
   //number of retries if test case fails
   retries: 0,
-  workers: 1,
-  //fullyParallel: true,
-  //fullyParallel : true,
+  workers: 2,
+  // fullyParallel: false,
+  fullyParallel: true,
 
   //Reporters
   reporter: [[`./CustomReporterConfig.ts`], [`allure-playwright`], [`html`, { outputFolder: 'html-report', open: 'never' }]],
@@ -27,8 +27,8 @@ const config: PlaywrightTestConfig = {
     {
       name: 'Chrome',
       use: {
-        //...devices['Desktop Chrome'],
-        viewport: { width: 1275, height: 592 },
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 650 },
         //Browser Mode
         headless: false,
 
@@ -38,7 +38,7 @@ const config: PlaywrightTestConfig = {
 
         //Artifacts
         screenshot: 'on',
-        video: `retain-on-failure`,
+        video: `on`,
         trace: `retain-on-failure`,
 
         //Slows down execution by ms
@@ -67,17 +67,17 @@ const config: PlaywrightTestConfig = {
 
 
 
-        // //Browser height and width
-        // viewport: { width: 1920, height: 1080 },
-        // // ignoreHTTPSErrors: true,
+    // //Browser height and width
+    // viewport: { width: 1920, height: 1080 },
+    // // ignoreHTTPSErrors: true,
 
-        // //Enable File Downloads in Chrome
-        // acceptDownloads: true,
+    // //Enable File Downloads in Chrome
+    // acceptDownloads: true,
 
-        // //Artifacts
-        // screenshot: 'on',
-        // video: `retain-on-failure`,
-        // trace: `retain-on-failure`,
+    // //Artifacts
+    // screenshot: 'on',
+    // video: `retain-on-failure`,
+    // trace: `retain-on-failure`,
 
     //     //Slows down execution by ms
     //     launchOptions: {

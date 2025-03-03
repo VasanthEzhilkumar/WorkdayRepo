@@ -1,4 +1,4 @@
-import { Page, BrowserContext, Locator } from '@playwright/test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 export class WFMSchedulePlannerPage {
     readonly page: Page;
