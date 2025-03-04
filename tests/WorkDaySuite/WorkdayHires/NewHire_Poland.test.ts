@@ -21,7 +21,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataPoland5.xlsx';
+const excelFileName = 'testDataPoland-Endto end.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -73,8 +73,8 @@ for (const sheetName in sheetsJson) {
         await login.sigIn(username, password);
 
         // // create position for Management hires
-       // position = "No";
-        if (data.JobProfile.toString().includes("Manager")  || data.Position.toString() != "Yes"){
+        // position = "No";
+        if (data.JobProfile.toString().includes("Manager")) {
           await appCommon.SearchClickLink("Create Position");
           await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
           position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, String(data.EmployeeType).trim(), String((data.JobProfile)).trim(), String(data.TimeType).trim(), data.Location);
@@ -88,6 +88,8 @@ for (const sheetName in sheetsJson) {
           // Write the results to the Excel file
           writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
           await appCommon.MyTasks();
+        } else {
+          position = "DummyValue";
         }
 
         // search Hire employee on Home Page after login
@@ -151,7 +153,6 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         //Add Poland PIT Tax Information
-
         await hrInbxPage.polandPITTaxInformation(data.UrządSkarbowy, data.Ulgapodatkowa, data.Częśćulgi, data.Typopodatkowania, data.Identyfikatorpodatkowy);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -221,7 +222,7 @@ for (const sheetName in sheetsJson) {
 
         //*
         //fill Government IDs  Details for Employee
-        await governemntIDs.setGovernmentIDsPoland(data.Country1, data.NationalIDType1, data.AddEditID1,data.Country2, data.NationalIDType2, data.AddEditID2,data.Country3, data.NationalIDType3, data.AddEditID3);
+        await governemntIDs.setGovernmentIDsPoland(data.Country1, data.NationalIDType1, data.AddEditID1, data.Country2, data.NationalIDType2, data.AddEditID2, data.Country3, data.NationalIDType3, data.AddEditID3);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
@@ -236,13 +237,13 @@ for (const sheetName in sheetsJson) {
 
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
-       
+
 
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
 
         //Start Proxy As HR Again 
-       await appCommon.Searchbox("Start Proxy");
+        await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.ClickInbox();
         await appCommon.MyTasks();
@@ -278,7 +279,7 @@ for (const sheetName in sheetsJson) {
         empNum = "";
 
       } catch (error) {
-      console.error(`Test failed for ${givenName} ${familyName}:`, error);
+        console.error(`Test failed for ${givenName} ${familyName}:`, error);
         if ((await capObj.getUpdateError()) == undefined) {
           let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:{" + empNum + "}" + error.toString();
           //   // Write the failure status to the Excel file
