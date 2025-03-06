@@ -19,7 +19,7 @@ let position: string;
 let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataCzechia_PK14.xlsx';
+const excelFileName = 'CZ E2E NewHire Automation File 3.0.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -34,9 +34,9 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = (data.JobProfile || `JobProfile_${index + 1}`).trim();
-    const { givenName, familyName } = generateRandomName();
-    // const givenName = data.GivenName;
-    // const familyName = data.FamilyName;
+    // const { givenName, familyName } = generateRandomName();
+    const givenName = data.GivenName;
+    const familyName = data.FamilyName;
     // if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
@@ -59,13 +59,13 @@ for (const sheetName in sheetsJson) {
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-        /*Login creds for PK14*/
-        const username = "90003057";
-        const password = "Archana2025!";
+        // /*Login creds for PK14*/
+        // const username = "90002196";
+        // const password = "Primark0255!";
         
         /*Login creds for PK17*/
-        // const username = "90002196";
-        // const password = "Wizos2025!";
+        const username = "90002196";
+        const password = "Wizos2025!";
 
         // initlize the web environment 
         await login.goto("Czechia");
@@ -96,7 +96,7 @@ for (const sheetName in sheetsJson) {
 
         // set Supervisisroy Organazation 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
-        await hireEmployee.legalNameInformation(givenName, familyName);
+        await hireEmployee.legalNameInformation(givenName, familyName, "");
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
         await homePageRon.contactInformationAddress(data.StreetName, data.PostalCode, data.City, data.County, data.Type, data.HouseNumber, data.ReferenceNumber, data.Locality, data.Region, data.UseFor);
@@ -113,7 +113,7 @@ for (const sheetName in sheetsJson) {
           data.AdditionalJobClassifications,
           position,
           data.ScheduledWeeklyHours,
-          data.defaultHours,
+          data.DefaultWeeklyHours,
           data.Location,
           data.EndEmploymentDate,
           data.PayRateType
@@ -199,7 +199,7 @@ for (const sheetName in sheetsJson) {
         //await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType);
+        await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType, "NaN", "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
@@ -207,7 +207,7 @@ for (const sheetName in sheetsJson) {
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, "", data.CitizenshipStatus, data.PrimaryNationality);
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, "NaN", data.CitizenshipStatus, data.PrimaryNationality, "NaN", "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();

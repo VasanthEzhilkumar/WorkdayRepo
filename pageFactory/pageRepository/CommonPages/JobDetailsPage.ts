@@ -121,7 +121,7 @@ export class JobDetailsPage extends WebActionsPage {
     this.workshift = page.getByLabel('Work Shift');//locator('text=0 items selectedError: Select a Work Shift. >> [placeholder="Search"]');
     this.workshiftExp = page.locator("//label[contains(.,'Work Shift')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
     this.schdeuledHours = page.getByLabel('Scheduled Weekly Hours');//locator('label:has-text("Scheduled Weekly Hours")');
-    this.defaultHours = page.getByLabel('Default Weekly Hours');
+    this.defaultHours = page.locator('//label[text()="Default Weekly Hours"]/parent::div/following-sibling::div//input');
     this.endEmploymentDate = page.locator("//label[contains(.,'End Employment Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
     this.contactPhoneNumbermgr = page.getByLabel('Phone Number');
     this.contactPhonedevicemgr = page.getByRole('button', { name: 'Phone Device' });
@@ -190,7 +190,7 @@ export class JobDetailsPage extends WebActionsPage {
     await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
 
     await super.click(this.additionlInformation);
-    await this.page.waitForTimeout(1500);
+    await this.page.waitForTimeout(1000);
     if (AdditionalJobClassifications != undefined) {
       const str: string[] = AdditionalJobClassifications.split('@');
       for (let i = 0; i < str.length; i++) {
@@ -198,7 +198,7 @@ export class JobDetailsPage extends WebActionsPage {
       }
     }
 
-    if (EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
+    if (await this.endEmploymentDate.isVisible() && EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
       await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
     }
     await super.click(this.submitButton);

@@ -81,7 +81,7 @@ for (const sheetName in sheetsJson) {
         await home.searchHireEmployee();
 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
-        await hireEmployee.legalNameInformation(givenName, familyName);
+        await hireEmployee.legalNameInformation(givenName, familyName, "");
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
         await homePageBelgium.contactInformationAddress(data.StreetName, data.houseNumber, data.Province, data.PostalCode, data.City, data.Type);
@@ -128,7 +128,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         ///------new
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality, "");
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality, "", "", "");
         await appCommon.SuccessEventHandle();
 
         await appCommon.refreshInbox();
@@ -182,7 +182,7 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality, "");
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality, "", "", "");
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();
         await appCommon.SuccessEventHandle();

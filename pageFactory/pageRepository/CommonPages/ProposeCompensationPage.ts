@@ -219,6 +219,7 @@ export class ProposeCompensationPage extends WebActionsPage {
         if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined) {
             await super.click(this.lblGradeProfile);
             await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
+            await this.page.waitForTimeout(1500);
             if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && (await this.txtStep.isVisible())) {
                 //await super.click(this.txtStep);
                 await super.setTextWithDoubleEnter(this.txtStep, Step);
@@ -287,13 +288,13 @@ export class ProposeCompensationPage extends WebActionsPage {
         }
 
         await this.hrSubmit.click();
-        await this.page.waitForTimeout(2500);
+        await this.page.waitForTimeout(5500);
         if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
             if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
                 await super.click(this.hrSubmit);
             }
         }
-        await this.page.waitForTimeout(5000);
+        await this.page.waitForTimeout(5500);
         if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
             if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
                 await super.click(this.hrSubmit);
