@@ -182,6 +182,7 @@ export class JobDetailsPage extends WebActionsPage {
       const str: string[] = AdditionalJobClassifications.split('@');
       for (let i = 0; i < str.length; i++) {
         await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
+        await super.selectFromCustomDropDrownBySliptAndEnter(this.additonaljobClassification,  str[i].toString());
       }
     }
 

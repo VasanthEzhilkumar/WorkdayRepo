@@ -75,7 +75,8 @@ export class hireEmployeePage extends WebActionsPage {
     // this.gName = page.locator('[id="\\35 6\\$551056--uid22-input"]');
     // this.fName = page.locator('[id="\\35 6\\$551056--uid23-input"]');
     this.gName = page.locator('label:has-text("Given Name")').first();
-    this.fName = page.locator('label:has-text("Family Name")').first();
+    // this.fName = page.locator('label:has-text("Family Name")').first();
+    this.fName = page.locator("(//label[contains(./text(),'Family Name')]/ancestor::li/descendant::input[@data-automation-id='textInputBox'])[1]");
     // this.gName = page.locator('label:has-text("Given Name")');
     // this.fName = page.locator('label:has-text("Family Name")');
     this.lName = page.locator('label:has-text("Last Name")');
@@ -151,7 +152,14 @@ export class hireEmployeePage extends WebActionsPage {
   async legalNameInformation(givenname: string, FamilyName: string) {
     //await super.setTextWithDoubleEnter();
     await this.gName.fill(givenname);
-    await this.lName.fill(FamilyName);
+    await this.fName.fill(FamilyName);
+  }
+
+  async legalNameInformationBelgium(prefix: string, givenname: string, FamilyName: string) {
+    //await super.setTextWithDoubleEnter();
+    await super.setTextWithDoubleEnter(this.page.getByLabel('Prefix', { exact: true }), prefix.toString());
+    await this.gName.fill(givenname);
+    await this.fName.fill(FamilyName);
   }
 
   async legalNameInformationPoland(givenname: string, FamilyName: string) {
@@ -230,12 +238,15 @@ export class hireEmployeePage extends WebActionsPage {
     await this.addressTypemgr.fill(addressType);
 
   }
-  async contactInformationEmail(EmailAddress: string, EmailType: string) {
-    await this.addemail.click({ 'force': true });
-    await this.emailAddress.fill(EmailAddress);
-    await this.emailType.fill(EmailType);
-    await this.emailTypeExtended.press('Enter');
-    await this.page.waitForTimeout(500);
+
+  async contactInformationEmail(EmailAddress: string, EmailType: string): Promise<void> {
+    await Promise.all([
+      await this.addemail.click({ 'force': true }),
+      await this.emailAddress.fill(EmailAddress),
+      await this.emailType.fill(EmailType),
+      await this.emailTypeExtended.press('Enter'),
+      await this.page.waitForTimeout(500),
+    ]);
   }
 
 
@@ -252,7 +263,7 @@ export class hireEmployeePage extends WebActionsPage {
     await this.page.locator('(//button[@title="OK"])[1]').click();
   }
 
-  async searchSupervisoryOrganization(supervisoryOrganisation: string, givenname: string) {
+  async searchSupervisoryOrganization(supervisoryOrganisation: string) {
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0] + '(' + supervisoryOrganisation1[1];
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
@@ -272,9 +283,10 @@ export class hireEmployeePage extends WebActionsPage {
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
     await this.page.waitForTimeout(1000);
-    if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()) {
-      await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
-      await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();
+    const locator = await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]");
+    if (await locator.isVisible()) {
+      await locator.scrollIntoViewIfNeeded();
+      await super.click(locator);
     }
     await super.click(this.okButtonHireEmployee);
   }

@@ -85,7 +85,7 @@ export class appCommons extends WebActionsPage {
   async SearchClickLink(searchtext: string) {
     // await this.page.waitForLoadState();
     await this.searchboxhome.focus();
-    await super.setTextWithEnter(this.searchboxhome, searchtext);
+    await super.setTextWithEnter(this.searchboxhome, searchtext.toString());
     await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a[contains(text(),'" + searchtext.trim() + "')])[1]"));
   }
 
@@ -110,7 +110,6 @@ export class appCommons extends WebActionsPage {
   }
 
   async clickCollpaseMyTasks() {
-    //await this.page.waitForTimeout(2000);
     if (await this.btnMyTaskCollapse.isVisible()) {
       await super.click(this.btnMyTaskCollapse);
     }
@@ -118,26 +117,27 @@ export class appCommons extends WebActionsPage {
   }
 
   async MyTasks() {
-    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").isVisible()) {
-      //await super.click(this.page.locator("//*[contains(@aria-label,'Close notification 1')]"));
-      await super.click(this.page.getByLabel('Close notification'));
+    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").first().isVisible()) {
+      await super.click(this.page.getByLabel('Close notification').first());
     }
-    await super.click(this.page.getByLabel('My Tasks Items'));
+   // [data-automation-id="asyncNotificationCloseButton"] span
+    await super.click(this.page.getByLabel('My Tasks Items').first());
     //await super.click(this.page.locator('//*[@aria-label="My Tasks"]//button)').first());
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();
   }
 
   async checkWaningAlerts() {
-    await super.checkExistsOrIsVisible(this.page.getByLabel('My Tasks Items'));
+    await super.checkExistsOrIsVisible(this.page.getByLabel('My Tasks Items').first());
   }
 
 
   async clickXifWelcomeToMyTaskExists() {
     // Check if the element exists
-    if (await this.lblPopUpWelcomeToMyTask.isVisible() && await !this.lblPopUpWelcomeToMyTask.isHidden && await this.lblPopUpWelcomeToMyTask.count() > 0) {
+    if (await this.lblPopUpWelcomeToMyTask.isVisible() && await !this.lblPopUpWelcomeToMyTask.isHidden() && await this.lblPopUpWelcomeToMyTask.count() > 0) {
       await this.lblPopUpWelcomeToMyTask.click();
     }
+
   }
 
   /*

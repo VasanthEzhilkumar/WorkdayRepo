@@ -203,7 +203,7 @@ for (const sheetName in sheetsJson) {
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, "", data.CitizenshipStatus, data.PrimaryNationality);
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, "", data.CitizenshipStatus, data.PrimaryNationality,"","");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();

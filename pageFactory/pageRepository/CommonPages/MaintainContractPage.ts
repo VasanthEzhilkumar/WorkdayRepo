@@ -142,29 +142,29 @@ export class MaintainContractPage extends WebActionsPage {
         await super.click(this.contract);
 
         //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
-        if (await reason != 'N/A' && await reason != 'NaN' && await reason != undefined) {
+        if (await reason !== 'N/A' && await reason !== 'NaN' && await reason !== undefined) {
             await super.click(this.contractReason);
             await super.setTextWithEnter(this.contractReason, reason.toString().trim());
         }
-        if (await contractType != 'N/A' && await contractType != 'NaN' && await contractType != undefined) {
+        if (await contractType !== 'N/A' && await contractType !== 'NaN' && await contractType !== undefined) {
             await super.selectFromCustomDropDrown(this.contractType, contractType);
         }
 
-        if (await contractStatus != 'N/A' && await contractStatus != 'NaN' && await contractStatus != undefined) {
+        if (await contractStatus !== 'N/A' && await contractStatus !== 'NaN' && await contractStatus !== undefined) {
             await super.setTextWithEnter(this.contractStatus, contractStatus);
         }
 
-        if (await DEmpsigned != 'N/A' && await DEmpsigned != 'NaN' && await DEmpsigned != undefined) {
+        if (await DEmpsigned !== 'N/A' && await DEmpsigned !== 'NaN' && await DEmpsigned !== undefined) {
             await super.click(this.DEmployeSigned);
             await super.setTextWithType(this.DEmployeSigned, DEmpsigned);
         }
 
-        if (await DEmplyersigned != 'N/A' && await DEmplyersigned != 'NaN' && await DEmplyersigned != undefined) {
+        if (await DEmplyersigned !== 'N/A' && await DEmplyersigned !== 'NaN' && await DEmplyersigned !== undefined) {
             await super.click(this.DEmployerSigned);
             await super.setTextWithType(this.DEmployerSigned, DEmplyersigned);
         }
 
-        if (await contractEnddate != 'N/A' && await contractEnddate != 'NaN' && await contractEnddate != undefined) {
+        if (await contractEnddate !== 'N/A' && await contractEnddate !== 'NaN' && await contractEnddate !== undefined) {
             await super.click(this.contractEndate);
             await super.setTextWithType(this.contractEndate, contractEnddate);
         }

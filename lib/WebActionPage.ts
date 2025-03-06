@@ -31,8 +31,6 @@ export class WebActionsPage {
     async setTextWithType(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
-            //await locator.scrollIntoViewIfNeeded();
-            //await locator.waitFor();
             await locator.clear();
             await locator.type(String(varString));
             await this.page.waitForTimeout(300);
@@ -60,6 +58,30 @@ export class WebActionsPage {
 
     }
 
+    async selectFromCustomDropDrownBySliptAndEnter(locator: Locator, varString: String,) {
+        try {
+            await this.page.waitForTimeout(this.timeOut);
+            await locator.focus();
+            await locator.scrollIntoViewIfNeeded();
+            const sliptString = varString.split(" ")[0];
+            await locator.fill(String(sliptString));
+            await locator.press('Enter');
+            const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
+            await this.page.waitForTimeout(1000);
+            if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
+                await custumLocator.scrollIntoViewIfNeeded();
+                await custumLocator.click();
+                await this.page.keyboard.press('Tab');
+            }
+            // await this.page.waitForTimeout(this.timeOut);
+            console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
+        } catch (error) {
+            console.error(`Selecting  "${varString}" value from Custom DropDown- into: ${locator} failed` + error);
+            throw error;
+        }
+
+    }
+
     async selectFromCustomDropDrown(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
@@ -73,7 +95,9 @@ export class WebActionsPage {
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
+                await this.page.keyboard.press('Tab');
             }
+
             // await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {
@@ -91,6 +115,7 @@ export class WebActionsPage {
             await locator.fill(String(varString));
             await locator.press('Enter');
             await this.page.keyboard.press('Enter');
+            await this.page.keyboard.press('Tab');
             console.log(`Entering ${varString} Value With Double Enter -"into: ${locator}`);
         } catch (error) {
             console.error(`Entering ${varString} Value With Double Enter -into: ${locator} failed` + error);

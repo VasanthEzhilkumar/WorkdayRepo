@@ -89,11 +89,18 @@ export class employeeInboxPage extends WebActionsPage {
     readonly eduFirstYearAttened: Locator;
     readonly eduLastYearAttened: Locator;
     readonly eduGradeAverage: Locator;
+    readonly hrchgPersonalInformation: Locator;
+    readonly hireEmployeeBel: Locator;
+    readonly partnerRevenue: Locator;
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
         super(page)
         this.appCommon = new appCommons(page, context);
         this.page = page;
+
+        this.partnerRevenue = page.getByLabel('Partner Revenue');
+        this.hireEmployeeBel = page.getByRole('button', { name: 'Hire: ' + givenname + ' ' + FamilyName }).first();
+
         this.assignPaygroup = page.locator('[aria-label="Inbox Items"] >> text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         this.fillPaygroup = page.locator('text=Proposed Pay GroupProposed Pay Group0 items selected >> [placeholder="Search"]');
         this.paygroupSubmit = page.locator('button:has-text("Submit")');
@@ -126,7 +133,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.chgContactInformation = page.locator('[aria-label="Inbox Items"] >> text=Change/Update My Contact Information');
         this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true });//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.buttonchgpersonal = page.locator('button:has-text("Change My Personal Information")');
-
+        this.hrchgPersonalInformation = page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first();//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.editGender = page.locator('[aria-label="Edit Gender"]');
         this.editDob = page.locator('[aria-label="Edit Date of Birth"]');
         this.editPlace = page.locator('[aria-label="Edit Place of Birth"]');
@@ -199,10 +206,6 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
 
-    // cost center 
-    //
-    //
-    //button:has-text("Submit")
 
     async reviewDocumentSubmitGeneric() {
         await this.page.waitForTimeout(500);
@@ -211,7 +214,7 @@ export class employeeInboxPage extends WebActionsPage {
             await this.page.waitForTimeout(1500);
             for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
                 // await this.page.waitForTimeout(1500);
-                if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').count() > 0) {
                     // await this.page.waitForTimeout(1000);
                     await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
                     await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
@@ -221,18 +224,24 @@ export class employeeInboxPage extends WebActionsPage {
             await this.paygroupSubmit.click();
         }
     }
-
+    /**
+     * @author : Madhukar Kirkan
+     * @description : Added method for Belgium.
+     * @param PartnerRevenue 
+     */
+    async setPartnerRevenueBelgiumDependents(PartnerRevenue: string) {
+        await super.click(this.hireEmployeeBel);
+        await super.setTextWithDoubleEnter(this.partnerRevenue, PartnerRevenue.toString());
+        await this.paygroupSubmit.click();
+    }
 
     async assignPayGroup() {
-
         await this.assignPaygroup.click();
         await this.fillPaygroup.fill("please select a Romania Pay Group");
         await this.fillPaygroup.press('Enter');
         await this.page.waitForTimeout(100);
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
-
-
     }
 
     async setCostCenter(CostCenter: string) {
@@ -469,7 +478,8 @@ export class employeeInboxPage extends WebActionsPage {
 
     }
 
-    async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string, maritalStatusDate: string, citizen: string, national: string) {
+    async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
+        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string) {
 
         // await this.page.waitForTimeout(500);
         await this.chgPersonalInformation.click();
@@ -479,27 +489,45 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.setGenderdrpDown);
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
+
         await super.click(this.editDob);
-        // await this.page.waitForTimeout(1000);
         await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
-        // await this.page.keyboard.type(dob);
-        // await this.page.keyboard.press('Enter');
         await super.click(this.page.getByLabel('Save Date of Birth'));
 
-        if (city != "NaN" && city != "N/A" && city != undefined) {
+        if (CountryOFBirth !== "NaN" && CountryOFBirth !== "N/A" && CountryOFBirth !== undefined) {
+            await super.click(this.editPlace);
+            await super.setTextWithEnter(this.page.locator('//div[@data-automation-id="monikerSearchBox"] //input'), CountryOFBirth.toString());
+            await super.click(this.page.getByLabel('Save Place of Birth'));
+        }
+
+        if (RegionOfBirth !== "NaN" && RegionOfBirth !== "N/A" && RegionOfBirth !== undefined) {
+            await super.click(this.editPlace);
+            await super.setTextWithEnter(this.page.getByLabel('Region of Birth').first(), RegionOfBirth.toString());
+            await super.click(this.page.getByLabel('Save Place of Birth'));
+        }
+
+        if (city !== "NaN" && city !== "N/A" && city !== undefined) {
             await super.click(this.editPlace);
             await super.setTextWithEnter(this.cityofBirth, city);
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
-        await super.click(this.editmartial);
-        await super.setTextWithEnter(this.martialstatus, martialstat);
 
-        //*@Gayatri for poland 
-        if (maritalStatusDate != "NaN" && maritalStatusDate != "N/A" && maritalStatusDate != undefined) {
-            await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
-            //await super.click(this.page.getByLabel('Marital Status Date'));
-            await super.click(this.page.getByLabel('Save Marital Status'));
+        if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined) {
+            if (await this.editmartial.count() > 0) {
+                await super.click(this.editmartial);
+                await super.setTextWithEnter(this.martialstatus, martialstat);
+                //*@Gayatri for poland 
+                if (maritalStatusDate !== "NaN" && maritalStatusDate !== "N/A" && maritalStatusDate !== undefined) {
+                    await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
+                }
+                await super.click(this.page.getByLabel('Save Marital Status'));
+            } else {
+                // console.error('Edit martial button is not present, and marking as fail. ');
+            }
+
+
         }
+
         await super.click(this.editCitizenship);
         await super.selectFromCustomDropDrown(this.citizenship, citizen);
         //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
