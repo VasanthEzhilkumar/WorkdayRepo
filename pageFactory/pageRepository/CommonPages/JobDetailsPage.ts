@@ -184,8 +184,10 @@ export class JobDetailsPage extends WebActionsPage {
       await super.setText(this.defaultHours, defaultHours);
     }
     await super.setText(this.schdeuledHours, schdeuledhours);
+    await this.page.waitForTimeout(500);
 
     await super.click(this.workshift);
+    await this.page.waitForTimeout(500);
     //await super.setTextWithEnter(this.workshiftExp, workshift);
     await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
 

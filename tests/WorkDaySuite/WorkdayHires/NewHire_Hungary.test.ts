@@ -138,6 +138,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
         //till this working fine run on 25-02
+
         //await empInboxpage.changePersonalInformation2(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality, '');
         await empInboxpage.changePersonalInformationHun(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality, '', data.Country);
         await capObj.checkForScreenErrors();
@@ -167,10 +168,6 @@ for (const sheetName in sheetsJson) {
         await hireAdditionalData.setDependentAdditionalInfoHungary();
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
-
-
-
 
 
 

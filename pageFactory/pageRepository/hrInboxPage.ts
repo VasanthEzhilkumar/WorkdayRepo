@@ -70,8 +70,8 @@ export class HrInboxPage extends WebActionsPage {
     readonly lblBasePayRange: Locator;
     readonly lblProratedAmount: Locator;
     readonly txtStep: Locator;
-    readonly workereducationdetails:Locator;
-    readonly workerjobhistory:Locator;
+    readonly workereducationdetails: Locator;
+    readonly workerjobhistory: Locator;
     readonly addPITTaxInformation: Locator;
     // readonly hrassignPaygroupInitial: Locator;
 
@@ -102,17 +102,17 @@ export class HrInboxPage extends WebActionsPage {
     readonly txtPensioneffectiveDate: Locator;
     readonly chkTaxFreeAmount: Locator;
     readonly txtHourlyRegime: Locator;
-    readonly polandSchoolName :Locator;
+    readonly polandSchoolName: Locator;
     readonly polandschoolType: Locator;
     readonly polandschoolStartDate: Locator;
     readonly polandschoolEndDate: Locator;
-    readonly addUrządSkarbowy :Locator;
-    readonly addUlgapodatkowa:Locator;
-    readonly addCzęśćulgi:Locator;
-    readonly addidentyfikatorpodatkowy:Locator;
-    readonly addTypopodatkowania:Locator;
-    readonly firstEverJobPolandInformation:Locator;
-    readonly firstEverJobBtn :Locator;
+    readonly addUrządSkarbowy: Locator;
+    readonly addUlgapodatkowa: Locator;
+    readonly addCzęśćulgi: Locator;
+    readonly addidentyfikatorpodatkowy: Locator;
+    readonly addTypopodatkowania: Locator;
+    readonly firstEverJobPolandInformation: Locator;
+    readonly firstEverJobBtn: Locator;
 
 
 
@@ -154,8 +154,8 @@ export class HrInboxPage extends WebActionsPage {
         //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"' + givenname + ' ' + FamilyName + '")]');
         this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '")]');
         this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for ' + givenname + ' ' + FamilyName + '")]');
-        this.workereducationdetails=page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland Worker Education Details:' + ' ' + givenname + ' ' + FamilyName + '")]');
-        this.workerjobhistory=page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland Worker Job History:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.workereducationdetails = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland Worker Education Details:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.workerjobhistory = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland Worker Job History:' + ' ' + givenname + ' ' + FamilyName + '")]');
 
         this.hrSubmit = page.locator('button:has-text("Submit")');
         this.idChange = page.locator('text=ID Change: ' + givenname + ' ' + FamilyName + '');
@@ -223,18 +223,18 @@ export class HrInboxPage extends WebActionsPage {
         this.chkTaxFreeAmount = page.locator("//label[contains(.,'Tax Free Amount')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
 
         this.polandSchoolName = page.getByLabel('School Name');
-        this.polandschoolEndDate= page.locator('//label[contains(.,"End Date")]/parent::div/following-sibling::div//input[@aria-label="Day"]');
-        this.polandschoolStartDate= page.locator('//label[contains(.,"Start Date")]/parent::div/following-sibling::div//input[@aria-label="Day"]');
-        this.polandschoolType=page.getByLabel('School Type');
-        this.addPITTaxInformation=page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Add PIT Tax Information:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.polandschoolEndDate = page.locator('//label[contains(.,"End Date")]/parent::div/following-sibling::div//input[@aria-label="Day"]');
+        this.polandschoolStartDate = page.locator('//label[contains(.,"Start Date")]/parent::div/following-sibling::div//input[@aria-label="Day"]');
+        this.polandschoolType = page.getByLabel('School Type');
+        this.addPITTaxInformation = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Add PIT Tax Information:' + ' ' + givenname + ' ' + FamilyName + '")]');
 
-        this.addUrządSkarbowy=page.getByLabel('Urząd Skarbowy');
-        this.firstEverJobPolandInformation=page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"First Job Ever Information details:' + ' ' + givenname + ' ' + FamilyName + '")]');
-        this.firstEverJobBtn=page.getByLabel('First Ever Job');
-        this.addUlgapodatkowa=page.getByLabel('Ulga podatkowa');
+        this.addUrządSkarbowy = page.getByLabel('Urząd Skarbowy');
+        this.firstEverJobPolandInformation = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"First Job Ever Information details:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.firstEverJobBtn = page.getByLabel('First Ever Job');
+        this.addUlgapodatkowa = page.getByLabel('Ulga podatkowa');
         this.addCzęśćulgi = page.getByLabel('Część ulgi');
-        this.addidentyfikatorpodatkowy=page.getByLabel('Identyfikator podatkowy');
-        this.addTypopodatkowania=page.getByLabel('Typ opodatkowania');
+        this.addidentyfikatorpodatkowy = page.getByLabel('Identyfikator podatkowy');
+        this.addTypopodatkowania = page.getByLabel('Typ opodatkowania');
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -372,9 +372,9 @@ export class HrInboxPage extends WebActionsPage {
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Submit' }).click();
     }
-     //@added by Gayatri for new change for PK17
-    async polandWorkerEducationDetails(schoolName : string, schoolType : string, schoolStartDate : string, schoolEndDate : string) {
-        await this.workereducationdetails.click(); 
+    //@added by Gayatri for new change for PK17
+    async polandWorkerEducationDetails(schoolName: string, schoolType: string, schoolStartDate: string, schoolEndDate: string) {
+        await this.workereducationdetails.click();
         await this.page.waitForTimeout(500);
         await this.polandSchoolName.click();
         await this.polandSchoolName.fill(schoolName);
@@ -389,45 +389,49 @@ export class HrInboxPage extends WebActionsPage {
         await super.setTextWithType(this.polandschoolEndDate, schoolEndDate);
         await this.page.keyboard.press('Tab');
         await this.hrSubmit.click();
- 
-        
+
+
     }
 
-     //@added by Gayatri for new change for PK17
-      async polandPITTaxInformation(UrządSkarbowy:string ,Ulgapodatkowa:string,Częśćulgi:string,Typopodatkowania:string,identyfikatorpodatkowy:string) {
-        await this.addPITTaxInformation.click(); 
+    //@added by Gayatri for new change for PK17
+    async polandPITTaxInformation(UrządSkarbowy: string, Ulgapodatkowa: string, Częśćulgi: string, Typopodatkowania: string, identyfikatorpodatkowy: string) {
+        await this.addPITTaxInformation.click();
         await super.setTextWithEnter(this.addUrządSkarbowy, UrządSkarbowy);
         await this.page.waitForTimeout(500);
 
         await super.selectFromCustomDropDrown(this.addUlgapodatkowa, Ulgapodatkowa);
         await super.selectFromCustomDropDrown(this.addCzęśćulgi, Częśćulgi);
         await this.page.waitForTimeout(500);
-        
+
         await super.selectFromCustomDropDrown(this.addTypopodatkowania, Typopodatkowania);
         await this.page.keyboard.press('Tab');
         await this.page.waitForTimeout(500);
         await super.selectFromCustomDropDrown(this.addidentyfikatorpodatkowy, identyfikatorpodatkowy);
         await this.page.keyboard.press('Tab');
         await this.page.waitForTimeout(500);
-        await this.hrSubmit.click();  
-        
+        await this.hrSubmit.click();
+
     }
     //@added by Gayatri for new change for PK17
-    async firstEverJobDetails(firsteverjob:string) {
-        await this.firstEverJobPolandInformation.click(); 
+    async firstEverJobDetails(firsteverjob: string, firstJobExpiryDate: string) {
+        await this.firstEverJobPolandInformation.click();
         await super.selectFromCustomDropDrown(this.firstEverJobBtn, firsteverjob);
-        await this.hrSubmit.click();  
-        
+        if (await firsteverjob === 'Yes') {
+            await super.setTextWithType(this.page.getByPlaceholder('DD').first(), firstJobExpiryDate.toString());
+        }
+       
+        await this.hrSubmit.click();
+
     }
-    
+
 
     //@added by Gayatri for new change for PK17
     async workerJobHistory() {
-        await this.workerjobhistory.click(); 
+        await this.workerjobhistory.click();
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
     }
-     
+
 
 
 

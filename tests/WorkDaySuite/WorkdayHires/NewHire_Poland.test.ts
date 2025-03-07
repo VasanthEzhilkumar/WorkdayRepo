@@ -21,7 +21,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataPoland5.xlsx';
+const excelFileName = 'TestDataPoland-Endto End_Passed - Andre update.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -74,7 +74,7 @@ for (const sheetName in sheetsJson) {
 
         // // create position for Management hires
        // position = "No";
-        if (data.JobProfile.toString().includes("Manager")  || data.Position.toString() != "Yes"){
+        if (data.JobProfile.toString().includes("Manager") ) {
           await appCommon.SearchClickLink("Create Position");
           await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
           position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, String(data.EmployeeType).trim(), String((data.JobProfile)).trim(), String(data.TimeType).trim(), data.Location);
@@ -88,6 +88,10 @@ for (const sheetName in sheetsJson) {
           // Write the results to the Excel file
           writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
           await appCommon.MyTasks();
+          
+        }
+        else{
+          position="Dummy Value"
         }
 
         // search Hire employee on Home Page after login
@@ -162,7 +166,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         //Click Submit First Ever Job Details
-        await hrInbxPage.firstEverJobDetails(data.FirstEverJobDetails);
+        await hrInbxPage.firstEverJobDetails(data.FirstEverJobDetails,data.FirstJobExpiryDate);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
