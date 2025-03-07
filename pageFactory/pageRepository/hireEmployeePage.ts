@@ -154,7 +154,7 @@ export class hireEmployeePage extends WebActionsPage {
     //await super.setTextWithDoubleEnter();
     if ((Prefix != "NaN" && Prefix != "N/A" && Prefix != undefined && Prefix != "")) {
       await this.prefix.click();
-      await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="' + Prefix + '"]').click();
+      await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="' + String(Prefix).trim() + '"]').click();
       // await super.setTextWithDoubleEnter(this.prefix, String(Prefix));
       // await this.prefix.fill(Prefix);
     }

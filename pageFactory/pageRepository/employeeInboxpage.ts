@@ -102,11 +102,13 @@ export class employeeInboxPage extends WebActionsPage {
     readonly bankSortCode: Locator;
     readonly nameOnAccount: Locator;
     readonly reviewDocTotal: Locator;
+    readonly successClose: Locator;
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
         super(page)
         this.appCommon = new appCommons(page, context);
         this.page = page;
+        this.successClose = page.locator('[aria-label="Close"] >> nth=2');
         this.assignPaygroup = page.locator('[aria-label="Inbox Items"] >> text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         this.fillPaygroup = page.locator('text=Proposed Pay GroupProposed Pay Group0 items selected >> [placeholder="Search"]');
         this.paygroupSubmit = page.locator('button:has-text("Submit")');
@@ -234,22 +236,24 @@ export class employeeInboxPage extends WebActionsPage {
 
     async reviewDocumentSubmitGeneric() {
         await this.page.waitForTimeout(500);
-        let c = await this.reviewDocTotal.count();
-        for (let i = 1; i <= await this.reviewDocTotal.count(); i++) {
+        let reviewTitleCount = await this.reviewDocTotal.count();
+        for (let i = 1; i <= reviewTitleCount; i++) {
             if (await this.reviewDoc.isVisible()) {
                 await super.click(this.reviewDoc);
                 await this.page.waitForTimeout(1500);
-                let ch = await this.agreeCheckbox.count();
-                for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
+                
+                for (let j = 1; j <= await this.agreeCheckbox.count(); j++) {
                     // await this.page.waitForTimeout(1500);
-                    if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                    if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']').isVisible()) {
                         // await this.page.waitForTimeout(1000);
-                        await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
-                        await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+                        await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']').scrollIntoViewIfNeeded();
+                        await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']'));
                     }
                 }
                 await this.page.waitForTimeout(500);
                 await this.paygroupSubmit.click();
+                await super.click(this.successClose);
+                // await this.page.locator('').click();
             }
         }
     }

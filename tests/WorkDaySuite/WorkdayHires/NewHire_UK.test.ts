@@ -19,7 +19,7 @@ let position: string;
 let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataUKOne.xlsx';
+const excelFileName = 'testDataUK_PK14.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -59,13 +59,13 @@ for (const sheetName in sheetsJson) {
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-        // /*Login creds for PK14*/
-        // const username = "90003057";
-        // const password = "Archana2025!";
-
-        /*Login creds for PK17*/
+        /*Login creds for PK14*/
         const username = "90002196";
-        const password = "Wizos2025!";
+        const password = "Primark0255!";
+
+        // /*Login creds for PK17*/
+        // const username = "90002196";
+        // const password = "Wizos2025!";
 
         // initlize the web environment 
         await login.goto("UK");
@@ -74,8 +74,8 @@ for (const sheetName in sheetsJson) {
         await login.sigIn(username, password);
 
         // // create position for Management hires
-        position = "No";
-        if (data.JobProfile.toString().includes("Manager") || data.Position.toString() != "No") {
+        // position = "No";
+        if (data.JobProfile.toString().includes("Manager") || data.Position.toString() == "Yes") {
           await appCommon.SearchClickLink("Create Position");
           await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
           position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, String(data.EmployeeType).trim(), String((data.JobProfile)).trim(), String(data.TimeType).trim(), data.Location);
@@ -90,7 +90,9 @@ for (const sheetName in sheetsJson) {
           writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
           await appCommon.MyTasks();
         }
-
+        else{
+          position = "dummy value";
+        }
         // search Hire employee on Home Page after login
         await home.searchHireEmployee();
 
@@ -124,7 +126,7 @@ for (const sheetName in sheetsJson) {
           data.AdditionalJobClassifications,
           position,
           data.ScheduledWeeklyHours,
-          data.defaultHours,
+          data.DefaultWeeklyHours,
           data.Location,
           data.EndEmploymentDate,
           data.PayRateType
@@ -164,10 +166,22 @@ for (const sheetName in sheetsJson) {
         // await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
 
-        // await appCommon.ClickInbox();
+                // await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, "NaN", "NaN", data.AllowanceAmount);
         await capObj.checkForScreenErrors();
+
+      //   if(page.locator('//label[text()="Up Next:"]/parent::div/span[contains(text(),"Compensation Partner")]').isVisible()){
+      //   const CompensationHRPartner = await appCommon.getCompensationHRpartnerID(givenName, familyName);
+
+      //   if(CompensationHRPartner != HRPartner){
+      //     await appCommon.SearchboxEmp("Start Proxy");
+      //     await proxy.startProxy(CompensationHRPartner);
+      //     await appCommon.ClickInbox();
+      //   }else{
+      //     await appCommon.ClickInbox();
+      //   }
+      // }
 
         //await appCommon.SuccessEventHandle();
         empNum = await hrInbxPage.getEmployeeID();
@@ -212,13 +226,13 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.AddEmergecyInformation();
         await appCommon.SuccessEventHandle();
         
-        await empInboxpage.addCertificationSubmit();
-        await appCommon.SuccessEventHandle();
-
         await empInboxpage.GBEmployeeHandbooksSubmit();
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.reviewDocumentSubmitGeneric();
+        await appCommon.SuccessEventHandle();
+
+        await empInboxpage.addCertificationSubmit();
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, data.MaritalStatusDate, data.CitizenshipStatus, data.PrimaryNationality, data.RaceEthnicity, data.Religion);
