@@ -106,6 +106,8 @@ export class employeeInboxPage extends WebActionsPage {
     readonly nameOnAccount: Locator;
     readonly reviewDocTotal: Locator;
     readonly successClose: Locator;
+    readonly perInformationforHungary: Locator;
+    readonly countryofbirth: Locator;
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
         super(page)
@@ -173,6 +175,13 @@ export class employeeInboxPage extends WebActionsPage {
         // this.citizenship = page.locator('text=Citizenship StatusCitizenship Status0 items selected, press enter to view all op >> [placeholder="Search"]');
         this.citizenship = page.locator('//label[contains(text(),"Citizenship Status")]/parent::div/following-sibling::div//input');
         // this.nationality = page.locator('text=Primary NationalityPrimary Nationality0 items selected, press enter to view all  >> [placeholder="Search"]');
+        this.countryofbirth = page.getByLabel('Country of Birth');
+        // this.martialstatus = page.getByLabel('Marital Status');
+        this.martialstatus = page.getByRole('textbox', { name: 'Marital Status' });
+        //this.citizenship = page.locator('text=Citizenship StatusCitizenship Status0 items selected, press enter to view all op >> [placeholder="Search"]');
+        this.citizenship = page.getByRole('textbox', { name: 'Citizenship Status' });
+        this.nationality = page.getByLabel('Primary Nationality');
+        //this.nationality = page.locator('text=Primary NationalityPrimary Nationality0 items selected, press enter to view all  >> [placeholder="Search"]');
         // Click [aria-label="Male"]
         this.nationality = page.locator('//label[text()="Primary Nationality"]/parent::div/following-sibling::div//input');
         this.raceEthnicity = page.locator('//label[text()="Race/Ethnicity"]/parent::div/following-sibling::div//input');
@@ -203,7 +212,9 @@ export class employeeInboxPage extends WebActionsPage {
         this.agreeCheckboxGrid2 = page.locator('[id="\\33 43-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\35 6\\$202639--uid142"] div')//locator('label:has-text("I Agree")');locator('[id="\\35 6\\$202639--uid162"] div')
         this.addEdu = page.getByRole('button', { name: 'Add Education', exact: true });
 
-        this.perInformation = page.locator('[aria-label="Inbox Items"] >> text=Personal Information Change: ' + ' ' + givenname + ' ' + FamilyName);
+        this.perInformation = page.locator('[aria-label="Inbox Items"] >> text=Personal Information Change:' + ' ' + givenname + ' ' + FamilyName);
+        this.perInformationforHungary = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Personal Information Change:' + ' ' + FamilyName + ' ' + givenname + '")]');
+
 
         this.maidenName = page.getByRole('button', { name: 'Please Add Maiden Name', exact: true })//locator('[aria-label="Inbox Items"] >> text=Please Add Maiden Name');
 
@@ -213,7 +224,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.hoverPersonalData = page.getByText('Personal Data');
         this.btnAddPaymentElections = page.locator("//button[@title='Add Payment Elections'][contains(.,'Add Payment Elections')]").first();
         this.AccountName = page.getByLabel('Name On Account');
-        this.maritalStatusDate = page.locator('');
+        this.maritalStatusDate = page.getByLabel('Marital Status Date');
         this.addDependents = page.getByRole('button', { name: 'Please Add Your Dependents', exact: true });
         this.healthcareProviderMealVoucher = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Meal Voucher")]');
         this.setHealthInsuranceCompany = page.locator('//label[contains(text(),"Health Insurance Company")]/parent::div/following-sibling::div/descendant::input');
@@ -563,8 +574,115 @@ export class employeeInboxPage extends WebActionsPage {
 
     }
 
+
+    //async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
+        //maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
+    async changePersonalInformationHun(gender: string, dob: string, city: string, martialstat: string, maritalStatusDate: string, citizen: string, national: string, countryofbirth: string) {
+
+        // await this.page.waitForTimeout(500);
+        await this.perInformationforHungary.click();
+        // if (await this.buttonchgpersonal.isVisible()) {
+        // await super.click(this.buttonchgpersonal);
+        await super.click(this.editGender);
+        await super.click(this.setGenderdrpDown);
+        await super.click(this.page.locator('[aria-label=' + gender + ']'));
+        await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
+        await super.click(this.editDob);
+        // await this.page.waitForTimeout(1000);
+        await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
+        // await this.page.keyboard.type(dob);
+        // await this.page.keyboard.press('Enter');
+        await super.click(this.page.getByLabel('Save Date of Birth'));
+
+        if (countryofbirth != "NaN" && countryofbirth != "N/A" && countryofbirth != undefined) {
+            await super.click(this.editPlace);
+            await super.setTextWithEnter(this.countryofbirth, countryofbirth);
+            await super.click(this.page.getByLabel('Save Place of Birth'));
+        }
+        if (city != "NaN" && city != "N/A" && city != undefined) {
+            await super.click(this.editPlace);
+            await super.setTextWithEnter(this.cityofBirth, city);
+            await super.click(this.page.getByLabel('Save Place of Birth'));
+        }
+        await super.click(this.editmartial);
+        await super.setTextWithEnter(this.martialstatus, martialstat);
+
+        //*@Gayatri for poland 
+        if (maritalStatusDate != "NaN" && maritalStatusDate != "N/A" && maritalStatusDate != undefined) {
+            await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
+            //await super.click(this.page.getByLabel('Marital Status Date'));
+            await super.click(this.page.getByLabel('Save Marital Status'));
+        }
+        await super.click(this.editCitizenship);
+        await super.selectFromCustomDropDrown(this.citizenship, citizen);
+        //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
+        await super.click(this.page.getByLabel('Save Citizenship Status'));
+
+        if (national !== "" && national !== "NaN" && national !== "N/A" && national !== undefined) {
+            await super.click(this.editNationality);
+            await super.setTextWithDoubleEnter(this.nationality, national);
+            await this.page.waitForTimeout(1000);
+            //await super.click(this.paygroupSubmit);
+        }
+        await super.click(this.paygroupSubmit);
+    }
+    async changePersonalInformationSubmit1() {
+
+        // await this.page.waitForTimeout(500);
+        // await this.chgPersonalInformation.click();
+        await this.perInformation.click();
+        await this.page.waitForTimeout(500);
+        await this.paygroupSubmit.click();
+
+    }
+
+    async changePersonalInformation1(dob: string, city: string, martialstat: string, citizen: string, national: string) {
+
+        // await this.page.waitForTimeout(500);
+        // await this.chgPersonalInformation.click();
+        await this.perInformation.click();
+        // if(await this.buttonchgpersonal.isVisible()){
+        //await this.buttonchgpersonal.click();
+        await this.editGender.click();
+
+        await this.setGenderdrpDown.click();
+
+        await this.setGender.click();
+
+        await this.editDob.click();
+        await this.page.waitForTimeout(1000);
+
+        await this.page.keyboard.type(dob);
+
+        await this.page.keyboard.press('Enter');
+
+        await this.editPlace.click();
+
+        await this.cityofBirth.fill(city);
+        await this.page.keyboard.press('Enter');
+        await this.editmartial.click();
+        await this.martialstatus.fill(martialstat);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(500);
+        await this.editCitizenship.click();
+        await this.page.waitForTimeout(500);
+        await this.citizenship.fill(citizen);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(500);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(500);
+        await this.editNationality.click();
+        await this.page.waitForTimeout(500);
+        await this.nationality.fill(national);
+        await this.page.waitForTimeout(1000);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(1000);
+        await this.paygroupSubmit.click();
+        // }
+    }
+
     async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
-        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
+        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) { 
 
         // await this.page.waitForTimeout(500);
         await this.chgPersonalInformation.click();
@@ -666,7 +784,7 @@ if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined)
 
     }
 
-    async changePersonalInformation1(dob: string, city: string, martialstat: string, citizen: string, national: string) {
+    async changePersonalInformationHungary(dob: string, city: string, martialstat: string, citizen: string, national: string) {
 
         // await this.page.waitForTimeout(500);
         // await this.chgPersonalInformation.click();
@@ -710,6 +828,8 @@ if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined)
         await this.paygroupSubmit.click();
         // }
     }
+
+
 
     async changepersonalinformationSubmit() {
 

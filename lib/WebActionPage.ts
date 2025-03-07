@@ -17,6 +17,7 @@ export class WebActionsPage {
         try {
             await this.page.waitForTimeout(this.timeOut);
             // await locator.scrollIntoViewIfNeeded();
+            await locator.focus();
             await locator.clear();
             await locator.fill(String(varString));
             // await this.page.waitForTimeout(300);

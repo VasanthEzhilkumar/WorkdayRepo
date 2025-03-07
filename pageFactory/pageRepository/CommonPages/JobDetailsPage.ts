@@ -182,9 +182,29 @@ export class JobDetailsPage extends WebActionsPage {
     // await super.setText(this.schdeuledHours, schdeuledhours);
     if (await this.defaultHours.isVisible() && defaultHours != "NaN" && defaultHours != "N/A" && defaultHours != undefined) {
       await super.setText(this.defaultHours, defaultHours);
+<<<<<<< HEAD
+=======
+    }
+    await super.setText(this.schdeuledHours, schdeuledhours);
+    await this.page.waitForTimeout(500);
+
+    await super.click(this.workshift);
+    await this.page.waitForTimeout(500);
+    //await super.setTextWithEnter(this.workshiftExp, workshift);
+    await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
+
+    await super.click(this.additionlInformation);
+    await this.page.waitForTimeout(1500);
+    if (AdditionalJobClassifications != undefined) {
+      const str: string[] = AdditionalJobClassifications.split('@');
+      for (let i = 0; i < str.length; i++) {
+        await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
+      }
+>>>>>>> Gayatri
     }
     await super.setText(this.schdeuledHours, schdeuledhours);
 
+<<<<<<< HEAD
     await super.click(this.workshift);
     //await super.setTextWithEnter(this.workshiftExp, workshift);
     await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
@@ -200,6 +220,9 @@ export class JobDetailsPage extends WebActionsPage {
     }
 
     if (await this.endEmploymentDate.isVisible() && EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
+=======
+    if (EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
+>>>>>>> Gayatri
       await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
     }
     await super.click(this.submitButton);

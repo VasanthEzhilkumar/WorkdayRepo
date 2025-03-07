@@ -49,8 +49,8 @@ export class appCommons extends WebActionsPage {
     this.listSelectAll = page.locator("/*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
     this.lblHrDetails2 = page.locator("((//div[contains(text(),'Awaiting Action')]//ancestor::td//following-sibling::td)[3])[1]");
     this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']");
-    //this.btnPay=page.getByRole('link', { name: 'Pay' });
-    this.btnPay = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Pay')]");
+    this.btnPay=page.getByRole('link', { name: 'Pay' });
+    //this.btnPay = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Pay')]");
     this.btnJob = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Job')]").first();
     this.tbWorkerHistroy = page.locator("//ul[@data-automation-id='tabBar']/li[@role='tab']/div/div[contains(text(),'Worker History') and  @data-automation-id='tabLabel']").first();
     this.txtPayGroup = page.locator("//label[contains(text(),'Pay Group')]//parent::div//following-sibling::div//descendant ::div[@data-automation-id='promptOption']");

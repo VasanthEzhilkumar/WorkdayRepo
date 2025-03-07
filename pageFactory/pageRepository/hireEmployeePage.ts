@@ -179,6 +179,11 @@ export class hireEmployeePage extends WebActionsPage {
     await this.gName.fill(givenname);
     await this.fName.fill(FamilyName);
   }
+  async legalNameInformationHungary(givenname: string, FamilyName: string) {
+    //await super.setTextWithDoubleEnter();
+    await this.gName.fill(givenname);
+    await this.fName.fill(FamilyName);
+  }
 
   async contactInformationPhone(phoneNumber: number, PhoneDevice: string, phoneType: string) {
     await this.addphone.click();

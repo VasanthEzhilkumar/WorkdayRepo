@@ -292,6 +292,38 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
     //await this.submit.click();
   }
 
+  async setGovernmentIDsHungary(
+    country1: string,
+    Country2: string,
+    NationalIDType1: string,
+    NationalIDType2: string,
+    DepartmentSection1: string,
+    DepartmentSection2: string,
+    IssuedDate1: string,
+    IssuedDate2: string,
+    ExpirationDate1: string,
+    ExpirationDate2: string,
+    IssuedBy2: string,
+    series2: string,
+
+  ) {
+
+    await super.click(this.idChange);
+    await super.click(this.addId);
+    //await this.addId.click();
+    //await this.idChange.click();
+    await this.fillGovIDDetails(country1, NationalIDType1, DepartmentSection1, IssuedDate1, ExpirationDate1, true);
+
+    if (!country1.includes("Slovakia")) {
+      // Adding second ID
+      // await this.page.waitForTimeout(500);
+      // await this.addId.click();
+      await super.click(this.addROWNationalIDs);
+      await this.fillGovIDDetails(Country2, NationalIDType2, DepartmentSection2, IssuedDate2, ExpirationDate2, false);
+    }
+    await super.click(this.submit); // last step 
+    //await this.submit.click();
+  }
   async fillGovIDDetails(
     country: string,
     nationalIDType: string,
