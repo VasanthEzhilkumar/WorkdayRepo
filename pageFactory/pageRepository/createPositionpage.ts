@@ -188,7 +188,7 @@ export class createPositionPage extends WebActionsPage {
     async createPositionForManager(availabilitydate: string, earliestdate: string, EmployeeType: string, jobprofile: string, timetype: string, Location: string) {
 
         await this.createPositionRequestReason();
-        let  position:string = await this.setPositionTitle();
+        let position: string = await this.setPositionTitle();
         await super.click(this.avialbledate);
         await super.setTextWithType(this.avialbledate, availabilitydate);
         await super.click(this.earlierhiredate);

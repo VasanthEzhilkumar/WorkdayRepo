@@ -276,7 +276,7 @@ export class hireEmployeePage extends WebActionsPage {
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(1500);
     if (await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").isVisible()) {
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").scrollIntoViewIfNeeded();
       await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]").click();

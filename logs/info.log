@@ -2371,6 +2371,7 @@
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+<<<<<<< HEAD
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 4 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 4  Status : passed"}
@@ -2527,6 +2528,8 @@
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 2  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 3 "}
+=======
+>>>>>>> 496000dff66715e2311f7ab534c6a2c89e8ba17a
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 3  Status : interrupted"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
@@ -2541,6 +2544,7 @@
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 6 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 6  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 7 "}
+<<<<<<< HEAD
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 7  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 8 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 8  Status : passed"}
@@ -2597,6 +2601,9 @@
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : interrupted"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+=======
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 7  Status : interrupted"}
+>>>>>>> 496000dff66715e2311f7ab534c6a2c89e8ba17a
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
@@ -2633,10 +2640,13 @@
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 17  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 18 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 18  Status : passed"}
+<<<<<<< HEAD
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 19 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 19  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
+=======
+>>>>>>> 496000dff66715e2311f7ab534c6a2c89e8ba17a
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
@@ -2663,6 +2673,7 @@
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 12  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 13 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 13  Status : passed"}
+<<<<<<< HEAD
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 1  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 1 "}
@@ -2765,3 +2776,15 @@
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 7 "}
 {"level":"info","message":"Test Case Completed : @Hire Employee - Test 7  Status : passed"}
 {"level":"info","message":"Test Case Started : @Hire Employee - Test 2 "}
+=======
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 14 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 14  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 15 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 15  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 16 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 16  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 17 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 17  Status : passed"}
+{"level":"info","message":"Test Case Started : @Hire Employee - Test 18 "}
+{"level":"info","message":"Test Case Completed : @Hire Employee - Test 18  Status : passed"}
+>>>>>>> 496000dff66715e2311f7ab534c6a2c89e8ba17a

@@ -155,7 +155,6 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         //Add Poland PIT Tax Information
-
         await hrInbxPage.polandPITTaxInformation(data.UrządSkarbowy, data.Ulgapodatkowa, data.Częśćulgi, data.Typopodatkowania, data.Identyfikatorpodatkowy);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -225,7 +224,7 @@ for (const sheetName in sheetsJson) {
 
         //*
         //fill Government IDs  Details for Employee
-        await governemntIDs.setGovernmentIDsPoland(data.Country1, data.NationalIDType1, data.AddEditID1,data.Country2, data.NationalIDType2, data.AddEditID2,data.Country3, data.NationalIDType3, data.AddEditID3);
+        await governemntIDs.setGovernmentIDsPoland(data.Country1, data.NationalIDType1, data.AddEditID1, data.Country2, data.NationalIDType2, data.AddEditID2, data.Country3, data.NationalIDType3, data.AddEditID3);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
@@ -240,13 +239,13 @@ for (const sheetName in sheetsJson) {
 
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
-       
+
 
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
 
         //Start Proxy As HR Again 
-       await appCommon.Searchbox("Start Proxy");
+        await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.ClickInbox();
         await appCommon.MyTasks();
@@ -282,7 +281,7 @@ for (const sheetName in sheetsJson) {
         empNum = "";
 
       } catch (error) {
-      console.error(`Test failed for ${givenName} ${familyName}:`, error);
+        console.error(`Test failed for ${givenName} ${familyName}:`, error);
         if ((await capObj.getUpdateError()) == undefined) {
           let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:{" + empNum + "}" + error.toString();
           //   // Write the failure status to the Excel file
