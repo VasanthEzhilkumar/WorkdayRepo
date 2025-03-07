@@ -114,6 +114,7 @@ export class WebActionsPage {
             await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
+            await this.page.waitForTimeout(500);
             await this.page.keyboard.press('Enter');
             await this.page.keyboard.press('Tab');
             console.log(`Entering ${varString} Value With Double Enter -"into: ${locator}`);

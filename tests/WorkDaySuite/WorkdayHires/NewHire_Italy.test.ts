@@ -94,7 +94,7 @@ for (const sheetName in sheetsJson) {
         await home.searchHireEmployee();
         // set Supervisisroy Organazation 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
-        await hireEmployee.legalNameInformation(givenName, familyName);
+        await hireEmployee.legalNameInformation(givenName, familyName, "");
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
         await homePageRon.contactInformationAddressItaly(data.Street, data.StreetOrPlaceName, data.StreetNumber, data.PostalCode, data.City, data.County, data.Type, data.Province);
@@ -163,7 +163,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empaddPhoto();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality,"");
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality,"", "", "");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();
@@ -179,7 +179,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankCode, String(data.AccountNumber), String(data.IBAN),"");
+        await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankCode, String(data.AccountNumber), String(data.IBAN),"NaN","NaN","NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 

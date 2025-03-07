@@ -201,7 +201,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
 
-        await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, data.AccountNumber, String(data.IBAN), data.AccountType);
+        await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, data.AccountNumber, String(data.IBAN), data.AccountType, "NaN", "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 

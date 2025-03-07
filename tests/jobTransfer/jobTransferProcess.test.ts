@@ -14,7 +14,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'JTS_Approval.xlsx';
+const excelFileName = '895 JTS 3.0.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -28,21 +28,21 @@ for (const sheetName in sheetsJson) {
     const dataSet = sheetsJson[sheetName];
 
     dataSet.forEach((data, index) => {
-       
+
         const { givenName, familyName } = generateRandomName();
 
         test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, appCommon, proxy }) => {
             try {
-               await page.setViewportSize({ width: 1920, height: 920 });
+                await page.setViewportSize({ width: 1920, height: 920 });
                 const empCareerPage = new employeeCareerPage(page, context);
                 capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
                 const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
 
                 console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
 
-
-                const username = "90001655";
-                const password = "Primark123!!";
+                /*Login creds for PK17*/
+                const username = "90002196";
+                const password = "Wizos2025!";
                 await login.goto("Romania");
 
                 // login into application 
@@ -54,14 +54,14 @@ for (const sheetName in sheetsJson) {
                 await proxy.startProxy(data.HRPartner);
 
                 // search Hire employee on Home Page after login
-                 await home.searchEmp(data.EmployeeID);
+                await home.searchEmp(data.EmployeeID);
                 //console.log(`HR Partner: ${empManager}`)
 
                 empName = await home.getEmpName(data.EmployeeID);
                 await empCareerPage.addEmpCertification(data.Job);
                 empManager = await empCareerPage.getEmpManager();
                 await appCommon.SuccessEventHandle();
-               
+
                 if (empManager) {
                     await appCommon.Searchbox("Stop Proxy");
                     await proxy.stopproxy();
@@ -70,7 +70,7 @@ for (const sheetName in sheetsJson) {
                     await empCareerPage.approveCertification(empName);
                 }
 
-                writeResultsToExcel(excelFilePath, sheetName, index,data.EmployeeID , 'Passed');
+                writeResultsToExcel(excelFilePath, sheetName, index, data.EmployeeID, 'Passed');
 
             } catch (error) {
                 console.error(`Test failed for ${givenName} ${familyName}:`, error);

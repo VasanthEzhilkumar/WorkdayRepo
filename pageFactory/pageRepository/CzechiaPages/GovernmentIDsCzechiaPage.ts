@@ -298,6 +298,22 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     //await this.submit.click();
   }
 
+  async setGovernmentIDsUK(
+    country1: string,
+    NationalIDType1: string,
+    AddEditID1: string,
+    IssuedDate1: string,
+    ExpirationDate1: string,
+  ) {
+
+    await super.click(this.idChange);
+    await super.click(this.addGovtID);
+    await super.click(this.addROWNationalIDs);
+    await this.fillGovIDDetails(country1, NationalIDType1, AddEditID1, IssuedDate1, ExpirationDate1, true);
+    await super.click(this.submit); // last step 
+    //await this.submit.click();
+  }
+
   async fillGovIDDetails(
     country: string,
     nationalIDType: string,

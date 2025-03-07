@@ -77,7 +77,7 @@ for (const sheetName in sheetsJson) {
         await home.searchHireEmployee();
 
         await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
-        await hireEmployee.legalNameInformation(givenName, familyName);
+        await hireEmployee.legalNameInformation(givenName, familyName, "");
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
         await hireEmployee.contactInformationAddress(data.Street, data.PostalCode, data.City, data.County, data.Type);

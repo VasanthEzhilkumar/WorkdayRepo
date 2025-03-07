@@ -424,6 +424,12 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(700);
     }
 
+    // async assignPayGroupApprove(ProposedPayGroup: any): Promise<void> {
+    //     await this.assignPaygroup.click();
+    //     await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
+    //     await this.Approve.click();
+    // }
+
     async updatePassportsAndVisa(): Promise<void> {
         await this.passportVisa.click();
         await this.page.getByRole('button', { name: 'Approve' }).click();

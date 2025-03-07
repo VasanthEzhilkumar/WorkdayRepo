@@ -189,6 +189,36 @@ export class appCommons extends WebActionsPage {
     return HrID2;
   }
 
+  async getCompensationHRpartnerID(givenname: string, familyname: string) {
+
+    await this.MyTasks();
+    await this.Archive.click();
+    await this.page.waitForTimeout(6000);
+    await this.page.waitForSelector(`button:has-text('Hire: ${givenname} ${familyname}')`);
+    const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
+    // Iterate over the found buttons and click the one that starts with 'Hire'
+    for (let i = 0; i < await buttons.count(); i++) {
+      const buttonText = await buttons.nth(i).textContent();
+      if (buttonText?.startsWith('Hire')) {
+        await this.page.waitForTimeout(400);
+        await buttons.nth(i).click();
+      }
+    }
+    await this.process.click();
+    // Check if the field exists
+    if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {
+      await this.txtItemsPerPage.waitFor;
+      await this.txtItemsPerPage.click();
+      await this.listSelectAll.click();
+    }
+
+    // Wait for 3 seconds (consider using a more dynamic wait if possible)
+    await this.page.waitForTimeout(1000);
+    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
+    const HrID2 = this.getNumbersFromString(HrDetails);
+    return HrID2;
+  }
+
 
   async getInnerText1(page: Page, fieldSelector: Locator): Promise<string> {
     await fieldSelector.waitFor;

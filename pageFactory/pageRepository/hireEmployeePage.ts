@@ -7,6 +7,7 @@ export class hireEmployeePage extends WebActionsPage {
   readonly supervisorysearch: Locator;
   readonly supervisorysearchexp: Locator;
   readonly newPreHire: Locator;
+  readonly prefix: Locator;
   readonly gName: Locator;
   readonly fName: Locator;
   readonly lName: Locator;
@@ -74,6 +75,7 @@ export class hireEmployeePage extends WebActionsPage {
     this.contactInformation = page.locator('text=Contact Information >> nth=0');
     // this.gName = page.locator('[id="\\35 6\\$551056--uid22-input"]');
     // this.fName = page.locator('[id="\\35 6\\$551056--uid23-input"]');
+    this.prefix = page.getByLabel('Prefix');
     this.gName = page.locator('label:has-text("Given Name")').first();
     // this.fName = page.locator('label:has-text("Family Name")').first();
     this.fName = page.locator("(//label[contains(./text(),'Family Name')]/ancestor::li/descendant::input[@data-automation-id='textInputBox'])[1]");
@@ -149,10 +151,20 @@ export class hireEmployeePage extends WebActionsPage {
     await this.contactInformation.click();
   }
 
-  async legalNameInformation(givenname: string, FamilyName: string) {
+  async legalNameInformation(givenname: string, FamilyName: string, Prefix: string) {
     //await super.setTextWithDoubleEnter();
+    if ((Prefix != "NaN" && Prefix != "N/A" && Prefix != undefined && Prefix != "")) {
+      await this.prefix.click();
+      await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="' + String(Prefix).trim() + '"]').click();
+      // await super.setTextWithDoubleEnter(this.prefix, String(Prefix));
+      // await this.prefix.fill(Prefix);
+    }
     await this.gName.fill(givenname);
-    await this.fName.fill(FamilyName);
+    if (await this.lName.isVisible())
+      await this.lName.fill(FamilyName);
+    if (await this.fName.isVisible())
+      await this.fName.fill(FamilyName);
+    // await this.fName.fill(FamilyName);
   }
 
   async legalNameInformationBelgium(prefix: string, givenname: string, FamilyName: string) {
@@ -273,6 +285,7 @@ export class hireEmployeePage extends WebActionsPage {
       await superOrg.scrollIntoViewIfNeeded();
       await superOrg.click();
     }
+    await this.page.waitForTimeout(1000);
     await this.newPreHire.click();
     await this.okButtonHireEmployee.click();
   }

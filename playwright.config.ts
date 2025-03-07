@@ -16,9 +16,9 @@ const config: PlaywrightTestConfig = {
   timeout: 900000,
   //number of retries if test case fails
   retries: 0,
-  workers: 2,
-  // fullyParallel: false,
+  workers: 1,
   fullyParallel: false,
+  // fullyParallel: true,
 
   //Reporters
   reporter: [[`./CustomReporterConfig.ts`], [`allure-playwright`], [`html`, { outputFolder: 'html-report', open: 'never' }]],
