@@ -102,6 +102,7 @@ for (const sheetName in sheetsJson) {
           data.EndEmploymentDate,
           data.PayRateType
         );
+        
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await appCommon.MyTasks();
