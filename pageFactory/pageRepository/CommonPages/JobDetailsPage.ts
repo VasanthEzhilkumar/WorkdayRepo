@@ -104,12 +104,15 @@ export class JobDetailsPage extends WebActionsPage {
 
     this.position = page.getByLabel('Position').first();
     //this.hireDate = page.locator('text=Hire DateHire Datecurrentvalue is DD/MM/YYYYDD/MM/YYYYuse right and left arrows >> div[role="group"]');
-    this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
+    //this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
+    this.reason=page.getByLabel('Reason');
     this.empType = page.getByLabel('Employee Type');//locator('text=Employee TypeEmployee Type0 items selected >> [placeholder="Search"]');
     this.jobprofile = page.getByLabel('Job Profile', { exact: true });//locator('text=Job ProfileJob Profile0 items selected >> [placeholder="Search"]');
     this.timetype = page.getByLabel('Time Type', { exact: true });//locator('text=Time TypeTime Type0 items selected >> [placeholder="Search"]');
     this.location = page.getByLabel('Location', { exact: true });//locator('text=LocationLocation0 items selected >> [placeholder="Search"]');
-    this.additionlInformation = page.getByText('Additional Information');//locator('text=Additional Information');
+    this.additionlInformation = page.getByText('Additional Information');
+    //this.additionlInformation=page.getByLabel('Additional Job Classifications')
+    //locator('text=Additional Information');
     // this.additonaljobClassification = page.getByLabel('Additional Job Classifications');//locator('text=Additional Job ClassificationsAdditional Job Classifications0 items selected >> [placeholder="Search"]');
 
     this.additonaljobClassification = page.locator("//label[contains(.,'Additional Job Classifications')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
@@ -204,8 +207,8 @@ export class JobDetailsPage extends WebActionsPage {
     // await super.click(this.workshift);
     //await super.setTextWithEnter(this.workshiftExp, workshift);
     //await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
-
-    await super.click(this.additionlInformation);
+    //Commented for UI Change 17-03-25
+    //await super.click(this.additionlInformation);
     await this.page.waitForTimeout(1000);
     if (AdditionalJobClassifications != undefined) {
       const str: string[] = AdditionalJobClassifications.split('@');

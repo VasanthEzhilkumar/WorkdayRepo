@@ -90,6 +90,7 @@ export class HrInboxPage extends WebActionsPage {
     readonly btnSaveHourly: Locator;
     readonly txtGradeProfile: Locator;
     readonly addMedicalExam: Locator;
+
     // readonly lblEmpID: Locator;
     // readonly rightToWork: Locator;
 
@@ -131,6 +132,10 @@ export class HrInboxPage extends WebActionsPage {
     readonly nationality: Locator;
     readonly hrchgPersonalInformation: Locator;
     readonly AssignPaygroupforPayroll: Locator;
+    readonly manageProbationHUn: Locator;
+    readonly hireAdditiondataHungary: Locator;
+    readonly mainJob: Locator;
+    readonly pensioner: Locator;
 
     EmployeeNumber: string[];
 
@@ -201,6 +206,7 @@ export class HrInboxPage extends WebActionsPage {
         this.contractAddendum = page.locator('[aria-label="Inbox Items"] >> text=Contract:' + ' ' + givenname + ' ' + FamilyName + '');
         this.contractAddendumtext = page.locator('h3:has-text("Romania Contract Addendum Info")');
         this.hireAdditiondata = page.locator(':nth-match(:text("Hire: ' + '' + givenname + ' ' + FamilyName + '"),2)');
+        this.hireAdditiondataHungary = page.locator(':nth-match(:text("Hire: ' + '' + FamilyName + ' ' + givenname + '"),2)');
         this.dependentDataText = page.locator('[aria-label="Click to view/edit grid preferences"]');
         this.depedentChildName = page.getByText('*Do not enter more than 6');
         this.medIns = page.locator('text=Medical/health insuranceMedical/health insurance0 items selected >> [placeholder="Search"]');
@@ -209,6 +215,7 @@ export class HrInboxPage extends WebActionsPage {
         this.healthSK = page.getByLabel('Health Insurance Type', { exact: true })//page.locator('label:has-text("Health Insurance Type")');
         this.hireadditiondatasub = page.locator(':nth-match(:text("Hire: ' + '' + givenname + ' ' + FamilyName + '"),1)');
         this.manageProbation = page.locator('text=Manage Probation Period: ' + ' ' + givenname + ' ' + FamilyName);
+        this.manageProbationHUn = page.locator('text=Manage Probation Period: ' + ' ' + FamilyName + ' ' + givenname);
         this.prbStartDate = page.locator('label:has-text("Probation Start Date")');
         this.prbEndDate = page.locator('label:has-text("Probation End Date")');
         this.prbReviewDate = page.locator('label:has-text("Probation Review Date")');
@@ -271,6 +278,8 @@ export class HrInboxPage extends WebActionsPage {
         this.addCzęśćulgi = page.getByLabel('Część ulgi');
         this.addidentyfikatorpodatkowy = page.getByLabel('Identyfikator podatkowy');
         this.addTypopodatkowania = page.getByLabel('Typ opodatkowania');
+        this.mainJob = page.getByLabel('Main Job', { exact: true });
+        this.pensioner = page.locator('.WEDF').first();
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -457,7 +466,7 @@ export class HrInboxPage extends WebActionsPage {
         if (await firsteverjob === 'Yes') {
             await super.setTextWithType(this.page.getByPlaceholder('DD').first(), firstJobExpiryDate.toString());
         }
-       
+
         await this.hrSubmit.click();
 
     }
@@ -484,6 +493,7 @@ export class HrInboxPage extends WebActionsPage {
         await this.assignPGApprove.click();
         await this.Approve.click();
     }
+
 
 
 
@@ -783,6 +793,10 @@ export class HrInboxPage extends WebActionsPage {
             console.log("Manage Probation Period Page is missing for This job profiles.");
         }
 
+
+
+
+
         // if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
         //     await super.setTextWithType(this.prbReviewDate, probReviewDate);
         // }
@@ -796,6 +810,25 @@ export class HrInboxPage extends WebActionsPage {
         // if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
         //     await super.click(this.hrSubmit);
         // }
+    }
+
+    async setManageProbationHun(probEndDate: string, probReviewDate: string) {
+        await this.page.waitForTimeout(1000);
+        if (await this.manageProbationHUn.count() > 0) {
+            await super.click(this.manageProbationHUn);
+            // await super.setTextWithType(this.prbStartDate, '');
+            if (await probEndDate != 'NaN' && await probEndDate != 'N/A' && await probEndDate != undefined) {
+                await super.setTextWithType(this.prbEndDate, probEndDate);
+            }
+            if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
+                await super.setTextWithType(this.prbReviewDate, probReviewDate);
+            }
+
+        } else {
+            await super.click(this.hrSubmit);
+            
+        }
+
     }
 
     async clickEditNoticePeriodsforHireSubmit() {
@@ -901,7 +934,21 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
     }
 
+    //Generic Function For MainJob Page @Added By Gayatri
+    async hireAdditionalInfoMainJob(mainjobdetails: string, Pensioner: string) {
+        await this.hireAdditiondata.click();
+        //await this.mainJob.click();
+        await super.selectFromCustomDropDrown(this.mainJob, mainjobdetails);
+        await this.page.waitForTimeout(200);
+        if (Pensioner === "yes") {
+            await this.pensioner.click();
+        }
+
+        await this.hrSubmit.click(); //Last step
+    }
 
 }
+
+
 
 // }

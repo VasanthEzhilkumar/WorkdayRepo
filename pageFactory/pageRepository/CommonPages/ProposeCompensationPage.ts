@@ -270,13 +270,13 @@ export class ProposeCompensationPage extends WebActionsPage {
             }
             //}
         }
-       // @added by Gayatri if allowance btn need to be deleted
-        // if (await Country == "Poland") {
-        //     //this.clickDeletePopupbtn();
-        //     await this.btnDeleteallowance.click();
-        //     await this.page.waitForTimeout(500);
-        //     await this.btnDeletePopup.click();
-        // }
+       //@added by Gayatri if allowance btn need to be deleted
+        if (await Country == "Hungary") {
+            //this.clickDeletePopupbtn();
+            await this.btnDeleteallowance.click();
+            await this.page.waitForTimeout(500);
+            await this.btnDeletePopup.click();
+        }
 
         if (AllowanceAmount != "N/A" && AllowanceAmount != "NaN" && AllowanceAmount != undefined && AllowanceAmount != "Defaulted") {
             if (await this.btnEditAllowance.isVisible()) {

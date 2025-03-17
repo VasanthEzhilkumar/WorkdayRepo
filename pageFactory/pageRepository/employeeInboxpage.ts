@@ -108,6 +108,16 @@ export class employeeInboxPage extends WebActionsPage {
     readonly successClose: Locator;
     readonly perInformationforHungary: Locator;
     readonly countryofbirth: Locator;
+    readonly accountNickname:Locator;
+    readonly accountNickname2:Locator;
+    readonly bank2:Locator;
+    readonly bankIdentificationCode2:Locator;
+    readonly accNumber2:Locator;
+    readonly IBAN2:Locator;
+    readonly addAccounts:Locator;
+    readonly editbankbtn:Locator;
+    readonly addRowBankbtn:Locator;
+   
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
         super(page)
@@ -149,6 +159,13 @@ export class employeeInboxPage extends WebActionsPage {
         this.nameofbank = page.getByLabel('Name On Account');
         this.bankSortCode = page.getByLabel('Bank Sort Code');
         this.nameOnAccount = page.getByLabel('Name On Account');
+        //this.accountNickname2=page.getByLabel('Account Nickname (optional)');
+        this.accountNickname=page.getByLabel('Account Nickname (optional)');
+
+        //this.bank2 = page.locator('label:has-text("Bank Name")');
+        //this.bankIdentificationCode2 = page.getByLabel('Bank Identification Code');
+        //this.accNumber2 = page.locator('label:has-text("Account Number")');
+        //this.IBAN2 = page.locator('label:has-text("IBAN")');
 
         this.chgContactInformation = page.locator('[aria-label="Inbox Items"] >> text=Change/Update My Contact Information');
         this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true });//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
@@ -211,6 +228,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.agreeCheckboxGrid1 = page.locator('//div[contains(@data-automation-id,"checkboxPanel")]');//locator('[id="\\35 6\\$202639--uid152"] div')
         this.agreeCheckboxGrid2 = page.locator('[id="\\33 43-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\35 6\\$202639--uid142"] div')//locator('label:has-text("I Agree")');locator('[id="\\35 6\\$202639--uid162"] div')
         this.addEdu = page.getByRole('button', { name: 'Add Education', exact: true });
+        this.addAccounts=page.getByRole('button', { name: 'Add Accounts' });
+        this.addRowBankbtn=page.getByLabel('row', { exact: true }).getByLabel('Add Row');
 
         this.perInformation = page.locator('[aria-label="Inbox Items"] >> text=Personal Information Change:' + ' ' + givenname + ' ' + FamilyName);
         this.perInformationforHungary = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Personal Information Change:' + ' ' + FamilyName + ' ' + givenname + '")]');
@@ -244,6 +263,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.eduFirstYearAttened = page.locator('//label[contains(text(),"First Year Attended")]/parent::div/following-sibling::div/descendant::input');
         this.eduLastYearAttened = page.locator('//label[contains(text(),"Last Year Attended")]/parent::div/following-sibling::div/descendant::input');
         this.eduGradeAverage = page.locator('//label[contains(text(),"Grade Average")]/parent::div/following-sibling::div/descendant::input');
+        this.editbankbtn=page.getByRole('cell', { name: 'Action', exact: true }).getByRole('button');
     }
 
 
@@ -255,7 +275,7 @@ export class employeeInboxPage extends WebActionsPage {
             if (await this.reviewDoc.isVisible()) {
                 await super.click(this.reviewDoc);
                 await this.page.waitForTimeout(1500);
-                
+
                 for (let j = 1; j <= await this.agreeCheckbox.count(); j++) {
                     // await this.page.waitForTimeout(1500);
                     if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']').isVisible()) {
@@ -576,11 +596,11 @@ export class employeeInboxPage extends WebActionsPage {
 
 
     //async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
-        //maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
-    async changePersonalInformationHun(gender: string, dob: string, city: string, martialstat: string, maritalStatusDate: string, citizen: string, national: string, countryofbirth: string) {
+    //maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
+    async changePersonalInformationHun(gender: string, dob: string, countryofbirth: string, city: string, martialstat: string, citizen: string, national: string) {
 
         // await this.page.waitForTimeout(500);
-        await this.perInformationforHungary.click();
+        //await this.perInformation.click();
         // if (await this.buttonchgpersonal.isVisible()) {
         // await super.click(this.buttonchgpersonal);
         await super.click(this.editGender);
@@ -600,19 +620,14 @@ export class employeeInboxPage extends WebActionsPage {
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
         if (city != "NaN" && city != "N/A" && city != undefined) {
-            await super.click(this.editPlace);
+            //await super.click(this.editPlace);
             await super.setTextWithEnter(this.cityofBirth, city);
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
         await super.click(this.editmartial);
         await super.setTextWithEnter(this.martialstatus, martialstat);
 
-        //*@Gayatri for poland 
-        if (maritalStatusDate != "NaN" && maritalStatusDate != "N/A" && maritalStatusDate != undefined) {
-            await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
-            //await super.click(this.page.getByLabel('Marital Status Date'));
-            await super.click(this.page.getByLabel('Save Marital Status'));
-        }
+
         await super.click(this.editCitizenship);
         await super.selectFromCustomDropDrown(this.citizenship, citizen);
         //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
@@ -682,7 +697,7 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
-        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) { 
+        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
 
         // await this.page.waitForTimeout(500);
         await this.chgPersonalInformation.click();
@@ -715,21 +730,21 @@ export class employeeInboxPage extends WebActionsPage {
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
 
-if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined) {
-    if (await this.editmartial.count() > 0) {
-        await super.click(this.editmartial);
-        await super.setTextWithEnter(this.martialstatus, martialstat);
-        //*@Gayatri for poland 
-        if (maritalStatusDate !== "" && maritalStatusDate !== "NaN" && maritalStatusDate !== "N/A" && maritalStatusDate !== undefined) {
-            await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
+        if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined) {
+            if (await this.editmartial.count() > 0) {
+                await super.click(this.editmartial);
+                await super.setTextWithEnter(this.martialstatus, martialstat);
+                //*@Gayatri for poland 
+                if (maritalStatusDate !== "" && maritalStatusDate !== "NaN" && maritalStatusDate !== "N/A" && maritalStatusDate !== undefined) {
+                    await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
+                }
+                await super.click(this.page.getByLabel('Save Marital Status'));
+            } else {
+                // console.error('Edit martial button is not present, and marking as fail. ');
+            }
+
+
         }
-        await super.click(this.page.getByLabel('Save Marital Status'));
-    } else {
-        // console.error('Edit martial button is not present, and marking as fail. ');
-    }
-
-
-}
 
         if (RaceEthnicity != "" && RaceEthnicity != "NaN" && RaceEthnicity != "N/A" && RaceEthnicity != undefined) {
             await super.click(this.editRaceEthnicity);
@@ -1021,5 +1036,165 @@ if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined)
         await this.clickIAgreeCheckBox();
         await super.click(this.page.getByRole('button', { name: 'Approve' }));
     }
+
+    async addEmployeeBankDetailsforHungary(
+        bankName: string, 
+        bankidentificationnumber: string, 
+        accNumber: string, 
+        IBANNumber: string, 
+        AccType: string,
+        accountNickname: string, 
+        NameOnAccount: string,
+        bank2: string,
+        bankIdentificationCode2: string,
+        accNumber2: string,
+        IBANNumber2: string,
+        accountNickname2: string
+    ) { 
+        console.log("Function addEmployeeBankDetailsforHungary is called");
+        //debugger; // This will pause execution if you have dev tools open
+    
+        await this.page.waitForTimeout(1000);
+        await super.click(this.addBankDetails1);
+        // if (await this.btnAddPaymentElections.isVisible()) {
+        await super.click(this.btnAddPaymentElections);
+        await this.page.waitForTimeout(1000);
+        await super.setText(this.bankName, bankName);
+        if (String(bankidentificationnumber) !== "NaN" && String(bankidentificationnumber) !== "N/A" && String(bankidentificationnumber) !== undefined) {
+            await super.setText(this.bankIdentificationCode, bankidentificationnumber);
+        }
+        if (String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && String(accNumber) !== undefined) {
+            await super.setText(this.accountNumber, accNumber);
+        }
+        if (String(IBANNumber) !== "NaN" && String(IBANNumber) !== "N/A" && String(IBANNumber) !== undefined) {
+            await super.setText(this.IBAN, IBANNumber);
+        }
+        if (await this.nameOnAccount.isVisible()) {
+            await super.setText(this.nameOnAccount, NameOnAccount);
+        }
+
+        if (await this.accountNickname.isVisible()) {
+            await super.setText(this.accountNickname, accountNickname);
+        }
+
+
+        await this.page.locator('//label[@data-automation-label="' + AccType + '"]').click();
+        //await super.setText(this.AccountName, 'TestAutomation');
+        await super.click(this.okButton);
+        this.page.waitForTimeout(200);
+        //await this.appCommon.ClickInbox();
+        await this.appCommon.MyTasks();
+        await super.click(this.addBankDetails1);// }
+        //await this.paygroupSubmit.click();
+
+
+        await super.click(this.btnAddPaymentElections);
+        await super.click(this.okButton);
+        await this.page.waitForTimeout(1000);
+        await super.click(this.addAccounts);
+        await super.setText(this.bank2, bank2);
+
+        if (String(bankIdentificationCode2) !== "NaN" && String(bankIdentificationCode2) !== "N/A" && String(bankidentificationnumber) !== undefined) {
+            await super.setText(this.bankIdentificationCode2, bankIdentificationCode2);
+        }
+        if (String(accNumber2) !== "NaN" && String(accNumber2) !== "N/A" && String(accNumber2) !== undefined) {
+            await super.setText(this.accNumber2, accNumber2);
+        }
+        if (String(IBANNumber2) !== "NaN" && String(IBANNumber2) !== "N/A" && String(IBANNumber2) !== undefined) {
+            await super.setText(this.IBAN2, IBANNumber2);
+        }
+        if (await this.nameOnAccount.isVisible()) {
+            await super.setText(this.nameOnAccount, NameOnAccount);
+        }   
+
+        if (await this.accountNickname2.isVisible()) {
+            await super.setText(this.accountNickname2, accountNickname2);
+        }
+
+        await this.page.locator('//label[@data-automation-label="' + AccType + '"]').click();
+        await super.click(this.okButton);
+        this.page.waitForTimeout(200);
+
+    }
+
+
+ 
+
+async addEmployeeBankDetailsforHungaryn(
+    bankName: string, 
+    bankIdentificationCode: string, 
+    accNumber: string, 
+    IBANNumber: string, 
+    accountType: string,
+    accountNickname: string, 
+    bankName2: string, // 🔹 Second account is mandatory
+    bankIdentificationCode2: string,
+    accountNumber2:String,
+    IBANNumber2: string,
+    accountType2: string,
+    accountNickname2: string
+) { 
+    console.log("Function addEmployeeBankDetailsforHungary is called");
+
+    await this.page.waitForTimeout(1000);
+
+    // 🔹 Handle First Account
+    await super.click(this.addBankDetails1);
+    await super.click(this.btnAddPaymentElections);
+    await this.page.waitForTimeout(1000);
+
+    await super.setText(this.bankName, bankName);
+    await super.setText(this.bankIdentificationCode, bankIdentificationCode);
+    await super.setText(this.accountNumber, accNumber);
+    await super.setText(this.IBAN, IBANNumber);
+
+
+    if (await this.accountNickname.isVisible()) {
+        await super.setText(this.accountNickname, accountNickname);
+    }
+
+    await this.page.locator(`//label[@data-automation-label="${accountType}"]`).click();
+    await super.click(this.okButton);
+    await this.page.waitForTimeout(200);
+
+    // 🔹 Handle Second Account (Always Mandatory)
+    console.log("Adding second bank account...");
+
+    await super.click(this.addAccounts); // Click 'Add Another Account' button
+    //await super.click(this.btnAddPaymentElections);
+    await this.page.waitForTimeout(1000);
+//till this
+    await super.setText(this.bankName, bankName2);
+    await super.setText(this.bankIdentificationCode, bankIdentificationCode2);
+    await super.setText(this.accountNumber, accountNumber2);
+    await super.setText(this.IBAN, IBANNumber2);
+
+//till this its working fine
+    if (await this.accountNickname2.isVisible()) {
+        await super.setText(this.accountNickname, accountNickname2);
+    }
+
+    await this.page.locator(`//label[@data-automation-label="${accountType2}"]`).click();
+    await super.click(this.okButton);
+    await this.page.waitForTimeout(200);
+
+    await super.click(this.btnAddPaymentElections);
+    await this.page.waitForTimeout(1000);
+    await super.click(this.okButton);
+    await this.page.waitForTimeout(200);
+    //Add other details
+    await super.click(this.editbankbtn);
+
+    
+
+
+    await this.appCommon.MyTasks();
+}
+
+
+
+
+
+
 
 }

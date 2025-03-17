@@ -2,7 +2,7 @@ import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 import { WebActionsPage } from 'lib/WebActionPage';
 
 
-export class GovernmentsIDPageRomania extends WebActionsPage {
+export class GovernmentsIDPageHungary extends WebActionsPage {
 
   readonly page: Page;
   readonly context: BrowserContext;
@@ -63,6 +63,10 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
   readonly govIDsEdit2: Locator;
   readonly addROWNationalIDs: Locator;
   readonly addROWadditionalGovernmentIDs: Locator;
+  readonly nationidbtn: Locator;
+  readonly Taxid: Locator;
+  readonly idChangeHungary: Locator;
+  readonly addIdHun: Locator;
 
   EmployeeNumber: string[];
 
@@ -73,19 +77,23 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
     this.hrassignPaygroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
     this.validatePayGroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
     this.hrSubmit = page.locator('button:has-text("Submit")');
-    this.idChange = page.locator('text=ID Change: ' + givenname + ' ' + FamilyName + '');
-    this.addId = page.locator('tbody').filter({ hasText: '*Country*National ID' }).getByLabel('Add Row')//page.locator('text=*Country*National ID TypeCurrent IDAdd/Edit IDIssued DateExpiration DateIssued B >> [aria-label="Add Row"]');
+    this.idChangeHungary = page.getByRole('button', { name: 'ID Change: ' + givenname + ' ' + FamilyName + '' });
+    this.idChange = page.getByRole('button', { name: 'Change/Update My Government IDs', exact: true });
+    this.contract = page.getByRole('button', { name: 'Contract: ' + givenname + ' ' + FamilyName + '', exact: true });
+
+    this.addId = page.getByRole('button', { name: 'Change My Government IDs' });
+    this.addIdHun = page.locator("//span[@data-automation-id='pageHeaderTitleText'][contains(.,'Edit Government IDs')]");
     this.addROWNationalIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[1]");
     this.addROWadditionalGovernmentIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[2]");
-    this.GCountry = page.getByLabel('Country', { exact: true })//page.locator('[id="selectInputId-56\\$63401"]');
-    this.GNationalIDType = page.getByLabel('National ID Type', { exact: true })//page.locator('[id="selectInputId-56\\$63406"]');
-    this.GID = page.locator('input[role="textbox"]');
+    this.GCountry = page.getByLabel('Country', { exact: true });//page.locator('[id="selectInputId-56\\$63401"]');
+    this.GNationalIDType = page.getByLabel('National ID Type', { exact: true });//page.locator('[id="selectInputId-56\\$63406"]');
+    this.GID = page.getByRole('cell', { name: '___________' }).or(page.getByRole('cell', { name: '___-___-__-__' })).or(page.getByRole('cell', { name: '_________' })).getByRole('textbox');
     this.submit = page.getByRole('button', { name: 'Submit' });
-    this.GnationalID = page.locator('text=1 item selected, RomaniaRomania1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$533359"] input[role="textbox"]');
-    // this.GExpirationDate = page.locator('[id="\\35 6\\$533362"] div[role="group"] div:has-text("DD") >> nth=1');
-    // this.GIssuedDate = page.locator('[id="\\35 6\\$533356"] div[role="group"] >> text=DD');
-    // this.IssuedBy = page.locator('text=1 item selected, RomaniaRomania1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$149635"] input[role="textbox"]');
-    // this.series = page.locator('text=1 item selected, RomaniaRomania1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$518467"] input[role="textbox"]');
+    this.GnationalID = page.locator('text=1 item selected, PolandPoland1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$533359"] input[role="textbox"]');
+    //this.GExpirationDate = page.locator('[id="\\35 6\\$533362"] div[role="group"] div:has-text("DD") >> nth=1');
+    //this.GIssuedDate = page.locator('[id="\\35 6\\$533356"] div[role="group"] >> text=DD');
+    //this.IssuedBy = page.locator('text=1 item selected, PolandPoland1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$149635"] input[role="textbox"]');
+    //this.series = page.locator('text=1 item selected, PolandPoland1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$518467"] input[role="textbox"]');
 
     this.GExpirationDate = page.locator("//table[@class='mainTable']/tbody/tr/td[8]/descendant::input[@placeholder='DD']");
     this.GIssuedDate = page.locator("//table[@class='mainTable']/tbody/tr/td[7]/descendant::input[@placeholder='DD']");
@@ -105,7 +113,7 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
     this.DEmployeSigned = page.locator('text=Date Employee SignedDate Employee Signedcurrent value is DD/MM/YYYYDD/MM/YYYYuse >> [aria-label="Day"]');
     this.contractEndate = page.locator('text=current value is DD/MM/YYYYDD/MM/YYYYuse right and left arrows to navigate spin  >> [aria-label="Day"]');
     this.contractAddendum = page.locator('[aria-label="Inbox Items"] >> text=Contract:' + ' ' + givenname + ' ' + FamilyName + '');
-    this.contractAddendumtext = page.locator('h3:has-text("Romania Contract Addendum Info")');
+    this.contractAddendumtext = page.locator('h3:has-text("Poland Contract Addendum Info")');
     this.hireAdditiondata = page.locator(':nth-match(:text("Hire: ' + '' + givenname + ' ' + FamilyName + '"),2)');
     this.dependentDataText = page.locator('[aria-label="Click to view/edit grid preferences"]');
     this.depedentChildName = page.getByText('*Do not enter more than 6');
@@ -133,8 +141,11 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
     this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
     this.fillAmount = page.getByLabel('Amount');
     this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
+    this.GID = page.getByRole('cell', { name: '___________' }).or(page.getByRole('cell', { name: '___-___-__-__' })).or(page.getByRole('cell', { name: '_________' })).getByRole('textbox');
+    this.submit = page.getByRole('button', { name: 'Submit' });
     this.govIds = page.getByLabel('Content Area').locator('input[type="text"]')
     this.govIDsEdit2 = page.locator("//div[@data-automation-id='textInput']//input[@size='7' and  @ role='textbox']");
+    this.nationidbtn = page.locator('tr').filter({ hasText: '*Country*National ID' }).getByLabel('Add Row');
   }
 
   async hrPaygroupSubmit(): Promise<void> {
@@ -147,12 +158,12 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
   async AddID(): Promise<void> {
     await this.idChange.click();
     await this.addId.click();
-    await this.GCountry.selectOption({ label: 'Romania' });
+    await this.GCountry.selectOption({ label: 'Poland' });
     await this.GNationalIDType.selectOption({ label: 'Identity Card Number' });
     await this.GID.fill('XH123456');
     await this.GIssuedDate.fill('01/01/2020');
     await this.GExpirationDate.fill('01/01/2030');
-    await this.IssuedBy.fill('Romania');
+    await this.IssuedBy.fill('Poland');
     await this.series.fill('B123');
     await this.hrSubmit.click();
   }
@@ -259,38 +270,35 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
 
 
 
-  async setGovernmentIDsRomania(
+  async setGovernmentIDsHungary(
     country1: string,
-    Country2: string,
     NationalIDType1: string,
-    NationalIDType2: string,
     DepartmentSection1: string,
-    DepartmentSection2: string,
     IssuedDate1: string,
-    IssuedDate2: string,
     ExpirationDate1: string,
+    Country2: string,
+    NationalIDType2: string,
+    DepartmentSection2: string,
+    IssuedDate2: string,
     ExpirationDate2: string,
-    IssuedBy2: string,
-    series2: string,
 
   ) {
-
-    await super.click(this.idChange);
-    await super.click(this.addId);
-    //await this.addId.click();
-    //await this.idChange.click();
+    await super.click(this.idChangeHungary);
+    await super.click(this.addIdHun);
+    await super.click(this.addROWNationalIDs);
     await this.fillGovIDDetails(country1, NationalIDType1, DepartmentSection1, IssuedDate1, ExpirationDate1, true);
+    await this.page.waitForTimeout(500);
 
-    if (!country1.includes("Slovakia")) {
-      // Adding second ID
-      // await this.page.waitForTimeout(500);
-      // await this.addId.click();
+    if (Country2.includes("Hungary")) {
       await super.click(this.addROWNationalIDs);
+      await this.page.waitForTimeout(1000);
       await this.fillGovIDDetails(Country2, NationalIDType2, DepartmentSection2, IssuedDate2, ExpirationDate2, false);
     }
+
     await super.click(this.submit); // last step 
-    //await this.submit.click();
+    await this.page.waitForTimeout(500);
   }
+
 
   async fillGovIDDetails(
     country: string,
@@ -300,65 +308,46 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
     expirationDate: string,
     isFirstID: boolean
   ) {
+    await this.GCountry.scrollIntoViewIfNeeded();
     await super.setTextWithEnter(this.GCountry, country);
     await super.selectFromCustomDropDrown(this.GNationalIDType, String(nationalIDType));
 
     if (isFirstID) {
-      await super.setText(this.govIds, String(idNumber));
+      await super.setText(this.GID, String(idNumber));
       await this.page.keyboard.press('Tab');
-    } else {
-      await super.setText(this.govIDsEdit2, String(idNumber));
+      await super.click(this.GIssuedDate);
+      await super.setTextWithType(this.GIssuedDate, String(issuedDate));
       await this.page.keyboard.press('Tab');
-    }
-    //await this.GCountry.fill(country);
-    // await this.GCountry.press('Enter');
-    // await this.page.waitForTimeout(500);
-    // await this.GNationalIDType.fill(String(nationalIDType));
-    // await this.page.waitForTimeout(500);
-    // await this.GNationalIDType.press('Enter');
-    // await this.page.waitForTimeout(500);
-    //    await this.page.getByLabel('Content Area').locator('input[type="text"]').fill(String(idNumber));
-
-    // await this.page.keyboard.press('Tab');
-    // await this.page.waitForTimeout(500);
-    // await this.GID.press('Control+a');
-    // await this.page.keyboard.type(idNumber);
+      await super.click(this.GExpirationDate);
+      await super.setTextWithType(this.GExpirationDate, String(expirationDate));
+      await this.page.waitForTimeout(500);
+    } 
 
     if (!isFirstID) {
+      await super.setText(this.GID, String(idNumber));
       await this.page.keyboard.press('Tab');
-      // await this.page.waitForTimeout(500);
-      // await this.GIssuedDate.click();
+      await this.page.keyboard.press('Tab');
       await super.click(this.GIssuedDate);
       await super.setTextWithType(this.GIssuedDate, String(issuedDate));
       //await this.GIssuedDate.type(issuedDate);
       await super.click(this.GExpirationDate);
       await super.setTextWithType(this.GExpirationDate, String(expirationDate));
-      //await this.GExpirationDate.click();
-      ////await this.GExpirationDate.type(expirationDate);
-
-      //  await this.GID.press('Control+a');
-
-      // await this.page.keyboard.press('Tab');
-      // await this.page.waitForTimeout(500);
-      // await this.page.keyboard.press('Tab');
-      // await this.page.waitForTimeout(500);
-      // await this.page.keyboard.type(issuedDate);
-
-      // await this.page.keyboard.press('Tab');
-      // await this.page.waitForTimeout(500);
-      // await this.page.keyboard.press('Tab');
-      // await this.page.waitForTimeout(500);
-      // await this.page.keyboard.type(expirationDate);
-
-      // await this.IssuedBy.fill('Test');
-      // await this.series.fill('Test');
-     
-        await super.setText(this.IssuedBy, String('Test'));
-        await super.setText(this.series, String('Test'));
-      
 
     }
+    
+    
+
+
   }
+
+  
+
+  
+
+    
+
+  
+
 
   async hrcontractsubmit(contractType: string, contractStatus: string, DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
     await this.contract.click();
@@ -368,10 +357,6 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
     await this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main').click();
     await this.fillField(this.contractType, contractType);
     await this.fillField(this.contractStatus, contractStatus);
-    // await this.fillField(this.DEmployerSigned, DEmplyersigned);
-    // await this.fillField(this.DEmployeSigned, DEmpsigned);
-    // await this.fillField(this.contractEndate, contractEnddate);
-
     await this.hrSubmit.click();
   }
 
@@ -480,5 +465,3 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
 
 
 }
-
-

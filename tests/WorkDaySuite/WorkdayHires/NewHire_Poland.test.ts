@@ -216,7 +216,7 @@ for (const sheetName in sheetsJson) {
 
         //ChangePersonalInformation
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, "NaN", data.MaritalStatus, data.MaritalStatusDate, data.CitizenshipStatus, "NaN", "", "","","");
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, "NaN", data.MaritalStatus, data.MaritalStatusDate, data.CitizenshipStatus, "NaN", "NaN", "NaN","NaN","NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();

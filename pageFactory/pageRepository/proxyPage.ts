@@ -14,8 +14,7 @@ readonly okButton : Locator;
 constructor (page: Page,context: BrowserContext)
 {
     this.page = page;
-    this.actas = page.locator ('text=Act AsAct As0 items selected >> [placeholder="Search"]');
-
+    this.actas = page.getByLabel('User to Proxy As');
     this.proxyokButton = page.locator ('button:has-text("OK")');
     this.searchboxhome = page.locator('[aria-label="Search Workday "]');
     this.proxystop = page.locator ('text=Stop Proxy');

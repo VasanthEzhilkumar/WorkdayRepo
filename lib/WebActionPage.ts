@@ -35,6 +35,7 @@ export class WebActionsPage {
             await locator.clear();
             await locator.type(String(varString));
             await this.page.waitForTimeout(300);
+            await this.page.keyboard.press('Tab');
             console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
             console.error(`Typing "${varString}" into: ${locator} failed` + error);
