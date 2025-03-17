@@ -287,17 +287,45 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     await super.click(this.addROWNationalIDs);
     await this.fillGovIDDetails(country1, NationalIDType1, AddEditID1, IssuedDate1, ExpirationDate1, true);
 
-    if (!country1.includes("Slovakia")) {
+    if (!country1.includes("Slovakia") && !country1.includes("Slovenia")) {
       // Adding second ID
       // await this.page.waitForTimeout(500);
       // await this.addId.click();
       await super.click(this.addROWNationalIDs);
       await this.fillGovIDDetails(Country2, NationalIDType2, AddEditID2, IssuedDate2, ExpirationDate2, false);
     }
+    if (Country2.includes("Slovenia")) {
+      await super.click(this.page.locator('tr').filter({ hasText: '*Country*Government ID' }).getByLabel('Add Row'));
+      await this.setGovernmentIdsSlovenia(Country2, NationalIDType2, AddEditID2, IssuedDate2, ExpirationDate2);
+    }
     await super.click(this.submit); // last step 
     //await this.submit.click();
   }
 
+  async setGovernmentIdsSlovenia(
+    country: string,
+    nationalIDType: string,
+    idNumber: string,
+    issuedDate: string,
+    expirationDate: string,
+  ) {
+    await super.setTextWithEnter(this.page.getByRole('row', { name: 'Remove Row Country Government' }).getByLabel('Country'), country);
+    await super.selectFromCustomDropDrown(this.page.getByLabel('Government ID Type', { exact: true }), String(nationalIDType));
+    await super.setText(this.page.getByRole('table', { name: 'Government IDs' }).locator('input[type="text"]'), String(idNumber));
+    await this.page.keyboard.press('Tab');
+    await super.setTextWithType(this.page.getByPlaceholder('DD').nth(2), issuedDate);
+    await super.setTextWithType(this.page.getByPlaceholder('DD').nth(3), expirationDate);
+    if (await this.IssuedBy.isVisible()) {
+      await super.setText(this.IssuedBy, String('Test'));
+    }
+  
+    if (await this.series.isVisible()) {
+      await super.setText(this.series, String('Test'));
+    }
+  }
+
+  
+///National IDs
   async setGovernmentIDsUK(
     country1: string,
     NationalIDType1: string,
@@ -314,6 +342,8 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     //await this.submit.click();
   }
 
+
+  ///National IDs
   async fillGovIDDetails(
     country: string,
     nationalIDType: string,

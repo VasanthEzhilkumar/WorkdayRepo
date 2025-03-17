@@ -11,7 +11,6 @@ import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInf
 import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import { generateRandomName } from 'utils/functional/utils';
 
 
 let empNum: string;
@@ -95,7 +94,7 @@ for (const sheetName in sheetsJson) {
         await home.searchHireEmployee();
 
         // set Supervisisroy Organazation 
-        await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
+        await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation);
         await hireEmployee.legalNameInformation(givenName, familyName, "");
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
@@ -207,7 +206,7 @@ for (const sheetName in sheetsJson) {
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, "NaN", data.CitizenshipStatus, data.PrimaryNationality, "NaN", "NaN");
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, "NaN", data.CitizenshipStatus, data.PrimaryNationality, "NaN", "NaN","NaN", "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();

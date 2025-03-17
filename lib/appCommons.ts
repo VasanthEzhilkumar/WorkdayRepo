@@ -48,7 +48,7 @@ export class appCommons extends WebActionsPage {
     this.txtItemsPerPage = page.locator("//label[contains(text(),'Items per page')]/parent::div//descendant::input[@placeholder='Choose an option' and not(contains(@value,'All'))]");
     this.listSelectAll = page.locator("/*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
     this.lblHrDetails2 = page.locator("((//div[contains(text(),'Awaiting Action')]//ancestor::td//following-sibling::td)[3])[1]");
-    this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']");
+    this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']").first();
     this.btnPay=page.getByRole('link', { name: 'Pay' });
     //this.btnPay = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Pay')]");
     this.btnJob = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Job')]").first();

@@ -531,17 +531,20 @@ export class employeeInboxPage extends WebActionsPage {
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
         await this.page.waitForTimeout(1000);
-        await super.setText(this.bankName, bankName);
-        if (String(BankSortCode) !== "NaN" && String(BankSortCode) !== "N/A" && String(BankSortCode) !== undefined) {
+        if (String(bankName) !== "NaN" && String(bankName) !== "N/A" && bankName !== undefined) {
+            await super.setText(this.bankName, bankName);
+        }
+
+        if (String(BankSortCode) !== "NaN" && String(BankSortCode) !== "N/A" && BankSortCode !== undefined) {
             await super.setText(this.bankSortCode, BankSortCode);
         }
-        if (String(bankidentificationnumber) !== "NaN" && String(bankidentificationnumber) !== "N/A" && String(bankidentificationnumber) !== undefined) {
+        if (String(bankidentificationnumber) !== "NaN" && String(bankidentificationnumber) !== "N/A" && bankidentificationnumber !== undefined) {
             await super.setText(this.bankIdentificationCode, bankidentificationnumber);
         }
-        if (String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && String(accNumber) !== undefined) {
+        if (String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && accNumber !== undefined) {
             await super.setText(this.accountNumber, accNumber);
         }
-        if (String(IBANNumber) !== "NaN" && String(IBANNumber) !== "N/A" && String(IBANNumber) !== undefined) {
+        if (String(IBANNumber) !== "NaN" && String(IBANNumber) !== "N/A" && IBANNumber !== undefined) {
             await super.setText(this.IBAN, IBANNumber);
         }
         if (await this.nameOnAccount.isVisible()) {
@@ -597,7 +600,7 @@ export class employeeInboxPage extends WebActionsPage {
 
     //async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
     //maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
-    async changePersonalInformationHun(gender: string, dob: string, countryofbirth: string, city: string, martialstat: string, citizen: string, national: string) {
+    async changePersonalInformationHun(gender: string, dob: string, city: string, martialstat: string, maritalStatusDate: string, citizen: string, national: string, countryofbirth: string) {
 
         // await this.page.waitForTimeout(500);
         //await this.perInformation.click();

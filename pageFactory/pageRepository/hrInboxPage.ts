@@ -3,6 +3,7 @@ import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 
 export class HrInboxPage extends WebActionsPage {
 
+
     readonly page: Page;
     readonly context: BrowserContext;
     readonly hrassignPaygroup: Locator;
@@ -91,6 +92,7 @@ export class HrInboxPage extends WebActionsPage {
     readonly txtGradeProfile: Locator;
     readonly addMedicalExam: Locator;
 
+    readonly collectiveAgreementProfessional: Locator;
     // readonly lblEmpID: Locator;
     // readonly rightToWork: Locator;
 
@@ -136,6 +138,13 @@ export class HrInboxPage extends WebActionsPage {
     readonly hireAdditiondataHungary: Locator;
     readonly mainJob: Locator;
     readonly pensioner: Locator;
+    readonly btnAddPassPort: Locator;
+    readonly txtDateWhenMedicalExamTaken: Locator;
+    readonly txtExpirationDateOfExam: Locator;
+
+    readonly txtAssignCollectiveAgreement: Locator;
+    readonly txtProfessionalCategory: Locator;
+    readonly txtLevel: Locator;
 
     EmployeeNumber: string[];
 
@@ -238,6 +247,7 @@ export class HrInboxPage extends WebActionsPage {
         //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"'+ givenname + ' ' + FamilyName +'")]');
         this.setservicedateschange = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Service Dates Change: ' + givenname + ' ' + FamilyName + '")]');
         this.addMedicalExam = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Medical Exam: ' + givenname + ' ' + FamilyName + '")]');
+        this.collectiveAgreementProfessional = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Employee Collective Agreement: ' + givenname + ' ' + FamilyName + '")]');
         this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
         this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for ' + givenname + ' ' + FamilyName + '")]');
         this.txtYoungParentEffectiveDate = page.locator("//label[contains(.,'Young Parent Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
@@ -280,6 +290,21 @@ export class HrInboxPage extends WebActionsPage {
         this.addTypopodatkowania = page.getByLabel('Typ opodatkowania');
         this.mainJob = page.getByLabel('Main Job', { exact: true });
         this.pensioner = page.locator('.WEDF').first();
+
+        this.btnAddPassPort = page.locator("(//button[@aria-label='Add Row'])[1]");
+        this.txtDateWhenMedicalExamTaken = page.locator("//div[@data-automation-id='fieldSetContent']/descendant::table[@class='mainTable']/tbody/tr[1]/td[2]/descendant::input[@aria-label='Day']");
+        this.txtExpirationDateOfExam = page.locator("//div[@data-automation-id='fieldSetContent']/descendant::table[@class='mainTable']/tbody/tr[1]/td[3]/descendant::input[@aria-label='Day']");
+
+        // this.txtAssignCollectiveAgreement = "xpath:=//label[contains(text(),'Collective Agreement')]/parent::div/following-sibling::div/descendant ::input"
+        // this.txtByCountryLocation = "xpath:=//div[@data-automation-checked='Not Checked']/div[contains(text(),'By Country/Location')]"
+        // this.txtSelectCollectionAgreement = "xpath:=//div[@data-automation-id='promptOption'][contains(text(),'"  '''')]"
+        this.txtProfessionalCategory = page.locator("//label[contains(text(),'Professional Category')]/parent::div/following-sibling::div/descendant ::input");
+        this.txtLevel = page.locator("//label[contains(text(),'Level')]/parent::div/following-sibling::div/descendant ::input");
+
+        this.txtAssignCollectiveAgreement = page.getByLabel('Collective Agreement', { exact: true });
+        // this.txtProfessionalCategory = page.getByLabel('Professional Category').first();
+        //this.txtLevel = page.getByLabel('Level').first();
+
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -377,8 +402,25 @@ export class HrInboxPage extends WebActionsPage {
         await this.hrSubmit.click();
     }
 
-    async changePersonalInformationApproveAndSubmit(): Promise<void> {
 
+
+    async setAddMedicalExam(DateWhenMedicalExamTaken: any, ExpirationDateOfTheExam: any) {
+        await this.addMedicalExam.click();
+        await this.btnAddPassPort.click();
+        await super.setTextWithType(this.txtDateWhenMedicalExamTaken, DateWhenMedicalExamTaken);
+        await super.setTextWithType(this.txtExpirationDateOfExam, ExpirationDateOfTheExam);
+        await this.hrSubmit.click();
+    }
+
+    async setCollectiveAgreementAndProfessionalCategoryAndLevel(CollectiveAgreement: any, ProfessionalCategory: any, Level: any) {
+        await this.collectiveAgreementProfessional.click();
+        await super.selectFromCustomDropDrownBySliptAndEnter(this.txtAssignCollectiveAgreement, CollectiveAgreement);
+        await super.selectFromCustomDropDrown(this.txtProfessionalCategory, ProfessionalCategory);
+        await super.selectFromCustomDropDrown(this.txtLevel, Level);
+        await this.hrSubmit.click();
+    }
+
+    async changePersonalInformationApproveAndSubmit(): Promise<void> {
         // if (await this.perInfochgn.isVisible()) {
         await super.click(this.perInfochgn);
         await this.page.waitForTimeout(2000);
@@ -503,6 +545,7 @@ export class HrInboxPage extends WebActionsPage {
         await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
+
     async SetMedicalExamForm() {
         await this.page.waitForTimeout(500);
         await this.addMedicalExam.click();
@@ -826,7 +869,7 @@ export class HrInboxPage extends WebActionsPage {
 
         } else {
             await super.click(this.hrSubmit);
-            
+
         }
 
     }

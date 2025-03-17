@@ -105,7 +105,7 @@ export class JobDetailsPage extends WebActionsPage {
     this.position = page.getByLabel('Position').first();
     //this.hireDate = page.locator('text=Hire DateHire Datecurrentvalue is DD/MM/YYYYDD/MM/YYYYuse right and left arrows >> div[role="group"]');
     //this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
-    this.reason=page.getByLabel('Reason');
+    this.reason = page.getByLabel('Reason');
     this.empType = page.getByLabel('Employee Type');//locator('text=Employee TypeEmployee Type0 items selected >> [placeholder="Search"]');
     this.jobprofile = page.getByLabel('Job Profile', { exact: true });//locator('text=Job ProfileJob Profile0 items selected >> [placeholder="Search"]');
     this.timetype = page.getByLabel('Time Type', { exact: true });//locator('text=Time TypeTime Type0 items selected >> [placeholder="Search"]');
@@ -177,20 +177,15 @@ export class JobDetailsPage extends WebActionsPage {
       //   await super.click(this.page.getByLabel('Pay Rate Type', { exact: true }));
       //   await super.selectFromCustomDropDrown(this.page.getByLabel('Pay Rate Type'), PayRateType.trim());
       // }
-
     } else {
       await super.selectFromCustomDropDrown(this.position, position);
     }
-
     // await super.setText(this.schdeuledHours, schdeuledhours);
-    if (await this.defaultHours.isVisible() && defaultHours != "NaN" && defaultHours != "N/A" && defaultHours != undefined) {
+    if (await this.defaultHours.isVisible() && defaultHours !== "NaN" && defaultHours !== "N/A" && defaultHours !== undefined) {
       await super.setText(this.defaultHours, defaultHours);
     }
     await super.setText(this.schdeuledHours, schdeuledhours);
-    await this.page.waitForTimeout(500);
-
     await super.click(this.workshift);
-    await this.page.waitForTimeout(500);
     //await super.setTextWithEnter(this.workshiftExp, workshift);
     await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
 
@@ -210,7 +205,7 @@ export class JobDetailsPage extends WebActionsPage {
     //Commented for UI Change 17-03-25
     //await super.click(this.additionlInformation);
     await this.page.waitForTimeout(1000);
-    if (AdditionalJobClassifications != undefined) {
+    if (AdditionalJobClassifications !== undefined) {
       const str: string[] = AdditionalJobClassifications.split('@');
       for (let i = 0; i < str.length; i++) {
         //await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
@@ -218,18 +213,19 @@ export class JobDetailsPage extends WebActionsPage {
       }
     }
 
-    if (await this.endEmploymentDate.isVisible() && EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
-      if (EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
+    if (await this.endEmploymentDate.isVisible() && EndEmploymentDate !== "N/A" && EndEmploymentDate !== "NaN" && EndEmploymentDate !== undefined) {
+      if (EndEmploymentDate !== "N/A" && EndEmploymentDate !== "NaN" && EndEmploymentDate !== undefined && EndEmploymentDate !== "") {
         await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
       }
-      await super.click(this.submitButton);
-      // Check for error button
-      await this.page.waitForTimeout(1000);
-      const errorButton = this.page.getByRole('button', { name: 'Error' });
-      if (await errorButton.count() > 0) {
-        await errorButton.click();
-      }
     }
-
+    await super.click(this.submitButton);
+    // Check for error button
+    await this.page.waitForTimeout(1000);
+    const errorButton = this.page.getByRole('button', { name: 'Error' });
+    if (await errorButton.count() > 0) {
+      await errorButton.click();
+    }
   }
+
 }
+
