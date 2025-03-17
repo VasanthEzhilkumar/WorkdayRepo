@@ -91,6 +91,8 @@ export class ProposeCompensationPage extends WebActionsPage {
     readonly fimilyName1: string;
     readonly btnDeleteallowance: Locator;
     readonly btnDeletePopup: Locator;
+    readonly btnDeletePopupslovenia: Locator;
+    readonly btnDeleteallowanceSlovenia: Locator;
 
     EmployeeNumber: string[];
 
@@ -185,6 +187,8 @@ export class ProposeCompensationPage extends WebActionsPage {
         //this.btnDeletePopup =page.getByRole('button', { name: 'Delete' })
         this.btnDeletePopup = page.locator("//span[text()='Delete']/parent::button[@title='Delete']").first();
         this.btnDeleteallowance = page.locator("(//button[@title = 'Delete' and @aria-label='Delete Allowance'])[1]");
+        this.btnDeletePopupslovenia = page.locator("//span[text()='Delete']/parent::button[@title='Delete']");
+        this.btnDeleteallowanceSlovenia = page.locator("(//button[@title = 'Delete' and contains(@aria-label,'Delete Allowance')])");
         this.btnMainErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarViewAllCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
         this.btnSideErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
 
@@ -208,10 +212,10 @@ export class ProposeCompensationPage extends WebActionsPage {
 
 
     /*
-  @Description : This generic method is used to set salary amount, Grade profile and step if required.
-  @Author      : @ Madhukar Kirkan
-  @Param       :  required test data such as GradeProfile, GradeProfile, GradeProfile.
-  @updated on 25th Oct'24 by  : @ Ramchandra Desai - added Allowance Amount argument to make it more generic 
+    @Author      : @ Madhukar Kirkan
+    @Description : This generic method is used to set salary amount, Grade profile and step if required.
+    @Param       :  required test data such as GradeProfile, step etc
+    @updated on 25th Oct'24 by  : @ Ramchandra Desai - added Allowance Amount argument to make it more generic 
   */
     async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
 
@@ -270,15 +274,20 @@ export class ProposeCompensationPage extends WebActionsPage {
             }
             //}
         }
-       // @added by Gayatri if allowance btn need to be deleted
-        // if (await Country == "Poland") {
-        //     //this.clickDeletePopupbtn();
-        //     await this.btnDeleteallowance.click();
-        //     await this.page.waitForTimeout(500);
-        //     await this.btnDeletePopup.click();
-        // }
+        //@added by Gayatri if allowance btn need to be deleted
+        //updated by @Madhukar for Slovenia need to delete first and fourth allowance.
+        if (await Country === "Slovenia") {
+            await this.btnDeleteallowanceSlovenia.nth(3).click();
+            await this.page.waitForTimeout(700);
+            await this.btnDeletePopupslovenia.first().click({ 'force': true });
+            await this.page.waitForTimeout(1000);
+            // this.clickDeletePopupbtn();
+            await this.btnDeleteallowanceSlovenia.nth(0).click();
+            await this.page.waitForTimeout(500);
+            await this.btnDeletePopupslovenia.first().click();
+        }
 
-        if (AllowanceAmount != "N/A" && AllowanceAmount != "NaN" && AllowanceAmount != undefined && AllowanceAmount != "Defaulted") {
+        if (AllowanceAmount !== "N/A" && AllowanceAmount !== "NaN" && AllowanceAmount !== undefined && AllowanceAmount !== "Defaulted") {
             if (await this.btnEditAllowance.isVisible()) {
                 //  && await this.editSalary.isVisible()) {
                 await this.click(this.btnEditAllowance);

@@ -2,6 +2,7 @@ import { Page, Locator, } from '@playwright/test';
 import moment from "moment";
 /*
 @Author      : @ Madhukar Kirkan
+@Description : all common action methods related to web page.
 */
 export class WebActionsPage {
     readonly page: Page;
@@ -10,7 +11,7 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 500;
+        this.timeOut = 300;
     }
 
     async setText(locator: Locator, varString: String,) {
@@ -72,8 +73,9 @@ export class WebActionsPage {
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
-                await this.page.keyboard.press('Tab');
+
             }
+            await this.page.keyboard.press('Tab');
             // await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {
@@ -96,8 +98,9 @@ export class WebActionsPage {
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
-                await this.page.keyboard.press('Tab');
+
             }
+            await this.page.keyboard.press('Tab');
 
             // await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
@@ -162,9 +165,7 @@ export class WebActionsPage {
 
     async click(locator: Locator) {
         try {
-            // console.log(`Clicking on : ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
-            //await locator.click({'force':true});
             await locator.click();
             console.log(`Clicking on : ${locator}`);
         } catch (error) {

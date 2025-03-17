@@ -96,7 +96,7 @@ export class hrInboxUSPage extends WebActionsPage {
     }
 
 
-    async onboardSetup(){
+    async onboardSetup() {
         await this.page.waitForTimeout(5000);
         if (await this.onboardtxt.isVisible()) {
             await this.onboardtxt.click();
@@ -157,6 +157,9 @@ export class hrInboxUSPage extends WebActionsPage {
         await this.chgGovIds.click();
         await this.addId.click();
         await this.fillGovIDDetailsUS(country1, NationalIDType1, NIDPersonal, IssuedDate1, ExpirationDate1, true);
+        // if (Country2 === "Slovenia") {
+        //     await this.fillGovIDDetailsUS(Country2, NationalIDType2, IDCardNumber, IssuedDate2, ExpirationDate2, false);
+        // }
         await this.submit.click();
     }
 

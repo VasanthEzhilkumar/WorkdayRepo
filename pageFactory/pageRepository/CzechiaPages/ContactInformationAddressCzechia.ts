@@ -1,6 +1,4 @@
-import { WebActions } from '@lib/WebActions';
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
-import { count } from 'console';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 
 export class contactInformationAddressCzechia {
 
@@ -41,10 +39,10 @@ export class contactInformationAddressCzechia {
         this.addressLine1 = page.locator('//label[text()="Address Line 1"]/parent::div/following-sibling::div//input');
         this.addressLine2 = page.locator('//label[text()="Address Line 2"]/parent::div/following-sibling::div//input');
         this.addressLine3 = page.locator('//label[text()="Address Line 3"]/parent::div/following-sibling::div//input');
-    } 
+    }
 
-    async contactInformationAddress(StreetName: string, PostalCode: number, city: string, County: string, addressType: string, houseNumber:string, referenceNumber: string, locality: string, region: string, useFor: string) {
-       
+    async contactInformationAddress(StreetName: string, PostalCode: number, city: string, County: string, addressType: string, houseNumber: string, referenceNumber: string, locality: string, region: string, useFor: string) {
+
         await this.page.waitForTimeout(500);
         await this.addAddress.click();
         await this.streetName.fill(StreetName);
@@ -67,8 +65,24 @@ export class contactInformationAddressCzechia {
         await this.page.keyboard.press('Enter');
     }
 
-    async contactInformationAddressUK(EffectiveDate: string, Country: string, County: string, AddressLine1: string, AddressLine2: string, AddressLine3: string, PostalCode: string, City: string, Type:string, UseFor:string) {
-       
+    async contactInformationAddressSlovenia(County: string, AddressLine1: string, AddressLine2: string, PostalCode: string, City: string, Type: string, UseFor: string) {
+
+        await this.page.waitForTimeout(500);
+        await this.addAddress.click();
+        await this.addressLine1.fill(AddressLine1);
+        await this.addressLine2.fill(AddressLine2);
+        await this.city.fill(City);
+        // await this.county.fill(County);
+        // await this.page.keyboard.press('Enter');
+        await this.postalCode.fill(String(PostalCode));
+        await this.addressType.click()
+        await this.page.getByLabel('' + Type + ' checkbox Not Checked').getByRole('checkbox').check();
+        await this.useFor.fill(UseFor);
+        await this.page.keyboard.press('Enter');
+    }
+
+    async contactInformationAddressUK(EffectiveDate: string, Country: string, County: string, AddressLine1: string, AddressLine2: string, AddressLine3: string, PostalCode: string, City: string, Type: string, UseFor: string) {
+
         await this.page.waitForTimeout(500);
         await this.addAddress.click();
 

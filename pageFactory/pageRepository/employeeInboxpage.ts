@@ -255,7 +255,7 @@ export class employeeInboxPage extends WebActionsPage {
             if (await this.reviewDoc.isVisible()) {
                 await super.click(this.reviewDoc);
                 await this.page.waitForTimeout(1500);
-                
+
                 for (let j = 1; j <= await this.agreeCheckbox.count(); j++) {
                     // await this.page.waitForTimeout(1500);
                     if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']').isVisible()) {
@@ -511,17 +511,20 @@ export class employeeInboxPage extends WebActionsPage {
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
         await this.page.waitForTimeout(1000);
-        await super.setText(this.bankName, bankName);
-        if (String(BankSortCode) !== "NaN" && String(BankSortCode) !== "N/A" && String(BankSortCode) !== undefined) {
+        if (String(bankName) !== "NaN" && String(bankName) !== "N/A" && bankName !== undefined) {
+            await super.setText(this.bankName, bankName);
+        }
+
+        if (String(BankSortCode) !== "NaN" && String(BankSortCode) !== "N/A" && BankSortCode !== undefined) {
             await super.setText(this.bankSortCode, BankSortCode);
         }
-        if (String(bankidentificationnumber) !== "NaN" && String(bankidentificationnumber) !== "N/A" && String(bankidentificationnumber) !== undefined) {
+        if (String(bankidentificationnumber) !== "NaN" && String(bankidentificationnumber) !== "N/A" && bankidentificationnumber !== undefined) {
             await super.setText(this.bankIdentificationCode, bankidentificationnumber);
         }
-        if (String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && String(accNumber) !== undefined) {
+        if (String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && accNumber !== undefined) {
             await super.setText(this.accountNumber, accNumber);
         }
-        if (String(IBANNumber) !== "NaN" && String(IBANNumber) !== "N/A" && String(IBANNumber) !== undefined) {
+        if (String(IBANNumber) !== "NaN" && String(IBANNumber) !== "N/A" && IBANNumber !== undefined) {
             await super.setText(this.IBAN, IBANNumber);
         }
         if (await this.nameOnAccount.isVisible()) {
@@ -576,7 +579,7 @@ export class employeeInboxPage extends WebActionsPage {
 
 
     //async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
-        //maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
+    //maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
     async changePersonalInformationHun(gender: string, dob: string, city: string, martialstat: string, maritalStatusDate: string, citizen: string, national: string, countryofbirth: string) {
 
         // await this.page.waitForTimeout(500);
@@ -682,7 +685,7 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
-        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) { 
+        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
 
         // await this.page.waitForTimeout(500);
         await this.chgPersonalInformation.click();
@@ -715,21 +718,21 @@ export class employeeInboxPage extends WebActionsPage {
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
 
-if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined) {
-    if (await this.editmartial.count() > 0) {
-        await super.click(this.editmartial);
-        await super.setTextWithEnter(this.martialstatus, martialstat);
-        //*@Gayatri for poland 
-        if (maritalStatusDate !== "" && maritalStatusDate !== "NaN" && maritalStatusDate !== "N/A" && maritalStatusDate !== undefined) {
-            await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
+        if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined) {
+            if (await this.editmartial.count() > 0) {
+                await super.click(this.editmartial);
+                await super.setTextWithEnter(this.martialstatus, martialstat);
+                //*@Gayatri for poland 
+                if (maritalStatusDate !== "" && maritalStatusDate !== "NaN" && maritalStatusDate !== "N/A" && maritalStatusDate !== undefined) {
+                    await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
+                }
+                await super.click(this.page.getByLabel('Save Marital Status'));
+            } else {
+                // console.error('Edit martial button is not present, and marking as fail. ');
+            }
+
+
         }
-        await super.click(this.page.getByLabel('Save Marital Status'));
-    } else {
-        // console.error('Edit martial button is not present, and marking as fail. ');
-    }
-
-
-}
 
         if (RaceEthnicity != "" && RaceEthnicity != "NaN" && RaceEthnicity != "N/A" && RaceEthnicity != undefined) {
             await super.click(this.editRaceEthnicity);
