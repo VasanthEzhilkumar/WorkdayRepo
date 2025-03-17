@@ -11,7 +11,6 @@ import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzech
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
 import { employeeInboxUSPage } from '@pages/USPages/employeeInboxUSPage';
-import { hrInboxUSPage } from '@pages/USPages/hrInboxUSPage';
 import { generateRandomName } from 'utils/functional/utils';
 
 
@@ -44,7 +43,6 @@ for (const sheetName in sheetsJson) {
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
         const empInboxUS = new employeeInboxUSPage(page, context);
-        const hrInboxUS = new hrInboxUSPage(page, context, givenName, familyName, jobProfile)
         const homePageRon = new contactInformationAddressCzechia(page, context)
         const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
         const createPostition = new createPositionPage(page);
