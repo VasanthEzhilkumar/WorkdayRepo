@@ -230,7 +230,7 @@ export class appCommons extends WebActionsPage {
   }
 
 
-  async getInnerText1(page: Page, fieldSelector: Locator): Promise<string> {
+  async getInnerText1(page, fieldSelector: Locator): Promise<string> {
     await fieldSelector.waitFor;
     //await fieldSelector.scrollIntoViewIfNeeded();
     await expect(fieldSelector).toBeVisible();
