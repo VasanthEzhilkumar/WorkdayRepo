@@ -295,7 +295,7 @@ export class HrInboxPage extends WebActionsPage {
         this.txtDateWhenMedicalExamTaken = page.locator("//div[@data-automation-id='fieldSetContent']/descendant::table[@class='mainTable']/tbody/tr[1]/td[2]/descendant::input[@aria-label='Day']");
         this.txtExpirationDateOfExam = page.locator("//div[@data-automation-id='fieldSetContent']/descendant::table[@class='mainTable']/tbody/tr[1]/td[3]/descendant::input[@aria-label='Day']");
 
-        // this.txtAssignCollectiveAgreement = "xpath:=//label[contains(text(),'Collective Agreement')]/parent::div/following-sibling::div/descendant ::input"
+        //this.txtAssignCollectiveAgreement = page.locator("//label[contains(text(),'Collective Agreement')]/parent::div/following-sibling::div/descendant ::input");
         // this.txtByCountryLocation = "xpath:=//div[@data-automation-checked='Not Checked']/div[contains(text(),'By Country/Location')]"
         // this.txtSelectCollectionAgreement = "xpath:=//div[@data-automation-id='promptOption'][contains(text(),'"  '''')]"
         this.txtProfessionalCategory = page.locator("//label[contains(text(),'Professional Category')]/parent::div/following-sibling::div/descendant ::input");

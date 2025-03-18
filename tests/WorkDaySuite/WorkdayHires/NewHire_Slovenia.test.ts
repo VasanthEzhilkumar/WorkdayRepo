@@ -131,7 +131,7 @@ for (const sheetName in sheetsJson) {
         //fill ''Add Medical Exam''
         await hrInbxPage.setAddMedicalExam(data.DateWhenMedicalExamTaken, data.ExpirationDateOfTheExam);
         await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
+        //await appCommon.refreshInbox();
 
         await hrInbxPage.setCollectiveAgreementAndProfessionalCategoryAndLevel(data.CollectiveAgreement, data.ProfessionalCategory, data.Level);
         await appCommon.SuccessEventHandle();
@@ -228,7 +228,7 @@ for (const sheetName in sheetsJson) {
 
         //await appCommon.SuccessEventHandle();
         await appCommon.SearchClickLink(empNum)
-        await appCommon.assignPaygroupValidation(String(data.ProposedPayGroup));
+        await appCommon.assignPaygroupValidation(String(data.ProposedPayGroupFinal));
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         await appCommon.tearDown();

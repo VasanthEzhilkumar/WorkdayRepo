@@ -117,7 +117,7 @@ export class appCommons extends WebActionsPage {
   }
 
   async MyTasks() {
-    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").first().isVisible()) {
+    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").first().count() > 0) {
       await super.click(this.page.getByLabel('Close notification').first());
     }
     // [data-automation-id="asyncNotificationCloseButton"] span
