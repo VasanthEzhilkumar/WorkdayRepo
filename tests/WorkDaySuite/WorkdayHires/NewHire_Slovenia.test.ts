@@ -135,7 +135,7 @@ for (const sheetName in sheetsJson) {
 
         await hrInbxPage.setCollectiveAgreementAndProfessionalCategoryAndLevel(data.CollectiveAgreement, data.ProfessionalCategory, data.Level);
         await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
+        // await appCommon.refreshInbox();
 
         //fill Contract Details for Employee
         await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, String(data.ContractReason));
@@ -145,7 +145,7 @@ for (const sheetName in sheetsJson) {
 
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
         await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
+        // await appCommon.refreshInbox();
 
         await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "Slovenia", "NaN");
@@ -210,7 +210,6 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
         // await hrInbxPage.clickMaintainRightToWorkDocumentationANDeditPassportsAndVisas("Personal Information Change:");
         // await capObj.checkForScreenErrors();
         // await appCommon.SuccessEventHandle();

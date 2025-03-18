@@ -102,7 +102,8 @@ export class JobDetailsPage extends WebActionsPage {
     //this.hireDate = page.locator('[aria-label="Day"][type="number"]').first();
     this.hireDate = page.locator("//label[contains(.,'Hire Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
 
-    this.position = page.getByLabel('Position').first();
+    this.position = page.getByRole('textbox', { name: 'Position' }).first();
+    
     //this.hireDate = page.locator('text=Hire DateHire Datecurrentvalue is DD/MM/YYYYDD/MM/YYYYuse right and left arrows >> div[role="group"]');
     //this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
     this.reason = page.getByLabel('Reason');
@@ -166,7 +167,7 @@ export class JobDetailsPage extends WebActionsPage {
     //await super.setTextWithType(this.hireDate,HireDate1);
     await super.setTextWithType(this.hireDate, HireDate1);
     await super.setTextWithEnter(this.reason, "New Hire");
-    await this.page.waitForTimeout(1500);
+    await this.page.waitForTimeout(500);
     if (!position.includes('Auto')) {
       await super.selectFromCustomDropDrown(this.empType, EmployeeType.trim());
       await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString().trim());
@@ -204,7 +205,7 @@ export class JobDetailsPage extends WebActionsPage {
     //await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
     //Commented for UI Change 17-03-25
     //await super.click(this.additionlInformation);
-    await this.page.waitForTimeout(1000);
+    // await this.page.waitForTimeout(1000);
     if (AdditionalJobClassifications !== undefined) {
       const str: string[] = AdditionalJobClassifications.split('@');
       for (let i = 0; i < str.length; i++) {
@@ -220,7 +221,7 @@ export class JobDetailsPage extends WebActionsPage {
     }
     await super.click(this.submitButton);
     // Check for error button
-    await this.page.waitForTimeout(1000);
+    // await this.page.waitForTimeout(1000);
     const errorButton = this.page.getByRole('button', { name: 'Error' });
     if (await errorButton.count() > 0) {
       await errorButton.click();
