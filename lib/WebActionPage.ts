@@ -20,6 +20,7 @@ export class WebActionsPage {
             await locator.focus();
             await locator.clear();
             await locator.fill(String(varString));
+            await this.page.keyboard.press('Tab');
             // await this.page.waitForTimeout(300);
             console.log(`Entering "${varString}" value on: ${locator}`);
         } catch (error) {

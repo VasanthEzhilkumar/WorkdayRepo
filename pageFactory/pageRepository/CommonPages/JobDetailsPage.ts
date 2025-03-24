@@ -95,7 +95,8 @@ export class JobDetailsPage extends WebActionsPage {
     this.existingPreHireSearch = this.page.locator('text=Existing Pre-HireOptions Expanded >> [placeholder="Search"]');
     this.okButtonHireEmployee = page.getByRole('button', { name: 'OK' })
     this.okButton = page.getByRole('button', { name: 'OK' })
-    this.submitButton = page.locator('button:has-text("SUBMIT")');
+    //this.submitButton = page.locator('button:has-text("SUBMIT")');
+    this.submitButton=page.getByRole('button', { name: 'Submit' });
     this.emailTypeExtended = page.locator('text=TypeType0 items selected, press enter to view all options, or type to search and >> [placeholder="Search"]')
 
     //Hire Employee Locators
@@ -222,13 +223,16 @@ export class JobDetailsPage extends WebActionsPage {
       if (EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
         await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
       }
+
+    }
+     await this.page.waitForTimeout(1000);
       await super.click(this.submitButton);
       // Check for error button
       await this.page.waitForTimeout(1000);
       const errorButton = this.page.getByRole('button', { name: 'Error' });
       if (await errorButton.count() > 0) {
         await errorButton.click();
-      }
+      
     }
 
   }

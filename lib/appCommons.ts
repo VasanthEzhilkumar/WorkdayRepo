@@ -110,7 +110,7 @@ export class appCommons extends WebActionsPage {
   }
 
   async clickCollpaseMyTasks() {
-    if (await this.btnMyTaskCollapse.isVisible()) {
+    if (await this.btnMyTaskCollapse.count()) {
       await super.click(this.btnMyTaskCollapse);
     }
 
