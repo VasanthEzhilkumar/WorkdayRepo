@@ -1,5 +1,4 @@
 import test from '@lib/BaseTest';
-
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
@@ -132,7 +131,6 @@ for (const sheetName in sheetsJson) {
         // const HRPartner = "10559802"
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
 
@@ -142,8 +140,8 @@ for (const sheetName in sheetsJson) {
         //await empInboxpage.changepersonalinformationSubmit();
 
         //fill Government IDs  Details for Hungary Employee
-        await governemntIDs.setGovernmentIDsHungary(data.Country1,data.NationalIDType1,data.AddEditID1, data.IssuedDate1,data.ExpirationDate1, 
-          data.Country2,data.NationalIDType2,data.AddEditID2, data.IssuedDate2,data.ExpirationDate2);
+        await governemntIDs.setGovernmentIDsHungary(data.Country1, data.NationalIDType1, data.AddEditID1, data.IssuedDate1, data.ExpirationDate1,
+          data.Country2, data.NationalIDType2, data.AddEditID2, data.IssuedDate2, data.ExpirationDate2);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
@@ -178,10 +176,10 @@ for (const sheetName in sheetsJson) {
         //await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-         //await appCommon.MyTasks();
-         await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, data.AllowanceAmount);
-         await capObj.checkForScreenErrors();
-         await appCommon.SuccessEventHandle();    
+        //await appCommon.MyTasks();
+        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, data.AllowanceAmount);
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
 
         //Notice Period
         await hrInbxPage.clickEditNoticePeriodsforHireSubmit()
@@ -194,7 +192,6 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
 
         await empInboxpage.onBoardingGuide();
@@ -204,66 +201,69 @@ for (const sheetName in sheetsJson) {
 
 
         //Till This Working Fine
-          await empInboxpage.addEmployeeBankDetailsforHungaryn(
-              data.BankName, 
-              data.BankIdentificationCode, 
-              data.AccountNumber, 
-              String(data.IBAN), 
-              data.AccountType, 
-              data.AccountNickname, 
-              data.BankName2,
-              data.BankIdentificationCode2,
-              data.AccountNumber2,
-              String(data.IBAN2),
-              data.AccountType2,
-              data.accountNickname2
-          );
-
-        //await capObj.checkForScreenErrors();
+        await empInboxpage.addEmployeeBankDetailsforHungaryn(
+          data.BankName,
+          data.BankIdentificationCode,
+          data.AccountNumber,
+          String(data.IBAN),
+          data.AccountType,
+          data.AccountNickname,
+          data.BankName2,
+          data.BankIdentificationCode2,
+          data.AccountNumber2,
+          String(data.IBAN2),
+          data.AccountType2,
+          data.AccountNickname2,
+          data.PaymentType,
+          data.Account,
+          data.Percent
+        );
         await appCommon.SuccessEventHandle();
+
+
+        await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
+        await appCommon.SuccessEventHandle();
+
+
+        await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Personal Information");
+        await appCommon.SuccessEventHandle();
+
         await empInboxpage.changeGovIDInformation();
         await appCommon.SuccessEventHandle();
+
         await empInboxpage.AddEmergecyInformation();
         await appCommon.SuccessEventHandle();
+
         await empInboxpage.reviewDocumentSubmitGeneric();
-        // await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
-        // await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        //await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankCode, String(data.AccountNumber), String(data.IBAN));
-        await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
         await appCommon.SearchClickLink(empNum)
-        //need to make it generic method for adding additional name such maiden name, fathers name
-        await empInboxpage.addAdditionalName(data.NameType, data.GivenName1, data.FamilyName1);
+        await empInboxpage.addAdditionalNameHungary(data.NameType, data.Country, data.GivenName1, data.FamilyName1, data.NameType2);
+
         //let HRPartner = "10559802";
+
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
 
-        await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
-        await capObj.checkForScreenErrors();
+        await hrInbxPage.updateWorkerContactInfo();
         await appCommon.SuccessEventHandle();
 
-        await hrInbxPage.updateWorkerContactInfo();
+        await hrInbxPage.addWorkerBankDetails();
         await appCommon.SuccessEventHandle();
 
         await hrInbxPage.clickInboxMyTaskAndApprove("Payment Election:");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await hrInbxPage.addWorkerBankDetails();
+        await empInboxpage.clickInboxMyTaskAndSubmit("Maiden Names: Hire:");
         await appCommon.SuccessEventHandle();
 
-        await hrInbxPage.clickInboxMyTaskAndSubmit("Personal Information Change:");
+        await hrInbxPage.assignPayGroupForHireApprove(data.ProposedPayGroupFinal);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await appCommon.MyTasks();
-        await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
+        await hrInbxPage.assignPayGroupApprove(data.ProposedPayGroupFinal);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 

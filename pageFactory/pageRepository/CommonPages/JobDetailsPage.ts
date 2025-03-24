@@ -95,7 +95,8 @@ export class JobDetailsPage extends WebActionsPage {
     this.existingPreHireSearch = this.page.locator('text=Existing Pre-HireOptions Expanded >> [placeholder="Search"]');
     this.okButtonHireEmployee = page.getByRole('button', { name: 'OK' })
     this.okButton = page.getByRole('button', { name: 'OK' })
-    this.submitButton = page.locator('button:has-text("SUBMIT")');
+    //this.submitButton = page.locator('button:has-text("SUBMIT")');
+    this.submitButton=page.getByRole('button', { name: 'Submit' });
     this.emailTypeExtended = page.locator('text=TypeType0 items selected, press enter to view all options, or type to search and >> [placeholder="Search"]')
 
     //Hire Employee Locators
