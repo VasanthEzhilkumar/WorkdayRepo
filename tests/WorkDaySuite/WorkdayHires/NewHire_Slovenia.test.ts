@@ -8,6 +8,7 @@ import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationP
 import { createPositionPage } from '@pages/createPositionpage';
 import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInformationAddressCzechia';
 import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
+import { EditPassportsAndVisasPage } from '@pages/EditPassportsAndVisasPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
 import { employeeInboxUSPage } from '@pages/USPages/employeeInboxUSPage';
@@ -51,7 +52,7 @@ for (const sheetName in sheetsJson) {
         const contractObj = new MaintainContractPage(page, givenName, familyName, context);
         const capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index);
         const governemntIDs = new GovernmentsIDPageCzechia(page, givenName, familyName, context);
-
+        const editAndVissaPage = new EditPassportsAndVisasPage(page, givenName, familyName, context)
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
@@ -210,23 +211,15 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        // await hrInbxPage.clickMaintainRightToWorkDocumentationANDeditPassportsAndVisas("Personal Information Change:");
-        // await capObj.checkForScreenErrors();
-        // await appCommon.SuccessEventHandle();
 
-        //const HRPartner1 = await appCommon.getHRpartnerIDFromEmployeeWorkerHistory(empNum, "Assign Pay Group for Hire:");
-        //// await appCommon.refreshInbox();
+        await editAndVissaPage.clickMaintainRightToWorkDocumentationANDeditPassportsAndVisas(empNum, data.Country, data.PassportIDType, data.IdentificationNo, data.IssuedDate, data.ExpirationDate);
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
 
-        // await appCommon.Searchbox("Start Proxy");
-        // await proxy.startProxy(HRPartner);
-
-        // await appCommon.ClickInbox();
         await appCommon.MyTasks();
-
         await hrInbxPage.assignPayGroupApprove(String(data.ProposedPayGroupFinal));
         await capObj.checkForScreenErrors();
 
-        //await appCommon.SuccessEventHandle();
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(String(data.ProposedPayGroupFinal));
         // Write the results to the Excel file

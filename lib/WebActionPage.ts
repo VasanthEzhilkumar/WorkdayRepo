@@ -11,7 +11,7 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 500;
+        this.timeOut = 300;
     }
 
     async setText(locator: Locator, varString: String,) {
@@ -74,7 +74,6 @@ export class WebActionsPage {
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
-
             }
             await this.page.keyboard.press('Tab');
             // await this.page.waitForTimeout(this.timeOut);
@@ -99,10 +98,8 @@ export class WebActionsPage {
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
-
             }
             await this.page.keyboard.press('Tab');
-
             // await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {

@@ -2,8 +2,6 @@ import { WebActionsPage } from '@lib/WebActionPage';
 import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 
 export class HrInboxPage extends WebActionsPage {
-
-
     readonly page: Page;
     readonly context: BrowserContext;
     readonly hrassignPaygroup: Locator;
@@ -295,15 +293,17 @@ export class HrInboxPage extends WebActionsPage {
         this.txtDateWhenMedicalExamTaken = page.locator("//div[@data-automation-id='fieldSetContent']/descendant::table[@class='mainTable']/tbody/tr[1]/td[2]/descendant::input[@aria-label='Day']");
         this.txtExpirationDateOfExam = page.locator("//div[@data-automation-id='fieldSetContent']/descendant::table[@class='mainTable']/tbody/tr[1]/td[3]/descendant::input[@aria-label='Day']");
 
-        //this.txtAssignCollectiveAgreement = page.locator("//label[contains(text(),'Collective Agreement')]/parent::div/following-sibling::div/descendant ::input");
+        this.txtAssignCollectiveAgreement = page.locator("//label[contains(text(),'Collective Agreement')]/parent::div/following-sibling::div/descendant ::input");
         // this.txtByCountryLocation = "xpath:=//div[@data-automation-checked='Not Checked']/div[contains(text(),'By Country/Location')]"
         // this.txtSelectCollectionAgreement = "xpath:=//div[@data-automation-id='promptOption'][contains(text(),'"  '''')]"
         this.txtProfessionalCategory = page.locator("//label[contains(text(),'Professional Category')]/parent::div/following-sibling::div/descendant ::input");
         this.txtLevel = page.locator("//label[contains(text(),'Level')]/parent::div/following-sibling::div/descendant ::input");
 
-        this.txtAssignCollectiveAgreement = page.getByLabel('Collective Agreement', { exact: true });
+        //this.txtAssignCollectiveAgreement = page.getByLabel('Collective Agreement', { exact: true });
         // this.txtProfessionalCategory = page.getByLabel('Professional Category').first();
         //this.txtLevel = page.getByLabel('Level').first();
+
+
 
     }
 
@@ -413,10 +413,14 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setCollectiveAgreementAndProfessionalCategoryAndLevel(CollectiveAgreement: any, ProfessionalCategory: any, Level: any) {
-        await this.collectiveAgreementProfessional.click();
+        await this.page.waitForTimeout(500);
+        await super.click(this.collectiveAgreementProfessional);
         await super.selectFromCustomDropDrownBySliptAndEnter(this.txtAssignCollectiveAgreement, CollectiveAgreement);
+        await this.txtAssignCollectiveAgreement.press('Tab');
         await super.selectFromCustomDropDrown(this.txtProfessionalCategory, ProfessionalCategory);
+        await this.txtProfessionalCategory.press('Tab');
         await super.selectFromCustomDropDrown(this.txtLevel, Level);
+        await this.txtLevel.press('Tab');
         await this.hrSubmit.click();
     }
 
@@ -594,6 +598,7 @@ export class HrInboxPage extends WebActionsPage {
             await super.click(this.page.getByRole('button', { name: 'Approve' }));
         }
     }
+
 
 
 

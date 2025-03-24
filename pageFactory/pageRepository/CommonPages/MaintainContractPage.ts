@@ -64,7 +64,7 @@ export class MaintainContractPage extends WebActionsPage {
     readonly contractDateEmployeeSigned: Locator;
     readonly contractDateEmployerSigned: Locator;
     readonly contractWarningAlert: Locator;
-    readonly contractHun:Locator;
+    readonly contractHun: Locator;
 
 
 
@@ -151,7 +151,7 @@ export class MaintainContractPage extends WebActionsPage {
         if (await contractType !== 'N/A' && await contractType !== 'NaN' && await contractType !== undefined) {
             await super.selectFromCustomDropDrown(this.contractType, contractType);
         }
-
+        await this.contractType.press('Tab');
         if (await contractStatus !== 'N/A' && await contractStatus !== 'NaN' && await contractStatus !== undefined) {
             await super.setTextWithEnter(this.contractStatus, contractStatus);
         }
