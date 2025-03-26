@@ -131,6 +131,7 @@ export class HrInboxPage extends WebActionsPage {
     readonly nationality: Locator;
     readonly hrchgPersonalInformation: Locator;
     readonly AssignPaygroupforPayroll: Locator;
+    readonly compensationTitle: Locator;
 
     EmployeeNumber: string[];
 
@@ -271,6 +272,7 @@ export class HrInboxPage extends WebActionsPage {
         this.addCzęśćulgi = page.getByLabel('Część ulgi');
         this.addidentyfikatorpodatkowy = page.getByLabel('Identyfikator podatkowy');
         this.addTypopodatkowania = page.getByLabel('Typ opodatkowania');
+        this.compensationTitle = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Propose Compensation Hire: ' + givenname + ' ' + FamilyName + '")]');
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -452,14 +454,15 @@ export class HrInboxPage extends WebActionsPage {
     }
     //@added by Gayatri for new change for PK17
     async firstEverJobDetails(firsteverjob: string, firstJobExpiryDate: string) {
-        await this.firstEverJobPolandInformation.click();
-        await super.selectFromCustomDropDrown(this.firstEverJobBtn, firsteverjob);
-        if (await firsteverjob === 'Yes') {
-            await super.setTextWithType(this.page.getByPlaceholder('DD').first(), firstJobExpiryDate.toString());
-        }
-       
-        await this.hrSubmit.click();
+        if (await this.firstEverJobPolandInformation.count() > 0) {
+            await this.firstEverJobPolandInformation.click();
+            await super.selectFromCustomDropDrown(this.firstEverJobBtn, firsteverjob);
+            if (await firsteverjob === 'Yes') {
+                await super.setTextWithType(this.page.getByPlaceholder('DD').first(), firstJobExpiryDate.toString());
+            }
 
+            await this.hrSubmit.click();
+        }
     }
 
 
@@ -470,14 +473,21 @@ export class HrInboxPage extends WebActionsPage {
         await this.hrSubmit.click();
     }
 
-
+    async compensationHRapprove(): Promise<void> {
+        await this.page.waitForTimeout(500);
+        await this.compensationTitle.click();
+        await this.page.getByRole('button', { name: 'Approve' }).click();
+        await this.page.waitForTimeout(700);
+    }
 
 
     async setMaintainRightToWorkDocumentation(): Promise<void> {
-        await this.page.waitForTimeout(500);
-        await this.rightToWork.click();
-        await this.page.getByRole('button', { name: 'Submit' }).click();
-        await this.page.waitForTimeout(700);
+        await this.page.waitForTimeout(2500);
+        if (await this.rightToWork.count() > 0) {
+            await this.rightToWork.click();
+            await this.page.getByRole('button', { name: 'Submit' }).click();
+            await this.page.waitForTimeout(700);
+        }
     }
 
     async assignPaygroupApprove(): Promise<void> {
@@ -534,11 +544,14 @@ export class HrInboxPage extends WebActionsPage {
     async clickInboxMyTaskAndApprove(varString: string) {
         const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]");
         const approve = await this.page.getByRole('button', { name: 'Approve' });
-        await super.click(locator);
-        await super.click(approve);
-        await this.page.waitForTimeout(1500);
-        if (await approve.isVisible() && await locator.count() > 0) {
-            await super.click(this.page.getByRole('button', { name: 'Approve' }));
+        await this.page.waitForTimeout(3500);
+        if (locator.isVisible() && await locator.count() > 0) {
+            await super.click(locator);
+            await super.click(approve);
+            await this.page.waitForTimeout(1500);
+            if (await approve.isVisible() && await locator.count() > 0) {
+                await super.click(this.page.getByRole('button', { name: 'Approve' }));
+            }
         }
     }
 
@@ -689,6 +702,7 @@ export class HrInboxPage extends WebActionsPage {
             await this.page.waitForTimeout(1000);
         }
         await super.click(this.hrSubmit);
+        return 1;
     }
     async hrcontractAddendum() {
         await this.contractAddendum.click();
@@ -760,10 +774,11 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setManageProbation(probEndDate: string, probReviewDate: string) {
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(3000);
         if (await this.manageProbation.count() > 0) {
             await super.click(this.manageProbation);
             // await super.setTextWithType(this.prbStartDate, '');
+            await this.page.waitForTimeout(1000);
             if (await probEndDate != 'NaN' && await probEndDate != 'N/A' && await probEndDate != undefined) {
                 await super.setTextWithType(this.prbEndDate, probEndDate);
             }

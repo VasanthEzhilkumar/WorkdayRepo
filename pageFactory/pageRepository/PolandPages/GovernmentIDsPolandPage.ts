@@ -63,8 +63,9 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
   readonly govIDsEdit2: Locator;
   readonly addROWNationalIDs: Locator;
   readonly addROWadditionalGovernmentIDs: Locator;
-  readonly nationidbtn:Locator;
-  readonly Taxid:Locator;
+  readonly nationidbtn: Locator;
+  readonly Taxid: Locator;
+  readonly idChangeTitle: Locator;
 
   EmployeeNumber: string[];
 
@@ -78,7 +79,8 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
 
     this.idChange = page.getByRole('button', { name: 'Change/Update My Government IDs', exact: true });
     this.contract = page.getByRole('button', { name: 'Contract: ' + givenname + ' ' + FamilyName + '', exact: true });
-    
+    // this.idChangeTitle = page.getByRole('button', { name: 'ID Change: ' + givenname + ' ' + FamilyName + '', exact: true });
+    this.idChangeTitle = this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"ID Change: ' + givenname + ' ' + FamilyName + '")]');
     this.addId = page.getByRole('button', { name: 'Change My Government IDs' });
     this.addROWNationalIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[1]");
     this.addROWadditionalGovernmentIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[2]");
@@ -140,7 +142,7 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
     this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
     this.govIds = page.getByLabel('Content Area').locator('input[type="text"]')
     this.govIDsEdit2 = page.locator("//div[@data-automation-id='textInput']//input[@size='7' and  @ role='textbox']");
-    this.nationidbtn=page.locator('tr').filter({ hasText: '*Country*National ID' }).getByLabel('Add Row');
+    this.nationidbtn = page.locator('tr').filter({ hasText: '*Country*National ID' }).getByLabel('Add Row');
   }
 
   async hrPaygroupSubmit(): Promise<void> {
@@ -263,6 +265,46 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
     await this.page.getByRole('button', { name: 'Approve' }).click();
   }
 
+  async setGovernmentIDsPolandHr(
+    Country1: string,
+    NationalIDType1: string,
+    DepartmentSection1: string,
+
+    Country2: string,
+    NationalIDType2: string,
+    DepartmentSection2: string,
+    Country3: string,
+    NationalIDType3: string,
+    DepartmentSection3: string,
+    // GivenName: string,
+    // FamilyName: string
+
+  ) {
+    if (await this.idChangeTitle.count()>0) {
+      await super.click(this.idChangeTitle);
+      // await super.click(this.addId);
+      await super.click(this.addROWNationalIDs);
+      await this.fillGovIDDetails1(Country1, NationalIDType1, DepartmentSection1, true);
+
+      if (Country2.includes("Poland")) {
+        // Adding second ID
+        // await this.page.waitForTimeout(500);
+        // await this.addId.click();
+        await super.click(this.addROWNationalIDs);
+        await this.fillGovIDDetails1(Country2, NationalIDType2, DepartmentSection2, false);
+      }
+      if (Country3.includes("Poland")) {
+        // Adding second 3rd ID
+        await this.page.waitForTimeout(500);
+        // await this.addId.click();
+        await super.click(this.addROWNationalIDs);
+        await this.fillGovIDDetails1(Country3, NationalIDType3, DepartmentSection3, false)
+      }
+
+      await super.click(this.submit);
+      return 1; // last step 
+    }
+  }
 
 
   async setGovernmentIDsPoland(
@@ -279,28 +321,29 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
 
 
   ) {
-    await super.click(this.idChange);
-    await super.click(this.addId);
-    await super.click(this.addROWNationalIDs);
-    await this.fillGovIDDetails1(Country1, NationalIDType1, DepartmentSection1,true);
-
-    if (Country2.includes("Poland")) {
-      // Adding second ID
-      // await this.page.waitForTimeout(500);
-      // await this.addId.click();
+    if (await this.idChange.count() > 0) {
+      await super.click(this.idChange);
+      await super.click(this.addId);
       await super.click(this.addROWNationalIDs);
-      await this.fillGovIDDetails1(Country2, NationalIDType2,DepartmentSection2,false);  
-    }
-    if (Country3.includes("Poland")) {
-      // Adding second 3rd ID
-       await this.page.waitForTimeout(500);
-      // await this.addId.click();
-      await super.click(this.addROWNationalIDs);
-      await this.fillGovIDDetails1(Country3, NationalIDType3,DepartmentSection3,false)
-    }
+      await this.fillGovIDDetails1(Country1, NationalIDType1, DepartmentSection1, true);
 
-    await super.click(this.submit); // last step 
-    
+      if (Country2.includes("Poland")) {
+        // Adding second ID
+        // await this.page.waitForTimeout(500);
+        // await this.addId.click();
+        await super.click(this.addROWNationalIDs);
+        await this.fillGovIDDetails1(Country2, NationalIDType2, DepartmentSection2, false);
+      }
+      if (Country3.includes("Poland")) {
+        // Adding second 3rd ID
+        await this.page.waitForTimeout(500);
+        // await this.addId.click();
+        await super.click(this.addROWNationalIDs);
+        await this.fillGovIDDetails1(Country3, NationalIDType3, DepartmentSection3, false)
+      }
+
+      await super.click(this.submit); // last step 
+    }
   }
 
   async fillGovIDDetails(
@@ -310,7 +353,7 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
   ) {
     await super.setTextWithEnter(this.GCountry, Country);
     await super.selectFromCustomDropDrown(this.GNationalIDType, String(nationalIDType));
-    await this.fillField(this.GID,String(idNumber));
+    await this.fillField(this.GID, String(idNumber));
   }
 
   async fillGovIDDetails1(
@@ -328,8 +371,8 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
     await super.setText(this.GID, String(idNumber));
     await this.page.waitForTimeout(500);
     await this.page.keyboard.press('Tab');
-  
-}
+
+  }
 
   async hrcontractsubmit(contractType: string, contractStatus: string, DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
     await this.contract.click();

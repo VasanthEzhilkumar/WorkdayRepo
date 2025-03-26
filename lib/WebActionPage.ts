@@ -20,6 +20,7 @@ export class WebActionsPage {
             await locator.focus();
             await locator.clear();
             await locator.fill(String(varString));
+            await this.page.keyboard.press('Tab');
             // await this.page.waitForTimeout(300);
             console.log(`Entering "${varString}" value on: ${locator}`);
         } catch (error) {
@@ -90,15 +91,15 @@ export class WebActionsPage {
             await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(varString));
             await locator.press('Enter');
-            await this.page.keyboard.press('Enter');
-            const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             await this.page.waitForTimeout(1000);
+            await this.page.keyboard.press('Enter');
+            await this.page.waitForTimeout(1000);
+            const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
-                await custumLocator.click();
-                await this.page.keyboard.press('Tab');
+                await custumLocator.click();                
             }
-
+            await this.page.keyboard.press('Tab');
             // await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {

@@ -84,6 +84,7 @@ export class contactInformationAddressCzechia {
         await this.page.keyboard.press('Enter');
 
         await this.postalCode.fill(String(PostalCode));
+        await this.page.keyboard.press('Tab');
 
         // await this.locality.fill(locality);
         // //await this.city.fill(PostalCode.toString());26401

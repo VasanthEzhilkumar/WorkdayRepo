@@ -106,7 +106,7 @@ export class ProposeCompensationPage extends WebActionsPage {
         this.txtGradeProfile = page.locator("//label[contains(.,'Grade Profile')]/parent::div/following-sibling::div//input[@placeholder='Search']");
         this.txtStep = page.locator("//label[contains(.,'Step')]/parent::div/following-sibling::div//input[@placeholder='Search']");
         //this.txtStep1 = page.locator("//div[@data-automation-checked='Not Checked']/div[contains(text(),'')]");
-        this.txtSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text']");
+        this.txtSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text' and @aria-required='true']");
         this.txtJobChangeSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text']");
         this.btnEditSalary = page.locator("//button[@aria-label='Edit Salary']");
         this.btnSaveSalary = page.locator("//button[@aria-label='Save Salary']");
@@ -213,9 +213,10 @@ export class ProposeCompensationPage extends WebActionsPage {
   @Param       :  required test data such as GradeProfile, GradeProfile, GradeProfile.
   @updated on 25th Oct'24 by  : @ Ramchandra Desai - added Allowance Amount argument to make it more generic 
   */
-    async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
+    async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: string, Country: string, AllowanceAmount: string) {
 
         await super.click(this.proposeCompensation);
+        await this.page.waitForTimeout(2500);
         if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined && await GradeProfile.toLowerCase() != "defaulted") {
             await super.click(this.lblGradeProfile);
             await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
@@ -227,9 +228,10 @@ export class ProposeCompensationPage extends WebActionsPage {
             await super.click(this.page.getByLabel('Save Guidelines'));
         }
         if (Salary != "N/A" && Salary != "NaN" && Salary != undefined && Salary != "Defaulted") {
-            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
+            if (await this.btnEditSalary.isVisible()) {// && await this.editSalary.isVisible()) {
                 await this.click(this.btnEditSalary);
-                if (this.txtSalaryAmount.isVisible()) {
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.count()>0) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
                 await super.click(this.saveSalary);
@@ -302,5 +304,6 @@ export class ProposeCompensationPage extends WebActionsPage {
                 await super.click(this.hrSubmit);
             }
         }
+        await this.page.waitForTimeout(3000);
     }
 }
