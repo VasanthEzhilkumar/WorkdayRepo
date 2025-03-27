@@ -275,7 +275,7 @@ export class ProposeCompensationPage extends WebActionsPage {
             //}
         }
         //@added by Gayatri if allowance btn need to be deleted
-        if (await Country == "Hungary") {
+        if (await Country === "Hungary") {
             //this.clickDeletePopupbtn();
             await this.btnDeleteallowance.click();
             await this.page.waitForTimeout(500);

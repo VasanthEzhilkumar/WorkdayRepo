@@ -41,6 +41,10 @@ export class loginpage {
       await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
     } else if (country.includes("Slovenia")) {
       await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
+    } else if (country.includes("France")) {
+      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
+    } else if (country.includes("Ireland")) {
+      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
     }
 
   }

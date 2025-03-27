@@ -19,6 +19,8 @@ export class contactInformationAddressCzechia {
     readonly addressLine1: Locator;
     readonly addressLine2: Locator;
     readonly addressLine3: Locator;
+    readonly txtStreetNameAndType: Locator;
+    readonly txtDepartment: Locator;
 
     constructor(page: Page, context: BrowserContext) {
         //super(page:Page, context: BrowserContext);
@@ -26,7 +28,7 @@ export class contactInformationAddressCzechia {
         this.street = page.getByLabel('Street', { exact: true })
         this.addAddress = page.locator('[aria-label="Add Address"]');
         this.city = page.getByLabel('City');
-        this.addressType = page.getByLabel('Address', { exact: true }).getByLabel('Type');//locator('text=UsageTypeType0 items selectedPrimary WorkPrimary WorkPrimary HomePrimary HomeUse >> [placeholder="Search"]');//page.locator('text=TypeType0 items selected >> [placeholder="Search"]');//
+        this.addressType = page.getByLabel('Address', { exact: true }).getByLabel('Type', { exact: true }).first();
         this.county = page.locator("//h2[contains(./text(),'Address')]/ancestor::div[@data-automation-id='panelSet']/descendant::label[contains(./text(),'County')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
         this.country = page.locator("getByRole('textbox', { name: 'Country', exact: true })");
         this.streetName = page.locator("(//label[contains(./text(),'Street or Place Name')]/ancestor::li)[2]/descendant::div[@data-automation-id='textInput']//input");
@@ -39,6 +41,8 @@ export class contactInformationAddressCzechia {
         this.addressLine1 = page.locator('//label[text()="Address Line 1"]/parent::div/following-sibling::div//input');
         this.addressLine2 = page.locator('//label[text()="Address Line 2"]/parent::div/following-sibling::div//input');
         this.addressLine3 = page.locator('//label[text()="Address Line 3"]/parent::div/following-sibling::div//input');
+        this.txtStreetNameAndType = page.getByLabel('Street Name and Type');
+        this.txtDepartment = page.getByLabel('Department');
     }
 
     async contactInformationAddress(StreetName: string, PostalCode: number, city: string, County: string, addressType: string, houseNumber: string, referenceNumber: string, locality: string, region: string, useFor: string) {
@@ -59,8 +63,26 @@ export class contactInformationAddressCzechia {
 
         // await this.county.fill(County);
         // await this.county.press('Enter');
+        
         await this.addressType.click()
         await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+        await this.useFor.fill(useFor);
+        await this.page.keyboard.press('Enter');
+    }
+
+
+    async contactInformationAddressFrance(StreetNameAndType: string, Department: any, PostalCode: number, city: string, addressType1: string, useFor: string) {
+        await this.page.waitForTimeout(500);
+        await this.addAddress.click();
+        await this.txtStreetNameAndType.fill(StreetNameAndType);
+        await this.txtDepartment.fill(Department.toString());
+        await this.postalCode.fill(String(PostalCode));
+        await this.city.fill(city);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(500);
+        await this.addressType.scrollIntoViewIfNeeded();
+        await this.addressType.click()
+        await this.page.getByLabel('' + addressType1 + ' checkbox Not Checked').getByRole('checkbox').check();
         await this.useFor.fill(useFor);
         await this.page.keyboard.press('Enter');
     }
@@ -81,6 +103,7 @@ export class contactInformationAddressCzechia {
         await this.page.keyboard.press('Enter');
     }
 
+
     async contactInformationAddressUK(EffectiveDate: string, Country: string, County: string, AddressLine1: string, AddressLine2: string, AddressLine3: string, PostalCode: string, City: string, Type: string, UseFor: string) {
 
         await this.page.waitForTimeout(500);
@@ -93,23 +116,9 @@ export class contactInformationAddressCzechia {
         await this.addressLine2.fill(AddressLine2);
         await this.addressLine3.fill(AddressLine3);
         await this.city.fill(City);
-
         await this.county.fill(County);
         await this.page.keyboard.press('Enter');
-
         await this.postalCode.fill(String(PostalCode));
-
-        // await this.locality.fill(locality);
-        // //await this.city.fill(PostalCode.toString());26401
-        // // await this.postalCode.fill(PostalCode.toString());
-        // await this.postalCode.fill(String(PostalCode));
-        // await this.city.fill(city);
-        // await this.region.fill(region);
-        // await this.page.keyboard.press('Enter');
-        // await this.page.waitForTimeout(500);
-
-        // await this.county.fill(County);
-        // await this.county.press('Enter');
         await this.addressType.click()
         await this.page.getByLabel('' + Type + ' checkbox Not Checked').getByRole('checkbox').check();
         await this.useFor.fill(UseFor);

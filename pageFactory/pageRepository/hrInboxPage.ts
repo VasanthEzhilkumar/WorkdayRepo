@@ -72,8 +72,6 @@ export class HrInboxPage extends WebActionsPage {
     readonly workereducationdetails: Locator;
     readonly workerjobhistory: Locator;
     readonly addPITTaxInformation: Locator;
-    // readonly hrassignPaygroupInitial: Locator;
-
     //readonly txtStep1: Locator;
     readonly txtSalaryAmount: Locator;
     readonly setservicedateschange: Locator;
@@ -186,7 +184,7 @@ export class HrInboxPage extends WebActionsPage {
         this.hrassignPaygroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         this.validatePayGroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"' + givenname + ' ' + FamilyName + '")]');
-        //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Pay Group for Hire: ' + FamilyName + ' ' + givenname + '")]');
+        this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '")]');
         this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for ' + givenname + ' ' + FamilyName + '")]');
         this.workereducationdetails = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland Worker Education Details:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.workerjobhistory = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland Worker Job History:' + ' ' + givenname + ' ' + FamilyName + '")]');

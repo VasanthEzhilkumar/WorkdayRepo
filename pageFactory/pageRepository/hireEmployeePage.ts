@@ -62,6 +62,7 @@ export class hireEmployeePage extends WebActionsPage {
   readonly emailAddressmgr: Locator;
   readonly emailTypemgr: Locator;
   readonly defaultHours: Locator;
+  readonly gnameforireland:Locator;
 
 
   constructor(page: Page, context: BrowserContext) {
@@ -73,6 +74,7 @@ export class hireEmployeePage extends WebActionsPage {
     this.supervisorMgrPage = page.getByLabel('Supervisory Organization');
     this.newPreHire = page.locator('text=Create a New Pre-Hire');
     this.contactInformation = page.locator('text=Contact Information >> nth=0');
+    this.gnameforireland=page.getByLabel('Given Name(s)');
     // this.gName = page.locator('[id="\\35 6\\$551056--uid22-input"]');
     // this.fName = page.locator('[id="\\35 6\\$551056--uid23-input"]');
     this.prefix = page.getByLabel('Prefix');
@@ -171,6 +173,12 @@ export class hireEmployeePage extends WebActionsPage {
     //await super.setTextWithDoubleEnter();
     await super.setTextWithDoubleEnter(this.page.getByLabel('Prefix', { exact: true }), prefix.toString());
     await this.gName.fill(givenname);
+    await this.fName.fill(FamilyName);
+  }
+  async legalNameInformationIreland(givenname: string, FamilyName: string) {
+    //await super.setTextWithDoubleEnter();
+    //await super.setTextWithDoubleEnter(this.page.getByLabel('Prefix', { exact: true }), prefix.toString());
+    await this.gnameforireland.fill(givenname);
     await this.fName.fill(FamilyName);
   }
 
