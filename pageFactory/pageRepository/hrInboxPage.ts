@@ -114,7 +114,7 @@ export class HrInboxPage extends WebActionsPage {
     readonly addTypopodatkowania: Locator;
     readonly firstEverJobPolandInformation: Locator;
     readonly firstEverJobBtn: Locator;
-    readonly hrAssignPayGroupForHire:Locator;
+    readonly hrAssignPayGroupForHire: Locator;
 
 
     readonly editGender: Locator;
@@ -144,7 +144,7 @@ export class HrInboxPage extends WebActionsPage {
     readonly txtAssignCollectiveAgreement: Locator;
     readonly txtProfessionalCategory: Locator;
     readonly txtLevel: Locator;
-    readonly maidenNameHungary:Locator;
+    readonly maidenNameHungary: Locator;
 
     EmployeeNumber: string[];
 
@@ -175,7 +175,9 @@ export class HrInboxPage extends WebActionsPage {
 
         this.lnkViewDetails = page.locator("(//button[contains(.,'View Details')])[1]");
         this.lblEditNoticeforHire = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Edit Notice Periods for')]");
-        this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
+        //this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
+        this.lblEmpID = page.locator("(//h1//following-sibling::div//descendant::div[contains(text(),'Hire:')])[1]");
+
         this.lblprocessCompletedSuccessfully = page.locator("//div[@data-automation-id='textView' or contains(text(),'Process Successfully Completed')]");
         this.btnDone = page.locator("//span[contains(.,'Done')]/ancestor::button[@title='Done']");
 
@@ -185,8 +187,8 @@ export class HrInboxPage extends WebActionsPage {
         this.hrAssignPayGroupForHire = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '")]');
         this.hrassignPaygroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
         this.validatePayGroup = page.locator('text=Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '');
-        //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"' + givenname + ' ' + FamilyName + '")]');
-        //this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Pay Group for Hire: ' + FamilyName + ' ' + givenname + '")]');
+        // this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"' + givenname + ' ' + FamilyName + '")]');
+        this.hrassignPaygroupInitial = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '")]');
         this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for ' + givenname + ' ' + FamilyName + '")]');
         this.workereducationdetails = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland Worker Education Details:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.workerjobhistory = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland Worker Job History:' + ' ' + givenname + ' ' + FamilyName + '")]');
@@ -250,7 +252,7 @@ export class HrInboxPage extends WebActionsPage {
         this.setservicedateschange = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Service Dates Change: ' + givenname + ' ' + FamilyName + '")]');
         this.addMedicalExam = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Medical Exam: ' + givenname + ' ' + FamilyName + '")]');
         this.collectiveAgreementProfessional = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Employee Collective Agreement: ' + givenname + ' ' + FamilyName + '")]');
-        this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
+        // this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
         this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for ' + givenname + ' ' + FamilyName + '")]');
         this.txtYoungParentEffectiveDate = page.locator("//label[contains(.,'Young Parent Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.chkYoungParent = page.locator("//label[contains(.,'Young Parent')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
@@ -311,7 +313,7 @@ export class HrInboxPage extends WebActionsPage {
 
         //this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden & Mother's Maiden Names: Hire: '+ ' ' + FamilyName + ' ' + givenname '")]');
         this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden Names: Hire:  ' + FamilyName + ' ' + givenname + '")]');
-   
+
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -516,16 +518,17 @@ export class HrInboxPage extends WebActionsPage {
         await this.hrSubmit.click();
 
     }
+
     //@added by Gayatri for new change for PK17
-    async firstEverJobDetails(firsteverjob: string, firstJobExpiryDate: string) {
+    async firstEverJobDetails(firsteverjob: string, firstJobExpiryDate: any) {
         await this.firstEverJobPolandInformation.click();
-        await super.selectFromCustomDropDrown(this.firstEverJobBtn, firsteverjob);
-        if (await firsteverjob === 'Yes') {
-            await super.setTextWithType(this.page.getByPlaceholder('DD').first(), firstJobExpiryDate.toString());
+        await super.setTextWithEnter(this.firstEverJobBtn, firsteverjob);
+        await this.page.keyboard.press('Tab');
+        if (firsteverjob.toLowerCase() === 'yes') {
+            await this.page.waitForTimeout(500);
+            await super.setTextWithType(this.page.getByPlaceholder('DD').first(), String(firstJobExpiryDate));
         }
-
         await this.hrSubmit.click();
-
     }
 
 
@@ -568,10 +571,10 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
     }
 
-    async maidenNamePageSubmit(){
+    async maidenNamePageSubmit() {
         await this.maidenNameHungary.click();
         await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500); 
+        await this.page.waitForTimeout(500);
     }
 
 
@@ -581,14 +584,14 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.getByRole('button', { name: 'Submit' }).click();
     }
 
-    
+
     async assignPayGroupForHireApprove(ProposedPayGroup: any) {
         await this.hrAssignPayGroupForHire.click();
         //await this.assignPg.fill(ProposedPayGroup.toString());
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Approve' }).click();
     }
-    
+
 
 
     async assignPayGroupApprove(ProposedPayGroup: any): Promise<void> {
@@ -620,8 +623,8 @@ export class HrInboxPage extends WebActionsPage {
         await super.click(locator);
         await super.click(approve);
         await this.page.waitForTimeout(2000);
-        if (await approve.isVisible() && await locator.count() > 0) {
-            await super.click(this.page.getByRole('button', { name: 'Approve' }));
+        if (await approve.isVisible() && await locator.isVisible()) {
+            await super.click(approve);
         }
         await this.page.waitForTimeout(500);
     }

@@ -287,7 +287,7 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     await super.click(this.addROWNationalIDs);
     await this.fillGovIDDetails(country1, NationalIDType1, AddEditID1, IssuedDate1, ExpirationDate1, true);
 
-    if (!country1.includes("Slovakia") && !country1.includes("Slovenia")) {
+    if (!country1.includes("Slovakia") && !country1.includes("Slovenia") && !country1.includes("France")) {
       // Adding second ID
       // await this.page.waitForTimeout(500);
       // await this.addId.click();

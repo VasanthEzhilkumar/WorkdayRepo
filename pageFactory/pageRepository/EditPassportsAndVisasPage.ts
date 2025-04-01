@@ -26,6 +26,7 @@ export class EditPassportsAndVisasPage extends WebActionsPage {
     readonly txtExpirationDate: Locator;
     readonly btnSubmit: Locator;
     readonly taskMaintainRighttoWorkDocumentation: Locator;
+    readonly btnApprove: Locator;
 
 
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
@@ -50,10 +51,22 @@ export class EditPassportsAndVisasPage extends WebActionsPage {
         this.txtIssueDate = page.getByPlaceholder('DD').first();
         this.txtExpirationDate = page.getByPlaceholder('DD').nth(1);
         this.btnSubmit = page.getByRole('button', { name: 'Submit' });
-
+        this.btnApprove = page.locator('button:has-text("Approve")');
 
     }
 
+    async setEditPassportsAndVisas(Country: any, PassportIDType: any, IdentificationNo: any, IssuedDate: any, ExpirationDate: any) {
+        await this.page.waitForTimeout(500);
+        await this.passportVisa.click();
+        await super.click(this.btnAddRowPasswordt);
+        await super.setTextWithDoubleEnter(this.txtCountry, Country);
+        await super.selectFromCustomDropDrown(this.txtPassportsIDType, PassportIDType);
+        await super.setText(this.txtPassportID, IdentificationNo);
+
+        await super.setTextWithType(this.txtIssueDate, IssuedDate);
+        await super.setTextWithType(this.txtExpirationDate, ExpirationDate);
+        await super.click(this.btnApprove);
+    }
     async clickMaintainRightToWorkDocumentationANDeditPassportsAndVisas(emp: any, Country: any, PassportIDType: any, IdentificationNo: any, IssuedDate: any, ExpirationDate: any) {
         await this.page.waitForTimeout(500);
         await this.taskMaintainRighttoWorkDocumentation.click();

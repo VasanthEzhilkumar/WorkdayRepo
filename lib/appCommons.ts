@@ -62,11 +62,18 @@ export class appCommons extends WebActionsPage {
     await this.inboxtitle.click();
   }
 
+  /*
+  @description : used to set or apply static wait in second to the script.
+  */
+  async staticWait(waitInsecond) {
+    await this.page.waitForTimeout(waitInsecond * 1000);
+  }
+
 
 
   async Searchbox(searchtext: string) {
     if (await this.clearSearch.isVisible()) {
-      await this.clearSearch.click();
+      await this.clearSearch.first().click();
     }
     //await this.searchboxhome.clear();
     await this.page.waitForTimeout(700);

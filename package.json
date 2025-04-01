@@ -38,6 +38,7 @@
     "npm": "^11.2.0",
     "pdfjs-dist-es5": "^2.13.216",
     "pg": "^8.11.5",
+    "playwright": "^1.51.1",
     "typescript": "^5.4.5",
     "winston": "^3.13.0",
     "xlsx": "^0.18.5",
@@ -53,5 +54,12 @@
     "eslint": "^8.57.1",
     "globals": "^15.11.0",
     "typescript-eslint": "^8.11.0"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

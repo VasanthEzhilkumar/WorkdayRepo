@@ -21,7 +21,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Copy of TestDataPoland-UAT4.xlsx';
+const excelFileName = 'Hires/Copy of TestDataPoland-Accural test UPDATED.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -41,7 +41,7 @@ for (const sheetName in sheetsJson) {
     //const familyName = data.FamilyName;
     // if (data.TestStatus != 'Passed') {
 
-    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+    test(`@Hire Employee - Test ${index + 1}-${data.TestCaseIDs} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
         await page.setViewportSize({ width: 1280, height: 595 });
 

@@ -220,11 +220,11 @@ export class ProposeCompensationPage extends WebActionsPage {
     async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
 
         await super.click(this.proposeCompensation);
-        if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined && await GradeProfile.toLowerCase() != "defaulted") {
+        if (await GradeProfile !== "N/A" && await GradeProfile !== "NaN" && await GradeProfile !== undefined && await GradeProfile.toLowerCase() !== "defaulted") {
             await super.click(this.lblGradeProfile);
             await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
             await this.page.waitForTimeout(1500);
-            if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && await Step.toLowerCase() != "defaulted" && (await this.txtStep.isVisible())) {
+            if (await Step !== "N/A" && await Step !=="NaN" && await Step !== undefined && await Step.toLowerCase() !== "defaulted" && (await this.txtStep.isVisible())) {
                 //await super.click(this.txtStep);
                 await super.setTextWithDoubleEnter(this.txtStep, Step);
             }
@@ -275,7 +275,7 @@ export class ProposeCompensationPage extends WebActionsPage {
             //}
         }
         //@added by Gayatri if allowance btn need to be deleted
-        if (await Country == "Hungary") {
+        if (await Country === "Hungary") {
             //this.clickDeletePopupbtn();
             await this.btnDeleteallowance.click();
             await this.page.waitForTimeout(500);
