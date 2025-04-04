@@ -218,7 +218,7 @@ export class ProposeCompensationPage extends WebActionsPage {
     @updated on 25th Oct'24 by  : @ Ramchandra Desai - added Allowance Amount argument to make it more generic 
   */
     async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
-
+        await this.page.waitForTimeout(1500);
         await super.click(this.proposeCompensation);
         if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined && await GradeProfile.toLowerCase() != "defaulted") {
             await super.click(this.lblGradeProfile);

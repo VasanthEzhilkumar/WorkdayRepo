@@ -175,13 +175,7 @@ export class hireEmployeePage extends WebActionsPage {
     await this.gName.fill(givenname);
     await this.fName.fill(FamilyName);
   }
-  async legalNameInformationIreland(givenname: string, FamilyName: string) {
-    //await super.setTextWithDoubleEnter();
-    //await super.setTextWithDoubleEnter(this.page.getByLabel('Prefix', { exact: true }), prefix.toString());
-    await this.gnameforireland.fill(givenname);
-    await this.fName.fill(FamilyName);
-  }
-
+  
   async legalNameInformationPoland(givenname: string, FamilyName: string) {
     //await super.setTextWithDoubleEnter();
     await this.gName.fill(givenname);
@@ -198,6 +192,8 @@ export class hireEmployeePage extends WebActionsPage {
     await this.contactPhoneNumber.fill(phoneNumber.toString());
     await this.contactPhoneDevice.click();
     await this.contactPhoneDevicetext.click();
+    //await super.setTextWithDoubleEnter(this.contactPhoneDevicetext, PhoneDevice);
+    //await this.contactPhoneDevicetext.fill(PhoneDevice);
     await this.contactphoneType.fill(phoneType);
     //await this.contactphoneType.press('Enter');
     await this.page.waitForTimeout(500);

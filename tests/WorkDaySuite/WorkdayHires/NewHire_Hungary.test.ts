@@ -167,7 +167,7 @@ for (const sheetName in sheetsJson) {
 
 
         //Fill MainJob Details
-        await hrInbxPage.hireAdditionalInfoMainJob(data.MainJob, data.Pensioner);
+        await hrInbxPage.hireAdditionalInfoMainJob(data.MainJob, data.Pensioner,data.Carer);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 

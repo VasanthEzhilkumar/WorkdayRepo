@@ -79,7 +79,7 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     this.addROWNationalIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[1]");
     this.addROWadditionalGovernmentIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[2]");
     this.GCountry = page.getByLabel('Country', { exact: true })//page.locator('[id="selectInputId-56\\$63401"]');
-    this.GNationalIDType = page.getByLabel('National ID Type', { exact: true })//page.locator('[id="selectInputId-56\\$63406"]');
+    this.GNationalIDType = page.getByLabel('National ID Type', { exact: true });//page.locator('[id="selectInputId-56\\$63406"]');
     this.GID = page.locator('input[role="textbox"]');
     this.submit = page.getByRole('button', { name: 'Submit' });
     this.GnationalID = page.locator('text=1 item selected, CzechiaCzechia1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$533359"] input[role="textbox"]');
@@ -338,6 +338,7 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     await super.click(this.addGovtID);
     await super.click(this.addROWNationalIDs);
     await this.fillGovIDDetails(country1, NationalIDType1, AddEditID1, IssuedDate1, ExpirationDate1, true);
+    await this.page.waitForTimeout(1000);
     await super.click(this.submit); // last step 
     //await this.submit.click();
   }
@@ -352,30 +353,19 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     expirationDate: string,
     isFirstID: boolean
   ) {
-    await super.setTextWithEnter(this.GCountry, country);
-    await super.selectFromCustomDropDrown(this.GNationalIDType, String(nationalIDType));
+    await super.selectFromCustomDropDrown(this.GCountry, country);
+    await this.page.waitForTimeout(2000);
+    await super.selectFromCustomDropDrownBySliptAndEnter(this.GNationalIDType, String(nationalIDType));
+    await this.page.waitForTimeout(1000);
 
     if (isFirstID) {
       await super.setText(this.govIds, String(idNumber));
       await this.page.keyboard.press('Tab');
+      await this.page.waitForTimeout(1000);
     } else {
       await super.setText(this.govIDsEdit2, String(idNumber));
       await this.page.keyboard.press('Tab');
     }
-    //await this.GCountry.fill(country);
-    // await this.GCountry.press('Enter');
-    // await this.page.waitForTimeout(500);
-    // await this.GNationalIDType.fill(String(nationalIDType));
-    // await this.page.waitForTimeout(500);
-    // await this.GNationalIDType.press('Enter');
-    // await this.page.waitForTimeout(500);
-    //    await this.page.getByLabel('Content Area').locator('input[type="text"]').fill(String(idNumber));
-
-    // await this.page.keyboard.press('Tab');
-    // await this.page.waitForTimeout(500);
-    // await this.GID.press('Control+a');
-    // await this.page.keyboard.type(idNumber);
-
     if (!isFirstID) {
       await this.page.keyboard.press('Tab');
       // await this.page.waitForTimeout(500);
