@@ -613,24 +613,21 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async clickInboxMyTaskAndSubmit(varString: string) {
-        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]"));
+        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]").first());
         await super.click(this.hrSubmit);
     }
 
     async clickInboxMyTaskAndApprove(varString: string) {
         const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]");
         const approve = await this.page.getByRole('button', { name: 'Approve' });
-        await super.click(locator);
+        await super.click(locator.first());
         await super.click(approve);
-        await this.page.waitForTimeout(2000);
-        if (await approve.isVisible() && await locator.isVisible()) {
+        await this.page.waitForTimeout(3000);
+        if (await approve.isVisible() && await locator.count() > 0) {
             await super.click(approve);
         }
         await this.page.waitForTimeout(500);
     }
-
-
-
 
     async EnterGovID(
         country1: string,

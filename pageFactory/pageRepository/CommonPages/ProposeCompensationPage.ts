@@ -224,44 +224,47 @@ export class ProposeCompensationPage extends WebActionsPage {
             await super.click(this.lblGradeProfile);
             await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
             await this.page.waitForTimeout(1500);
-            if (await Step !== "N/A" && await Step !=="NaN" && await Step !== undefined && await Step.toLowerCase() !== "defaulted" && (await this.txtStep.isVisible())) {
+            if (await Step !== "N/A" && await Step !== "NaN" && await Step !== undefined && await Step.toLowerCase() !== "defaulted" && (await this.txtStep.isVisible())) {
                 //await super.click(this.txtStep);
                 await super.setTextWithDoubleEnter(this.txtStep, Step);
             }
             await super.click(this.page.getByLabel('Save Guidelines'));
         }
-        if (Salary != "N/A" && Salary != "NaN" && Salary != undefined && Salary != "Defaulted") {
-            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
+        if (Salary !== "N/A" && Salary !== "NaN" && Salary !== undefined && Salary !== "Defaulted") {
+            if (await this.btnEditSalary.isVisible()) {
                 await this.click(this.btnEditSalary);
                 if (this.txtSalaryAmount.isVisible()) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
-                await super.click(this.saveSalary);
+                await super.click(this.btnSaveSalary);
             }
             if (await this.btnEditHourly.isVisible()) {
                 await this.click(this.btnEditHourly);
-                await this.page.waitForTimeout(1500);
+                //await this.page.waitForTimeout(1500);
                 if (await this.txtSalaryAmount.isVisible()) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
                 await super.click(this.btnSaveHourly);
             }
         } else {
-            // if (await this.lblBasePayRange.isVisible) {
-            await this.page.waitForTimeout(1500);
+            await this.page.waitForTimeout(1000);
             let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
             // if(strTotalBasePayRangeValue != undefined && strTotalBasePayRangeValue != 'NaN'){
             let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
+            console.log("strTotalBasePayRangeValueArray - " + strTotalBasePayRangeValueArray);
             const strLow = strTotalBasePayRangeValueArray[0];
             const strHingh = strTotalBasePayRangeValueArray[2];
-
-            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
+            console.log("strLow - " + strLow);
+            //await this.page.waitForTimeout(1500);
+            if (await this.btnEditSalary.count() > 0) {
                 await this.click(this.btnEditSalary);
+                //if (await this.editSalary.count() > 0) {
                 await this.page.waitForTimeout(1500);
                 if (await this.txtSalaryAmount.isVisible()) {
                     await super.setText(this.txtSalaryAmount, strLow.toString());
                 }
-                await super.click(this.saveSalary);
+                // }
+                await super.click(this.btnSaveSalary);
             }
 
             if (await this.btnEditHourly.isVisible()) {

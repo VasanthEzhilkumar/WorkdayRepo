@@ -96,6 +96,10 @@ export class appCommons extends WebActionsPage {
     await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a[contains(text(),'" + searchtext.trim() + "')])[1]"));
   }
 
+  async checkUpNextCompensationParnterApproval(): Promise<boolean> {
+    return await this.page.getByLabel('Compensation Partner |').isVisible();
+  }
+
   async SuccessEventHandle() {
     await this.page.waitForTimeout(2000);
     if (await this.successEvent.isVisible()) {
@@ -124,14 +128,19 @@ export class appCommons extends WebActionsPage {
   }
 
   async MyTasks() {
-    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").first().count() > 0) {
+    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").nth(0).count() > 0) {
       await super.click(this.page.getByLabel('Close notification').first());
     }
     // [data-automation-id="asyncNotificationCloseButton"] span
-    await super.click(this.page.getByLabel('My Tasks Items').first());
-    //await super.click(this.page.locator('//*[@aria-label="My Tasks"]//button)').first());
+    //await super.click(this.page.getByLabel('My Tasks Items').first());
+    await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
+    while (!await this.page.getByLabel('Advanced Search').isVisible()) {
+      await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
+    }
+    //await this.page.locator('//*[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').first().click({ 'force': true })
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();
+
   }
 
   async checkWaningAlerts() {

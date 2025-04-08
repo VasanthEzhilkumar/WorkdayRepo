@@ -1096,8 +1096,8 @@ export class employeeInboxPage extends WebActionsPage {
 
 
     async clickInboxMyTaskAndSubmit(varString: string) {
-        if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").isVisible()) {
-            await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]"));
+        if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first().isVisible()) {
+            await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
             await this.clickIAgreeCheckBox();
             await super.click(this.paygroupSubmit);
             await this.page.waitForTimeout(1000);
@@ -1105,9 +1105,9 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async clickInboxMyTaskAndApprove(varString: string) {
-        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]"));
+        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
         await this.clickIAgreeCheckBox();
-        await super.click(this.page.getByRole('button', { name: 'Approve' }));
+        await super.click(this.page.getByRole('button', { name: 'Approve' }).first());
     }
 
 
