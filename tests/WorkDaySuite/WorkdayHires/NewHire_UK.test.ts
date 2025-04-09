@@ -97,7 +97,7 @@ for (const sheetName in sheetsJson) {
         await home.searchHireEmployee();
 
         // set Supervisisroy Organazation 
-        await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
+        await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation);
         await hireEmployee.legalNameInformation(givenName, familyName, data.Prefix);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
@@ -235,7 +235,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.addCertificationSubmit();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, data.MaritalStatusDate, data.CitizenshipStatus, data.PrimaryNationality, data.RaceEthnicity, data.Religion);
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, data.MaritalStatusDate, data.CitizenshipStatus, data.PrimaryNationality, data.RaceEthnicity, data.Religion,"NaN","NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();
@@ -305,17 +305,3 @@ for (const sheetName in sheetsJson) {
     });
   });
 }
-
-// // Example usage
-// const sourceFolderexcel = "H:\\RamWorkday_Playwright\\data\\";
-// const sourceFolderHtmlReport = "H:\\RamWorkday_Playwright\\html-report\\"; // Path to your local folder
-// const sourceFolderScreenshot = "H:\\RamWorkday_Playwright\\WorkdayFailedScreenshot\\";
-
-// const testdata = 'S:\\Mkirkan\\ExecutionResults\\data\\'; // Path to shared drive
-// const htmlreport = 'S:\\Mkirkan\\ExecutionResults\\html-report\\';
-// const screendhots = 'S:\\Mkirkan\\ExecutionResults\\WorkdayFailedScreenshot\\';
-// test(`@Copying folder to share drive`, async () => {
-//   copyFolderToSharedDrive(sourceFolderexcel, testdata);
-//   copyFolderToSharedDrive(sourceFolderScreenshot, screendhots);
-//   copyFolderToSharedDrive(sourceFolderHtmlReport, htmlreport);
-// });

@@ -149,15 +149,15 @@ for (const sheetName in sheetsJson) {
           //It will get HR partner ID for hr proxy
           const HRidProposeCompensation = await appCommon.getHRpartnerID(givenName, familyName);
           console.log("HR_ID_ProposeCompensation - " + HRidProposeCompensation);
-            await appCommon.Searchbox("Start Proxy");
-            await proxy.startProxy(HRidProposeCompensation);
-            await appCommon.MyTasks();
-            await hrInbxPage.clickInboxMyTaskAndApprove("Propose Compensation Hire:");
-            // await captureErrors.checkForScreenErrors();
-            await appCommon.SuccessEventHandle();
-            await appCommon.Searchbox("Start Proxy");
-            await proxy.startProxy(HRPartner);
-            await appCommon.MyTasks();
+          await appCommon.Searchbox("Start Proxy");
+          await proxy.startProxy(HRidProposeCompensation);
+          await appCommon.MyTasks();
+          await hrInbxPage.clickInboxMyTaskAndApprove("Propose Compensation Hire:");
+          // await captureErrors.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
+          await appCommon.Searchbox("Start Proxy");
+          await proxy.startProxy(HRPartner);
+          await appCommon.MyTasks();
         }
         //HR Partner: Hire:
         await hrInbxPage.clickInboxMyTaskAndSubmit("HR Partner: Hire:");
@@ -236,12 +236,10 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await hrInbxPage.assignPayGroupApprove(String(data.ProposedPayGroupFinal));
         // await capObj.checkForScreenErrors();
-
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(String(data.ProposedPayGroupFinal));
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
-        await appCommon.tearDown();
         empNum = "";
 
       } catch (error) {
