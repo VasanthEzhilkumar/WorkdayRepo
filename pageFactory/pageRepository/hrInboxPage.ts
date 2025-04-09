@@ -72,8 +72,6 @@ export class HrInboxPage extends WebActionsPage {
     readonly workereducationdetails: Locator;
     readonly workerjobhistory: Locator;
     readonly addPITTaxInformation: Locator;
-    // readonly hrassignPaygroupInitial: Locator;
-
     //readonly txtStep1: Locator;
     readonly txtSalaryAmount: Locator;
     readonly setservicedateschange: Locator;
@@ -140,7 +138,8 @@ export class HrInboxPage extends WebActionsPage {
     readonly btnAddPassPort: Locator;
     readonly txtDateWhenMedicalExamTaken: Locator;
     readonly txtExpirationDateOfExam: Locator;
-
+    readonly carerbtn:Locator;
+    readonly carer:Locator;
     readonly txtAssignCollectiveAgreement: Locator;
     readonly txtProfessionalCategory: Locator;
     readonly txtLevel: Locator;
@@ -293,7 +292,8 @@ export class HrInboxPage extends WebActionsPage {
         this.addidentyfikatorpodatkowy = page.getByLabel('Identyfikator podatkowy');
         this.addTypopodatkowania = page.getByLabel('Typ opodatkowania');
         this.mainJob = page.getByLabel('Main Job', { exact: true });
-        this.pensioner = page.locator('.WEDF').first();
+        this.pensioner = page.locator("//label[contains(.,'Pensioner')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.carer=page.locator("//label[contains(.,'Carer')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
 
         this.btnAddPassPort = page.locator("(//button[@aria-label='Add Row'])[1]");
         this.txtDateWhenMedicalExamTaken = page.locator("//div[@data-automation-id='fieldSetContent']/descendant::table[@class='mainTable']/tbody/tr[1]/td[2]/descendant::input[@aria-label='Day']");
@@ -581,7 +581,9 @@ export class HrInboxPage extends WebActionsPage {
     async assignPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
         await this.assignPaygroup.click();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
+        await this.page.keyboard.press('Tab');
         await this.page.getByRole('button', { name: 'Submit' }).click();
+        await this.page.waitForTimeout(700);
     }
 
 
@@ -590,11 +592,13 @@ export class HrInboxPage extends WebActionsPage {
         //await this.assignPg.fill(ProposedPayGroup.toString());
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Approve' }).click();
+        await this.page.waitForTimeout(700);
     }
 
 
 
     async assignPayGroupApprove(ProposedPayGroup: any): Promise<void> {
+        await this.page.waitForTimeout(700);
         await this.AssignPaygroupforPayroll.click();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Approve' }).click();
@@ -845,7 +849,7 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setManageProbation(probEndDate: string, probReviewDate: string) {
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(4000);
         if (await this.manageProbation.count() > 0) {
             await super.click(this.manageProbation);
             // await super.setTextWithType(this.prbStartDate, '');
@@ -860,7 +864,7 @@ export class HrInboxPage extends WebActionsPage {
             if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
                 await super.click(this.hrSubmit);
             }
-            await this.page.waitForTimeout(500);
+            await this.page.waitForTimeout(1000);
             if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
                 await super.click(this.hrSubmit);
             }
@@ -1009,16 +1013,20 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
     }
 
-    //Generic Function For MainJob Page @Added By Gayatri
-    async hireAdditionalInfoMainJob(mainjobdetails: string, Pensioner: string) {
+    //Generic Function For MainJob Page @Added By Gayatri to set mainjob ,pensioner,Carer
+
+    async hireAdditionalInfoMainJob(mainjobdetails: string, Pensioner: string,carer:string) {
         await this.hireAdditiondata.click();
         //await this.mainJob.click();
         await super.selectFromCustomDropDrown(this.mainJob, mainjobdetails);
         await this.page.waitForTimeout(200);
-        if (Pensioner === "yes") {
-            await this.pensioner.click();
+        if (Pensioner.toLowerCase() === "yes") {
+            await this.pensioner.click()
         }
-
+        if (carer.toLowerCase() === 'yes') {
+            await this.carer.click() 
+        
+        }
         await this.hrSubmit.click(); //Last step
     }
 
