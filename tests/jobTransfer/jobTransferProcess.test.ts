@@ -30,8 +30,6 @@ for (const sheetName in sheetsJson) {
 
     dataSet.forEach((data, index) => {
 
-        //const { givenName, familyName } = generateRandomName();
-
         test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, appCommon, proxy }) => {
             try {
                 await page.setViewportSize({ width: 1280, height: 995 });
@@ -74,12 +72,11 @@ for (const sheetName in sheetsJson) {
 
 
             } catch (error) {
-                    //   // Write the failure status to the Excel file
-                    writeResultsToExcel(excelFilePath, sheetName, index, data.EmployeeID, 'Failed -' + errorMsg);
+                //   // Write the failure status to the Excel file
+                writeResultsToExcel(excelFilePath, sheetName, index, data.EmployeeID, 'Failed -' + errorMsg);
 
             }
 
         });
     });
 }
-

@@ -26,12 +26,12 @@ export class employeeCareerPage extends WebActionsPage {
 
     }
 
-    async addEmpCertificationCheck(): Promise<boolean> {
+    async addEmpCertificationCheck(Job: any): Promise<boolean> {
         let flag = false;
         await this.lnkCareer.click();
         await this.tabCertification.click();
         await this.page.waitForTimeout(1000);
-        const jobchecck = await this.page.getByLabel('Replenishment (Secondary) - myTime Secondary Job Transfer Sets', { exact: true }).first();
+        const jobchecck = await this.page.getByLabel('' + Job + '', { exact: true }).first();
         if (await jobchecck.count() > 0) {
             flag = true;
         }

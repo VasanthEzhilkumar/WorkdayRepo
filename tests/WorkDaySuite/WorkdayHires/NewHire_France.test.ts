@@ -25,11 +25,11 @@ const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
 const sheetsJson = excelToJson(excelFilePath);
-// test.use({ viewport: { width: 1920, height: 1080 } }); 
 
 // Iterate over each dataset and run the test
 for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
+
 
   dataSet.forEach((data, index) => {
     //  const givenName = givenName || `GivenName_${index + 1}`;
@@ -142,7 +142,7 @@ for (const sheetName in sheetsJson) {
         if (flag) {
           await appCommon.Searchbox("Stop Proxy");
           await proxy.stopproxy();
-          await appCommon.staticWait(2);
+          // await appCommon.staticWait(2);
           //It will get HR partner ID for hr proxy
           const HRidProposeCompensation = await appCommon.getHRpartnerID(givenName, familyName);
           console.log("HR_ID_ProposeCompensation - " + HRidProposeCompensation);
@@ -214,7 +214,6 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
 
         await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
@@ -252,6 +251,9 @@ for (const sheetName in sheetsJson) {
     });
   });
 }
+
+
+
 
 
 
