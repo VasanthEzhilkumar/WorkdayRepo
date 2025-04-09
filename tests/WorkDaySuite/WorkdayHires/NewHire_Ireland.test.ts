@@ -36,9 +36,8 @@ for (const sheetName in sheetsJson) {
         //const familyName = data.FamilyName
         test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
             try {
-                //await page.setViewportSize({ width: 1375, height: 750 });
                 //await page.setViewportSize({ width: 1280, height: 600 });
-                await page.setViewportSize({ width: 1275, height: 595 });//
+                await page.setViewportSize({ width: 1275, height: 595 });
 
                 const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
                 const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
@@ -137,7 +136,7 @@ for (const sheetName in sheetsJson) {
                 await appCommon.SuccessEventHandle();
 
                 await appCommon.MyTasks();
-                await proposeCompensation.setProposeCompensationHire("NaN", "NaN", "NaN", "", data.AllowanceAmount);
+                await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "NaN", data.AllowanceAmount);
                 await capObj.checkForScreenErrors();
 
                 //await appCommon.SuccessEventHandle();
@@ -152,10 +151,7 @@ for (const sheetName in sheetsJson) {
                 await page.waitForTimeout(5000);
                 await appCommon.MyTasks();
                 await empInboxpage.onBoardingGuide();
-
                 await appCommon.SuccessEventHandle();
-
-
                 await appCommon.MyTasks();
                 await empInboxpage.empaddPhoto();
                 await appCommon.SuccessEventHandle();
@@ -168,31 +164,16 @@ for (const sheetName in sheetsJson) {
                 await appCommon.MyTasks();
                 await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
                 await appCommon.SuccessEventHandle();
-                await page.waitForTimeout(5000);
-                await empInboxpage.changePersonalInformation(
-                    data.Gender,                // Matches 'gender'
-                    data.DateOfBirth,           // Matches 'dob'
-                    data.CityOfBirth,           // Matches 'city'
-                    data.MaritalStatus,         // Matches 'maritalstat'
-                    data.MaritalStatusDate,     // Matches 'maritalStatusDate'
-                    "NaN",
-                    data.PrimaryNationality,
-                    data.CountryOfBirth,        // Matches 'CountryOFBirth'
-                    data.RegionOfBirth,         // Matches 'RegionOfBirth'
-                    data.RaceEthnicity,         // Matches 'RaceEthnicity'
-                    "NaN"                          // Placeholder for 'Religion' (if applicable)
-                );
+                await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.MaritalStatusDate, "NaN", data.PrimaryNationality, data.CountryOfBirth, data.RegionOfBirth, data.RaceEthnicity, "NaN");
                 await capObj.checkForScreenErrors();
                 await appCommon.SuccessEventHandle();
-
-                await appCommon.MyTasks();
                 await empInboxpage.changepersonalinformationSubmit();
-                await capObj.checkForScreenErrors();
                 await appCommon.SuccessEventHandle();
 
                 //fill Government IDs  Details for Employee
                 await appCommon.MyTasks();
-                await governemntIDs.setGovernmentIDsUK(data.Country, data.NationalIDType1, data.AddEditID1, "NaN", "NaN");
+                //await governemntIDs.EnterGovID(data.Country, data.NationalIDType1, data.AddEditID1, "NaN", "NaN");
+                await governemntIDs.setGovernmentIDsUK(data.Country1, data.NationalIDType1, data.AddEditID1, data.IssuedDate1, data.ExpirationDate1);
                 await capObj.checkForScreenErrors();
                 await appCommon.SuccessEventHandle();
                 await empInboxpage.changeGovIDInformation();
@@ -217,12 +198,11 @@ for (const sheetName in sheetsJson) {
                 await capObj.checkForScreenErrors();
                 await appCommon.SuccessEventHandle();
 
-
                 await appCommon.MyTasks();
                 await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
                 await appCommon.SuccessEventHandle();
 
-                await appCommon.MyTasks();
+                await page.waitForTimeout(5000);
                 await hrInbxPage.assignPayGroupApprove(data.ProposedPayGroupFinal);
                 await capObj.checkForScreenErrors();
                 await appCommon.SuccessEventHandle();

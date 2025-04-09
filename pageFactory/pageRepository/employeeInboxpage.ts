@@ -721,10 +721,11 @@ export class employeeInboxPage extends WebActionsPage {
     async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
         maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
 
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(2000);
         await this.chgPersonalInformation.click();
         // if (await this.buttonchgpersonal.isVisible()) {
         await super.click(this.buttonchgpersonal);
+        await this.page.waitForTimeout(200);
         await super.click(this.editGender);
         await super.click(this.setGenderdrpDown);
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
@@ -736,13 +737,15 @@ export class employeeInboxPage extends WebActionsPage {
 
         if (CountryOFBirth !== "NaN" && CountryOFBirth !== "N/A" && CountryOFBirth !== undefined) {
             await super.click(this.editPlace);
-            await super.selectFromCustomDropDrown(this.page.locator('//div[@data-automation-id="monikerSearchBox"] //input'), CountryOFBirth.toString());
+            await super.setTextWithEnter(this.page.locator('//div[@data-automation-id="monikerSearchBox"] //input'), CountryOFBirth.toString());
+            await this.page.waitForTimeout(100);
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
 
         if (RegionOfBirth !== "NaN" && RegionOfBirth !== "N/A" && RegionOfBirth !== undefined) {
             await super.click(this.editPlace);
             await super.setTextWithEnter(this.page.getByLabel('Region of Birth').first(), RegionOfBirth.toString());
+            await this.page.waitForTimeout(100);
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
 
@@ -764,10 +767,10 @@ export class employeeInboxPage extends WebActionsPage {
             } 
 
         }
-
-        if (RaceEthnicity != "" && RaceEthnicity != "NaN" && RaceEthnicity != "N/A" && RaceEthnicity != undefined) {
+        await this.page.waitForTimeout(2000);
+        if ( RaceEthnicity != "NaN" && RaceEthnicity != "N/A" && RaceEthnicity != undefined) {
             await super.click(this.editRaceEthnicity);
-            await this.page.waitForTimeout(1000);
+            await this.page.waitForTimeout(100);
             await super.selectFromCustomDropDrownBySliptAndEnter(this.raceEthnicity, RaceEthnicity);
             await this.page.waitForTimeout(1000);
             await super.click(this.page.getByLabel('Save Race/Ethnicity'));
@@ -810,13 +813,13 @@ export class employeeInboxPage extends WebActionsPage {
             await this.page.waitForTimeout(1000);
             await super.click(this.page.getByLabel('Save Gender & Other Gender'));
         }
-        await this.page.waitForTimeout(100);
+        await this.page.waitForTimeout(1000);
         await super.click(this.paygroupSubmit);
     }
     async changePersonalInformationSubmit() {
 
         await this.page.waitForTimeout(500);
-        // await this.chgPersonalInformation.click();
+        await this.chgPersonalInformation.click();
         await this.perInformation.click();
         await this.page.waitForTimeout(500);
         await this.paygroupSubmit.click();
