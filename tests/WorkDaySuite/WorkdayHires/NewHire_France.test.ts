@@ -235,7 +235,6 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await hrInbxPage.assignPayGroupApprove(String(data.ProposedPayGroupFinal));
         // await capObj.checkForScreenErrors();
-
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(String(data.ProposedPayGroupFinal));
         // Write the results to the Excel file

@@ -109,6 +109,31 @@ export class contactInformationAddressCzechia {
         await this.page.keyboard.press('Enter');
     }
 
+    async contactInformationAddressIreland(
+        AddressLine1: string,
+        AddressLine2: string,
+        City: string,
+        County: string,
+        PostalCode: string,
+        Type: string,
+        UseFor: string
+    ) {
+        await this.page.waitForTimeout(500);
+        await this.addAddress.click();
+        await this.addressLine1.fill(AddressLine1);
+        await this.addressLine2.fill(AddressLine2.toString());
+        await this.city.fill(City);
+        await this.county.fill(County);
+        await this.page.keyboard.press('Enter');
+
+        await this.postalCode.fill(String(PostalCode));
+        await this.addressType.click();
+        await this.page.getByLabel('' + Type + ' checkbox Not Checked').getByRole('checkbox').check();
+        await this.useFor.fill(UseFor);
+        await this.page.keyboard.press('Enter');
+    }
+
+
 
     async contactInformationAddressUK(EffectiveDate: string, Country: string, County: string, AddressLine1: string, AddressLine2: string, AddressLine3: string, PostalCode: string, City: string, Type: string, UseFor: string) {
 
