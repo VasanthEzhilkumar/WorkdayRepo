@@ -123,9 +123,6 @@ for (const sheetName in sheetsJson) {
         await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, String(data.ContractReason));
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
-
-        //await appCommon.refreshInbox();
         await hrInbxPage.setCollectiveAgreementAndProfessionalCategoryAndLevel(data.CollectiveAgreement, data.ProfessionalCategory, data.Level);
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
