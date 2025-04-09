@@ -37,7 +37,7 @@ const config: PlaywrightTestConfig = {
         //actionTimeout:20000,
 
         //Artifacts
-        screenshot: 'only-on-failure',
+        screenshot: 'on',
         video: `retain-on-failure`,
         trace: `retain-on-failure`,
 
