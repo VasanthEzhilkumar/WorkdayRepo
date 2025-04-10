@@ -150,6 +150,7 @@ export class contactInformationAddressCzechia {
         await this.county.fill(County);
         await this.page.keyboard.press('Enter');
         await this.postalCode.fill(String(PostalCode));
+        await this.page.keyboard.press('Tab');
         await this.addressType.click()
         await this.page.getByLabel('' + Type + ' checkbox Not Checked').getByRole('checkbox').check();
         await this.useFor.fill(UseFor);

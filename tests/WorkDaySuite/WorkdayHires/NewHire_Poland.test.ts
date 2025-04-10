@@ -21,7 +21,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Copy of TestDataPoland-Accural test UPDATED-R.xlsx';
+const excelFileName = 'testDataPoland_PK14.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -43,7 +43,7 @@ for (const sheetName in sheetsJson) {
 
     test(`@Hire Employee - Test ${index + 1}-${data.TestCaseIDs} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
-        await page.setViewportSize({ width: 1280, height: 595 });
+        await page.setViewportSize({ width: 1375, height: 750 });
 
         // const givenName: string = "Gussie";
         // const familyName: string = "Stanton";
@@ -62,12 +62,16 @@ for (const sheetName in sheetsJson) {
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
-        const username = "90001655";
-        //const password = "Primark123!!";
-        const password = "Vasanth2025!";
+        /*Login creds for PK14*/
+        const username = "90002196";
+        const password = "Primark0255!";
+
+        // /*Login creds for PK17*/
+        // const username = "90002196";
+        // const password = "Wizos2025!";
 
         // initlize the web environment 
-        await login.goto("Poland");
+        await login.goto("PK14");
 
         // login into application 
         await login.sigIn(username, password);
@@ -102,7 +106,7 @@ for (const sheetName in sheetsJson) {
         await hireEmployee.legalNameInformationPoland(givenName, familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        await homePagePoland.contactInformationAddress(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type);
+        await homePagePoland.contactInformationAddress(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type, data.UseFor);
         await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
         await hireEmployee.okHireButton();
         await capObj.checkForScreenErrors();
@@ -141,6 +145,10 @@ for (const sheetName in sheetsJson) {
         //Assign HrpayGroup
         await hrInbxPage.assignInitialPayGroupSubmit(data.ProposedPayGroupInitial);
         await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+
+        await hrInbxPage.setchangePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.MaritalStatusDate,
+          data.CitizenshipStatus, data.PrimaryNationality, data.CountryOfBirth, data.RegionOfBirth);
         await appCommon.SuccessEventHandle();
 
         await hrInbxPage.polandWorkerEducationDetails(data.SchoolName, data.SchoolType, data.SchoolStartDate, data.SchoolEndDate);
@@ -192,6 +200,16 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.MyTasks();
 
+        await page.waitForTimeout(5000);
+
+        await governemntIDs.setGovernmentIDsPolandHr(data.Country1, data.NationalIDType1, data.AddEditID1, data.Country2, data.NationalIDType2, data.AddEditID2, data.Country3, data.NationalIDType3, data.AddEditID3);
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+
+        //Maintain Right to Work Documentation
+        await appCommon.MyTasks();
+        await hrInbxPage.setMaintainRightToWorkDocumentation();
+
         // empNum = String(data.EmployeeID);
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
@@ -230,9 +248,9 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-
         await empInboxpage.changeGovIDInformation();
         await appCommon.SuccessEventHandle();
+
         await empInboxpage.AddEmergecyInformation();
         await appCommon.SuccessEventHandle();
 
@@ -242,13 +260,13 @@ for (const sheetName in sheetsJson) {
         //Start Proxy As HR Again 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
+        await appCommon.ClickInbox();
         await capObj.checkForScreenErrors();
 
-        await hrInbxPage.setMaintainRightToWorkDocumentation();
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+        // await hrInbxPage.setMaintainRightToWorkDocumentation();
+        // await capObj.checkForScreenErrors();
+        // await appCommon.SuccessEventHandle();
 
         await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
         await capObj.checkForScreenErrors();

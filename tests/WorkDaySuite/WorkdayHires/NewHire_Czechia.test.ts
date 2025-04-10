@@ -18,7 +18,7 @@ let position: string;
 let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'CZ E2E NewHire Automation File 3.0.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Czechia_Regression_PK14.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -58,23 +58,24 @@ for (const sheetName in sheetsJson) {
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-        // /*Login creds for PK14*/
-        // const username = "90002196";
-        // const password = "Primark0255!";
         
-        /*Login creds for PK17*/
+        /*Login creds for PK14*/
         const username = "90002196";
-        const password = "Wizos2025!";
+        const password = "Primark0255!";
+
+        // /*Login creds for PK17*/
+        // const username = "90002196";
+        // const password = "Wizos2025!";
 
         // initlize the web environment 
-        await login.goto("Czechia");
+        await login.goto("PK14");
 
         // login into application 
         await login.sigIn(username, password);
 
         // // create position for Management hires
-        position = "No";
-        if (data.JobProfile.toString().includes("Manager") || data.Position.toString() != "No") {
+        // position = "No";
+        if (data.JobProfile.toString().includes("Manager")) {// || data.Position.toString() != "No") {
           await appCommon.SearchClickLink("Create Position");
           await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
           position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, String(data.EmployeeType).trim(), String((data.JobProfile)).trim(), String(data.TimeType).trim(), data.Location);
@@ -88,6 +89,8 @@ for (const sheetName in sheetsJson) {
           // Write the results to the Excel file
           writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
           await appCommon.MyTasks();
+        } else {
+          position = "DummyValue";
         }
 
         // search Hire employee on Home Page after login
@@ -154,7 +157,7 @@ for (const sheetName in sheetsJson) {
 
         // await appCommon.ClickInbox();
         await appCommon.MyTasks();
-        await proposeCompensation.setProposeCompensationHire("NaN", "NaN", "NaN", "", data.AllowanceAmount);
+        await proposeCompensation.setProposeCompensationHire("NaN", "NaN", "NaN", "NaN", data.AllowanceAmount);
         await capObj.checkForScreenErrors();
 
         //await appCommon.SuccessEventHandle();
@@ -171,9 +174,6 @@ for (const sheetName in sheetsJson) {
         await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await page.waitForTimeout(5000);
-
-        await empInboxpage.reviewDocumentSubmitGeneric();
-        await appCommon.SuccessEventHandle();
 
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
@@ -226,6 +226,8 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empHealthcareProviderMealVoucher(data.HealthInsuranceCompany, data.MealVoucher);
         await appCommon.SuccessEventHandle();
 
+
+
         //fill Government IDs  Details for Employee
         await governemntIDs.setGovernmentIDsCzechia(data.Country1, data.Country2, data.NationalIDType1,
           data.NationalIDType2, data.AddEditID1, data.AddEditID2, data.IssuedDate1, data.IssuedDate2,
@@ -249,12 +251,12 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await appCommon.MyTasks();
+        // await appCommon.MyTasks();
         await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await appCommon.MyTasks();
+        // await appCommon.MyTasks();
         await hrInbxPage.assignPaygroupApprove();
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();

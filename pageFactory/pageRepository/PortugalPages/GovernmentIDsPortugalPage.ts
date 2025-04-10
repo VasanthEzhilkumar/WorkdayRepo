@@ -2,7 +2,7 @@ import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 import { WebActionsPage } from 'lib/WebActionPage';
 
 
-export class GovernmentsIDPagePoland extends WebActionsPage {
+export class GovernmentsIDPagePortugal extends WebActionsPage {
 
   readonly page: Page;
   readonly context: BrowserContext;
@@ -14,6 +14,7 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
   readonly GCountry: Locator;
   readonly GNationalIDType: Locator;
   readonly GID: Locator;
+  readonly GID1: Locator;
   readonly GExpirationDate: Locator;
   readonly GIssuedDate: Locator;
   readonly IssuedBy: Locator;
@@ -143,6 +144,7 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
     this.govIds = page.getByLabel('Content Area').locator('input[type="text"]')
     this.govIDsEdit2 = page.locator("//div[@data-automation-id='textInput']//input[@size='7' and  @ role='textbox']");
     this.nationidbtn = page.locator('tr').filter({ hasText: '*Country*National ID' }).getByLabel('Add Row');
+    this.GID1 = page.locator('(//table[@class="mainTable"]//input)[3]');
   }
 
   async hrPaygroupSubmit(): Promise<void> {
@@ -265,7 +267,7 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
     await this.page.getByRole('button', { name: 'Approve' }).click();
   }
 
-  async setGovernmentIDsPolandHr(
+  async setGovernmentIDsPortugalHr(
     Country1: string,
     NationalIDType1: string,
     DepartmentSection1: string,
@@ -283,23 +285,24 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
     if (await this.idChangeTitle.count()>0) {
       await super.click(this.idChangeTitle);
       // await super.click(this.addId);
+      // await this.page.waitForTimeout(500);
       await super.click(this.addROWNationalIDs);
-      await this.fillGovIDDetails1(Country1, NationalIDType1, DepartmentSection1, true);
+      await this.fillGovIDDetails2(Country1, NationalIDType1, DepartmentSection1, true);
 
-      if (Country2.includes("Poland")) {
+      // if (Country2.includes("Poland")) {
         // Adding second ID
         // await this.page.waitForTimeout(500);
         // await this.addId.click();
+        // await this.page.waitForTimeout(500);
         await super.click(this.addROWNationalIDs);
-        await this.fillGovIDDetails1(Country2, NationalIDType2, DepartmentSection2, false);
-      }
-      if (Country3.includes("Poland")) {
+        await this.fillGovIDDetails2(Country2, NationalIDType2, DepartmentSection2, false);
+      // }
+      // if (Country3.includes("Poland")) {
         // Adding second 3rd ID
-        await this.page.waitForTimeout(500);
-        // await this.addId.click();
+        // await this.page.waitForTimeout(500);
         await super.click(this.addROWNationalIDs);
-        await this.fillGovIDDetails1(Country3, NationalIDType3, DepartmentSection3, false)
-      }
+        await this.fillGovIDDetails2(Country3, NationalIDType3, DepartmentSection3, false)
+      // }
 
       await super.click(this.submit);
       return 1; // last step 
@@ -369,6 +372,24 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
 
     // Enter the ID and press Tab
     await super.setText(this.GID, String(idNumber));
+    await this.page.waitForTimeout(500);
+    await this.page.keyboard.press('Tab');
+
+  }
+
+  async fillGovIDDetails2(
+    country: string,
+    nationalIDType: string,
+    idNumber: string,
+    isFirstID: boolean,
+    // //isThirdID :boolean
+  ) {
+    await super.setTextWithEnter(this.GCountry, country);
+    await this.page.waitForTimeout(500);
+    await super.selectFromCustomDropDrown(this.GNationalIDType, String(nationalIDType));
+
+    // Enter the ID and press Tab
+    await super.setText(this.GID1, String(idNumber));
     await this.page.waitForTimeout(500);
     await this.page.keyboard.press('Tab');
 

@@ -108,7 +108,7 @@ export class ProposeCompensationPage extends WebActionsPage {
         this.txtGradeProfile = page.locator("//label[contains(.,'Grade Profile')]/parent::div/following-sibling::div//input[@placeholder='Search']");
         this.txtStep = page.locator("//label[contains(.,'Step')]/parent::div/following-sibling::div//input[@placeholder='Search']");
         //this.txtStep1 = page.locator("//div[@data-automation-checked='Not Checked']/div[contains(text(),'')]");
-        this.txtSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text']");
+        this.txtSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text' and @aria-required='true']");
         this.txtJobChangeSalaryAmount = page.locator("//div[@title='Enter an amount.']/input[@type='text']");
         this.btnEditSalary = page.locator("//button[@aria-label='Edit Salary']");
         this.btnSaveSalary = page.locator("//button[@aria-label='Save Salary']");
@@ -233,7 +233,8 @@ export class ProposeCompensationPage extends WebActionsPage {
         if (Salary !== "N/A" && Salary !== "NaN" && Salary !== undefined && Salary !== "Defaulted") {
             if (await this.btnEditSalary.isVisible()) {
                 await this.click(this.btnEditSalary);
-                if (this.txtSalaryAmount.isVisible()) {
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.count()>0) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
                 await super.click(this.btnSaveSalary);
@@ -321,5 +322,6 @@ export class ProposeCompensationPage extends WebActionsPage {
                 await super.click(this.hrSubmit);
             }
         }
+        await this.page.waitForTimeout(3000);
     }
 }

@@ -13,7 +13,7 @@ let errorMsg: string;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Slovenia  795 JTS Automation File.xlsx';
+const excelFileName = 'JTS_Approval.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -32,7 +32,7 @@ for (const sheetName in sheetsJson) {
 
         test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, appCommon, proxy }) => {
             try {
-                await page.setViewportSize({ width: 1280, height: 995 });
+                await page.setViewportSize({ width: 1375, height: 800 });
                 const empCareerPage = new employeeCareerPage(page, context);
 
                 const username = "90001655";

@@ -15,6 +15,7 @@ export class contactInformationAddressPoland {
     readonly Municipality: Locator;
     readonly District: Locator;
     readonly Province: Locator;
+    readonly addressUseFor: Locator;
 
     constructor(page: Page, context: BrowserContext) {
         //super(page:Page, context: BrowserContext);
@@ -29,10 +30,11 @@ export class contactInformationAddressPoland {
         this.city = page.getByLabel('City');
         this.postalCode = page.getByLabel('Postal Code');
         this.addressType = page.getByLabel('Address', { exact: true }).getByLabel('Type');
+        this.addressUseFor = page.locator('//h2[text()="Address"]/parent::div/parent::div//label[text()="Use For"]/parent::div/following-sibling::div//span[@data-automation-id="promptIcon"]');
 
     }
 
-    async contactInformationAddress(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string) {
+    async contactInformationAddress(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string, useFor: string) {
         //await super.click(this.addAddress);
         await this.page.waitForTimeout(500);
         await this.addAddress.click();
@@ -46,6 +48,9 @@ export class contactInformationAddressPoland {
         await this.Province.fill(Province.toString());
         await this.addressType.click();
         await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+        await this.page.keyboard.press('Tab');
+        await this.addressUseFor.click();
+        await this.page.locator('//div[@data-automation-label="'+useFor+'"]').click();
 
     }
 

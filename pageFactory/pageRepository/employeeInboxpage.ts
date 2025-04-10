@@ -255,7 +255,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.btnAddPaymentElections = page.locator("//button[@title='Add Payment Elections'][contains(.,'Add Payment Elections')]").first();
         this.AccountName = page.getByLabel('Name On Account');
         this.maritalStatusDate = page.getByLabel('Marital Status Date');
-        this.addDependents = page.getByRole('button', { name: 'Please Add Your Dependents', exact: true });
+        // this.addDependents = page.getByRole('button', { name: 'Add Your Dependents', exact: true });
+        this.addDependents = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Your Dependent")]');
         this.healthcareProviderMealVoucher = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Meal Voucher")]');
         this.setHealthInsuranceCompany = page.locator('//label[contains(text(),"Health Insurance Company")]/parent::div/following-sibling::div/descendant::input');
         this.saveHealthInsuranceCompany = page.locator('//label[contains(text(),"Health Insurance Company")]/parent::div/following-sibling::div//div[@data-automation-id="multiselectInputContainer"]//span');
@@ -308,6 +309,26 @@ export class employeeInboxPage extends WebActionsPage {
                 // await this.page.locator('').click();
             }
         }
+    }
+
+    async documentosDoTrabalhador() {
+        await this.page.waitForTimeout(500);
+        await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Documentos do Trabalhador")]').click();
+        await this.page.waitForTimeout(500);
+        for (let j = 1; j <= await this.agreeCheckbox.count(); j++) {
+            // await this.page.waitForTimeout(1500);
+            if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']').isVisible()) {
+                // await this.page.waitForTimeout(1000);
+                await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']').scrollIntoViewIfNeeded();
+                await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']'));
+            }
+        }
+        await this.page.waitForTimeout(500);
+        await this.paygroupSubmit.click();
+        await super.click(this.successClose);
+        // await this.page.locator('').click();
+
+
     }
 
     async GBEmployeeHandbooksSubmit() {
@@ -426,10 +447,12 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async empaddDependents() {
-        await this.page.waitForTimeout(500);
-        await this.addDependents.click();
-        await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(1500);
+        if (await this.addDependents.count() > 0) {
+            await this.addDependents.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
     }
 
     async empHealthcareProviderMealVoucher(insuranceCompany: string, mealVoucher: string) {
@@ -549,23 +572,22 @@ export class employeeInboxPage extends WebActionsPage {
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
         await this.page.waitForTimeout(1000);
-        if (String(bankName) !== "NaN" && String(bankName) !== "N/A" && bankName !== undefined) {
+        if (await this.bankName.count() > 0 && String(bankName) !== "NaN" && String(bankName) !== "N/A" && String(bankName) !== undefined) {
             await super.setText(this.bankName, bankName);
         }
-
-        if (String(BankSortCode) !== "NaN" && String(BankSortCode) !== "N/A" && BankSortCode !== undefined) {
+        if (await this.bankSortCode.count() > 0 && String(BankSortCode) !== "NaN" && String(BankSortCode) !== "N/A" && String(BankSortCode) !== undefined) {
             await super.setText(this.bankSortCode, BankSortCode);
             await this.page.waitForTimeout(100);
         }
-        if (String(bankidentificationnumber) !== "NaN" && String(bankidentificationnumber) !== "N/A" && bankidentificationnumber !== undefined) {
+        if (await this.bankIdentificationCode.count() > 0 && String(bankidentificationnumber) !== "NaN" && String(bankidentificationnumber) !== "N/A" && String(bankidentificationnumber) !== undefined) {
             await super.setText(this.bankIdentificationCode, bankidentificationnumber);
             await this.page.waitForTimeout(100);
         }
-        if (String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && accNumber !== undefined) {
+        if (await this.accountNumber.count() > 0 && String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && String(accNumber) !== undefined) {
             await super.setText(this.accountNumber, accNumber);
             await this.page.waitForTimeout(100);
         }
-        if (String(IBANNumber) !== "NaN" && String(IBANNumber) !== "N/A" && IBANNumber !== undefined) {
+        if (await this.IBAN.count() > 0 && String(IBANNumber) !== "NaN" && String(IBANNumber) !== "N/A" && String(IBANNumber) !== undefined) {
             await super.setText(this.IBAN, IBANNumber);
             await this.page.waitForTimeout(100);
         }
@@ -621,7 +643,9 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
 
-    async changePersonalInformationHun(gender: string, dob: string, countryofbirth: string, city: string, martialstat: string, citizen: string, national: string) {
+    //async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
+    //maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
+    async changePersonalInformationHun(gender: string, dob: string, city: string, martialstat: string, maritalStatusDate: string, citizen: string, national: string, countryofbirth: string) {
 
         await this.page.waitForTimeout(500);
         await this.perInformationforHungary.click();
@@ -731,9 +755,11 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
 
-        await super.click(this.editDob);
-        await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
-        await super.click(this.page.getByLabel('Save Date of Birth'));
+        if (CountryOFBirth !== "NaN" && CountryOFBirth !== "N/A" && CountryOFBirth !== undefined) {
+            await super.click(this.editPlace);
+            await super.setTextWithEnter(this.page.locator('//div[@data-automation-id="monikerSearchBox"] //input'), CountryOFBirth.toString());
+            await super.click(this.page.getByLabel('Save Place of Birth'));
+        }
 
         if (CountryOFBirth !== "NaN" && CountryOFBirth !== "N/A" && CountryOFBirth !== undefined) {
             await super.click(this.editPlace);
@@ -764,11 +790,11 @@ export class employeeInboxPage extends WebActionsPage {
                     await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
                 }
                 await super.click(this.page.getByLabel('Save Marital Status'));
-            } 
+            }
 
         }
         await this.page.waitForTimeout(2000);
-        if ( RaceEthnicity != "NaN" && RaceEthnicity != "N/A" && RaceEthnicity != undefined) {
+        if (RaceEthnicity != "NaN" && RaceEthnicity != "N/A" && RaceEthnicity != undefined) {
             await super.click(this.editRaceEthnicity);
             await this.page.waitForTimeout(100);
             await super.selectFromCustomDropDrownBySliptAndEnter(this.raceEthnicity, RaceEthnicity);
@@ -874,87 +900,88 @@ export class employeeInboxPage extends WebActionsPage {
 
 
     async changepersonalinformationSubmit() {
-
-        await this.chgPersonalInformation.click();
-        await this.page.waitForTimeout(1000);
-        await this.paygroupSubmit.click();
+        if (await this.chgPersonalInformation.count() > 0) {
+            await this.chgPersonalInformation.click();
+            await this.page.waitForTimeout(1000);
+            await this.paygroupSubmit.click();
+        }
     }
 
     async changeGovIDInformation() {
 
-        await this.page.waitForTimeout(500);
-        await this.chgGovid.click();
-        await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+            await this.chgGovid.click();
+            await this.paygroupSubmit.click();
 
-    }
+        }
 
     async AddEmergecyInformation() {
 
-        await this.page.waitForTimeout(500);
-        await this.addemergncyContacts.click();
-        await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+            await this.addemergncyContacts.click();
+            await this.paygroupSubmit.click();
 
-    }
+        }
 
     async employeeLinkClick() {
 
-        await this.peopleLink.click();
+            await this.peopleLink.click();
 
-    }
+        }
     async addAdditionalName(namType: string, givenname: string, familyname: string) {
-        await super.click(this.personaldetails);
-        await super.click(this.addPersonalDetails);
-        await super.click(this.nameType);
-        await super.click(this.fathersname);
-        await super.click(this.page.locator("text='" + namType + "'"));
-        await super.setText(this.givenName, givenname);
-        await super.click(this.familyName);
-        await super.setText(this.familyName, familyname);
-        await super.click(this.okButtonpage);
-        await super.click(this.doneButton);
-    }
+            await super.click(this.personaldetails);
+            await super.click(this.addPersonalDetails);
+            await super.click(this.nameType);
+            await super.click(this.fathersname);
+            await super.click(this.page.locator("text='" + namType + "'"));
+            await super.setText(this.givenName, givenname);
+            await super.click(this.familyName);
+            await super.setText(this.familyName, familyname);
+            await super.click(this.okButtonpage);
+            await super.click(this.doneButton);
+        }
 
 
     async empFathername(namType: string, givenname: string, familyname: string) {
-        //await this.peopleLink.click();
-        await this.personaldetails.click();
-        await this.addPersonalDetails.click();
-        await this.nameType.click();
-        await this.fathersname.click();
-        await this.givenName.click();
-        await this.page.waitForTimeout(500);
-        await this.page.keyboard.type(givenname);
-        await this.page.waitForTimeout(500);
-        await this.familyName.click();
-        await this.page.waitForTimeout(500);
-        await this.page.keyboard.type(familyname);
-        await this.page.waitForTimeout(500);
-        await this.okButtonpage.click();
-        await this.doneButton.click();
-        await this.page.waitForTimeout(500);
-    }
+            //await this.peopleLink.click();
+            await this.personaldetails.click();
+            await this.addPersonalDetails.click();
+            await this.nameType.click();
+            await this.fathersname.click();
+            await this.givenName.click();
+            await this.page.waitForTimeout(500);
+            await this.page.keyboard.type(givenname);
+            await this.page.waitForTimeout(500);
+            await this.familyName.click();
+            await this.page.waitForTimeout(500);
+            await this.page.keyboard.type(familyname);
+            await this.page.waitForTimeout(500);
+            await this.okButtonpage.click();
+            await this.doneButton.click();
+            await this.page.waitForTimeout(500);
+        }
 
     async reviewDocumentSubmit() {
 
-        await this.reviewDoc.click();
-        await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500);
-    }
+            await this.reviewDoc.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
 
     async reviewDocumentSubmitSK() {
-        await this.page.waitForTimeout(1000);
-        if (await this.reviewDoc.isVisible()) {
-            await super.click(this.reviewDoc);
             await this.page.waitForTimeout(1000);
-            for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
-                if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
-                    await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
-                    await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+            if (await this.reviewDoc.isVisible()) {
+                await super.click(this.reviewDoc);
+                await this.page.waitForTimeout(1000);
+                for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
+                    if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                        await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
+                        await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+                    }
                 }
+                await this.paygroupSubmit.click();
             }
-            await this.paygroupSubmit.click();
         }
-    }
 
 
     //@Madhukar Kirkan -> Making this generic to ensure that if there are 10 "Agree" checkboxes, the test cases won't fail; it will click all 10 "Agree" checkboxes.
@@ -974,45 +1001,45 @@ export class employeeInboxPage extends WebActionsPage {
     // }
 
     async clickIAgreeCheckBox() {
-        await this.page.waitForTimeout(500);
-        for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
-            if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
-                await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
-                await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+            await this.page.waitForTimeout(500);
+            for (let i = 1; i <= await this.agreeCheckbox.count(); i++) {
+                if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').isVisible()) {
+                    await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']').scrollIntoViewIfNeeded();
+                    await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + i + ']'));
+                }
             }
         }
-    }
 
     async addCertificationSubmit() {
-        if (await this.addCerti.isVisible()) {
-            await this.addCerti.click();
-            await this.paygroupSubmit.click();
-            await this.page.waitForTimeout(500);
+            if (await this.addCerti.isVisible()) {
+                await this.addCerti.click();
+                await this.paygroupSubmit.click();
+                await this.page.waitForTimeout(500);
+            }
         }
-    }
 
     async addeducationSubmit() {
 
-        await this.addEdu.click();
+            await this.addEdu.click();
 
-        await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500);
-    }
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
     async romaniaFatherNameSubmit() {
 
-        await this.romFather.click();
+            await this.romFather.click();
 
-        await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500);
-    }
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
 
     async addMaidenNameSubmit() {
 
-        await this.maidenName.click();
+            await this.maidenName.click();
 
-        await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500);
-    }
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
 
     /*
     @Brief description: Generic function to add additional name details.
@@ -1022,213 +1049,213 @@ export class employeeInboxPage extends WebActionsPage {
     @Returns: None.
     */
     async addAdditionalNameSubmit(AdditionalNameType: string, AdditionalNameCountry: string, AdditionalNameGivenName: string, AdditionalNameFamilyName: string) {
-        await super.click(this.personaldetails);
-        await super.click(this.addPersonalDetails);
-        await super.click(this.nameType);
-        await super.click(this.page.locator('(//div[contains(@data-automation-label,"' + AdditionalNameType + '")])[1]'));
-        if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
-            // await super.click(this.countryName);
-            await super.setText(this.countryName, AdditionalNameCountry);
-            this.page.keyboard.press('Enter');
+            await super.click(this.personaldetails);
+            await super.click(this.addPersonalDetails);
+            await super.click(this.nameType);
+            await super.click(this.page.locator('(//div[contains(@data-automation-label,"' + AdditionalNameType + '")])[1]'));
+            if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
+                // await super.click(this.countryName);
+                await super.setText(this.countryName, AdditionalNameCountry);
+                this.page.keyboard.press('Enter');
+            }
+            if (await this.givenName.isVisible()) {
+                // await super.click(this.givenName);
+                await super.setText(this.givenName, AdditionalNameGivenName);
+            }
+            if (await this.familyName.isVisible()) {
+                // await super.click(this.familyName);
+                await super.setText(this.familyName, AdditionalNameFamilyName);
+            }
+            if (await this.lastName.isVisible()) {
+                // await super.click(this.lastName);
+                await super.setText(this.lastName, AdditionalNameFamilyName);
+            }
+            await super.click(this.okButtonpage);
+            await super.click(this.doneButton);
+            await this.appCommon.ClickInbox();
+            await this.maidenName.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
         }
-        if (await this.givenName.isVisible()) {
-            // await super.click(this.givenName);
-            await super.setText(this.givenName, AdditionalNameGivenName);
-        }
-        if (await this.familyName.isVisible()) {
-            // await super.click(this.familyName);
-            await super.setText(this.familyName, AdditionalNameFamilyName);
-        }
-        if (await this.lastName.isVisible()) {
-            // await super.click(this.lastName);
-            await super.setText(this.lastName, AdditionalNameFamilyName);
-        }
-        await super.click(this.okButtonpage);
-        await super.click(this.doneButton);
-        await this.appCommon.ClickInbox();
-        await this.maidenName.click();
-        await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500);
-    }
 
     async maidenNamePageSubmit() {
-        await this.appCommon.ClickInbox();
-        await this.maidenName.click();
-        await this.paygroupSubmit.click();
-        await this.page.waitForTimeout(500);
-    }
+            await this.appCommon.ClickInbox();
+            await this.maidenName.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
 
     async addAdditionalNameHungary(AdditionalNameType: string, AdditionalNameCountry: string, AdditionalNameGivenName: string, AdditionalNameFamilyName: string,
-        AdditionalNameType2: string) {
-        await super.click(this.personaldetails);
-        await super.click(this.addPersonalDetails);
-        await super.click(this.nameType);
-        await super.click(this.page.locator('(//div[contains(@data-automation-label,"' + AdditionalNameType + '")])[1]'));
-        if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
-            // await super.click(this.countryName);
-            await super.setText(this.countryName, AdditionalNameCountry);
-            this.page.keyboard.press('Enter');
+            AdditionalNameType2: string) {
+            await super.click(this.personaldetails);
+            await super.click(this.addPersonalDetails);
+            await super.click(this.nameType);
+            await super.click(this.page.locator('(//div[contains(@data-automation-label,"' + AdditionalNameType + '")])[1]'));
+            if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
+                // await super.click(this.countryName);
+                await super.setText(this.countryName, AdditionalNameCountry);
+                this.page.keyboard.press('Enter');
+            }
+            if (await this.givenName.isVisible()) {
+                // await super.click(this.givenName);
+                await super.setText(this.givenName, AdditionalNameGivenName);
+            }
+            if (await this.familyName.isVisible()) {
+                // await super.click(this.familyName);
+                await super.setText(this.familyName, AdditionalNameFamilyName);
+            }
+            if (await this.lastName.isVisible()) {
+                // await super.click(this.lastName);
+                await super.setText(this.lastName, AdditionalNameFamilyName);
+            }
+            await super.click(this.okButtonpage);
+            await super.click(this.doneButton);
+            await super.click(this.addPersonalDetails);
+            await super.click(this.nameType);
+            await super.click(this.page.locator('(//div[contains(@data-automation-label,"' + AdditionalNameType2 + '")])[1]'));
+            if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
+                // await super.click(this.countryName);
+                await super.setText(this.countryName, AdditionalNameCountry);
+                this.page.keyboard.press('Enter');
+            }
+            if (await this.givenName.isVisible()) {
+                // await super.click(this.givenName);
+                await super.setText(this.givenName, AdditionalNameGivenName);
+            }
+            if (await this.familyName.isVisible()) {
+                // await super.click(this.familyName);
+                await super.setText(this.familyName, AdditionalNameFamilyName);
+            }
+            await super.click(this.okButtonpage);
+            await super.click(this.doneButton);
+            await this.page.waitForTimeout(500);
         }
-        if (await this.givenName.isVisible()) {
-            // await super.click(this.givenName);
-            await super.setText(this.givenName, AdditionalNameGivenName);
-        }
-        if (await this.familyName.isVisible()) {
-            // await super.click(this.familyName);
-            await super.setText(this.familyName, AdditionalNameFamilyName);
-        }
-        if (await this.lastName.isVisible()) {
-            // await super.click(this.lastName);
-            await super.setText(this.lastName, AdditionalNameFamilyName);
-        }
-        await super.click(this.okButtonpage);
-        await super.click(this.doneButton);
-        await super.click(this.addPersonalDetails);
-        await super.click(this.nameType);
-        await super.click(this.page.locator('(//div[contains(@data-automation-label,"' + AdditionalNameType2 + '")])[1]'));
-        if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
-            // await super.click(this.countryName);
-            await super.setText(this.countryName, AdditionalNameCountry);
-            this.page.keyboard.press('Enter');
-        }
-        if (await this.givenName.isVisible()) {
-            // await super.click(this.givenName);
-            await super.setText(this.givenName, AdditionalNameGivenName);
-        }
-        if (await this.familyName.isVisible()) {
-            // await super.click(this.familyName);
-            await super.setText(this.familyName, AdditionalNameFamilyName);
-        }
-        await super.click(this.okButtonpage);
-        await super.click(this.doneButton);
-        await this.page.waitForTimeout(500);
-    }
 
 
     async clickInboxMyTaskAndSubmit(varString: string) {
-        if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first().isVisible()) {
-            await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
-            await this.clickIAgreeCheckBox();
-            await super.click(this.paygroupSubmit);
-            await this.page.waitForTimeout(1000);
+            if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first().isVisible()) {
+                await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
+                await this.clickIAgreeCheckBox();
+                await super.click(this.paygroupSubmit);
+                await this.page.waitForTimeout(1000);
+            }
         }
-    }
 
     async clickInboxMyTaskAndApprove(varString: string) {
-        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
-        await this.clickIAgreeCheckBox();
-        await super.click(this.page.getByRole('button', { name: 'Approve' }).first());
-    }
+            await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
+            await this.clickIAgreeCheckBox();
+            await super.click(this.page.getByRole('button', { name: 'Approve' }).first());
+        }
 
 
 
     async addEmployeeBankDetailsforHungaryn(
-        bankName: string,
-        bankIdentificationCode: string,
-        accNumber: string,
-        IBANNumber: string,
-        accountType: string,
-        accountNickname: string,
-        bankName2: string, // 🔹 Second account is mandatory
-        bankIdentificationCode2: string,
-        accountNumber2: String,
-        IBANNumber2: string,
-        accountType2: string,
-        accountNickname2: string,
-        PaymentType: string,
-        Account: string,
-        Percent: string
-    ) {
-        console.log("Function addEmployeeBankDetailsforHungary is called");
+            bankName: string,
+            bankIdentificationCode: string,
+            accNumber: string,
+            IBANNumber: string,
+            accountType: string,
+            accountNickname: string,
+            bankName2: string, // 🔹 Second account is mandatory
+            bankIdentificationCode2: string,
+            accountNumber2: String,
+            IBANNumber2: string,
+            accountType2: string,
+            accountNickname2: string,
+            PaymentType: string,
+            Account: string,
+            Percent: string
+        ) {
+            console.log("Function addEmployeeBankDetailsforHungary is called");
 
-        await this.page.waitForTimeout(1000);
+            await this.page.waitForTimeout(1000);
 
-        // 🔹 Handle First Account
-        await super.click(this.addBankDetails1);
-        await super.click(this.btnAddPaymentElections);
-        await this.page.waitForTimeout(1000);
+            // 🔹 Handle First Account
+            await super.click(this.addBankDetails1);
+            await super.click(this.btnAddPaymentElections);
+            await this.page.waitForTimeout(1000);
 
-        await super.setText(this.bankName, bankName);
-        await super.setText(this.bankIdentificationCode, bankIdentificationCode);
-        await super.setText(this.accountNumber, accNumber);
-        await super.setText(this.IBAN, IBANNumber);
+            await super.setText(this.bankName, bankName);
+            await super.setText(this.bankIdentificationCode, bankIdentificationCode);
+            await super.setText(this.accountNumber, accNumber);
+            await super.setText(this.IBAN, IBANNumber);
 
 
-        if (await this.accountNickname.isVisible()) {
-            await super.setText(this.accountNickname, accountNickname);
+            if (await this.accountNickname.isVisible()) {
+                await super.setText(this.accountNickname, accountNickname);
+            }
+
+            await this.page.locator(`//label[@data-automation-label="${accountType}"]`).click();
+            await super.click(this.okButton);
+            await this.page.waitForTimeout(200);
+
+            // 🔹 Handle Second Account (Always Mandatory)
+            console.log("Adding second bank account...");
+
+            await super.click(this.addAccounts); // Click 'Add Another Account' button
+            //await super.click(this.btnAddPaymentElections);
+            await this.page.waitForTimeout(1000);
+
+            await super.setText(this.bankName, bankName2);
+            await super.setText(this.bankIdentificationCode, bankIdentificationCode2);
+            await super.setText(this.accountNumber, accountNumber2);
+            await super.setText(this.IBAN, IBANNumber2);
+            if (await this.accountNickname.isVisible()) {
+                await super.setText(this.accountNickname, accountNickname2);
+            }
+
+            await this.page.locator(`//label[@data-automation-label="${accountType2}"]`).click();
+            await super.click(this.okButton);
+            await this.page.waitForTimeout(200);
+
+            //Above 2 bank account are added
+
+            await super.click(this.btnAddPaymentElections);
+            await this.page.waitForTimeout(1000);
+            await super.click(this.okButton);
+            await this.page.waitForTimeout(200);
+            //Add other details
+            await super.click(this.editbankbtn);
+            await this.addRowBankbtn.scrollIntoViewIfNeeded();
+
+            await super.click(this.addRowBankbtn);
+            await this.page.waitForTimeout(200);
+
+            await super.setText(this.PaymentElectionOption_Account, PaymentType);
+            await this.page.waitForTimeout(500);
+            //await super.setText(this.accountbtn, Account);
+            await super.click(this.accountbtn);
+            await this.page.waitForTimeout(1000);
+            await this.page.locator("(//*[@data-automation-label='" + Account + "' or text()='" + Account + "'])[1]").click();
+            //Not selecting ask to him accountbtn
+            //await this.page.waitForTimeout(1000);
+            //await super.selectFromCustomDropDrown(this.accountbtn, Account);
+            //await this.page.waitForTimeout(1000);
+
+            await super.click(this.balance);
+
+            //await super.click(this.percent);
+            await super.click(this.btnPercent);
+            await super.setTextWithType(this.txtpercent, Percent);
+            // await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
+
+            await this.page.waitForTimeout(500);
+            await super.click(this.btnMoveUp);
+            await this.page.waitForTimeout(100);
+
+            await super.click(this.okButton);
+
+            //Last step
+            await this.page.waitForTimeout(200);
+            await this.appCommon.MyTasks();
+            await super.click(this.addBankDetails1);// }
+            await this.paygroupSubmit.click();
         }
 
-        await this.page.locator(`//label[@data-automation-label="${accountType}"]`).click();
-        await super.click(this.okButton);
-        await this.page.waitForTimeout(200);
 
-        // 🔹 Handle Second Account (Always Mandatory)
-        console.log("Adding second bank account...");
 
-        await super.click(this.addAccounts); // Click 'Add Another Account' button
-        //await super.click(this.btnAddPaymentElections);
-        await this.page.waitForTimeout(1000);
 
-        await super.setText(this.bankName, bankName2);
-        await super.setText(this.bankIdentificationCode, bankIdentificationCode2);
-        await super.setText(this.accountNumber, accountNumber2);
-        await super.setText(this.IBAN, IBANNumber2);
-        if (await this.accountNickname.isVisible()) {
-            await super.setText(this.accountNickname, accountNickname2);
-        }
 
-        await this.page.locator(`//label[@data-automation-label="${accountType2}"]`).click();
-        await super.click(this.okButton);
-        await this.page.waitForTimeout(200);
 
-        //Above 2 bank account are added
 
-        await super.click(this.btnAddPaymentElections);
-        await this.page.waitForTimeout(1000);
-        await super.click(this.okButton);
-        await this.page.waitForTimeout(200);
-        //Add other details
-        await super.click(this.editbankbtn);
-        await this.addRowBankbtn.scrollIntoViewIfNeeded();
-
-        await super.click(this.addRowBankbtn);
-        await this.page.waitForTimeout(200);
-
-        await super.setText(this.PaymentElectionOption_Account, PaymentType);
-        await this.page.waitForTimeout(500);
-        //await super.setText(this.accountbtn, Account);
-        await super.click(this.accountbtn);
-        await this.page.waitForTimeout(1000);
-        await this.page.locator("(//*[@data-automation-label='" + Account + "' or text()='" + Account + "'])[1]").click();
-        //Not selecting ask to him accountbtn
-        //await this.page.waitForTimeout(1000);
-        //await super.selectFromCustomDropDrown(this.accountbtn, Account);
-        //await this.page.waitForTimeout(1000);
-
-        await super.click(this.balance);
-
-        //await super.click(this.percent);
-        await super.click(this.btnPercent);
-        await super.setTextWithType(this.txtpercent, Percent);
-        // await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
-
-        await this.page.waitForTimeout(500);
-        await super.click(this.btnMoveUp);
-        await this.page.waitForTimeout(100);
-
-        await super.click(this.okButton);
-
-        //Last step
-        await this.page.waitForTimeout(200);
-        await this.appCommon.MyTasks();
-        await super.click(this.addBankDetails1);// }
-        await this.paygroupSubmit.click();
     }
-
-
-
-
-
-
-
-}

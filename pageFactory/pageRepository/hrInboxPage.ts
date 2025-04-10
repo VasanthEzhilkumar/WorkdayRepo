@@ -144,6 +144,10 @@ export class HrInboxPage extends WebActionsPage {
     readonly txtProfessionalCategory: Locator;
     readonly txtLevel: Locator;
     readonly maidenNameHungary: Locator;
+    readonly compensationTitle: Locator;
+    readonly areadeEstudo: Locator;
+    readonly taxadeIRS: Locator;
+    readonly portugalSocialSecurityCode: Locator;
 
     EmployeeNumber: string[];
 
@@ -314,6 +318,10 @@ export class HrInboxPage extends WebActionsPage {
         //this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden & Mother's Maiden Names: Hire: '+ ' ' + FamilyName + ' ' + givenname '")]');
         this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden Names: Hire:  ' + FamilyName + ' ' + givenname + '")]');
 
+        this.compensationTitle = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Propose Compensation Hire: ' + givenname + ' ' + FamilyName + '")]');
+        this.areadeEstudo = page.locator('//label[text()="Area de Estudo"]/parent::div/following-sibling::div//input');
+        this.taxadeIRS = page.locator('//label[text()="Taxa de IRS"]/parent::div/following-sibling::div//input');
+        this.portugalSocialSecurityCode = page.locator('//label[text()="Social Security Code"]/parent::div/following-sibling::div//input');
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -365,6 +373,15 @@ export class HrInboxPage extends WebActionsPage {
         await this.hrSubmit.click();
     }
 
+    async addHireAdditionalDataPortugal(AreadeEstudo: string, TaxadeIRS: string, PortugalSocialSecurityCode: string): Promise<void> {
+        await this.hireadditiondatasub.click();
+        await super.selectFromCustomDropDrown(this.areadeEstudo, AreadeEstudo);
+        await super.selectFromCustomDropDrown(this.taxadeIRS, TaxadeIRS);
+        await super.setTextWithEnter(this.portugalSocialSecurityCode, PortugalSocialSecurityCode);
+        await this.page.waitForTimeout(500);
+        await this.hrSubmit.click();
+    }
+    
     async manageProbationPeriod(): Promise<void> {
         await this.manageProbation.click();
         await this.prbStartDate.fill('01/01/2020');
@@ -539,14 +556,21 @@ export class HrInboxPage extends WebActionsPage {
         await this.hrSubmit.click();
     }
 
-
+    async compensationHRapprove(): Promise<void> {
+        await this.page.waitForTimeout(500);
+        await this.compensationTitle.click();
+        await this.page.getByRole('button', { name: 'Approve' }).click();
+        await this.page.waitForTimeout(700);
+    }
 
 
     async setMaintainRightToWorkDocumentation(): Promise<void> {
-        await this.page.waitForTimeout(500);
-        await this.rightToWork.click();
-        await this.page.getByRole('button', { name: 'Submit' }).click();
-        await this.page.waitForTimeout(700);
+        await this.page.waitForTimeout(2500);
+        if (this.rightToWork.isVisible() && await this.rightToWork.count() > 0) {
+            await this.rightToWork.click();
+            await this.page.getByRole('button', { name: 'Submit' }).click();
+            await this.page.waitForTimeout(700);
+        }
     }
 
     async assignPaygroupApprove(): Promise<void> {
@@ -778,6 +802,7 @@ export class HrInboxPage extends WebActionsPage {
             await this.page.waitForTimeout(1000);
         }
         await super.click(this.hrSubmit);
+        return 1;
     }
     async hrcontractAddendum() {
         await this.contractAddendum.click();
@@ -849,10 +874,11 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setManageProbation(probEndDate: string, probReviewDate: string) {
-        await this.page.waitForTimeout(4000);
+        await this.page.waitForTimeout(3000);
         if (await this.manageProbation.count() > 0) {
             await super.click(this.manageProbation);
             // await super.setTextWithType(this.prbStartDate, '');
+            await this.page.waitForTimeout(1000);
             if (await probEndDate != 'NaN' && await probEndDate != 'N/A' && await probEndDate != undefined) {
                 await super.setTextWithType(this.prbEndDate, probEndDate);
             }

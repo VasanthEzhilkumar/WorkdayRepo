@@ -27,6 +27,7 @@ export class appCommons extends WebActionsPage {
   readonly tbWorkerHistroy: Locator;
   readonly btnJob: Locator;
   readonly txtPayGroup: Locator;
+  readonly lnkViewDetails: Locator;
 
   constructor(page: Page, context: BrowserContext) {
     super(page);
@@ -54,7 +55,7 @@ export class appCommons extends WebActionsPage {
     this.btnJob = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Job')]").first();
     this.tbWorkerHistroy = page.locator("//ul[@data-automation-id='tabBar']/li[@role='tab']/div/div[contains(text(),'Worker History') and  @data-automation-id='tabLabel']").first();
     this.txtPayGroup = page.locator("//label[contains(text(),'Pay Group')]//parent::div//following-sibling::div//descendant ::div[@data-automation-id='promptOption']");
-
+    this.lnkViewDetails = page.locator("(//button[contains(.,'View Details')])[1]");
   }
 
   async ClickInbox() {
@@ -135,6 +136,9 @@ export class appCommons extends WebActionsPage {
     //await super.click(this.page.getByLabel('My Tasks Items').first());
     await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
     while (!await this.page.getByLabel('Advanced Search').isVisible()) {
+      if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").nth(0).count() > 0) {
+        await super.click(this.page.getByLabel('Close notification').first());
+      }
       await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
     }
     //await this.page.locator('//*[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').first().click({ 'force': true })
@@ -192,10 +196,8 @@ export class appCommons extends WebActionsPage {
         await super.click(buttons.nth(i));
       }
     }
-
-    //await this.process.click();
-    await super.click(this.process);
-
+    await this.page.waitForTimeout(3000);
+    await this.process.click();
     // Check if the field exists
     if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {
       //await this.txtItemsPerPage.waitFor;
@@ -215,21 +217,13 @@ export class appCommons extends WebActionsPage {
     // }
   }
 
-  async getCompensationHRpartnerID(givenname: string, familyname: string) {
+  async getCompensationHRpartnerID() {
 
-    await this.MyTasks();
-    await this.Archive.click();
-    await this.page.waitForTimeout(6000);
-    await this.page.waitForSelector(`button:has-text('Hire: ${givenname} ${familyname}')`);
-    const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
-    // Iterate over the found buttons and click the one that starts with 'Hire'
-    for (let i = 0; i < await buttons.count(); i++) {
-      const buttonText = await buttons.nth(i).textContent();
-      if (buttonText?.startsWith('Hire')) {
-        await this.page.waitForTimeout(400);
-        await buttons.nth(i).click();
-      }
-    }
+    await super.click(this.lnkViewDetails);
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('//h2/span[@title="Details and Process"]').click();
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('(//div[@data-automation-id="tabLabel" and text()="Process"])[1]').click();
     await this.process.click();
     // Check if the field exists
     if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {

@@ -52,6 +52,7 @@ export class WebActionsPage {
             await locator.focus();
             await locator.clear();
             await locator.fill(String(varString));
+            await this.page.waitForTimeout(2000);
             await locator.press('Enter');
             console.log(`Entering "${varString}" value into: ${locator}`);
 
@@ -101,8 +102,8 @@ export class WebActionsPage {
             await locator.press('Enter');
             await this.page.waitForTimeout(1000);
             await this.page.keyboard.press('Enter');
-            const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             await this.page.waitForTimeout(1000);
+            const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
