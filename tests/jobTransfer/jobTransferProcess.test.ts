@@ -14,7 +14,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = '895 JTS 3.0.xlsx';
+const excelFileName = 'JTS_Approval.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -33,7 +33,7 @@ for (const sheetName in sheetsJson) {
 
         test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, appCommon, proxy }) => {
             try {
-                await page.setViewportSize({ width: 1920, height: 920 });
+                await page.setViewportSize({ width: 1375, height: 800 });
                 const empCareerPage = new employeeCareerPage(page, context);
                 capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index)
                 const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context)
@@ -56,15 +56,18 @@ for (const sheetName in sheetsJson) {
                 // search Hire employee on Home Page after login
                 await home.searchEmp(data.EmployeeID);
                 //console.log(`HR Partner: ${empManager}`)
-
+                
                 empName = await home.getEmpName(data.EmployeeID);
+                // Add code to click on more if exist
+
                 await empCareerPage.addEmpCertification(data.Job);
                 empManager = await empCareerPage.getEmpManager();
                 await appCommon.SuccessEventHandle();
 
                 if (empManager) {
-                    await appCommon.Searchbox("Stop Proxy");
-                    await proxy.stopproxy();
+                    // await appCommon.Searchbox("Stop Proxy");
+                    // await proxy.stopproxy();
+                    await appCommon.Searchbox("Start Proxy");
                     await proxy.startProxy(empManager);
                     await appCommon.ClickInbox();
                     await empCareerPage.approveCertification(empName);

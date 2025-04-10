@@ -273,6 +273,26 @@ export class employeeInboxPage extends WebActionsPage {
         }
     }
 
+    async documentosDoTrabalhador() {
+        await this.page.waitForTimeout(500);
+        await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Documentos do Trabalhador")]').click();
+        await this.page.waitForTimeout(500);
+        for (let j = 1; j <= await this.agreeCheckbox.count(); j++) {
+            // await this.page.waitForTimeout(1500);
+            if (await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']').isVisible()) {
+                // await this.page.waitForTimeout(1000);
+                await this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']').scrollIntoViewIfNeeded();
+                await super.click(this.page.locator('(//div[contains(@data-automation-id,"checkboxPanel")])[' + j + ']'));
+            }
+        }
+        await this.page.waitForTimeout(500);
+        await this.paygroupSubmit.click();
+        await super.click(this.successClose);
+        // await this.page.locator('').click();
+
+
+    }
+
     async GBEmployeeHandbooksSubmit() {
         await this.page.waitForTimeout(500);
         if (await this.GBEmpHandbooks.isVisible()) {
@@ -514,17 +534,19 @@ export class employeeInboxPage extends WebActionsPage {
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
         await this.page.waitForTimeout(1000);
-        await super.setText(this.bankName, bankName);
-        if (String(BankSortCode) !== "NaN" && String(BankSortCode) !== "N/A" && String(BankSortCode) !== undefined) {
+        if (await this.bankName.count() > 0 && String(bankName) !== "NaN" && String(bankName) !== "N/A" && String(bankName) !== undefined) {
+            await super.setText(this.bankName, bankName);
+        }
+        if (await this.bankSortCode.count() > 0 && String(BankSortCode) !== "NaN" && String(BankSortCode) !== "N/A" && String(BankSortCode) !== undefined) {
             await super.setText(this.bankSortCode, BankSortCode);
         }
-        if (String(bankidentificationnumber) !== "NaN" && String(bankidentificationnumber) !== "N/A" && String(bankidentificationnumber) !== undefined) {
+        if (await this.bankIdentificationCode.count() > 0 && String(bankidentificationnumber) !== "NaN" && String(bankidentificationnumber) !== "N/A" && String(bankidentificationnumber) !== undefined) {
             await super.setText(this.bankIdentificationCode, bankidentificationnumber);
         }
-        if (String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && String(accNumber) !== undefined) {
+        if (await this.accountNumber.count() > 0 && String(accNumber) !== "NaN" && String(accNumber) !== "N/A" && String(accNumber) !== undefined) {
             await super.setText(this.accountNumber, accNumber);
         }
-        if (String(IBANNumber) !== "NaN" && String(IBANNumber) !== "N/A" && String(IBANNumber) !== undefined) {
+        if (await this.IBAN.count() > 0 && String(IBANNumber) !== "NaN" && String(IBANNumber) !== "N/A" && String(IBANNumber) !== undefined) {
             await super.setText(this.IBAN, IBANNumber);
         }
         if (await this.nameOnAccount.isVisible()) {

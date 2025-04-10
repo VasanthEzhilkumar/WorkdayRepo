@@ -299,6 +299,7 @@ export class hireEmployeePage extends WebActionsPage {
   async searchSupervisoryOrganizationMgr(supervisoryOrganisation: string) {
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
+    await this.page.waitForTimeout(1000);
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
     await this.page.waitForTimeout(1000);
     const locator = await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]");

@@ -144,7 +144,8 @@ export class MaintainContractPage extends WebActionsPage {
         //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
         if (await reason !== 'N/A' && await reason !== 'NaN' && await reason !== undefined) {
             await super.click(this.contractReason);
-            await super.setTextWithEnter(this.contractReason, reason.toString().trim());
+            // await super.setTextWithEnter(this.contractReason, reason.toString().trim());
+            await super.selectFromCustomDropDrown(this.contractReason, reason.toString().trim());
         }
         if (await contractType !== 'N/A' && await contractType !== 'NaN' && await contractType !== undefined) {
             await super.selectFromCustomDropDrown(this.contractType, contractType);

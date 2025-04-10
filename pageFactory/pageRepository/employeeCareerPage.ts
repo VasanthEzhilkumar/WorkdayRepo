@@ -59,7 +59,7 @@ export class employeeCareerPage extends WebActionsPage{
     
 
     async approveCertification(empName: string): Promise<void>{
-
+        await this.page.waitForTimeout(1000);
         await this.page.getByRole('button', { name: `Manage Certifications: ${empName}`, exact: true }).click();
         await this.btnApprove.click()
         await this.page.waitForTimeout(1000)

@@ -2,7 +2,7 @@ import { WebActions } from '@lib/WebActions';
 import { Page, BrowserContext, Locator, expect } from '@playwright/test';
 import { count } from 'console';
 
-export class contactInformationAddressCzechia {
+export class contactInformationAddressPortugal {
 
     readonly page: Page;
     readonly street: Locator;
@@ -21,6 +21,7 @@ export class contactInformationAddressCzechia {
     readonly addressLine1: Locator;
     readonly addressLine2: Locator;
     readonly addressLine3: Locator;
+    readonly district: Locator;
 
     constructor(page: Page, context: BrowserContext) {
         //super(page:Page, context: BrowserContext);
@@ -41,63 +42,20 @@ export class contactInformationAddressCzechia {
         this.addressLine1 = page.locator('//label[text()="Address Line 1"]/parent::div/following-sibling::div//input');
         this.addressLine2 = page.locator('//label[text()="Address Line 2"]/parent::div/following-sibling::div//input');
         this.addressLine3 = page.locator('//label[text()="Address Line 3"]/parent::div/following-sibling::div//input');
+        this.district = page.locator('//label[text()="District"]/parent::div/following-sibling::div//input');
+        
     } 
 
-    async contactInformationAddress(StreetName: string, PostalCode: number, city: string, County: string, addressType: string, houseNumber:string, referenceNumber: string, locality: string, region: string, useFor: string) {
+    async contactInformationAddress(EffectiveDate: string, Country: string, AddressLine1: string, PostalCode: string, District: string, Type:string, UseFor:string) {
        
         await this.page.waitForTimeout(500);
         await this.addAddress.click();
-        await this.streetName.fill(StreetName);
-        await this.houseNumber.fill(houseNumber.toString());
-        await this.referenceNumber.fill(referenceNumber.toString());
-        await this.locality.fill(locality);
-        //await this.city.fill(PostalCode.toString());26401
-        // await this.postalCode.fill(PostalCode.toString());
-        await this.postalCode.fill(String(PostalCode));
-        await this.city.fill(city);
-        await this.region.fill(region);
-        await this.page.keyboard.press('Enter');
-        await this.page.waitForTimeout(500);
-
-        // await this.county.fill(County);
-        // await this.county.press('Enter');
-        await this.addressType.click()
-        await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
-        await this.useFor.fill(useFor);
-        await this.page.keyboard.press('Enter');
-    }
-
-    async contactInformationAddressUK(EffectiveDate: string, Country: string, County: string, AddressLine1: string, AddressLine2: string, AddressLine3: string, PostalCode: string, City: string, Type:string, UseFor:string) {
-       
-        await this.page.waitForTimeout(500);
-        await this.addAddress.click();
-
-        // await this.country.fill(Country);
-        // await this.page.keyboard.press('Enter');
 
         await this.addressLine1.fill(AddressLine1);
-        await this.addressLine2.fill(AddressLine2);
-        await this.addressLine3.fill(AddressLine3);
-        await this.city.fill(City);
-
-        await this.county.fill(County);
-        await this.page.keyboard.press('Enter');
-
-        await this.page.waitForTimeout(1000);
         await this.postalCode.fill(String(PostalCode));
         await this.page.keyboard.press('Tab');
-
-        // await this.locality.fill(locality);
-        // //await this.city.fill(PostalCode.toString());26401
-        // // await this.postalCode.fill(PostalCode.toString());
-        // await this.postalCode.fill(String(PostalCode));
-        // await this.city.fill(city);
-        // await this.region.fill(region);
-        // await this.page.keyboard.press('Enter');
-        // await this.page.waitForTimeout(500);
-
-        // await this.county.fill(County);
-        // await this.county.press('Enter');
+        await this.district.fill(District);
+        await this.page.keyboard.press('Tab');
         await this.addressType.click()
         await this.page.getByLabel('' + Type + ' checkbox Not Checked').getByRole('checkbox').check();
         await this.useFor.fill(UseFor);

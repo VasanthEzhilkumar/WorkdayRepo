@@ -50,6 +50,7 @@ export class WebActionsPage {
             await locator.focus();
             await locator.clear();
             await locator.fill(String(varString));
+            await this.page.waitForTimeout(2000);
             await locator.press('Enter');
             console.log(`Entering "${varString}" value into: ${locator}`);
 
