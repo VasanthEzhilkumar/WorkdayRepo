@@ -1,7 +1,8 @@
-import { Page, Locator, } from '@playwright/test';
+import { Locator, Page, } from '@playwright/test';
 import moment from "moment";
 /*
 @Author      : @ Madhukar Kirkan
+@Description : all common action methods related to web page.
 */
 export class WebActionsPage {
     readonly page: Page;
@@ -10,15 +11,17 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 500;
+        this.timeOut = 300;
     }
 
     async setText(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
             // await locator.scrollIntoViewIfNeeded();
+            await locator.focus();
             await locator.clear();
             await locator.fill(String(varString));
+            await this.page.keyboard.press('Tab');
             // await this.page.waitForTimeout(300);
             console.log(`Entering "${varString}" value on: ${locator}`);
         } catch (error) {
@@ -34,6 +37,7 @@ export class WebActionsPage {
             await locator.clear();
             await locator.type(String(varString));
             await this.page.waitForTimeout(300);
+            await this.page.keyboard.press('Tab');
             console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
             console.error(`Typing "${varString}" into: ${locator} failed` + error);
@@ -60,20 +64,26 @@ export class WebActionsPage {
 
     async selectFromCustomDropDrownBySliptAndEnter(locator: Locator, varString: String,) {
         try {
-            await this.page.waitForTimeout(this.timeOut);
+            await this.page.waitForTimeout(2000);
+           // await this.page.waitForTimeout(this.timeOut);
             await locator.focus();
+            await this.page.waitForTimeout(100);
             await locator.scrollIntoViewIfNeeded();
             const sliptString = varString.split(" ")[0];
             await locator.fill(String(sliptString));
+            await this.page.waitForTimeout(100);
             await locator.press('Enter');
+            await this.page.waitForTimeout(100);
             const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
-            await this.page.waitForTimeout(1000);
+            await this.page.waitForTimeout(2000);
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
-                await this.page.keyboard.press('Tab');
+                await this.page.waitForTimeout(200);
             }
-            // await this.page.waitForTimeout(this.timeOut);
+            await this.page.keyboard.press('Tab');
+            await this.page.waitForTimeout(1000);
+            //await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {
             console.error(`Selecting  "${varString}" value from Custom DropDown- into: ${locator} failed` + error);
@@ -89,16 +99,17 @@ export class WebActionsPage {
             await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(varString));
             await locator.press('Enter');
+            await this.page.waitForTimeout(1000);
             await this.page.keyboard.press('Enter');
             const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             await this.page.waitForTimeout(1000);
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
-                await this.page.keyboard.press('Tab');
+                await this.page.waitForTimeout(1000);
             }
-
-            // await this.page.waitForTimeout(this.timeOut);
+            await this.page.keyboard.press('Tab');
+           //await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {
             console.error(`Selecting  "${varString}" value from Custom DropDown- into: ${locator} failed` + error);
@@ -114,7 +125,7 @@ export class WebActionsPage {
             await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
-            await this.page.waitForTimeout(500);
+            await this.page.waitForTimeout(1000);
             await this.page.keyboard.press('Enter');
             await this.page.keyboard.press('Tab');
             console.log(`Entering ${varString} Value With Double Enter -"into: ${locator}`);
@@ -161,9 +172,7 @@ export class WebActionsPage {
 
     async click(locator: Locator) {
         try {
-            // console.log(`Clicking on : ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
-            //await locator.click({'force':true});
             await locator.click();
             console.log(`Clicking on : ${locator}`);
         } catch (error) {

@@ -91,6 +91,8 @@ export class ProposeCompensationPage extends WebActionsPage {
     readonly fimilyName1: string;
     readonly btnDeleteallowance: Locator;
     readonly btnDeletePopup: Locator;
+    readonly btnDeletePopupslovenia: Locator;
+    readonly btnDeleteallowanceSlovenia: Locator;
 
     EmployeeNumber: string[];
 
@@ -185,6 +187,8 @@ export class ProposeCompensationPage extends WebActionsPage {
         //this.btnDeletePopup =page.getByRole('button', { name: 'Delete' })
         this.btnDeletePopup = page.locator("//span[text()='Delete']/parent::button[@title='Delete']").first();
         this.btnDeleteallowance = page.locator("(//button[@title = 'Delete' and @aria-label='Delete Allowance'])[1]");
+        this.btnDeletePopupslovenia = page.locator("//span[text()='Delete']/parent::button[@title='Delete']");
+        this.btnDeleteallowanceSlovenia = page.locator("(//button[@title = 'Delete' and contains(@aria-label,'Delete Allowance')])");
         this.btnMainErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarViewAllCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
         this.btnSideErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
 
@@ -208,56 +212,59 @@ export class ProposeCompensationPage extends WebActionsPage {
 
 
     /*
-  @Description : This generic method is used to set salary amount, Grade profile and step if required.
-  @Author      : @ Madhukar Kirkan
-  @Param       :  required test data such as GradeProfile, GradeProfile, GradeProfile.
-  @updated on 25th Oct'24 by  : @ Ramchandra Desai - added Allowance Amount argument to make it more generic 
+    @Author      : @ Madhukar Kirkan
+    @Description : This generic method is used to set salary amount, Grade profile and step if required.
+    @Param       :  required test data such as GradeProfile, step etc
+    @updated on 25th Oct'24 by  : @ Ramchandra Desai - added Allowance Amount argument to make it more generic 
   */
     async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
-
+        await this.page.waitForTimeout(1500);
         await super.click(this.proposeCompensation);
-        if (await GradeProfile != "N/A" && await GradeProfile != "NaN" && await GradeProfile != undefined && await GradeProfile.toLowerCase() != "defaulted") {
+        if (await GradeProfile !== "N/A" && await GradeProfile !== "NaN" && await GradeProfile !== undefined && await GradeProfile.toLowerCase() !== "defaulted") {
             await super.click(this.lblGradeProfile);
             await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
             await this.page.waitForTimeout(1500);
-            if (await Step != "N/A" && await Step != "NaN" && await Step != undefined && await Step.toLowerCase() != "defaulted" && (await this.txtStep.isVisible())) {
+            if (await Step !== "N/A" && await Step !== "NaN" && await Step !== undefined && await Step.toLowerCase() !== "defaulted" && (await this.txtStep.isVisible())) {
                 //await super.click(this.txtStep);
                 await super.setTextWithDoubleEnter(this.txtStep, Step);
             }
             await super.click(this.page.getByLabel('Save Guidelines'));
         }
-        if (Salary != "N/A" && Salary != "NaN" && Salary != undefined && Salary != "Defaulted") {
-            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
+        if (Salary !== "N/A" && Salary !== "NaN" && Salary !== undefined && Salary !== "Defaulted") {
+            if (await this.btnEditSalary.isVisible()) {
                 await this.click(this.btnEditSalary);
                 if (this.txtSalaryAmount.isVisible()) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
-                await super.click(this.saveSalary);
+                await super.click(this.btnSaveSalary);
             }
             if (await this.btnEditHourly.isVisible()) {
                 await this.click(this.btnEditHourly);
-                await this.page.waitForTimeout(1500);
+                //await this.page.waitForTimeout(1500);
                 if (await this.txtSalaryAmount.isVisible()) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
                 await super.click(this.btnSaveHourly);
             }
         } else {
-            // if (await this.lblBasePayRange.isVisible) {
-            await this.page.waitForTimeout(1500);
+            await this.page.waitForTimeout(1000);
             let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
             // if(strTotalBasePayRangeValue != undefined && strTotalBasePayRangeValue != 'NaN'){
             let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
+            console.log("strTotalBasePayRangeValueArray - " + strTotalBasePayRangeValueArray);
             const strLow = strTotalBasePayRangeValueArray[0];
             const strHingh = strTotalBasePayRangeValueArray[2];
-
-            if (await this.btnEditSalary.isVisible() && await this.editSalary.isVisible()) {
+            console.log("strLow - " + strLow);
+            //await this.page.waitForTimeout(1500);
+            if (await this.btnEditSalary.count() > 0) {
                 await this.click(this.btnEditSalary);
+                //if (await this.editSalary.count() > 0) {
                 await this.page.waitForTimeout(1500);
                 if (await this.txtSalaryAmount.isVisible()) {
                     await super.setText(this.txtSalaryAmount, strLow.toString());
                 }
-                await super.click(this.saveSalary);
+                // }
+                await super.click(this.btnSaveSalary);
             }
 
             if (await this.btnEditHourly.isVisible()) {
@@ -270,13 +277,27 @@ export class ProposeCompensationPage extends WebActionsPage {
             }
             //}
         }
-        if (await Country == "Poland") {
+        //@added by Gayatri if allowance btn need to be deleted
+        if (await Country === "Hungary") {
             //this.clickDeletePopupbtn();
             await this.btnDeleteallowance.click();
             await this.page.waitForTimeout(500);
             await this.btnDeletePopup.click();
         }
-        if (AllowanceAmount != "N/A" && AllowanceAmount != "NaN" && AllowanceAmount != undefined && AllowanceAmount != "Defaulted") {
+        //@added by Gayatri if allowance btn need to be deleted
+        //updated by @Madhukar for Slovenia need to delete first and fourth allowance.
+        if (await Country === "Slovenia") {
+            await this.btnDeleteallowanceSlovenia.nth(3).click();
+            await this.page.waitForTimeout(700);
+            await this.btnDeletePopupslovenia.first().click({ 'force': true });
+            await this.page.waitForTimeout(1000);
+            // this.clickDeletePopupbtn();
+            await this.btnDeleteallowanceSlovenia.nth(0).click();
+            await this.page.waitForTimeout(500);
+            await this.btnDeletePopupslovenia.first().click();
+        }
+
+        if (AllowanceAmount !== "N/A" && AllowanceAmount !== "NaN" && AllowanceAmount !== undefined && AllowanceAmount !== "Defaulted") {
             if (await this.btnEditAllowance.isVisible()) {
                 //  && await this.editSalary.isVisible()) {
                 await this.click(this.btnEditAllowance);

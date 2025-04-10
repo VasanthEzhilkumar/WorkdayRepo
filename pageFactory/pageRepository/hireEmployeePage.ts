@@ -62,6 +62,7 @@ export class hireEmployeePage extends WebActionsPage {
   readonly emailAddressmgr: Locator;
   readonly emailTypemgr: Locator;
   readonly defaultHours: Locator;
+  readonly gnameforireland:Locator;
 
 
   constructor(page: Page, context: BrowserContext) {
@@ -73,6 +74,7 @@ export class hireEmployeePage extends WebActionsPage {
     this.supervisorMgrPage = page.getByLabel('Supervisory Organization');
     this.newPreHire = page.locator('text=Create a New Pre-Hire');
     this.contactInformation = page.locator('text=Contact Information >> nth=0');
+    this.gnameforireland=page.getByLabel('Given Name(s)');
     // this.gName = page.locator('[id="\\35 6\\$551056--uid22-input"]');
     // this.fName = page.locator('[id="\\35 6\\$551056--uid23-input"]');
     this.prefix = page.getByLabel('Prefix');
@@ -173,8 +175,13 @@ export class hireEmployeePage extends WebActionsPage {
     await this.gName.fill(givenname);
     await this.fName.fill(FamilyName);
   }
-
+  
   async legalNameInformationPoland(givenname: string, FamilyName: string) {
+    //await super.setTextWithDoubleEnter();
+    await this.gName.fill(givenname);
+    await this.fName.fill(FamilyName);
+  }
+  async legalNameInformationHungary(givenname: string, FamilyName: string) {
     //await super.setTextWithDoubleEnter();
     await this.gName.fill(givenname);
     await this.fName.fill(FamilyName);
@@ -185,6 +192,8 @@ export class hireEmployeePage extends WebActionsPage {
     await this.contactPhoneNumber.fill(phoneNumber.toString());
     await this.contactPhoneDevice.click();
     await this.contactPhoneDevicetext.click();
+    //await super.setTextWithDoubleEnter(this.contactPhoneDevicetext, PhoneDevice);
+    //await this.contactPhoneDevicetext.fill(PhoneDevice);
     await this.contactphoneType.fill(phoneType);
     //await this.contactphoneType.press('Enter');
     await this.page.waitForTimeout(500);

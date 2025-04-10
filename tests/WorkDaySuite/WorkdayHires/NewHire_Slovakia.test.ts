@@ -76,7 +76,7 @@ for (const sheetName in sheetsJson) {
 
         await home.searchHireEmployee();
 
-        await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation, givenName);
+        await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation);
         await hireEmployee.legalNameInformation(givenName, familyName, "");
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
@@ -158,7 +158,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empaddPhoto();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality,"","","");
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus,"NaN", data.CitizenshipStatus, data.PrimaryNationality,"NaN","NaN","NaN","NaN");
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();
         await appCommon.SuccessEventHandle();
@@ -207,7 +207,6 @@ for (const sheetName in sheetsJson) {
         await appCommon.assignPaygroupValidation(String(data.ProposedPayGroupFinal));
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
-        await appCommon.tearDown();
         empNum = "";
 
       } catch (error) {

@@ -95,21 +95,26 @@ export class JobDetailsPage extends WebActionsPage {
     this.existingPreHireSearch = this.page.locator('text=Existing Pre-HireOptions Expanded >> [placeholder="Search"]');
     this.okButtonHireEmployee = page.getByRole('button', { name: 'OK' })
     this.okButton = page.getByRole('button', { name: 'OK' })
-    this.submitButton = page.locator('button:has-text("SUBMIT")');
+    //this.submitButton = page.locator('button:has-text("SUBMIT")');
+    this.submitButton=page.getByRole('button', { name: 'Submit' });
     this.emailTypeExtended = page.locator('text=TypeType0 items selected, press enter to view all options, or type to search and >> [placeholder="Search"]')
 
     //Hire Employee Locators
     //this.hireDate = page.locator('[aria-label="Day"][type="number"]').first();
     this.hireDate = page.locator("//label[contains(.,'Hire Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
 
-    this.position = page.getByLabel('Position').first();
+    this.position = page.getByRole('textbox', { name: 'Position' }).first();
+    
     //this.hireDate = page.locator('text=Hire DateHire Datecurrentvalue is DD/MM/YYYYDD/MM/YYYYuse right and left arrows >> div[role="group"]');
-    this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
+    //this.reason = page.locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
+    this.reason = page.getByLabel('Reason');
     this.empType = page.getByLabel('Employee Type');//locator('text=Employee TypeEmployee Type0 items selected >> [placeholder="Search"]');
     this.jobprofile = page.getByLabel('Job Profile', { exact: true });//locator('text=Job ProfileJob Profile0 items selected >> [placeholder="Search"]');
     this.timetype = page.getByLabel('Time Type', { exact: true });//locator('text=Time TypeTime Type0 items selected >> [placeholder="Search"]');
     this.location = page.getByLabel('Location', { exact: true });//locator('text=LocationLocation0 items selected >> [placeholder="Search"]');
-    this.additionlInformation = page.getByText('Additional Information');//locator('text=Additional Information');
+    this.additionlInformation = page.getByText('Additional Information');
+    //this.additionlInformation=page.getByLabel('Additional Job Classifications')
+    //locator('text=Additional Information');
     // this.additonaljobClassification = page.getByLabel('Additional Job Classifications');//locator('text=Additional Job ClassificationsAdditional Job Classifications0 items selected >> [placeholder="Search"]');
 
     this.additonaljobClassification = page.locator("//label[contains(.,'Additional Job Classifications')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
@@ -163,7 +168,7 @@ export class JobDetailsPage extends WebActionsPage {
     //await super.setTextWithType(this.hireDate,HireDate1);
     await super.setTextWithType(this.hireDate, HireDate1);
     await super.setTextWithEnter(this.reason, "New Hire");
-    await this.page.waitForTimeout(1500);
+    await this.page.waitForTimeout(500);
     if (!position.includes('Auto')) {
       await super.selectFromCustomDropDrown(this.empType, EmployeeType.trim());
       await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString().trim());
@@ -174,37 +179,50 @@ export class JobDetailsPage extends WebActionsPage {
       //   await super.click(this.page.getByLabel('Pay Rate Type', { exact: true }));
       //   await super.selectFromCustomDropDrown(this.page.getByLabel('Pay Rate Type'), PayRateType.trim());
       // }
-
     } else {
       await super.selectFromCustomDropDrown(this.position, position);
     }
-
     // await super.setText(this.schdeuledHours, schdeuledhours);
-    if (await this.defaultHours.isVisible() && defaultHours != "NaN" && defaultHours != "N/A" && defaultHours != undefined) {
+    if (await this.defaultHours.isVisible() && defaultHours !== "NaN" && defaultHours !== "N/A" && defaultHours !== undefined) {
       await super.setText(this.defaultHours, defaultHours);
     }
     await super.setText(this.schdeuledHours, schdeuledhours);
-
     await super.click(this.workshift);
     //await super.setTextWithEnter(this.workshiftExp, workshift);
     await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
 
-    await super.click(this.additionlInformation);
-    await this.page.waitForTimeout(1000);
-    if (AdditionalJobClassifications != undefined) {
+    // await super.click(this.additionlInformation);
+    // await this.page.waitForTimeout(1500);
+    // if (AdditionalJobClassifications != undefined) {
+    //   const str: string[] = AdditionalJobClassifications.split('@');
+    //   for (let i = 0; i < str.length; i++) {
+    //     await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
+    //   }
+    // }
+    // await super.setText(this.schdeuledHours, schdeuledhours);
+
+    // await super.click(this.workshift);
+    //await super.setTextWithEnter(this.workshiftExp, workshift);
+    //await super.selectFromCustomDropDrown(this.workshiftExp, workshift);
+    //Commented for UI Change 17-03-25
+    //await super.click(this.additionlInformation);
+    // await this.page.waitForTimeout(1000);
+    if (AdditionalJobClassifications !== undefined) {
       const str: string[] = AdditionalJobClassifications.split('@');
       for (let i = 0; i < str.length; i++) {
-        await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
-        await super.selectFromCustomDropDrownBySliptAndEnter(this.additonaljobClassification,  str[i].toString());
+        //await super.setTextWithEnter(this.additonaljobClassification, str[i].toString());
+        await super.selectFromCustomDropDrownBySliptAndEnter(this.additonaljobClassification, str[i].toString());
       }
     }
 
-    if (await this.endEmploymentDate.isVisible() && EndEmploymentDate != "N/A" && EndEmploymentDate != "NaN" && EndEmploymentDate != undefined) {
-      await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
+    if (await this.endEmploymentDate.isVisible() && EndEmploymentDate !== "N/A" && EndEmploymentDate !== "NaN" && EndEmploymentDate !== undefined) {
+      if (EndEmploymentDate !== "N/A" && EndEmploymentDate !== "NaN" && EndEmploymentDate !== undefined && EndEmploymentDate !== "") {
+        await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
+      }
     }
     await super.click(this.submitButton);
     // Check for error button
-    await this.page.waitForTimeout(1000);
+    // await this.page.waitForTimeout(1000);
     const errorButton = this.page.getByRole('button', { name: 'Error' });
     if (await errorButton.count() > 0) {
       await errorButton.click();
@@ -212,3 +230,4 @@ export class JobDetailsPage extends WebActionsPage {
   }
 
 }
+

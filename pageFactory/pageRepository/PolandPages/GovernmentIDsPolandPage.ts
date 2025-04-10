@@ -64,6 +64,7 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
   readonly addROWNationalIDs: Locator;
   readonly addROWadditionalGovernmentIDs: Locator;
   readonly nationidbtn:Locator;
+  readonly Taxid:Locator;
 
   EmployeeNumber: string[];
 
@@ -81,9 +82,9 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
     this.addId = page.getByRole('button', { name: 'Change My Government IDs' });
     this.addROWNationalIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[1]");
     this.addROWadditionalGovernmentIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[2]");
-    this.GCountry = page.getByLabel('Country', { exact: true })//page.locator('[id="selectInputId-56\\$63401"]');
+    this.GCountry = page.getByLabel('Country', { exact: true });//page.locator('[id="selectInputId-56\\$63401"]');
     this.GNationalIDType = page.getByLabel('National ID Type', { exact: true });//page.locator('[id="selectInputId-56\\$63406"]');
-    this.GID = page.getByRole('cell', { name: '___________' }).getByRole('textbox');
+    this.GID = page.getByRole('cell', { name: '___________' }).or(page.getByRole('cell', { name: '___-___-__-__' })).or(page.getByRole('cell', { name: '_________' })).getByRole('textbox');
     this.submit = page.getByRole('button', { name: 'Submit' });
     this.GnationalID = page.locator('text=1 item selected, PolandPoland1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$533359"] input[role="textbox"]');
     // this.GExpirationDate = page.locator('[id="\\35 6\\$533362"] div[role="group"] div:has-text("DD") >> nth=1');
@@ -265,28 +266,70 @@ export class GovernmentsIDPagePoland extends WebActionsPage {
 
 
   async setGovernmentIDsPoland(
-    country1: string,
+    Country1: string,
     NationalIDType1: string,
-    DepartmentSection1: string
+    DepartmentSection1: string,
+
+    Country2: string,
+    NationalIDType2: string,
+    DepartmentSection2: string,
+    Country3: string,
+    NationalIDType3: string,
+    DepartmentSection3: string,
+
+
   ) {
     await super.click(this.idChange);
     await super.click(this.addId);
     await super.click(this.addROWNationalIDs);
-    await this.fillGovIDDetails(country1, NationalIDType1, DepartmentSection1);
+    await this.fillGovIDDetails1(Country1, NationalIDType1, DepartmentSection1,true);
+
+    if (Country2.includes("Poland")) {
+      // Adding second ID
+      // await this.page.waitForTimeout(500);
+      // await this.addId.click();
+      await super.click(this.addROWNationalIDs);
+      await this.fillGovIDDetails1(Country2, NationalIDType2,DepartmentSection2,false);  
+    }
+    if (Country3.includes("Poland")) {
+      // Adding second 3rd ID
+       await this.page.waitForTimeout(500);
+      // await this.addId.click();
+      await super.click(this.addROWNationalIDs);
+      await this.fillGovIDDetails1(Country3, NationalIDType3,DepartmentSection3,false)
+    }
 
     await super.click(this.submit); // last step 
-    //await this.submit.click();
+    
   }
 
   async fillGovIDDetails(
-    country: string,
+    Country: string,
     nationalIDType: string,
     idNumber: string,
   ) {
-    await super.setTextWithEnter(this.GCountry, country);
+    await super.setTextWithEnter(this.GCountry, Country);
     await super.selectFromCustomDropDrown(this.GNationalIDType, String(nationalIDType));
     await this.fillField(this.GID,String(idNumber));
   }
+
+  async fillGovIDDetails1(
+    country: string,
+    nationalIDType: string,
+    idNumber: string,
+    isFirstID: boolean,
+    // //isThirdID :boolean
+  ) {
+    await super.setTextWithEnter(this.GCountry, country);
+    await this.page.waitForTimeout(500);
+    await super.selectFromCustomDropDrown(this.GNationalIDType, String(nationalIDType));
+
+    // Enter the ID and press Tab
+    await super.setText(this.GID, String(idNumber));
+    await this.page.waitForTimeout(500);
+    await this.page.keyboard.press('Tab');
+  
+}
 
   async hrcontractsubmit(contractType: string, contractStatus: string, DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
     await this.contract.click();

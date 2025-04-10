@@ -21,7 +21,7 @@ const config: PlaywrightTestConfig = {
   // fullyParallel: true,
 
   //Reporters
-  reporter: [[`./CustomReporterConfig.ts`], [`allure-playwright`], [`html`, { outputFolder: 'html-report', open: 'never' }]],
+  reporter: [[`./CustomReporterConfig.ts`],['list'], [`allure-playwright`], [`html`, { outputFolder: 'html-report', open: 'never' }]],
 
   projects: [
     {
@@ -34,11 +34,11 @@ const config: PlaywrightTestConfig = {
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,
-        //actionTimeout:10000,
+        //actionTimeout:20000,
 
         //Artifacts
         screenshot: 'on',
-        video: `on`,
+        video: `retain-on-failure`,
         trace: `retain-on-failure`,
 
         //Slows down execution by ms

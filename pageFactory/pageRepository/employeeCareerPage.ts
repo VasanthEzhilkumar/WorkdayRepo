@@ -1,8 +1,8 @@
 import { WebActionsPage } from "@lib/WebActionPage";
-import { BrowserContext, Locator, Page } from "@playwright/test";
+import { BrowserContext, expect, Locator, Page } from "@playwright/test";
 
 
-export class employeeCareerPage extends WebActionsPage{
+export class employeeCareerPage extends WebActionsPage {
 
     readonly page: Page;
     readonly lnkCareer: Locator;
@@ -11,10 +11,10 @@ export class employeeCareerPage extends WebActionsPage{
     readonly txtCertificationbox: Locator;
     readonly btnSubmit: Locator;
     readonly btnApprove: Locator;
-    
-    constructor(page: Page,context: BrowserContext) {
+
+    constructor(page: Page, context: BrowserContext) {
         super(page);
-        
+
         this.page = page;
         this.lnkCareer = page.getByRole('link', { name: 'Career' })
         this.tabCertification = page.getByRole('tab', { name: 'Certifications' })
@@ -26,14 +26,34 @@ export class employeeCareerPage extends WebActionsPage{
 
     }
 
+    async addEmpCertificationCheck(Job: any): Promise<boolean> {
+        let flag = false;
+        await this.lnkCareer.click();
+        await this.tabCertification.click();
+        await this.page.waitForTimeout(1000);
+        const jobchecck = await this.page.getByLabel('' + Job + '', { exact: true }).first();
+        if (await jobchecck.count() > 0) {
+            flag = true;
+        }
+        return flag;
+    }
 
-    async addEmpCertification(strCertificate: string): Promise<void>{
 
+    async addEmpCertification(strCertificate: string): Promise<string> {
+        let errorMsg;
         await this.lnkCareer.click();
         await this.tabCertification.click();
         await this.btnAdd.click();
         await super.setTextWithEnter(this.txtCertificationbox, strCertificate)
         await this.btnSubmit.click();
+        await this.page.waitForTimeout(2000);
+        const error = await this.page.locator("(//div[@data-automation-id='errorWidgetBarCanvas'])[1]");
+        if (await error.isVisible()) {
+            await error.click();
+            const error1 = await this.page.locator('(//div[@data-automation-id="errorWidgetPopupCanvas"])[1]');
+            errorMsg = await error1.allInnerTexts();
+        }
+        return errorMsg;
         // await this.txtCertificationbox.fill(strCertificate);
         // await this.txtCertificationbox.
 
@@ -56,14 +76,25 @@ export class employeeCareerPage extends WebActionsPage{
             return "";
         }
     }
-    
 
-    async approveCertification(empName: string): Promise<void>{
 
-        await this.page.getByRole('button', { name: `Manage Certifications: ${empName}`, exact: true }).click();
-        await this.btnApprove.click()
-        await this.page.waitForTimeout(1000)
+    async approveCertification(empName: string): Promise<void> {
+        await this.page.waitForTimeout(1000);
+        const rowTitle = await this.page.getByRole('button', { name: `Manage Certifications: ${empName}`, exact: true }).first();
+        for (let i = 0; i < await rowTitle.count(); i++) {
+            await this.page.waitForTimeout(500)
+            if (await rowTitle.isVisible()) {
+
+                await rowTitle.click();
+                await this.page.waitForTimeout(500)
+                await this.btnApprove.click()
+                await this.page.waitForTimeout(500)
+            }
+
+
+        }
+
     }
 
-    
+
 }

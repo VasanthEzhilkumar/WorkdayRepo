@@ -48,9 +48,9 @@ export class appCommons extends WebActionsPage {
     this.txtItemsPerPage = page.locator("//label[contains(text(),'Items per page')]/parent::div//descendant::input[@placeholder='Choose an option' and not(contains(@value,'All'))]");
     this.listSelectAll = page.locator("/*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
     this.lblHrDetails2 = page.locator("((//div[contains(text(),'Awaiting Action')]//ancestor::td//following-sibling::td)[3])[1]");
-    this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']");
-    //this.btnPay=page.getByRole('link', { name: 'Pay' });
-    this.btnPay = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Pay')]");
+    this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']").first();
+    this.btnPay = page.getByRole('link', { name: 'Pay' });
+    //this.btnPay = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Pay')]");
     this.btnJob = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Job')]").first();
     this.tbWorkerHistroy = page.locator("//ul[@data-automation-id='tabBar']/li[@role='tab']/div/div[contains(text(),'Worker History') and  @data-automation-id='tabLabel']").first();
     this.txtPayGroup = page.locator("//label[contains(text(),'Pay Group')]//parent::div//following-sibling::div//descendant ::div[@data-automation-id='promptOption']");
@@ -62,11 +62,18 @@ export class appCommons extends WebActionsPage {
     await this.inboxtitle.click();
   }
 
+  /*
+  @description : used to set or apply static wait in second to the script.
+  */
+  async staticWait(waitInsecond) {
+    await this.page.waitForTimeout(waitInsecond * 1000);
+  }
+
 
 
   async Searchbox(searchtext: string) {
     if (await this.clearSearch.isVisible()) {
-      await this.clearSearch.click();
+      await this.clearSearch.first().click();
     }
     //await this.searchboxhome.clear();
     await this.page.waitForTimeout(700);
@@ -87,6 +94,10 @@ export class appCommons extends WebActionsPage {
     await this.searchboxhome.focus();
     await super.setTextWithEnter(this.searchboxhome, searchtext.toString());
     await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a[contains(text(),'" + searchtext.trim() + "')])[1]"));
+  }
+
+  async checkUpNextCompensationParnterApproval(): Promise<boolean> {
+    return await this.page.getByLabel('Compensation Partner |').isVisible();
   }
 
   async SuccessEventHandle() {
@@ -110,21 +121,26 @@ export class appCommons extends WebActionsPage {
   }
 
   async clickCollpaseMyTasks() {
-    if (await this.btnMyTaskCollapse.isVisible()) {
+    if (await this.btnMyTaskCollapse.count() > 0) {
       await super.click(this.btnMyTaskCollapse);
     }
 
   }
 
   async MyTasks() {
-    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").first().isVisible()) {
+    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").nth(0).count() > 0) {
       await super.click(this.page.getByLabel('Close notification').first());
     }
-   // [data-automation-id="asyncNotificationCloseButton"] span
-    await super.click(this.page.getByLabel('My Tasks Items').first());
-    //await super.click(this.page.locator('//*[@aria-label="My Tasks"]//button)').first());
+    // [data-automation-id="asyncNotificationCloseButton"] span
+    //await super.click(this.page.getByLabel('My Tasks Items').first());
+    await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
+    while (!await this.page.getByLabel('Advanced Search').isVisible()) {
+      await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
+    }
+    //await this.page.locator('//*[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').first().click({ 'force': true })
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();
+
   }
 
   async checkWaningAlerts() {
@@ -162,7 +178,8 @@ export class appCommons extends WebActionsPage {
   async getHRpartnerID(givenname: string, familyname: string) {
 
     await this.MyTasks();
-    await this.Archive.click();
+    await super.click(this.Archive);
+    // await this.Archive.click();
     await this.page.waitForTimeout(6000);
     await this.page.waitForSelector(`button:has-text('Hire: ${givenname} ${familyname}')`);
     const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
@@ -171,15 +188,21 @@ export class appCommons extends WebActionsPage {
       const buttonText = await buttons.nth(i).textContent();
       if (buttonText?.startsWith('Hire')) {
         await this.page.waitForTimeout(400);
-        await buttons.nth(i).click();
+        //await buttons.nth(i).click();
+        await super.click(buttons.nth(i));
       }
     }
-    await this.process.click();
+
+    //await this.process.click();
+    await super.click(this.process);
+
     // Check if the field exists
     if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {
-      await this.txtItemsPerPage.waitFor;
-      await this.txtItemsPerPage.click();
-      await this.listSelectAll.click();
+      //await this.txtItemsPerPage.waitFor;
+      // await this.txtItemsPerPage.click();
+      await super.click(this.txtItemsPerPage);
+      await super.click(this.listSelectAll);
+      // await this.listSelectAll.click();
     }
 
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
@@ -187,6 +210,9 @@ export class appCommons extends WebActionsPage {
     const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
+    // } catch (error) {
+    //   console.error("HR locator is not present in the DOM; therefore, the HR partner was not found.");
+    // }
   }
 
   async getCompensationHRpartnerID(givenname: string, familyname: string) {
@@ -220,17 +246,27 @@ export class appCommons extends WebActionsPage {
   }
 
 
-  async getInnerText1(page: Page, fieldSelector: Locator): Promise<string> {
+  async getInnerText1(page, fieldSelector: Locator): Promise<string> {
     await fieldSelector.waitFor;
-    await fieldSelector.scrollIntoViewIfNeeded();
+    //await fieldSelector.scrollIntoViewIfNeeded();
     await expect(fieldSelector).toBeVisible();
     return await fieldSelector.textContent();
   }
 
   // Example implementation of getNumbers function
+  // async getNumbersFromString(input: string): Promise<string> {
+  //   const matches = input.match(/\d+/g); // Extract numbers from the input
+  //   return matches ? matches.join('') : '';
+  // }
+
   async getNumbersFromString(input: string): Promise<string> {
     const matches = input.match(/\d+/g); // Extract numbers from the input
-    return matches ? matches.join('') : '';
+    //if (matches) {
+    // Join all the numbers together and take the last 8 digits
+    const allNumbers = matches.join('');
+    return allNumbers.slice(-8); // Get the last 8 digits
+    // }// 
+    // return '';
   }
 
   async tearDown() {
