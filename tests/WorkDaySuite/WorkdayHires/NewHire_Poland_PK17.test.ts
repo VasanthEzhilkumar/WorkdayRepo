@@ -14,14 +14,13 @@ import { GovernmentsIDPagePoland } from '@pages/PolandPages/GovernmentIDsPolandP
 import { generateRandomName } from 'utils/functional/utils';
 
 
-
 let empNum: string;
 let position: string;
 let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataPoland_PK14.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Poland_Regression_PK14.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -36,12 +35,14 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    const { givenName, familyName } = generateRandomName();
-    //const givenName = data.GivenName;
-    //const familyName = data.FamilyName;
+    // const { givenName, familyName } = generateRandomName();
+    const givenName = data.GivenName;
+    const familyName = data.FamilyName;
+    let govtID = 0;
+    let personalInfo = 0;
     // if (data.TestStatus != 'Passed') {
 
-    test(`@Hire Employee - Test ${index + 1}-${data.TestCaseIDs} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
         await page.setViewportSize({ width: 1375, height: 750 });
 
@@ -71,7 +72,7 @@ for (const sheetName in sheetsJson) {
         // const password = "Wizos2025!";
 
         // initlize the web environment 
-        await login.goto("PK14");
+        await login.goto("PK17");
 
         // login into application 
         await login.sigIn(username, password);
@@ -139,16 +140,13 @@ for (const sheetName in sheetsJson) {
         // const HRPartner = "10559802"
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
+        await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
 
         //Assign HrpayGroup
         await hrInbxPage.assignInitialPayGroupSubmit(data.ProposedPayGroupInitial);
         await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-        await hrInbxPage.setchangePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.MaritalStatusDate,
-          data.CitizenshipStatus, data.PrimaryNationality, data.CountryOfBirth, data.RegionOfBirth);
         await appCommon.SuccessEventHandle();
 
         await hrInbxPage.polandWorkerEducationDetails(data.SchoolName, data.SchoolType, data.SchoolStartDate, data.SchoolEndDate);
@@ -202,10 +200,6 @@ for (const sheetName in sheetsJson) {
 
         await page.waitForTimeout(5000);
 
-        await governemntIDs.setGovernmentIDsPolandHr(data.Country1, data.NationalIDType1, data.AddEditID1, data.Country2, data.NationalIDType2, data.AddEditID2, data.Country3, data.NationalIDType3, data.AddEditID3);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
         //Maintain Right to Work Documentation
         await appCommon.MyTasks();
         await hrInbxPage.setMaintainRightToWorkDocumentation();
@@ -224,18 +218,15 @@ for (const sheetName in sheetsJson) {
 
         //Add Bank Details For Poland
         await empInboxpage.addEmployeeBankDetailsPoland(data.BankName, data.BankIdentificationCode, String(data.AccountNumber), String(data.IBAN), String(givenName));
-        await appCommon.SuccessEventHandle();
         await capObj.checkForScreenErrors();
 
         //ChangeUpdateMyContactInfoForPoland
         await empInboxpage.empChgeContactInformation();
-        await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
 
         //ChangePersonalInformation
-
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, "NaN", data.MaritalStatus, data.MaritalStatusDate, data.CitizenshipStatus, "NaN", "NaN", "NaN", "NaN", "NaN");
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, "NaN", data.MaritalStatus, data.MaritalStatusDate, data.CitizenshipStatus, "NaN", "", "", "", "");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();
@@ -247,7 +238,6 @@ for (const sheetName in sheetsJson) {
         await governemntIDs.setGovernmentIDsPoland(data.Country1, data.NationalIDType1, data.AddEditID1, data.Country2, data.NationalIDType2, data.AddEditID2, data.Country3, data.NationalIDType3, data.AddEditID3);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
         await empInboxpage.changeGovIDInformation();
         await appCommon.SuccessEventHandle();
 
@@ -256,6 +246,15 @@ for (const sheetName in sheetsJson) {
 
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
+
+        await empInboxpage.empaddDependents();
+        await appCommon.SuccessEventHandle();
+
+        // await empInboxpage.reviewDocumentSubmitGeneric();
+        // await appCommon.SuccessEventHandle();
+
+        // await empInboxpage.reviewDocumentSubmitGeneric();
+        // await appCommon.SuccessEventHandle();
 
         //Start Proxy As HR Again 
         await appCommon.Searchbox("Start Proxy");

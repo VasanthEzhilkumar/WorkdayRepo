@@ -16,41 +16,13 @@ export class loginpage {
     this.signIn = page.locator('button:has-text("Sign In")');
   }
 
-  async goto(country: string) {
+  async goto(env: string) {
 
-    if (country.includes("PK17")) {
+    if (env.includes("PK17")) {
       await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("PK14")) {
+    } else if (env.includes("PK14")) {
       await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark14/login.htmld');
-    } else if (country.includes("Romania")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("Slovakia")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("Poland")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("United States of America")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("Italy")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-      //await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark11/login.htmld');
-    } else if (country.includes("Czechia")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark14/login.htmld');
-      // await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("Belgium")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("UK")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark14/login.htmld');
-      // await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("Hungary")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("Slovenia")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("France")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (country.includes("Ireland")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    }
-
+    } 
   }
 
   async sigIn(username: string, password: string) {

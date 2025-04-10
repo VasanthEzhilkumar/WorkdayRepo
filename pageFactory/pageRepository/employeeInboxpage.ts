@@ -755,11 +755,9 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
 
-        if (CountryOFBirth !== "NaN" && CountryOFBirth !== "N/A" && CountryOFBirth !== undefined) {
-            await super.click(this.editPlace);
-            await super.setTextWithEnter(this.page.locator('//div[@data-automation-id="monikerSearchBox"] //input'), CountryOFBirth.toString());
-            await super.click(this.page.getByLabel('Save Place of Birth'));
-        }
+        await super.click(this.editDob);
+        await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
+        await super.click(this.page.getByLabel('Save Date of Birth'));
 
         if (CountryOFBirth !== "NaN" && CountryOFBirth !== "N/A" && CountryOFBirth !== undefined) {
             await super.click(this.editPlace);
