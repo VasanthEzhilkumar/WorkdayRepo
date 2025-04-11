@@ -63,6 +63,7 @@ export class hireEmployeePage extends WebActionsPage {
   readonly emailTypemgr: Locator;
   readonly defaultHours: Locator;
   readonly gnameforireland:Locator;
+  readonly setinitals:Locator;
 
 
   constructor(page: Page, context: BrowserContext) {
@@ -142,6 +143,7 @@ export class hireEmployeePage extends WebActionsPage {
 
     this.emailAddressmgr = page.getByLabel('Email Address');
     this.emailTypemgr = page.getByRole('group', { name: 'Email' }).getByPlaceholder('Search');
+    this.setinitals=page.locator("//label[contains(./text(),'Initials')]/ancestor::li/descendant::input[@data-automation-id='textInputBox']");
 
 
 
@@ -169,11 +171,16 @@ export class hireEmployeePage extends WebActionsPage {
     // await this.fName.fill(FamilyName);
   }
 
-  async legalNameInformationBelgium(prefix: string, givenname: string, FamilyName: string) {
+  async legalNameInformationBelgium(prefix: string, givenname: string, FamilyName: string ,intials:string) {
     //await super.setTextWithDoubleEnter();
     await super.setTextWithDoubleEnter(this.page.getByLabel('Prefix', { exact: true }), prefix.toString());
     await this.gName.fill(givenname);
     await this.fName.fill(FamilyName);
+    if ((intials != "NaN" && intials != "N/A" && intials != undefined && intials != "")) {
+      await this.setinitals.fill(intials);  
+      
+    }
+    
   }
   
   async legalNameInformationPoland(givenname: string, FamilyName: string) {

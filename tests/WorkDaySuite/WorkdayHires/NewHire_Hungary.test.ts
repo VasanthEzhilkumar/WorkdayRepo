@@ -64,8 +64,10 @@ for (const sheetName in sheetsJson) {
         const username = "90002196";
         const password = "Wizos2025!";
 
+        await login.goto("PK17");
+
         // initlize the web environment 
-        await login.goto("Hungary");
+        //await login.goto("Hungary");
 
         // login into application 
         await login.sigIn(username, password);

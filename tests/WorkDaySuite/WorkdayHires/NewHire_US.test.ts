@@ -53,7 +53,7 @@ for (const sheetName in sheetsJson) {
 
         const username = "90001655";
         const password = "Primark123!!";
-        await login.goto(data.Country.toString());
+        await login.goto("PK17");
         await login.sigIn(username, password);
 
         // // create position for Management hires

@@ -67,7 +67,7 @@ for (const sheetName in sheetsJson) {
         const password = "Primark123!!";
 
         // initlize the web environment 
-        await login.goto("Romania");
+        await login.goto("PK17");
 
         // login into application 
         await login.sigIn(username, password);
