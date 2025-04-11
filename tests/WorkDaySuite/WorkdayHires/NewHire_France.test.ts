@@ -241,7 +241,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.assignPaygroupValidation(String(data.ProposedPayGroupFinal));
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
-        await appCommon.tearDown();
+        //await appCommon.tearDown();
         empNum = "";
 
       } catch (error) {

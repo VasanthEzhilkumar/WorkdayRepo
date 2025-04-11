@@ -85,7 +85,7 @@ for (const sheetName in sheetsJson) {
 
                 // set Supervisisroy Organazation 
                 await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation);
-                await hireEmployee.legalNameInformationBelgium(data.Prefix, givenName, familyName);
+                await hireEmployee.legalNameInformationBelgium(data.Prefix, givenName, familyName,"NaN");
                 await hireEmployee.contactInformationpage();
                 await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
                 await homePageRon.contactInformationAddressIreland(
