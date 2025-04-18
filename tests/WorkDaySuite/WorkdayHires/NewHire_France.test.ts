@@ -2,16 +2,12 @@ import test from '@lib/BaseTest';
 import { CaptureAlertErrors } from '@lib/CaptureErrors';
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
 import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
-import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
 import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage';
 import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
-import { createPositionPage } from '@pages/createPositionpage';
-import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInformationAddressCzechia';
 import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
 import { EditPassportsAndVisasPage } from '@pages/EditPassportsAndVisasPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import { employeeInboxUSPage } from '@pages/USPages/employeeInboxUSPage';
 import { generateRandomName } from 'utils/functional/utils';
 
 
@@ -38,16 +34,18 @@ for (const sheetName in sheetsJson) {
     const { givenName, familyName } = generateRandomName();
 
 
-    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, createPostition, homePageRon, empInboxUS, jobDetailsPage, login, home, hireEmployee, appCommon, proxy }) => {
       try {
         await page.setViewportSize({ width: 1275, height: 595 });//
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
-        const empInboxUS = new employeeInboxUSPage(page, context);
-        const homePageRon = new contactInformationAddressCzechia(page, context)
         const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
-        const createPostition = new createPositionPage(page);
-        const jobDetailsPage = new JobDetailsPage(page, context)
+
+        // const createPostition = new createPositionPage(page);
+        // const jobDetailsPage = new JobDetailsPage(page, context)
+        // const empInboxUS = new employeeInboxUSPage(page, context);
+        // const homePageRon = new contactInformationAddressCzechia(page, context)
+
         captureErrors = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index);
         const contractObj = new MaintainContractPage(page, givenName, familyName, context);
         const capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index);
@@ -119,13 +117,15 @@ for (const sheetName in sheetsJson) {
         await proxy.startProxy(HRPartner);
         await appCommon.MyTasks();
 
-        //fill Contract Details for Employee
-        await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, String(data.ContractReason));
-        await captureErrors.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+      
         await hrInbxPage.setCollectiveAgreementAndProfessionalCategoryAndLevel(data.CollectiveAgreement, data.ProfessionalCategory, data.Level);
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
+
+          //fill Contract Details for Employee
+          await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, String(data.ContractReason));
+          await captureErrors.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
 
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
         await captureErrors.checkForScreenErrors();
@@ -214,6 +214,7 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
+        await appCommon.staticWait(2);
         await appCommon.MyTasks();
 
         await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
@@ -237,10 +238,9 @@ for (const sheetName in sheetsJson) {
         // Write the results to the Excel file
         writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
         empNum = "";
-
       } catch (error) {
         console.error(`Test failed for ${givenName} ${familyName}:`, error);
-        if ((await captureErrors.getUpdateError()) == undefined) {
+        if ((await captureErrors.getUpdateError()) === undefined) {
           let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:{" + empNum + "}" + error.toString();
           //   // Write the failure status to the Excel file
           writeResultsToExcel(excelFilePath, sheetName, index, error1, 'Failed');

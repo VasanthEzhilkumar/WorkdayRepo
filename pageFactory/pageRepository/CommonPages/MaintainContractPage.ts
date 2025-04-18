@@ -1,6 +1,5 @@
-import { Page, BrowserContext, Locator, expect } from '@playwright/test';
+import { BrowserContext, Locator, Page } from '@playwright/test';
 import { WebActionsPage } from 'lib/WebActionPage';
-import { describe } from 'node:test';
 
 /*
 @Author      : @ Madhukar Kirkan
@@ -141,43 +140,47 @@ export class MaintainContractPage extends WebActionsPage {
 
     async setContractDetails(contractType: string, contractStatus: string,
         DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
-        await super.click(this.contract);
+        if (await this.contract.count() > 0) {
 
-        //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
-        if (await reason !== 'N/A' && await reason !== 'NaN' && await reason !== undefined) {
-            await super.click(this.contractReason);
-            await super.setTextWithEnter(this.contractReason, reason.toString().trim());
-        }
-        if (await contractType !== 'N/A' && await contractType !== 'NaN' && await contractType !== undefined) {
-            await super.selectFromCustomDropDrown(this.contractType, contractType);
-        }
-        await this.contractType.press('Tab');
-        if (await contractStatus !== 'N/A' && await contractStatus !== 'NaN' && await contractStatus !== undefined) {
-            await super.setTextWithEnter(this.contractStatus, contractStatus);
-        }
+            await super.click(this.contract);
+            //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
+            if (await reason !== 'N/A' && await reason !== 'NaN' && await reason !== undefined) {
+                await super.click(this.contractReason);
+                await super.setTextWithEnter(this.contractReason, reason.toString().trim());
+            }
+            if (await contractType !== 'N/A' && await contractType !== 'NaN' && await contractType !== undefined) {
+                await super.selectFromCustomDropDrown(this.contractType, contractType);
+            }
+            await this.contractType.press('Tab');
+            if (await contractStatus !== 'N/A' && await contractStatus !== 'NaN' && await contractStatus !== undefined) {
+                await super.setTextWithEnter(this.contractStatus, contractStatus);
+            }
 
-        if (await DEmpsigned !== 'N/A' && await DEmpsigned !== 'NaN' && await DEmpsigned !== undefined) {
-            await super.click(this.DEmployeSigned);
-            await super.setTextWithType(this.DEmployeSigned, DEmpsigned);
-        }
+            if (await DEmpsigned !== 'N/A' && await DEmpsigned !== 'NaN' && await DEmpsigned !== undefined) {
+                await super.click(this.DEmployeSigned);
+                await super.setTextWithType(this.DEmployeSigned, DEmpsigned);
+            }
 
-        if (await DEmplyersigned !== 'N/A' && await DEmplyersigned !== 'NaN' && await DEmplyersigned !== undefined) {
-            await super.click(this.DEmployerSigned);
-            await super.setTextWithType(this.DEmployerSigned, DEmplyersigned);
-        }
+            if (await DEmplyersigned !== 'N/A' && await DEmplyersigned !== 'NaN' && await DEmplyersigned !== undefined) {
+                await super.click(this.DEmployerSigned);
+                await super.setTextWithType(this.DEmployerSigned, DEmplyersigned);
+            }
 
-        if (await contractEnddate !== 'N/A' && await contractEnddate !== 'NaN' && await contractEnddate !== undefined) {
-            await super.click(this.contractEndate);
-            await super.setTextWithType(this.contractEndate, contractEnddate);
-        }
-        await super.click(this.hrSubmit);
-        await this.page.waitForTimeout(2000);
-        if (await this.contractWarningAlert.isVisible() && (await this.contractWarningAlert.textContent()).includes('Alert')) {
+            if (await contractEnddate !== 'N/A' && await contractEnddate !== 'NaN' && await contractEnddate !== undefined) {
+                await super.click(this.contractEndate);
+                await super.setTextWithType(this.contractEndate, contractEnddate);
+            }
             await super.click(this.hrSubmit);
-        }
-        await this.page.waitForTimeout(2000);
-        if (await this.contractWarningAlert.isVisible() && (await this.contractWarningAlert.textContent()).includes('Alert')) {
-            await super.click(this.hrSubmit);
+            await this.page.waitForTimeout(2000);
+            if (await this.contractWarningAlert.isVisible() && (await this.contractWarningAlert.textContent()).includes('Alert')) {
+                await super.click(this.hrSubmit);
+            }
+            await this.page.waitForTimeout(2000);
+            if (await this.contractWarningAlert.isVisible() && (await this.contractWarningAlert.textContent()).includes('Alert')) {
+                await super.click(this.hrSubmit);
+            }
+        }else{
+           console.log("Contract Page is missing for This job profiles."); 
         }
 
     }

@@ -11,7 +11,7 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 300;
+        this.timeOut = 50;
     }
 
     async setText(locator: Locator, varString: String,) {
@@ -36,7 +36,7 @@ export class WebActionsPage {
             await this.page.waitForTimeout(this.timeOut);
             await locator.clear();
             await locator.type(String(varString));
-            await this.page.waitForTimeout(300);
+            await this.page.waitForTimeout(200);
             await this.page.keyboard.press('Tab');
             console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
@@ -64,8 +64,7 @@ export class WebActionsPage {
 
     async selectFromCustomDropDrownBySliptAndEnter(locator: Locator, varString: String,) {
         try {
-            await this.page.waitForTimeout(2000);
-           // await this.page.waitForTimeout(this.timeOut);
+           await this.page.waitForTimeout(this.timeOut);
             await locator.focus();
             await this.page.waitForTimeout(100);
             await locator.scrollIntoViewIfNeeded();
@@ -75,14 +74,14 @@ export class WebActionsPage {
             await locator.press('Enter');
             await this.page.waitForTimeout(100);
             const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
-            await this.page.waitForTimeout(2000);
+            await this.page.waitForTimeout(1500);
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
-                await this.page.waitForTimeout(200);
+                // await this.page.waitForTimeout(200);
             }
             await this.page.keyboard.press('Tab');
-            await this.page.waitForTimeout(1000);
+            // await this.page.waitForTimeout(1000);
             //await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {
@@ -99,14 +98,14 @@ export class WebActionsPage {
             await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(varString));
             await locator.press('Enter');
-            await this.page.waitForTimeout(1000);
+            await this.page.waitForTimeout(500);
             await this.page.keyboard.press('Enter');
             const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             await this.page.waitForTimeout(1000);
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
-                await this.page.waitForTimeout(1000);
+                // await this.page.waitForTimeout(1000);
             }
             await this.page.keyboard.press('Tab');
            //await this.page.waitForTimeout(this.timeOut);
@@ -135,12 +134,12 @@ export class WebActionsPage {
         }
     }
 
-    //check checkbox is checked 
+    //check if  checkbox is checked 
     async checkBoxIsChecked(locator: Locator): Promise<boolean | void> {
         try {
             //console.log(`Checking checkbox is checked or not-"into: ${locator}`);
             await this.page.waitForTimeout(this.timeOut);
-            await locator.waitFor();
+            // await locator.waitFor();
             await locator.scrollIntoViewIfNeeded();
             return await locator.check();
         } catch (error) {
@@ -184,7 +183,7 @@ export class WebActionsPage {
     async doubleClick(locator: Locator) {
         try {
             await this.page.waitForTimeout(this.timeOut);
-            await locator.scrollIntoViewIfNeeded();
+            // await locator.scrollIntoViewIfNeeded();
             await locator.dblclick();
             console.log(`Double Clicking on : ${locator}`);
         } catch (error) {
@@ -206,7 +205,6 @@ export class WebActionsPage {
     async waitForSelector(locator: Locator, options = {}) {
         console.log(`Waiting for selector: ${locator}`);
         await this.page.waitForSelector(String(locator), { timeout: 5000, ...options });
-
     }
 
     async getText(locator: Locator): Promise<string | null> {
@@ -249,7 +247,7 @@ export class WebActionsPage {
             let text;
             await this.page.waitForTimeout(this.timeOut);
             if (await locator.count() > 0) {
-                await locator.scrollIntoViewIfNeeded();
+                // await locator.scrollIntoViewIfNeeded();
                 //  await locator.waitFor();
                 text = await locator.allInnerTexts();
             }
@@ -283,7 +281,7 @@ export class WebActionsPage {
         try {
             await this.page.waitForTimeout(this.timeOut);
             await locator.waitFor();
-            await locator.scrollIntoViewIfNeeded();
+            // await locator.scrollIntoViewIfNeeded();
             await locator.selectOption(varString);
             console.log(`Selecting ' ${varString}'  value (Using SelectOption) from: ${locator}, Value: "${varString}"`);
         } catch (error) {

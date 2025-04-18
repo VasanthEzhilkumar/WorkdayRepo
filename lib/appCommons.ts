@@ -128,23 +128,19 @@ export class appCommons extends WebActionsPage {
   }
 
   async MyTasks() {
-    if (await this.page.locator("//*[contains(@aria-label,'Close notification')]").nth(0).count() > 0) {
-      await super.click(this.page.getByLabel('Close notification').first());
+    let j = 0;
+    const txtNotificationCloseButton = await this.page.locator('//button[@data-automation-id="asyncNotificationCloseButton" and contains(@aria-label,"Close notification")]');
+    if (await txtNotificationCloseButton.first().count() > 0) {
+      await super.click(txtNotificationCloseButton.first());
     }
-    // [data-automation-id="asyncNotificationCloseButton"] span
-    //await super.click(this.page.getByLabel('My Tasks Items').first());
     await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
-    while (!await this.page.getByLabel('Advanced Search').isVisible()) {
+    while (!await this.page.getByLabel('Advanced Search').isVisible() && j < 3) {
       await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
+      j = j + 1;
     }
-    //await this.page.locator('//*[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').first().click({ 'force': true })
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();
 
-  }
-
-  async checkWaningAlerts() {
-    await super.checkExistsOrIsVisible(this.page.getByLabel('My Tasks Items').first());
   }
 
 
