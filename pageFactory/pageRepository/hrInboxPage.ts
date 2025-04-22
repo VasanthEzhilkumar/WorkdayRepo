@@ -138,8 +138,8 @@ export class HrInboxPage extends WebActionsPage {
     readonly btnAddPassPort: Locator;
     readonly txtDateWhenMedicalExamTaken: Locator;
     readonly txtExpirationDateOfExam: Locator;
-    readonly carerbtn:Locator;
-    readonly carer:Locator;
+    readonly carerbtn: Locator;
+    readonly carer: Locator;
     readonly txtAssignCollectiveAgreement: Locator;
     readonly txtProfessionalCategory: Locator;
     readonly txtLevel: Locator;
@@ -148,6 +148,9 @@ export class HrInboxPage extends WebActionsPage {
     readonly areadeEstudo: Locator;
     readonly taxadeIRS: Locator;
     readonly portugalSocialSecurityCode: Locator;
+    readonly estadolIRPF: Locator;
+    readonly minusvaliaRH: Locator;
+    // readonly medicalExamTitle: Locator;
 
     EmployeeNumber: string[];
 
@@ -297,7 +300,7 @@ export class HrInboxPage extends WebActionsPage {
         this.addTypopodatkowania = page.getByLabel('Typ opodatkowania');
         this.mainJob = page.getByLabel('Main Job', { exact: true });
         this.pensioner = page.locator("//label[contains(.,'Pensioner')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
-        this.carer=page.locator("//label[contains(.,'Carer')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.carer = page.locator("//label[contains(.,'Carer')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
 
         this.btnAddPassPort = page.locator("(//button[@aria-label='Add Row'])[1]");
         this.txtDateWhenMedicalExamTaken = page.locator("//div[@data-automation-id='fieldSetContent']/descendant::table[@class='mainTable']/tbody/tr[1]/td[2]/descendant::input[@aria-label='Day']");
@@ -322,6 +325,10 @@ export class HrInboxPage extends WebActionsPage {
         this.areadeEstudo = page.locator('//label[text()="Area de Estudo"]/parent::div/following-sibling::div//input');
         this.taxadeIRS = page.locator('//label[text()="Taxa de IRS"]/parent::div/following-sibling::div//input');
         this.portugalSocialSecurityCode = page.locator('//label[text()="Social Security Code"]/parent::div/following-sibling::div//input');
+        this.estadolIRPF = page.locator('//label[contains(.,"Estado IRPF")]/parent::div/following-sibling::div//input');
+        this.minusvaliaRH = page.locator('//label[contains(.,"Minusvalía RH")]/parent::div/following-sibling::div//input');
+
+
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -381,7 +388,16 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
     }
-    
+
+    async addHireAdditionalDataSpain(EstadolIRPF: string, MinusvaliaRH: string): Promise<void> {
+        await this.hireadditiondatasub.click();
+        await super.selectFromCustomDropDrown(this.estadolIRPF, EstadolIRPF);
+        await super.selectFromCustomDropDrown(this.minusvaliaRH, MinusvaliaRH);
+        // await super.setTextWithEnter(this.portugalSocialSecurityCode, PortugalSocialSecurityCode);
+        await this.page.waitForTimeout(500);
+        await this.hrSubmit.click();
+    }
+
     async manageProbationPeriod(): Promise<void> {
         await this.manageProbation.click();
         await this.prbStartDate.fill('01/01/2020');
@@ -578,7 +594,10 @@ export class HrInboxPage extends WebActionsPage {
         await this.Approve.click();
     }
 
-
+    async medicalExam(givenName: string, familyName: string): Promise<void> {
+        await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Medical exam: Onboarding for '+givenName+' '+familyName+'")]').click();
+        await this.hrSubmit.click();
+    }
 
 
     async setServiceDates() {
@@ -1041,7 +1060,7 @@ export class HrInboxPage extends WebActionsPage {
 
     //Generic Function For MainJob Page @Added By Gayatri to set mainjob ,pensioner,Carer
 
-    async hireAdditionalInfoMainJob(mainjobdetails: string, Pensioner: string,carer:string) {
+    async hireAdditionalInfoMainJob(mainjobdetails: string, Pensioner: string, carer: string) {
         await this.hireAdditiondata.click();
         //await this.mainJob.click();
         await super.selectFromCustomDropDrown(this.mainJob, mainjobdetails);
@@ -1050,8 +1069,8 @@ export class HrInboxPage extends WebActionsPage {
             await this.pensioner.click()
         }
         if (carer.toLowerCase() === 'yes') {
-            await this.carer.click() 
-        
+            await this.carer.click()
+
         }
         await this.hrSubmit.click(); //Last step
     }

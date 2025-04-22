@@ -38,8 +38,8 @@ const config: PlaywrightTestConfig = {
 
         //Artifacts
         screenshot: 'on',
-        video: `retain-on-failure`,
-        trace: `retain-on-failure`,
+        video: `on`,
+        trace: `on`,
 
         //Slows down execution by ms
         launchOptions: {

@@ -124,6 +124,10 @@ export class employeeInboxPage extends WebActionsPage {
     readonly balance: Locator;
     readonly txtpercent: Locator;
     readonly nameTypeHungary: Locator;
+    readonly addPITTaxInformation: Locator;
+    readonly educationLevel: Locator;
+    readonly educationCompletionDate: Locator;
+    readonly Studies: Locator;
 
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
@@ -221,7 +225,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.fathersname = page.locator('text=Father\'s Name');
         this.countryName = page.locator('label:has-text("Country")');
         //this.givenName = page.locator('label:has-text("Given Name")');
-        this.givenName = page.getByLabel('Given Name(s)')
+        this.givenName = page.locator('//label[text()="Given Name"]/parent::div/following-sibling::div//input');
         this.familyName = page.locator('label:has-text("Family Name")').first();
         this.lastName = page.locator('label:has-text("Last Name")');
         this.okButtonpage = page.locator('button:has-text("OK")');
@@ -282,6 +286,10 @@ export class employeeInboxPage extends WebActionsPage {
         this.txtpercent = page.locator("(//label[text()='Percent']/parent::span/following-sibling::div//input[@data-automation-id='numericInput'])[2]");
         this.btnMoveUp = page.locator("//button[@title='Move Row to Top']");
         this.balance = page.locator("(//label[text()='Balance']/parent::span/input[@value='on'])[1]");
+        this.addPITTaxInformation = page.locator('//div[@data-automation-id="titleText" and text()="Add PIT Tax Information"]');
+        this.educationLevel = page.locator('//label[text()="Education Level"]/parent::div/following-sibling::div//input');
+        this.educationCompletionDate = page.locator('');
+        this.Studies = page.locator('//label[text()="Studies"]/parent::div/following-sibling::div//input');
 
     }
 
@@ -455,6 +463,15 @@ export class employeeInboxPage extends WebActionsPage {
         }
     }
 
+    async empAddPITTaxInformation() {
+        await this.page.waitForTimeout(1500);
+        if (await this.addPITTaxInformation.count() > 0) {
+            await this.addPITTaxInformation.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
+    }
+
     async empHealthcareProviderMealVoucher(insuranceCompany: string, mealVoucher: string) {
         await this.page.waitForTimeout(500);
         await this.healthcareProviderMealVoucher.click();
@@ -536,6 +553,14 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
         await this.addEducation.click();
 
+        await this.paygroupSubmit.click();
+    }
+
+    async spainStudyLevel(EducationLevel: string, EducationCompletionDate: string, Studies: string) {
+        await this.page.waitForTimeout(500);
+        await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Spain Study Level")]').click();
+        await super.selectFromCustomDropDrown(this.educationLevel, EducationLevel);
+        await super.setText(this.Studies, Studies);
         await this.paygroupSubmit.click();
     }
 

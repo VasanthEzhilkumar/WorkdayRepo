@@ -63,6 +63,8 @@ export class hireEmployeePage extends WebActionsPage {
   readonly emailTypemgr: Locator;
   readonly defaultHours: Locator;
   readonly gnameforireland:Locator;
+  readonly flName: Locator;
+  readonly slName: Locator;
 
 
   constructor(page: Page, context: BrowserContext) {
@@ -143,7 +145,8 @@ export class hireEmployeePage extends WebActionsPage {
     this.emailAddressmgr = page.getByLabel('Email Address');
     this.emailTypemgr = page.getByRole('group', { name: 'Email' }).getByPlaceholder('Search');
 
-
+    this.flName = page.locator('//label[contains(./text(),"First Last Name")]/ancestor::li/descendant::input[@data-automation-id="textInputBox"]');
+    this.slName = page.locator('//label[contains(./text(),"Second Last Name")]/ancestor::li/descendant::input[@data-automation-id="textInputBox"]');
 
   }
 
@@ -181,10 +184,18 @@ export class hireEmployeePage extends WebActionsPage {
     await this.gName.fill(givenname);
     await this.fName.fill(FamilyName);
   }
+
   async legalNameInformationHungary(givenname: string, FamilyName: string) {
     //await super.setTextWithDoubleEnter();
     await this.gName.fill(givenname);
     await this.fName.fill(FamilyName);
+  }
+
+  async legalNameInformationSpain(givenname: string, firstLastName: string, secondLastName: string) {
+    //await super.setTextWithDoubleEnter();
+    await this.gName.fill(givenname);
+    await this.flName.fill(firstLastName);
+    await this.slName.fill(secondLastName);
   }
 
   async contactInformationPhone(phoneNumber: number, PhoneDevice: string, phoneType: string) {
@@ -303,9 +314,9 @@ export class hireEmployeePage extends WebActionsPage {
   async searchSupervisoryOrganizationMgr(supervisoryOrganisation: string) {
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0];
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(2000);
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(2500);
     const locator = await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]");
     if (await locator.isVisible()) {
       await locator.scrollIntoViewIfNeeded();

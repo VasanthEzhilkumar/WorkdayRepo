@@ -230,10 +230,11 @@ export class ProposeCompensationPage extends WebActionsPage {
             }
             await super.click(this.page.getByLabel('Save Guidelines'));
         }
+        await this.page.waitForTimeout(5000);
         if (Salary !== "N/A" && Salary !== "NaN" && Salary !== undefined && Salary !== "Defaulted") {
             if (await this.btnEditSalary.isVisible()) {
                 await this.click(this.btnEditSalary);
-                await this.page.waitForTimeout(1500);
+                await this.page.waitForTimeout(500);
                 if (await this.txtSalaryAmount.count()>0) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
@@ -260,7 +261,7 @@ export class ProposeCompensationPage extends WebActionsPage {
             if (await this.btnEditSalary.count() > 0) {
                 await this.click(this.btnEditSalary);
                 //if (await this.editSalary.count() > 0) {
-                await this.page.waitForTimeout(1500);
+                await this.page.waitForTimeout(5000);
                 if (await this.txtSalaryAmount.isVisible()) {
                     await super.setText(this.txtSalaryAmount, strLow.toString());
                 }

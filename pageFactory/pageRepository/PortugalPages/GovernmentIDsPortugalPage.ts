@@ -282,27 +282,18 @@ export class GovernmentsIDPagePortugal extends WebActionsPage {
     // FamilyName: string
 
   ) {
-    if (await this.idChangeTitle.count()>0) {
+    if (await this.idChangeTitle.count() > 0) {
       await super.click(this.idChangeTitle);
-      // await super.click(this.addId);
-      // await this.page.waitForTimeout(500);
+
       await super.click(this.addROWNationalIDs);
       await this.fillGovIDDetails2(Country1, NationalIDType1, DepartmentSection1, true);
 
-      // if (Country2.includes("Poland")) {
-        // Adding second ID
-        // await this.page.waitForTimeout(500);
-        // await this.addId.click();
-        // await this.page.waitForTimeout(500);
-        await super.click(this.addROWNationalIDs);
-        await this.fillGovIDDetails2(Country2, NationalIDType2, DepartmentSection2, false);
-      // }
-      // if (Country3.includes("Poland")) {
-        // Adding second 3rd ID
-        // await this.page.waitForTimeout(500);
-        await super.click(this.addROWNationalIDs);
-        await this.fillGovIDDetails2(Country3, NationalIDType3, DepartmentSection3, false)
-      // }
+      await super.click(this.addROWNationalIDs);
+      await this.fillGovIDDetails2(Country2, NationalIDType2, DepartmentSection2, false);
+
+      await super.click(this.addROWNationalIDs);
+      await this.fillGovIDDetails2(Country3, NationalIDType3, DepartmentSection3, false)
+
 
       await super.click(this.submit);
       return 1; // last step 

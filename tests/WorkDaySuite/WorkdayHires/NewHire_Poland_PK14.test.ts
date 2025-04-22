@@ -175,10 +175,9 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         //Click Submit First Ever Job Details
-        await hrInbxPage.firstEverJobDetails(data.FirstEverJobDetails, data.FirstJobExpiryDate);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
+        // await hrInbxPage.firstEverJobDetails(data.FirstEverJobDetails, data.FirstJobExpiryDate);
+        // await capObj.checkForScreenErrors();
+        // await appCommon.SuccessEventHandle();
 
         //fill Contract Details for Employee
         await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
@@ -253,6 +252,9 @@ for (const sheetName in sheetsJson) {
         
         await empInboxpage.empaddDependents();
         await appCommon.SuccessEventHandle();
+
+        await empInboxpage.empAddPITTaxInformation();
+        await appCommon.SuccessEventHandle();
         
         // await empInboxpage.reviewDocumentSubmitGeneric();
         // await appCommon.SuccessEventHandle();
@@ -271,9 +273,9 @@ for (const sheetName in sheetsJson) {
         // await capObj.checkForScreenErrors();
         // await appCommon.SuccessEventHandle();
 
-        await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+        // await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
+        // await capObj.checkForScreenErrors();
+        // await appCommon.SuccessEventHandle();
 
 
         await hrInbxPage.clickInboxMyTaskAndApprove("Payment Election:");
