@@ -17,7 +17,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Copy of Copy of Copy of testDataItaly.xlsx';
+const excelFileName = 'Hires/Copy of MKItaly2.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -29,6 +29,7 @@ for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
 
   dataSet.forEach((data, index) => {
+
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
@@ -169,9 +170,6 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.clickInboxMyTaskAndSubmit("Verfiy Legal Name");
-        await appCommon.SuccessEventHandle();
-
         await empInboxpage.clickInboxMyTaskAndSubmit("Add Certifications (External Italy)");
         await appCommon.SuccessEventHandle();
 
@@ -186,17 +184,14 @@ for (const sheetName in sheetsJson) {
         await governemntIDs.setGovernmentIDsCzechia(data.Country1, data.Country2, data.NationalIDType1,
           data.NationalIDType2, data.AddEditID1, data.AddEditID2, data.IssuedDate1, data.IssuedDate2,
           data.ExpirationDate1, data.ExpirationDate2, "NaN", "NaN");
-
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        await empInboxpage.changeGovIDInformation();
+        // await empInboxpage.changeGovIDInformation();
+        //await capObj.checkForScreenErrors();
+        //await appCommon.SuccessEventHandle();
+
+        await empInboxpage.clickVerfiyLegalNameAndCheckandSubmit();
         await appCommon.SuccessEventHandle();
-
-
-        // await appCommon.SearchClickLink(empNum)
-        // //need to make it generic method for adding additional name such maiden name, fathers name
-        // await empInboxpage.addAdditionalName(data.NameType, data.GivenName1, data.FamilyName1);
-        //let HRPartner = "10559802";
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(HRPartner);
@@ -208,9 +203,9 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
 
-        // await hrInbxPage.clickInboxMyTaskAndApprove("Legal Name Change:");
-        // await capObj.checkForScreenErrors();
-        // await appCommon.SuccessEventHandle();
+        await hrInbxPage.clickInboxMyTaskAndApprove("Legal Name Change:");
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
 
         await appCommon.MyTasks();
         await hrInbxPage.assignPayGroupApprove(data.ProposedPayGroupFinal);
@@ -233,5 +228,7 @@ for (const sheetName in sheetsJson) {
       }
 
     });
+
   });
+
 }

@@ -59,7 +59,7 @@ export class HireAdditionalData extends WebActionsPage {
     readonly submit: Locator;
     readonly contractDateEmployeeSigned: Locator;
     readonly contractDateEmployerSigned: Locator;
-    readonly addrow:Locator;
+    readonly addrow: Locator;
 
     //readonly txtYoungParentEffectiveDate: Locator;
     readonly txtMedicalHealthInsurance: Locator;
@@ -70,14 +70,14 @@ export class HireAdditionalData extends WebActionsPage {
     readonly chkBasicFunction: Locator;
     readonly drpNegotiatedLeave: Locator;
     //@Gayatri for Hungary 
-    readonly relationship1:Locator;
-    readonly dependentName1:Locator;
-    readonly dependentPlaceofBirth1:Locator;
-    readonly dependentDateofBirth1:Locator;
-    readonly dependentMothersMaidenName1:Locator;
-    readonly dependentTaxID1:Locator;
-    readonly dependentSocialSecurityNumber1:Locator;
-    readonly hireadditiondatasubhun:Locator
+    readonly relationship1: Locator;
+    readonly dependentName1: Locator;
+    readonly dependentPlaceofBirth1: Locator;
+    readonly dependentDateofBirth1: Locator;
+    readonly dependentMothersMaidenName1: Locator;
+    readonly dependentTaxID1: Locator;
+    readonly dependentSocialSecurityNumber1: Locator;
+    readonly hireadditiondatasubhun: Locator
 
 
 
@@ -154,14 +154,14 @@ export class HireAdditionalData extends WebActionsPage {
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');
         this.fillAmount = page.getByLabel('Amount');
         this.saveSalary = page.getByRole('button', { name: 'Save Salary' });
-        this.relationship1=page.locator("(//div[@data-automation-id='multiselectInputContainer']//div/input[@placeholder='Search'])[1]");
-        this.dependentName1=page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[1]")
-        this.dependentSocialSecurityNumber1=page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[5]");
-        this.dependentMothersMaidenName1=page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[3]");
-        this.dependentDateofBirth1=page.getByPlaceholder('DD');
-        this.dependentTaxID1=page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[4]");
-        this.addrow=page.getByLabel('Add Row');
-        this.dependentPlaceofBirth1=page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[2]");
+        this.relationship1 = page.locator("(//div[@data-automation-id='multiselectInputContainer']//div/input[@placeholder='Search'])[1]");
+        this.dependentName1 = page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[1]")
+        this.dependentSocialSecurityNumber1 = page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[5]");
+        this.dependentMothersMaidenName1 = page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[3]");
+        this.dependentDateofBirth1 = page.getByPlaceholder('DD');
+        this.dependentTaxID1 = page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[4]");
+        this.addrow = page.getByLabel('Add Row');
+        this.dependentPlaceofBirth1 = page.locator("(//tr[1]//div[@data-automation-id='textInput' and @data-uxi-widget-editable='true']//input[@type='text'])[2]");
         //this.dependentDateofBirth1=page.locator("(//tr[1]//input[@data-automation-id='dateSectionDay-input' and @role='spinbutton'])[1]/parent::div/input[@aria-label='Day']");
     }
 
@@ -321,53 +321,53 @@ export class HireAdditionalData extends WebActionsPage {
 
     async hrHireAdditionalDataDependentHungary(relationship1: string, dependentName1: string, dependentPlaceofBirth1: string, dependentDateofBirth1: string, dependentMothersMaidenName1: string, dependentTaxID1: string, dependentSocialSecurityNumber1: string) {
         await this.hireadditiondatasub.click();
-
-        if(relationship1 !== "NaN" && relationship1 !== "N/A" && relationship1 !== undefined){
-
-        await this.addrow.click();
         await this.page.waitForTimeout(500);
-        if (await this.relationship1.count() && relationship1 !== "NaN" && relationship1 !== "N/A" && relationship1 !== undefined) {
-            //await this.addrow.click();
-            await super.setText(this.relationship1, relationship1);
+        if (relationship1 !== "NaN" && relationship1 !== "N/A" && relationship1 !== undefined) {
 
+            await this.addrow.click();
+            await this.page.waitForTimeout(500);
+            if (await this.relationship1.count() && relationship1 !== "NaN" && relationship1 !== "N/A" && relationship1 !== undefined) {
+                //await this.addrow.click();
+                await super.setText(this.relationship1, relationship1);
+
+            }
+            await this.page.waitForTimeout(500);
+
+            if (await this.dependentName1.isVisible() && dependentName1 !== "NaN" && dependentName1 !== "N/A" && dependentName1 !== undefined) {
+                await super.setText(this.dependentName1, dependentName1);
+            }
+            await this.page.waitForTimeout(500);
+
+            if (await this.dependentPlaceofBirth1.isVisible() && dependentPlaceofBirth1 != "NaN" && dependentPlaceofBirth1 != "N/A" && dependentPlaceofBirth1 != undefined) {
+                await super.setText(this.dependentPlaceofBirth1, dependentPlaceofBirth1);
+            }
+            await this.page.waitForTimeout(500);
+
+            if (await this.dependentDateofBirth1.isVisible() && dependentDateofBirth1 !== "NaN" && dependentDateofBirth1 !== "N/A" && dependentDateofBirth1 !== undefined) {
+                await super.click(this.dependentDateofBirth1);
+                await super.setTextWithType(this.dependentDateofBirth1, dependentDateofBirth1);
+            }
+            await this.page.waitForTimeout(500);
+
+            if (await this.dependentMothersMaidenName1.isVisible() && dependentMothersMaidenName1 !== "NaN" && dependentMothersMaidenName1 !== "N/A" && dependentMothersMaidenName1 !== undefined) {
+                await super.setText(this.dependentMothersMaidenName1, dependentMothersMaidenName1);
+            }
+            await this.page.waitForTimeout(500);
+
+
+            if (await this.dependentTaxID1.isVisible() && dependentTaxID1 !== "NaN" && dependentTaxID1 !== "N/A" && dependentTaxID1 !== undefined) {
+                await super.setText(this.dependentTaxID1, dependentTaxID1);
+            }
+            await this.page.waitForTimeout(500);
+
+            if (await this.dependentSocialSecurityNumber1.isVisible() && dependentSocialSecurityNumber1 !== "NaN" && dependentSocialSecurityNumber1 !== "N/A" && dependentSocialSecurityNumber1 !== undefined) {
+                await super.setText(this.dependentSocialSecurityNumber1, dependentSocialSecurityNumber1);
+            }
+            await this.page.waitForTimeout(500);
         }
-        await this.page.waitForTimeout(500);
-
-        if (await this.dependentName1.isVisible() && dependentName1 != "NaN" && dependentName1 != "N/A" && dependentName1 != undefined) {
-            await super.setText(this.dependentName1, dependentName1);
-        }
-        await this.page.waitForTimeout(500);
-
-        if (await this.dependentPlaceofBirth1.isVisible() && dependentPlaceofBirth1 != "NaN" && dependentPlaceofBirth1 != "N/A" && dependentPlaceofBirth1 != undefined) {
-            await super.setText(this.dependentPlaceofBirth1, dependentPlaceofBirth1);
-        }
-        await this.page.waitForTimeout(500);
-
-         if (await this.dependentDateofBirth1.isVisible() && dependentDateofBirth1 != "NaN" && dependentDateofBirth1 != "N/A" && dependentDateofBirth1 != undefined) {
-            await super.click(this.dependentDateofBirth1);
-            await super.setTextWithType(this.dependentDateofBirth1, dependentDateofBirth1); 
-         }
-        await this.page.waitForTimeout(500);
-
-        if (await this.dependentMothersMaidenName1.isVisible() && dependentMothersMaidenName1 != "NaN" && dependentMothersMaidenName1 != "N/A" && dependentMothersMaidenName1 != undefined) {
-            await super.setText(this.dependentMothersMaidenName1, dependentMothersMaidenName1);
-        }
-        await this.page.waitForTimeout(500);
-
-
-        if (await this.dependentTaxID1.isVisible() && dependentTaxID1 != "NaN" && dependentTaxID1 != "N/A" && dependentTaxID1 != undefined) {
-            await super.setText(this.dependentTaxID1, dependentTaxID1);
-        }
-        await this.page.waitForTimeout(500);
-
-        if (await this.dependentSocialSecurityNumber1.isVisible() && dependentSocialSecurityNumber1 != "NaN" && dependentSocialSecurityNumber1 != "N/A" && dependentSocialSecurityNumber1 != undefined) {
-            await super.setText(this.dependentSocialSecurityNumber1, dependentSocialSecurityNumber1);
-        }
-        await this.page.waitForTimeout(500);
-    }
         await this.hrSubmit.click(); //last step
         await this.page.waitForTimeout(500);
-        
+
     }
 
     async setDependentAdditionalInfoHungary() {
@@ -376,19 +376,19 @@ export class HireAdditionalData extends WebActionsPage {
     }
 
     async hrHireAdditionalDataDependentHungarN(
-        relationship1, dependentName1, dependentPlaceofBirth1, 
-        dependentDateofBirth1, dependentMothersMaidenName1, 
+        relationship1, dependentName1, dependentPlaceofBirth1,
+        dependentDateofBirth1, dependentMothersMaidenName1,
         dependentTaxID1, dependentSocialSecurityNumber1
     ) {
         await this.hireadditiondatasub.click();
-    
+
         // Helper function to set text in input fields only if the field is visible and the value is valid
         const setFieldIfVisible = async (locator, value) => {
             if (await locator.isVisible() && value && value !== "NaN" && value !== "N/A") {
                 await locator.fill(value);  // Use Playwright's `fill` method to enter text
             }
         };
-    
+
         // Check if any valid input is provided
         const shouldAddRow = (
             relationship1 && relationship1 !== "NaN" && relationship1 !== "N/A" ||
@@ -399,29 +399,29 @@ export class HireAdditionalData extends WebActionsPage {
             dependentTaxID1 && dependentTaxID1 !== "NaN" && dependentTaxID1 !== "N/A" ||
             dependentSocialSecurityNumber1 && dependentSocialSecurityNumber1 !== "NaN" && dependentSocialSecurityNumber1 !== "N/A"
         );
-    
+
         if (shouldAddRow) {
             await this.addrow.click();
             await this.page.waitForTimeout(500);
-    
+
             await setFieldIfVisible(this.relationship1, relationship1);
             await setFieldIfVisible(this.dependentName1, dependentName1);
             await setFieldIfVisible(this.dependentPlaceofBirth1, dependentPlaceofBirth1);
             await setFieldIfVisible(this.dependentMothersMaidenName1, dependentMothersMaidenName1);
             await setFieldIfVisible(this.dependentTaxID1, dependentTaxID1);
             await setFieldIfVisible(this.dependentSocialSecurityNumber1, dependentSocialSecurityNumber1);
-    
+
             // Handle the date field separately
             if (await this.dependentDateofBirth1.isVisible() && dependentDateofBirth1 && dependentDateofBirth1 !== "NaN" && dependentDateofBirth1 !== "N/A") {
                 await this.dependentDateofBirth1.fill(dependentDateofBirth1);  // Using Playwright's `fill` for date as well
             }
         }
-    
+
         // Submit the form
         await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
-    
+
 
     async hrHireAdditionalDataDependentSK(medicalins: string, health: string) {
         await this.hireadditiondatasub.click();

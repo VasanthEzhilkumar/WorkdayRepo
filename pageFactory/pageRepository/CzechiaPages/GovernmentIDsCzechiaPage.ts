@@ -64,6 +64,7 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
   readonly addROWNationalIDs: Locator;
   readonly addROWadditionalGovernmentIDs: Locator;
   readonly addGovtID: Locator;
+  readonly checkWarningAndAlert: Locator;
 
   EmployeeNumber: string[];
 
@@ -87,12 +88,12 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     // this.GIssuedDate = page.locator('[id="\\35 6\\$533356"] div[role="group"] >> text=DD');
     // this.IssuedBy = page.locator('text=1 item selected, CzechiaCzechia1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$149635"] input[role="textbox"]');
     // this.series = page.locator('text=1 item selected, CzechiaCzechia1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$518467"] input[role="textbox"]');
+    this.checkWarningAndAlert = this.page.locator('(//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"])[1]');
 
     this.GExpirationDate = page.locator("//table[@class='mainTable']/tbody/tr/td[8]/descendant::input[@placeholder='DD']");
     this.GIssuedDate = page.locator("//table[@class='mainTable']/tbody/tr/td[7]/descendant::input[@placeholder='DD']");
     this.IssuedBy = page.locator("(//div[@data-automation-id='textInput' or contains(title,'Issued')])[2]/input");
     this.series = page.locator("(//div[@data-automation-id='textInput' or contains(title,'Issued')])[3]/input");
-
 
     this.PerIssuedDate = page.locator('text=DD >> nth=1');
     this.PerExpirationDate = page.locator('text=DD >> nth=3');
@@ -298,10 +299,15 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
       await super.click(this.page.locator('tr').filter({ hasText: '*Country*Government ID' }).getByLabel('Add Row'));
       await this.setGovernmentIdsSlovenia(Country2, NationalIDType2, AddEditID2, IssuedDate2, ExpirationDate2);
     }
-    await super.click(this.submit); // last step 
+
+
+    await super.click(this.submit); // last step
+    // await this.page.waitForTimeout(500);
+    // if (await this.checkWarningAndAlert && await this.idChange) {
+    //await super.click(this.submit);
+    // }
     //await this.submit.click();
   }
-
   async setGovernmentIdsSlovenia(
     country: string,
     nationalIDType: string,
@@ -318,14 +324,14 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     if (await this.IssuedBy.isVisible()) {
       await super.setText(this.IssuedBy, String('Test'));
     }
-  
+
     if (await this.series.isVisible()) {
       await super.setText(this.series, String('Test'));
     }
   }
 
-  
-///National IDs
+
+  ///National IDs
   async setGovernmentIDsUK(
     country1: string,
     NationalIDType1: string,
