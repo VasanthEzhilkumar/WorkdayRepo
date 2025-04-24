@@ -86,6 +86,8 @@ for (const sheetName in sheetsJson) {
             // Write the results to the Excel file
             writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
             await appCommon.MyTasks();
+          }else {
+            position = "DummyValue";
           }
 
           // search Hire employee on Home Page after login
