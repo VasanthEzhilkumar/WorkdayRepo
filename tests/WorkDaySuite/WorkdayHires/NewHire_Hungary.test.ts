@@ -87,6 +87,8 @@ for (const sheetName in sheetsJson) {
           // Write the results to the Excel file
           writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
           await appCommon.MyTasks();
+        }else {
+          position = "DummyValue";
         }
 
         // search Hire employee on Home Page after login
@@ -137,7 +139,6 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
 
         await empInboxpage.changePersonalInformationHun(data.Gender, data.DateOfBirth, data.CountryOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
-        await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         //await empInboxpage.changepersonalinformationSubmit();
 

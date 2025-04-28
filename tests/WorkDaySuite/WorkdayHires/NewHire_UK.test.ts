@@ -215,18 +215,6 @@ for (const sheetName in sheetsJson) {
         await appCommon.ClickInbox();
         await page.waitForTimeout(5000);
 
-        // await empInboxpage.reviewDocumentSubmitGeneric();
-        // await appCommon.SuccessEventHandle();
-
-        // await empInboxpage.reviewDocumentSubmitGeneric();
-        // await appCommon.SuccessEventHandle();
-
-        // await empInboxpage.reviewDocumentSubmitGeneric();
-        // await appCommon.SuccessEventHandle();
-
-        // await empInboxpage.reviewDocumentSubmitGeneric();
-        // await appCommon.SuccessEventHandle();
-
         await empInboxpage.onBoardingGuide();
         await appCommon.SuccessEventHandle();
 

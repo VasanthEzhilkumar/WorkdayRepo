@@ -148,7 +148,12 @@ export class HrInboxPage extends WebActionsPage {
     readonly areadeEstudo: Locator;
     readonly taxadeIRS: Locator;
     readonly portugalSocialSecurityCode: Locator;
-
+    readonly btnSkip:Locator;
+    readonly payrollTaxDeductionNL:Locator;
+    readonly WWaansturing:Locator;
+    readonly clickSkipThisTaskOK:Locator;
+    readonly txtPayrollTaxDeductionNL:Locator;
+    readonly txtWWaansturing:Locator;
     EmployeeNumber: string[];
 
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
@@ -312,16 +317,18 @@ export class HrInboxPage extends WebActionsPage {
         //this.txtAssignCollectiveAgreement = page.getByLabel('Collective Agreement', { exact: true });
         // this.txtProfessionalCategory = page.getByLabel('Professional Category').first();
         //this.txtLevel = page.getByLabel('Level').first();
-
-
-
         //this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden & Mother's Maiden Names: Hire: '+ ' ' + FamilyName + ' ' + givenname '")]');
         this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden Names: Hire:  ' + FamilyName + ' ' + givenname + '")]');
-
+        this.btnSkip=page.locator("//span[text()='Skip']/parent::button[@data-uxi-button-type='action']");
         this.compensationTitle = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Propose Compensation Hire: ' + givenname + ' ' + FamilyName + '")]');
         this.areadeEstudo = page.locator('//label[text()="Area de Estudo"]/parent::div/following-sibling::div//input');
         this.taxadeIRS = page.locator('//label[text()="Taxa de IRS"]/parent::div/following-sibling::div//input');
         this.portugalSocialSecurityCode = page.locator('//label[text()="Social Security Code"]/parent::div/following-sibling::div//input');
+        this.payrollTaxDeductionNL = page.getByRole('button', { name: 'Payroll Tax Deduction NL: ' + givenname + ' ' + FamilyName + '', exact: true });
+        this.WWaansturing = page.getByRole('button', { name: 'WW aansturing: ' + givenname + ' ' + FamilyName + '', exact: true });
+        this.clickSkipThisTaskOK=page.locator("//span[contains(.,'OK')]/..");
+        this.txtPayrollTaxDeductionNL=page.locator("//label[contains(.,'Payroll Tax Deduction')]/parent::div/following-sibling::div//descendant::input[1]");
+        this.txtWWaansturing=page.locator("//label[contains(.,'WW aansturing')]/parent::div/following-sibling::div//descendant::input[1]")
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -335,6 +342,24 @@ export class HrInboxPage extends WebActionsPage {
         await super.selectFromCustomDropDrown(this.txtHourlyRegime, HourlyRegime);
         await this.hrSubmit.click();
     }
+
+    //Generic Method To Set PayrollTax DeductionNL  @Added by Gayatri
+    async SetPayrollTaxDeductionNL(payrollTaxDeduction:string) {
+        await this.payrollTaxDeductionNL.click();
+        await super.selectFromCustomDropDrown(this.txtPayrollTaxDeductionNL, payrollTaxDeduction); 
+        await this.hrSubmit.click(); 
+        await this.page.waitForTimeout(500);
+    }
+
+    //Generic Method To SetWWaansturing  @Added by Gayatri
+
+    async SetWWaansturing(btnWWaansturing:string) {
+        await this.WWaansturing.click();
+        await super.selectFromCustomDropDrown(this.txtWWaansturing, btnWWaansturing); 
+        await this.hrSubmit.click();   
+        await this.page.waitForTimeout(500);
+    }
+
 
 
     async AddID(): Promise<void> {
@@ -439,8 +464,17 @@ export class HrInboxPage extends WebActionsPage {
         await this.btnAddPassPort.click();
         await super.setTextWithType(this.txtDateWhenMedicalExamTaken, DateWhenMedicalExamTaken);
         await super.setTextWithType(this.txtExpirationDateOfExam, ExpirationDateOfTheExam);
-        await this.hrSubmit.click();
+        await this.hrSubmit.click(); 
     }
+
+    //Added By Gayatri for PageHireSkipOk
+    async PageHireSkipThisTask() {
+        await this.btnSkip.click(); 
+        await this.page.waitForTimeout(500);
+        await this.clickSkipThisTaskOK.click();
+    }
+
+
 
     async setCollectiveAgreementAndProfessionalCategoryAndLevel(CollectiveAgreement: any, ProfessionalCategory: any, Level: any) {
         await this.page.waitForTimeout(500);

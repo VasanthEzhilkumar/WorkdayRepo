@@ -21,7 +21,7 @@ const config: PlaywrightTestConfig = {
   // fullyParallel: true,
 
   //Reporters
-  reporter: [[`./CustomReporterConfig.ts`],['list'], [`allure-playwright`], [`html`, { outputFolder: 'html-report', open: 'never' }]],
+  reporter: [[`./CustomReporterConfig.ts`], [`allure-playwright`], [`html`, { outputFolder: 'html-report', open: 'never' }]],
 
   projects: [
     {
