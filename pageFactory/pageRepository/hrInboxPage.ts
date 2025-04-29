@@ -138,8 +138,8 @@ export class HrInboxPage extends WebActionsPage {
     readonly btnAddPassPort: Locator;
     readonly txtDateWhenMedicalExamTaken: Locator;
     readonly txtExpirationDateOfExam: Locator;
-    readonly carerbtn:Locator;
-    readonly carer:Locator;
+    readonly carerbtn: Locator;
+    readonly carer: Locator;
     readonly txtAssignCollectiveAgreement: Locator;
     readonly txtProfessionalCategory: Locator;
     readonly txtLevel: Locator;
@@ -154,6 +154,12 @@ export class HrInboxPage extends WebActionsPage {
     readonly clickSkipThisTaskOK:Locator;
     readonly txtPayrollTaxDeductionNL:Locator;
     readonly txtWWaansturing:Locator;
+    readonly estadolIRPF: Locator;
+    readonly minusvaliaRH: Locator;
+    readonly dodajWyksztalcenieTitle: Locator;
+    readonly dodajHistorieZatrudnieniaTitle: Locator;
+    // readonly medicalExamTitle: Locator;
+
     EmployeeNumber: string[];
 
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
@@ -302,7 +308,7 @@ export class HrInboxPage extends WebActionsPage {
         this.addTypopodatkowania = page.getByLabel('Typ opodatkowania');
         this.mainJob = page.getByLabel('Main Job', { exact: true });
         this.pensioner = page.locator("//label[contains(.,'Pensioner')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
-        this.carer=page.locator("//label[contains(.,'Carer')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
+        this.carer = page.locator("//label[contains(.,'Carer')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
 
         this.btnAddPassPort = page.locator("(//button[@aria-label='Add Row'])[1]");
         this.txtDateWhenMedicalExamTaken = page.locator("//div[@data-automation-id='fieldSetContent']/descendant::table[@class='mainTable']/tbody/tr[1]/td[2]/descendant::input[@aria-label='Day']");
@@ -329,6 +335,13 @@ export class HrInboxPage extends WebActionsPage {
         this.clickSkipThisTaskOK=page.locator("//span[contains(.,'OK')]/..");
         this.txtPayrollTaxDeductionNL=page.locator("//label[contains(.,'Payroll Tax Deduction')]/parent::div/following-sibling::div//descendant::input[1]");
         this.txtWWaansturing=page.locator("//label[contains(.,'WW aansturing')]/parent::div/following-sibling::div//descendant::input[1]")
+        this.estadolIRPF = page.locator('//label[contains(.,"Estado IRPF")]/parent::div/following-sibling::div//input');
+        this.minusvaliaRH = page.locator('//label[contains(.,"Minusvalía RH")]/parent::div/following-sibling::div//input');
+
+        this.dodajWyksztalcenieTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj wykształcenie:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.dodajHistorieZatrudnieniaTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj historię zatrudnienia:' + ' ' + givenname + ' ' + FamilyName + '")]');
+
+
     }
 
     async hrPaygroupSubmit(): Promise<void> {
@@ -406,7 +419,16 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
     }
-    
+
+    async addHireAdditionalDataSpain(EstadolIRPF: string, MinusvaliaRH: string): Promise<void> {
+        await this.hireadditiondatasub.click();
+        await super.selectFromCustomDropDrown(this.estadolIRPF, EstadolIRPF);
+        await super.selectFromCustomDropDrown(this.minusvaliaRH, MinusvaliaRH);
+        // await super.setTextWithEnter(this.portugalSocialSecurityCode, PortugalSocialSecurityCode);
+        await this.page.waitForTimeout(500);
+        await this.hrSubmit.click();
+    }
+
     async manageProbationPeriod(): Promise<void> {
         await this.manageProbation.click();
         await this.prbStartDate.fill('01/01/2020');
@@ -550,6 +572,25 @@ export class HrInboxPage extends WebActionsPage {
 
     }
 
+     // Worker Education Details in Polish
+    async dodajWyksztalcenie(schoolName: string, schoolType: string, schoolStartDate: string, schoolEndDate: string) {
+        await this.dodajWyksztalcenieTitle.click();
+        await this.page.waitForTimeout(500);
+        await this.polandSchoolName.click();
+        await this.polandSchoolName.fill(schoolName);
+        await this.page.keyboard.press('Tab');
+        await super.selectFromCustomDropDrown(this.polandschoolType, schoolType);
+        await this.page.keyboard.press('Tab');
+        await this.polandschoolStartDate.click();
+        await super.setTextWithType(this.polandschoolStartDate, schoolStartDate);
+        await this.page.keyboard.press('Tab');
+        await this.page.waitForTimeout(500);
+        await this.polandschoolEndDate.click();
+        await super.setTextWithType(this.polandschoolEndDate, schoolEndDate);
+        await this.page.keyboard.press('Tab');
+        await this.hrSubmit.click();
+    }
+
     //@added by Gayatri for new change for PK17
     async polandPITTaxInformation(UrządSkarbowy: string, Ulgapodatkowa: string, Częśćulgi: string, Typopodatkowania: string, identyfikatorpodatkowy: string) {
         await this.addPITTaxInformation.click();
@@ -579,6 +620,13 @@ export class HrInboxPage extends WebActionsPage {
             await this.page.waitForTimeout(500);
             await super.setTextWithType(this.page.getByPlaceholder('DD').first(), String(firstJobExpiryDate));
         }
+        await this.hrSubmit.click();
+    }
+
+    // Worker Job History in Polish
+    async dodajHistorieZatrudnienia() {
+        await this.dodajHistorieZatrudnieniaTitle.click();
+        await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
     }
 
@@ -612,7 +660,10 @@ export class HrInboxPage extends WebActionsPage {
         await this.Approve.click();
     }
 
-
+    async medicalExam(givenName: string, familyName: string): Promise<void> {
+        await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Medical exam: Onboarding for '+givenName+' '+familyName+'")]').click();
+        await this.hrSubmit.click();
+    }
 
 
     async setServiceDates() {
@@ -1075,7 +1126,7 @@ export class HrInboxPage extends WebActionsPage {
 
     //Generic Function For MainJob Page @Added By Gayatri to set mainjob ,pensioner,Carer
 
-    async hireAdditionalInfoMainJob(mainjobdetails: string, Pensioner: string,carer:string) {
+    async hireAdditionalInfoMainJob(mainjobdetails: string, Pensioner: string, carer: string) {
         await this.hireAdditiondata.click();
         await this.page.waitForTimeout(500);
         //await this.mainJob.click();
@@ -1085,8 +1136,8 @@ export class HrInboxPage extends WebActionsPage {
             await this.pensioner.click()
         }
         if (carer.toLowerCase() === 'yes') {
-            await this.carer.click() 
-        
+            await this.carer.click()
+
         }
         await this.hrSubmit.click(); //Last step
     }

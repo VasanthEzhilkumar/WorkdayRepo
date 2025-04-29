@@ -23,6 +23,7 @@ export class contactInformationAddressCzechia {
     readonly txtDepartment: Locator;
     readonly streetNumber: Locator;
     readonly txtAdditionalAddress: Locator;
+    readonly nameOfStreet: Locator;
 
     constructor(page: Page, context: BrowserContext) {
         //super(page:Page, context: BrowserContext);
@@ -47,6 +48,8 @@ export class contactInformationAddressCzechia {
         this.txtDepartment = page.getByLabel('Department');
         this.streetNumber = page.getByLabel('Street Number');
         this.txtAdditionalAddress = page.locator("(//label[contains(./text(),'Additional Address')]/parent::div)[1]/following-sibling::div/descendant::div[@data-automation-id='textInput']//input")
+        this.nameOfStreet = page.locator('//label[contains(./text(),"Name of Street")]/parent::div/following-sibling::div//input');
+    
     }
 
     async contactInformationAddress(StreetName: string, PostalCode: number, city: string, County: string, addressType: string, houseNumber: string, referenceNumber: string, locality: string, region: string, useFor: string) {
@@ -154,6 +157,23 @@ export class contactInformationAddressCzechia {
         await this.addressType.click()
         await this.page.getByLabel('' + Type + ' checkbox Not Checked').getByRole('checkbox').check();
         await this.useFor.fill(UseFor);
+        await this.page.keyboard.press('Enter');
+    }
+
+    async contactInformationAddressSpain(StreetName: string, PostalCode: number, city: string, County: string, addressType: string, houseNumber: string, referenceNumber: string, locality: string, region: string, useFor: string, Province: string) {
+
+        await this.page.waitForTimeout(500);
+        await this.addAddress.click();
+        await this.nameOfStreet.fill(StreetName);
+        await this.houseNumber.fill(houseNumber.toString());
+        await this.postalCode.fill(String(PostalCode));
+        await this.city.fill(city);
+        // Add code to enter Province if required
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(500);
+        await this.addressType.click()
+        await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+        await this.useFor.fill(useFor);
         await this.page.keyboard.press('Enter');
     }
 

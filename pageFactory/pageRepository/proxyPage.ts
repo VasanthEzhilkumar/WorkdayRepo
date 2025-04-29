@@ -32,10 +32,13 @@ async startProxy(actastxt: string) {
     await this.page.waitForTimeout(500);
     await this.actas.clear();
     await this.actas.fill(actastxt);
-    await this.actas.press('Enter');
+    await this.page.keyboard.press('Enter');
     await this.page.waitForTimeout(500);
+    await this.page.keyboard.press('Enter');
+    await this.page.waitForTimeout(2000);
+    await this.page.keyboard.press('Enter');
     await this.proxyokButton.click();
-    await this.page.waitForTimeout(4000);
+    await this.page.waitForTimeout(5000);
 }
 
 async stopproxy (){
