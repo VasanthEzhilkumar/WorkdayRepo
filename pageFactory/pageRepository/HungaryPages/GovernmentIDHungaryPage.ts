@@ -269,7 +269,10 @@ export class GovernmentsIDPageHungary extends WebActionsPage {
   }
 
 
-
+  async clickGovernmentandSubmit() {
+    await super.click(this.idChangeHungary);
+    await super.click(this.submit);
+  }
   async setGovernmentIDsHungary(
     country1: string,
     NationalIDType1: string,
@@ -321,7 +324,7 @@ export class GovernmentsIDPageHungary extends WebActionsPage {
       await super.click(this.GExpirationDate);
       await super.setTextWithType(this.GExpirationDate, String(expirationDate));
       await this.page.waitForTimeout(500);
-    } 
+    }
 
     if (!isFirstID) {
       await super.setText(this.GID, String(idNumber));
@@ -334,19 +337,19 @@ export class GovernmentsIDPageHungary extends WebActionsPage {
       await super.setTextWithType(this.GExpirationDate, String(expirationDate));
 
     }
-    
-    
+
+
 
 
   }
 
-  
 
-  
 
-    
 
-  
+
+
+
+
 
 
   async hrcontractsubmit(contractType: string, contractStatus: string, DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
