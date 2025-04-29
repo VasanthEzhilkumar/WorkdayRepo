@@ -271,9 +271,10 @@ export class appCommons extends WebActionsPage {
 
   async assignPaygroupValidation(PayGroup: string) {
     await this.btnPay.click();
-    let actulValue: string = await super.getInnerText(this.txtPayGroup);
-    expect(actulValue).toEqual(PayGroup);
-    await this.page.screenshot();
+    await this.page.waitForTimeout(250);
+    let actulValue = await super.getAllInnerText(this.txtPayGroup);
+    await this.page.screenshot()
+    await expect(actulValue[0]).toEqual(PayGroup.trim());
   }
 
 

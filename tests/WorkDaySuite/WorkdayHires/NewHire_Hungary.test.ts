@@ -148,9 +148,9 @@ for (const sheetName in sheetsJson) {
           await governemntIDs.setGovernmentIDsHungary(data.Country1, data.NationalIDType1, data.AddEditID1, data.IssuedDate1, data.ExpirationDate1,
             data.Country2, data.NationalIDType2, data.AddEditID2, data.IssuedDate2, data.ExpirationDate2);
           await capObj.checkForScreenErrors();
-          await appCommon.SuccessEventHandle();
+          await appCommon.staticWait(1);
           await governemntIDs.clickGovernmentandSubmit();
-
+          await appCommon.SuccessEventHandle();
           //Set Contract Details
 
           await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);

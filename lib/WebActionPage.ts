@@ -64,7 +64,7 @@ export class WebActionsPage {
 
     async selectFromCustomDropDrownBySliptAndEnter(locator: Locator, varString: String,) {
         try {
-           await this.page.waitForTimeout(this.timeOut);
+            await this.page.waitForTimeout(this.timeOut);
             await locator.focus();
             await this.page.waitForTimeout(100);
             await locator.scrollIntoViewIfNeeded();
@@ -108,7 +108,7 @@ export class WebActionsPage {
                 // await this.page.waitForTimeout(1000);
             }
             await this.page.keyboard.press('Tab');
-           //await this.page.waitForTimeout(this.timeOut);
+            //await this.page.waitForTimeout(this.timeOut);
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {
             console.error(`Selecting  "${varString}" value from Custom DropDown- into: ${locator} failed` + error);
@@ -230,7 +230,7 @@ export class WebActionsPage {
             await this.page.waitForTimeout(this.timeOut);
             if (await locator.count() > 0) {
                 await locator.scrollIntoViewIfNeeded();
-                //  await locator.waitFor();
+                await locator.waitFor();
                 text = await locator.innerText();
             }
             console.log(`Getting Inner text from: ${locator}, text: "${text}"`);

@@ -641,7 +641,7 @@ export class employeeInboxPage extends WebActionsPage {
             await super.setTextWithEnter(this.countryofbirth, countryofbirth);
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
-        if (city !== "NaN" && city !=="N/A" && city !== undefined) {
+        if (city !== "NaN" && city !== "N/A" && city !== undefined) {
             //await super.click(this.editPlace);
             await super.setTextWithEnter(this.cityofBirth, city);
             await super.click(this.page.getByLabel('Save Place of Birth'));
@@ -1211,9 +1211,10 @@ export class employeeInboxPage extends WebActionsPage {
             // await this.clickIAgreeCheckBox();
             await super.click(this.page.getByRole('button', { name: 'Change My Legal Name' }));
             await super.click(this.paygroupSubmit);
-            await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'Verfiy Legal Name')]").first());
-            await super.click(this.paygroupSubmit);
-            await this.page.waitForTimeout(1000);
+            await this.page.waitForTimeout(500);
+            // await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'Verfiy Legal Name')]").first());
+            // await super.click(this.paygroupSubmit);
+
         }
     }
     async clickInboxMyTaskAndSubmit(varString: string) {
