@@ -9,10 +9,8 @@ import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationP
 import { createPositionPage } from '@pages/createPositionpage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import { GovernmentsIDPagePoland } from '@pages/PolandPages/GovernmentIDsPolandPage';
 import { contactInformationAddressPortugal } from '@pages/PortugalPages/ContactInformationAddressPortugal';
 import { GovernmentsIDPagePortugal } from '@pages/PortugalPages/GovernmentIDsPortugalPage';
-import { generateRandomName } from 'utils/functional/utils';
 
 
 
