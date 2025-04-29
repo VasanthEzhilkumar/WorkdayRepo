@@ -20,7 +20,11 @@ const config: PlaywrightTestConfig = {
   fullyParallel: false,
   // fullyParallel: true,
 
+<<<<<<< HEAD
+  //Reporters
+=======
   //Reporters['list'],
+>>>>>>> 72adbf8c0256e739d0b50f806572d5451cf96bb3
   reporter: [[`./CustomReporterConfig.ts`], [`allure-playwright`], [`html`, { outputFolder: 'html-report', open: 'never' }]],
 
   projects: [
@@ -38,8 +42,8 @@ const config: PlaywrightTestConfig = {
 
         //Artifacts
         screenshot: 'on',
-        video: `retain-on-failure`,
-        trace: `retain-on-failure`,
+        video: `on`,
+        trace: `on`,
 
         //Slows down execution by ms
         launchOptions: {

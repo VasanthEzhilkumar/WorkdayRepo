@@ -29,7 +29,11 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
   readonly addROWNationalIDs: Locator;
   readonly addROWadditionalGovernmentIDs: Locator;
   readonly addGovtID: Locator;
+<<<<<<< HEAD
   readonly checkWarningAndAlert: Locator;
+=======
+  readonly idChangeTitle: Locator;
+>>>>>>> Ramchandra
 
   EmployeeNumber: string[];
   readonly GnationalID: Locator;
@@ -63,6 +67,8 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     // this.govIDsEdit2 = page.locator("//div[@data-automation-id='textInput']//input[@size='7' and  @ role='textbox']");
     this.govIDsEdit2 = page.locator('(//div[@data-automation-id="textInput"])[1]/input');
     this.addGovtID = page.locator('//button[@title="Change My Government IDs"]');
+    this.idChangeTitle = this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"ID Change: ' + givenname + ' ' + FamilyName + '")]');
+    
   }
 
 
@@ -152,6 +158,45 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     await super.click(this.addROWNationalIDs);
     await this.fillGovIDDetails(country1, NationalIDType1, AddEditID1, IssuedDate1, ExpirationDate1, true);
     await this.page.waitForTimeout(1000);
+    await super.click(this.submit); // last step 
+    //await this.submit.click();
+  }
+
+  async setGovernmentIDsSpainHr(
+    country1: string,
+    Country2: string,
+    NationalIDType1: string,
+    NationalIDType2: string,
+    AddEditID1: string,
+    AddEditID2: string,
+    IssuedDate1: string,
+    IssuedDate2: string,
+    ExpirationDate1: string,
+    ExpirationDate2: string,
+    IssuedBy2: string,
+    series2: string,
+
+  ) {
+
+    await super.click(this.idChangeTitle);
+    // await super.click(this.addGovtID);
+    // await super.click(this.addId);
+    //await this.addId.click();
+    //await this.idChange.click();
+    await super.click(this.addROWNationalIDs);
+    await this.fillGovIDDetails(country1, NationalIDType1, AddEditID1, IssuedDate1, ExpirationDate1, true);
+
+    if (!country1.includes("Slovakia") && !country1.includes("Slovenia") && !country1.includes("France")) {
+      // Adding second ID
+      // await this.page.waitForTimeout(500);
+      // await this.addId.click();
+      await super.click(this.addROWNationalIDs);
+      await this.fillGovIDDetails(Country2, NationalIDType2, AddEditID2, IssuedDate2, ExpirationDate2, false);
+    }
+    if (Country2.includes("Slovenia")) {
+      await super.click(this.page.locator('tr').filter({ hasText: '*Country*Government ID' }).getByLabel('Add Row'));
+      await this.setGovernmentIdsSlovenia(Country2, NationalIDType2, AddEditID2, IssuedDate2, ExpirationDate2);
+    }
     await super.click(this.submit); // last step 
     //await this.submit.click();
   }

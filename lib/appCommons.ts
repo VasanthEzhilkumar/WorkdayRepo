@@ -139,6 +139,10 @@ export class appCommons extends WebActionsPage {
       await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
       j = j + 1;
     }
+    if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').nth(0).count() > 0) {
+      await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]').first());
+    }
+    //await this.page.locator('//*[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').first().click({ 'force': true })
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();
 
