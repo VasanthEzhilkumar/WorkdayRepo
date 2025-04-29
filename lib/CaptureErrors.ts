@@ -55,11 +55,10 @@ export class CaptureAlertErrors extends WebActionsPage {
         }
     }
 
-
     async checkForScreenErrors(): Promise<boolean> {
         let errorMsg: string;
         try {
-            await this.page.waitForTimeout(4000);
+            await this.page.waitForTimeout(3000);
             // Check for side error bar
             if (await this.btnSideErrorBar1.isVisible()) {
                 await this.page.waitForTimeout(3000);
@@ -98,6 +97,54 @@ export class CaptureAlertErrors extends WebActionsPage {
             }
         }
     }
+
+
+    async checkForScreenErrors2(): Promise<boolean> {
+        let errorMsg = '';
+        try {
+            await this.page.waitForTimeout(3000);
+
+            const isSideErrorVisible = await this.btnSideErrorBar1.isVisible();
+            const isMainErrorVisible = !isSideErrorVisible && await this.btnMainErrorBar1.isVisible();
+
+
+
+            if (isSideErrorVisible || isMainErrorVisible) {
+                const errorButton = isSideErrorVisible ? this.btnSideErrorBar : this.btnMainErrorBar;
+                await this.page.waitForTimeout(3000);
+                await super.click(errorButton);
+
+                const messageTitle = await super.getText(this.lblAlertMessageTitle);
+                errorMsg = messageTitle.trim();
+
+                await this.logScreenErrors(messageTitle);
+            }
+
+            if (errorMsg && errorMsg !== 'NaN') {
+                await expect(errorMsg).toBeNull(); // Consider: this may always fail if errorMsg exists
+            }
+
+            return false;
+        } catch (error) {
+            try {
+                const fullName = `${this.givenName} ${this.familyNmae}`;
+                const errorInfo = `Test failed for '${fullName}' Employee: ${errorMsg}`;
+                await this.setUpdateError(errorInfo);
+
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const screenshotPath = `${process.cwd()}/WorkdayFailedScreenshot/${timestamp}.png`;
+                await this.page.screenshot({ path: screenshotPath });
+
+                const finalError = `${errorInfo} & find failed Screenshot Path:-> ${screenshotPath}`;
+                writeResultsToExcel(this.excelFilePath, this.sheetName, this.index, finalError, 'Failed');
+
+                return true;
+            } finally {
+                await this.page.close();
+            }
+        }
+    }
+
 
     async setUpdateError(error: string) {
         this.updateError = error;

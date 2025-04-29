@@ -1043,6 +1043,7 @@ export class HrInboxPage extends WebActionsPage {
 
     async hireAdditionalInfoMainJob(mainjobdetails: string, Pensioner: string,carer:string) {
         await this.hireAdditiondata.click();
+        await this.page.waitForTimeout(500);
         //await this.mainJob.click();
         await super.selectFromCustomDropDrown(this.mainJob, mainjobdetails);
         await this.page.waitForTimeout(200);
