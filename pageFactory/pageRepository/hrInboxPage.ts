@@ -150,6 +150,8 @@ export class HrInboxPage extends WebActionsPage {
     readonly portugalSocialSecurityCode: Locator;
     readonly estadolIRPF: Locator;
     readonly minusvaliaRH: Locator;
+    readonly dodajWyksztalcenieTitle: Locator;
+    readonly dodajHistorieZatrudnieniaTitle: Locator;
     // readonly medicalExamTitle: Locator;
 
     EmployeeNumber: string[];
@@ -327,6 +329,9 @@ export class HrInboxPage extends WebActionsPage {
         this.portugalSocialSecurityCode = page.locator('//label[text()="Social Security Code"]/parent::div/following-sibling::div//input');
         this.estadolIRPF = page.locator('//label[contains(.,"Estado IRPF")]/parent::div/following-sibling::div//input');
         this.minusvaliaRH = page.locator('//label[contains(.,"Minusvalía RH")]/parent::div/following-sibling::div//input');
+
+        this.dodajWyksztalcenieTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj wykształcenie:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.dodajHistorieZatrudnieniaTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj historię zatrudnienia:' + ' ' + givenname + ' ' + FamilyName + '")]');
 
 
     }
@@ -532,6 +537,25 @@ export class HrInboxPage extends WebActionsPage {
 
     }
 
+     // Worker Education Details in Polish
+    async dodajWyksztalcenie(schoolName: string, schoolType: string, schoolStartDate: string, schoolEndDate: string) {
+        await this.dodajWyksztalcenieTitle.click();
+        await this.page.waitForTimeout(500);
+        await this.polandSchoolName.click();
+        await this.polandSchoolName.fill(schoolName);
+        await this.page.keyboard.press('Tab');
+        await super.selectFromCustomDropDrown(this.polandschoolType, schoolType);
+        await this.page.keyboard.press('Tab');
+        await this.polandschoolStartDate.click();
+        await super.setTextWithType(this.polandschoolStartDate, schoolStartDate);
+        await this.page.keyboard.press('Tab');
+        await this.page.waitForTimeout(500);
+        await this.polandschoolEndDate.click();
+        await super.setTextWithType(this.polandschoolEndDate, schoolEndDate);
+        await this.page.keyboard.press('Tab');
+        await this.hrSubmit.click();
+    }
+
     //@added by Gayatri for new change for PK17
     async polandPITTaxInformation(UrządSkarbowy: string, Ulgapodatkowa: string, Częśćulgi: string, Typopodatkowania: string, identyfikatorpodatkowy: string) {
         await this.addPITTaxInformation.click();
@@ -561,6 +585,13 @@ export class HrInboxPage extends WebActionsPage {
             await this.page.waitForTimeout(500);
             await super.setTextWithType(this.page.getByPlaceholder('DD').first(), String(firstJobExpiryDate));
         }
+        await this.hrSubmit.click();
+    }
+
+    // Worker Job History in Polish
+    async dodajHistorieZatrudnienia() {
+        await this.dodajHistorieZatrudnieniaTitle.click();
+        await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
     }
 

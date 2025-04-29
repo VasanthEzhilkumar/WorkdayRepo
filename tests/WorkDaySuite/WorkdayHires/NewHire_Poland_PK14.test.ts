@@ -154,13 +154,13 @@ for (const sheetName in sheetsJson) {
           data.CitizenshipStatus, data.PrimaryNationality, data.CountryOfBirth, data.RegionOfBirth);
         await appCommon.SuccessEventHandle();
 
-        await hrInbxPage.polandWorkerEducationDetails(data.SchoolName, data.SchoolType, data.SchoolStartDate, data.SchoolEndDate);
+        // Worker education details in Polish
+        await hrInbxPage.dodajWyksztalcenie(data.SchoolName, data.SchoolType, data.SchoolStartDate, data.SchoolEndDate);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-
         //Submit Worker Job History 
-        await hrInbxPage.workerJobHistory();
+        await hrInbxPage.dodajHistorieZatrudnienia();
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
