@@ -29,8 +29,7 @@ for (const sheetName in sheetsJson) {
     const dataSet = sheetsJson[sheetName];
     
     dataSet.forEach((data, index) => {
-        //  const givenName = givenName || `GivenName_${index + 1}`;
-        //  const familyName = familyName || `FamilyName_${index + 1}`;
+        if (data.TestStatus !== "Passed") {    
         const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
         const { givenName, familyName } = generateRandomName();
         
@@ -207,6 +206,8 @@ for (const sheetName in sheetsJson) {
                 }
             }
             
+       
         });
+    }
     });
 }
