@@ -444,7 +444,7 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async empaddPhoto() {
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(1500);
         await this.addPhoto.click();
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
@@ -562,11 +562,13 @@ export class employeeInboxPage extends WebActionsPage {
 
     async spainStudyLevel(EducationLevel: string, EducationCompletionDate: string, Studies: string) {
         await this.page.waitForTimeout(500);
+        if (await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Spain Study Level")]').count()>0) { 
         await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Spain Study Level")]').click();
         await super.selectFromCustomDropDrown(this.educationLevel, EducationLevel);
         await super.setText(this.Studies, Studies);
         await this.paygroupSubmit.click();
     }
+}
 
     async empaddBankDetails(bankname: string, bankidentificationnumber: string, accnumber: any, ibannum: any) {
         await this.page.waitForTimeout(2000);

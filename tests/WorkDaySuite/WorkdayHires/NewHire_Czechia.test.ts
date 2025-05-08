@@ -28,11 +28,10 @@ const sheetsJson = excelToJson(excelFilePath);
 // Iterate over each dataset and run the test
 for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
-
   dataSet.forEach((data, index) => {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
-    const jobProfile = (data.JobProfile || `JobProfile_${index + 1}`).trim();
+    const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
     // const { givenName, familyName } = generateRandomName();
     const givenName = data.GivenName;
     const familyName = data.FamilyName;
@@ -58,7 +57,7 @@ for (const sheetName in sheetsJson) {
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-        
+
         /*Login creds for PK14*/
         const username = "90002196";
         const password = "Primark0255!";
@@ -166,6 +165,7 @@ for (const sheetName in sheetsJson) {
         // await appCommon.refreshInbox();
         //Maintain Right to Work Documentation
         await appCommon.MyTasks();
+        await page.waitForTimeout(1000);
         await hrInbxPage.setMaintainRightToWorkDocumentation();
 
         // empNum = String(data.EmployeeID);
@@ -206,7 +206,7 @@ for (const sheetName in sheetsJson) {
         // await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, "NaN", data.CitizenshipStatus, data.PrimaryNationality, "NaN", "NaN","NaN", "NaN");
+        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityofBirth, data.MaritalStatus, "NaN", data.CitizenshipStatus, data.PrimaryNationality, "NaN", "NaN", "NaN", "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changepersonalinformationSubmit();
@@ -242,6 +242,7 @@ for (const sheetName in sheetsJson) {
         await proxy.startProxy(HRPartner);
         await appCommon.ClickInbox();
         await appCommon.MyTasks();
+        await page.waitForTimeout(1500);
 
         await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
         await capObj.checkForScreenErrors();

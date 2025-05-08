@@ -158,6 +158,8 @@ export class HrInboxPage extends WebActionsPage {
     readonly minusvaliaRH: Locator;
     readonly dodajWyksztalcenieTitle: Locator;
     readonly dodajHistorieZatrudnieniaTitle: Locator;
+    readonly dodajDanePodatkoweTitle: Locator;
+    readonly nationalHealthFundCodeTitle: Locator;
     // readonly medicalExamTitle: Locator;
 
     EmployeeNumber: string[];
@@ -340,7 +342,8 @@ export class HrInboxPage extends WebActionsPage {
 
         this.dodajWyksztalcenieTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj wykształcenie:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.dodajHistorieZatrudnieniaTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj historię zatrudnienia:' + ' ' + givenname + ' ' + FamilyName + '")]');
-
+        this.dodajDanePodatkoweTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj dane podatkowe (PIT-2):' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland- National Health Fund Code:' + ' ' + givenname + ' ' + FamilyName + '")]');
 
     }
 
@@ -415,6 +418,7 @@ export class HrInboxPage extends WebActionsPage {
         await this.hireadditiondatasub.click();
         await super.selectFromCustomDropDrown(this.areadeEstudo, AreadeEstudo);
         await super.selectFromCustomDropDrown(this.taxadeIRS, TaxadeIRS);
+        if(await this.portugalSocialSecurityCode.count()>0)
         await super.setTextWithEnter(this.portugalSocialSecurityCode, PortugalSocialSecurityCode);
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
@@ -612,6 +616,25 @@ export class HrInboxPage extends WebActionsPage {
 
     }
 
+    async dodajDanePodatkowe(UrządSkarbowy: string, Ulgapodatkowa: string, Częśćulgi: string, Typopodatkowania: string, identyfikatorpodatkowy: string) {
+        await this.dodajDanePodatkoweTitle.click();
+        await super.setTextWithEnter(this.addUrządSkarbowy, UrządSkarbowy);
+        await this.page.waitForTimeout(500);
+
+        await super.selectFromCustomDropDrown(this.addUlgapodatkowa, Ulgapodatkowa);
+        await super.selectFromCustomDropDrown(this.addCzęśćulgi, Częśćulgi);
+        await this.page.waitForTimeout(500);
+
+        await super.selectFromCustomDropDrown(this.addTypopodatkowania, Typopodatkowania);
+        await this.page.keyboard.press('Tab');
+        await this.page.waitForTimeout(500);
+        await super.selectFromCustomDropDrown(this.addidentyfikatorpodatkowy, identyfikatorpodatkowy);
+        await this.page.keyboard.press('Tab');
+        await this.page.waitForTimeout(500);
+        await this.hrSubmit.click();
+
+    }
+
     //@added by Gayatri for new change for PK17
     async firstEverJobDetails(firsteverjob: string, firstJobExpiryDate: any) {
         await this.firstEverJobPolandInformation.click();
@@ -667,6 +690,12 @@ export class HrInboxPage extends WebActionsPage {
         await this.hrSubmit.click();
     }
 
+    async nationalHealthFundCode(HealthFundCode: string): Promise<void> {
+        await this.nationalHealthFundCodeTitle.click();
+        const locator =await this.page.locator('//label[contains(text(),"National Health Fund Code")]/parent::div/following-sibling::div/descendant ::input');
+        await super.setTextWithDoubleEnter(locator, HealthFundCode);
+        await this.hrSubmit.click();
+    }
 
     async setServiceDates() {
         await this.page.waitForTimeout(500);

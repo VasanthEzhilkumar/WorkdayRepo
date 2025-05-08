@@ -58,6 +58,33 @@ export class contactInformationAddressPoland {
 
     }
 
+    async contactInformationAddressPK14(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string, useFor: string) {
+        //await super.click(this.addAddress);
+        await this.page.waitForTimeout(500);
+        await this.addAddress.click();
+        await this.streetName.fill(StreetName);
+        await this.houseNumber.fill(houseNumber.toString());
+        await this.city.fill(PostalCode.toString());
+        await this.city.fill(city);
+        await this.postalCode.fill(PostalCode.toString());
+        await this.Municipality.fill(Municipality.toString());
+        await this.District.fill(District.toString());
+        await this.Province.fill(Province.toString());
+        await this.addressType.click();
+        await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+        await this.page.keyboard.press('Tab');
+        await this.addressUseFor.click();
+        await this.page.waitForTimeout(2000);
+        const selectedOpt = await this.page.locator('//div[@data-automation-id="promptOption"]/parent::div[@data-automation-id="promptLeafNode" and @data-automation-checked="Checked"]').count();
+        for (let i = 1; i <= selectedOpt; i++) {
+            await this.page.waitForTimeout(1000);
+            await this.page.locator('(//div[@data-automation-id="promptOption"]/parent::div[@data-automation-id="promptLeafNode" and @data-automation-checked="Checked"])[' + i + ']').click();
+            await this.page.waitForTimeout(1000);
+        }
+        await this.page.locator('//div[@data-automation-label="' + useFor + '"]').click();
+
+    }
+
 
 
 

@@ -107,7 +107,7 @@ for (const sheetName in sheetsJson) {
         await hireEmployee.legalNameInformationPoland(givenName, familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        await homePagePoland.contactInformationAddress(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type, data.UseFor);
+        await homePagePoland.contactInformationAddressPK14(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type, data.UseFor);
         await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
         await hireEmployee.okHireButton();
         await capObj.checkForScreenErrors();
@@ -165,7 +165,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         //Add Poland PIT Tax Information
-        await hrInbxPage.polandPITTaxInformation(data.UrządSkarbowy, data.Ulgapodatkowa, data.Częśćulgi, data.Typopodatkowania, data.Identyfikatorpodatkowy);
+        await hrInbxPage.dodajDanePodatkowe(data.UrządSkarbowy, data.Ulgapodatkowa, data.Częśćulgi, data.Typopodatkowania, data.Identyfikatorpodatkowy);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
@@ -187,6 +187,10 @@ for (const sheetName in sheetsJson) {
 
         //Click submit on service dates
         await hrInbxPage.setServiceDates();
+        await appCommon.SuccessEventHandle();
+
+        //fill National Health Fund Code
+        await hrInbxPage.nationalHealthFundCode(data.NationalHealthFundCode);
         await appCommon.SuccessEventHandle();
 
         // await appCommon.ClickInbox();
