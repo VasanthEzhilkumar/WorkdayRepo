@@ -8,14 +8,14 @@ export class AutoSendReport {
         const transporter = nodemailer.createTransport({
             service: 'outlook', // Replace with your email service provider
             auth: {
-                user: '@primark.ie', // Replace with your email
+                user: '', // Replace with your email
                 pass: '',   // Replace with your email password or app-specific password
             },
         });
 
         const mailOptions = {
-            from: 'primark.ie',
-            to: 'mprimark.ie',  // Client's email address
+            from: '',
+            to: '',  // Client's email address
             subject: 'Execution Report',
             html: fs.readFileSync(htmlReportPath, 'utf-8'), // Attach the HTML content
         };
@@ -61,7 +61,7 @@ export class AutoSendReport {
             secure: false,               // Use TLS
             // service: 'Gmail', // Replace with your email provider (e.g., Gmail, Office 365)
             auth: {
-                user: 'mkirkan@primark.ie', // Replace with your email address
+                user: '', // Replace with your email address
                 pass: '',  // Replace with your email password or app-specific password
             },
             logger: true,
@@ -69,8 +69,8 @@ export class AutoSendReport {
         });
 
         const mailOptions = {
-            from: 'mimark.ie',
-            to: 'mkirmark.ie',  // Client's email address
+            from: '',
+            to: '',  // Client's email address
             subject: 'Execution Report',
             text: 'Please find the test execution report attached.',
             attachments: [
