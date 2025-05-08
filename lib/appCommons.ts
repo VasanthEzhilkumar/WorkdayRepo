@@ -43,7 +43,7 @@ export class appCommons extends WebActionsPage {
     this.eventSubmitted = page.getByRole('heading', { name: 'You have submitted' });
     this.markedcompleted = page.locator('text=You have marked as Complete');
     this.Archive = page.getByRole('button', { name: 'Archive' });
-    this.process = page.getByRole('tablist').getByText('Process');
+    this.process = page.getByRole('tablist').getByText('Process', { exact: true }).first();
     this.fullscreen = page.getByRole('button', { name: 'Toggle Fullscreen Viewing Mode' });
     this.lblPopUpWelcomeToMyTask = page.locator("//*[contains(text(),'Welcome to My Tasks!')]//ancestor::div[@data-automation-id='tour-modal']//button[@data-automation-id='closeButton']");
     this.txtItemsPerPage = page.locator("//label[contains(text(),'Items per page')]/parent::div//descendant::input[@placeholder='Choose an option' and not(contains(@value,'All'))]");
@@ -113,6 +113,7 @@ export class appCommons extends WebActionsPage {
       await super.click(this.successClose);
     }
 
+
   }
 
   async refreshInbox() {
@@ -142,7 +143,6 @@ export class appCommons extends WebActionsPage {
     if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').nth(0).count() > 0) {
       await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]').first());
     }
-    //await this.page.locator('//*[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').first().click({ 'force': true })
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();
 
@@ -168,19 +168,19 @@ export class appCommons extends WebActionsPage {
     await this.SearchClickLink(employeeID);
     await super.click(this.btnJob);
     await super.click(this.tbWorkerHistroy);
-    const lblHrByTaskname = this.page.locator("(//div[contains(.,'" + taskName + "')]/ancestor::td/following-sibling::td/descendant::div[contains(text(),'In Progress')]/ancestor::td/following-sibling::td/descendant::div[@data-automation-id='promptOption'])[1]");
+    const lblHrByTaskname = await this.page.locator("(//div[contains(.,'" + taskName + "')]/ancestor::td/following-sibling::td/descendant::div[contains(text(),'In Progress')]/ancestor::td/following-sibling::td/descendant::div[@data-automation-id='promptOption'])[1]");
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
     await this.page.waitForTimeout(1000);
-    const HrDetails: string = await super.getInnerText(lblHrByTaskname);
+    const HrDetails: string = await super.getInnerText(lblHrByTaskname.first());
     const HrID = await this.getNumbersFromString(HrDetails);
     return HrID;
+
   }
 
   async getHRpartnerID(givenname: string, familyname: string) {
 
     await this.MyTasks();
     await super.click(this.Archive);
-    // await this.Archive.click();
     await this.page.waitForTimeout(6000);
     await this.page.waitForSelector(`button:has-text('Hire: ${givenname} ${familyname}')`);
     const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
@@ -194,7 +194,7 @@ export class appCommons extends WebActionsPage {
       }
     }
     await this.page.waitForTimeout(3000);
-    await this.process.click();
+    await this.process.click({ 'force': true });
     // Check if the field exists
     if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {
       //await this.txtItemsPerPage.waitFor;
@@ -267,9 +267,10 @@ export class appCommons extends WebActionsPage {
   async assignPaygroupValidation(PayGroup: string) {
     await this.btnPay.click();
     await this.page.waitForTimeout(250);
+    await this.page.getByRole('tablist').getByText('Pay Group').click();
     let actulValue = await super.getAllInnerText(this.txtPayGroup);
     await this.page.screenshot()
-    await expect(actulValue[0]).toEqual(PayGroup.trim());
+    await expect(String(actulValue[0].trim())).toEqual(PayGroup.trim());
   }
 
 

@@ -35,9 +35,9 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    // const { givenName, familyName } = generateRandomName();
-    const givenName = data.GivenName;
-    const familyName = data.FamilyName;
+    const { givenName, familyName } = generateRandomName();
+    // const givenName = data.GivenName;
+    // const familyName = data.FamilyName;
     let govtID = 0;
     let personalInfo = 0;
     // if (data.TestStatus != 'Passed') {
@@ -249,13 +249,13 @@ for (const sheetName in sheetsJson) {
 
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
-        
+
         await empInboxpage.empaddDependents();
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.empAddPITTaxInformation();
         await appCommon.SuccessEventHandle();
-        
+
         // await empInboxpage.reviewDocumentSubmitGeneric();
         // await appCommon.SuccessEventHandle();
 
@@ -264,7 +264,7 @@ for (const sheetName in sheetsJson) {
 
         //Start Proxy As HR Again 
         await appCommon.Searchbox("Start Proxy");
-        await proxy.startProxy(HRPartner);        
+        await proxy.startProxy(HRPartner);
         await appCommon.MyTasks();
         await appCommon.ClickInbox();
         await capObj.checkForScreenErrors();

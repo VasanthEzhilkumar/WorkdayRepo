@@ -11,15 +11,15 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 100;
+        this.timeOut = 200;
     }
 
     async setText(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
-            // await locator.scrollIntoViewIfNeeded();
+            await locator.scrollIntoViewIfNeeded();
             await locator.focus();
-            await locator.clear();
+            // await locator.clear();
             await locator.fill(String(varString));
             await this.page.keyboard.press('Tab');
             // await this.page.waitForTimeout(300);
@@ -34,7 +34,7 @@ export class WebActionsPage {
     async setTextWithType(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
-            await locator.clear();
+            // await locator.clear();
             await locator.type(String(varString));
             await this.page.waitForTimeout(200);
             await this.page.keyboard.press('Tab');
@@ -50,7 +50,7 @@ export class WebActionsPage {
         try {
             await this.page.waitForTimeout(this.timeOut);
             await locator.focus();
-            await locator.clear();
+            // await locator.clear();
             await locator.fill(String(varString));
             await this.page.waitForTimeout(2000);
             await locator.press('Enter');
@@ -77,7 +77,7 @@ export class WebActionsPage {
             const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             await this.page.waitForTimeout(1500);
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
-                await custumLocator.scrollIntoViewIfNeeded();
+                // await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
                 // await this.page.waitForTimeout(200);
             }
@@ -122,7 +122,7 @@ export class WebActionsPage {
         try {
             await this.page.waitForTimeout(this.timeOut);
             await locator.focus();
-            await locator.clear();
+            // await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
             await this.page.waitForTimeout(1000);
@@ -233,9 +233,9 @@ export class WebActionsPage {
                 await locator.scrollIntoViewIfNeeded();
                 await locator.waitFor();
                 text = await locator.innerText();
-            }
-            console.log(`Getting Inner text from: ${locator}, text: "${text}"`);
-            return text;
+                console.log(`Getting Inner text from: ${locator}, text: "${text}"`);
+                return text;
+            } 
         } catch (error) {
             console.error(`Getting Inner text from : ${locator} failed ` + error);
             throw error;
@@ -267,7 +267,7 @@ export class WebActionsPage {
             await this.page.waitForTimeout(this.timeOut);
             // await this.locator.waitFor();
             if (await locator.count() > 0 && await locator.isVisible()) {
-                await locator.scrollIntoViewIfNeeded();
+                // await locator.scrollIntoViewIfNeeded();
                 text = await locator.allTextContents();
             }
             console.log(`Getting all text(Using textContext) from: ${locator}, text: "${text}"`);

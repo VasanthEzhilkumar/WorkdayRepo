@@ -141,7 +141,7 @@ export class ProposeCompensationPage extends WebActionsPage {
             if (await this.btnEditSalary.isVisible()) {
                 await this.click(this.btnEditSalary);
                 await this.page.waitForTimeout(500);
-                if (await this.txtSalaryAmount.count()>0) {
+                if (await this.txtSalaryAmount.count() > 0) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
                 }
                 await super.click(this.btnSaveSalary);

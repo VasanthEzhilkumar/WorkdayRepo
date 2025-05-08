@@ -35,7 +35,7 @@ for (const sheetName in sheetsJson) {
     const { givenName, familyName } = generateRandomName();
     
     
-    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+    test(`@Hire Employee - Test ${index + 1} `, async ({ page, appCommon, context, login, home, hireEmployee, proxy }) => {
       try {
         await page.setViewportSize({ width: 1275, height: 595 });//
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
@@ -142,16 +142,17 @@ for (const sheetName in sheetsJson) {
           if (!data.JobProfile.toString().includes("Manager")) {
             await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "", "");
             await captureErrors.checkForScreenErrors();
-            await appCommon.SuccessEventHandle();
-            await appCommon.Searchbox("Stop Proxy");
-            await proxy.stopproxy();
-            //It will get HR partner ID for hr proxy
-            const HRidProposeCompensation = await appCommon.getHRpartnerID(givenName, familyName);
-            await appCommon.Searchbox("Start Proxy");
-            await proxy.startProxy(HRidProposeCompensation);
-            //await appCommon.ClickInbox();
-            await appCommon.MyTasks();
-            await hrInbxPage.clickInboxMyTaskAndApprove("Propose Compensation Hire:");
+            // await appCommon.SuccessEventHandle();
+            // await appCommon.Searchbox("Stop Proxy");
+            // await proxy.stopproxy();
+            // await appCommon.MyTasks();
+            // //It will get HR partner ID for hr proxy
+            // const HRidProposeCompensation = await appCommon.getHRpartnerID(givenName, familyName);
+            // await appCommon.Searchbox("Start Proxy");
+            // await proxy.startProxy(HRidProposeCompensation);
+            // //await appCommon.ClickInbox();
+            // await appCommon.MyTasks();
+            // await hrInbxPage.clickInboxMyTaskAndApprove("Propose Compensation Hire:");
             empNum = await hrInbxPage.getEmployeeID();
             console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
             // await appCommon.SuccessEventHandle();

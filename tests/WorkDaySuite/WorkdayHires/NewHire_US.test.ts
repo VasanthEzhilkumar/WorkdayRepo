@@ -52,7 +52,7 @@ for (const sheetName in sheetsJson) {
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
         const username = "90001655";
-        const password = "Primark123!!";
+        const password = "Vasanth2025!";
         await login.goto("PK17");
         await login.sigIn(username, password);
 
@@ -112,13 +112,13 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        //await appCommon.ClickInbox();
         await appCommon.MyTasks();
+
         await hrInboxUS.onboardSetup();
         await appCommon.SuccessEventHandle();
+
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
         await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
 
         if (data.JobProfile.toString().includes("Manager")) {
           await appCommon.Searchbox("Stop Proxy");
@@ -127,26 +127,22 @@ for (const sheetName in sheetsJson) {
           await appCommon.Searchbox("Start Proxy");
           await proxy.startProxy(HRPartner2);
           await appCommon.MyTasks();
-          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"","");
+          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "NaN", "NaN");
         } else {
-          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary,"","");
+          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "NaN", "NaN");
         }
 
         empNum = await hrInboxUS.hrGetEmpNum();
         console.log(empNum, givenName, familyName);
         await appCommon.SuccessEventHandle();
-        
-        //await appCommon.ClickInbox();
-        await appCommon.Searchbox("Stop Proxy");
-        await proxy.stopproxy();
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
         //---------------------------------------------------------------------------------
         await empInboxpage.onBoardingGuide();
         await appCommon.SuccessEventHandle();
+
         await empInboxpage.empaddPhoto();
         await appCommon.SuccessEventHandle();
 
@@ -154,15 +150,18 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         await empInboxUS.changeGovIDInformation();
-        await hrInboxUS.EnterGovID(data.Country1, data.NationalIDType1, data.AddEditID1, "", "", "", "", "", "", "");
+        await hrInboxUS.EnterGovID(data.Country1, data.NationalIDType1, data.AddEditID1, "NaN", "NaN", "NaN", "NaN", "NaN", "NaN", "NaN");
         await captureErrors.checkForScreenErrors();
         await empInboxUS.changeGovIDInformationSubmit();
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
+
         await empInboxpage.AddEmergecyInformation();
         await appCommon.SuccessEventHandle();
+
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
+
         await empInboxUS.electronicPayAcceptance();
         await appCommon.SuccessEventHandle();
 
@@ -182,12 +181,17 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.clickInboxMyTaskAndSubmit("Notification to Employees of Their Rights and Duties Under the PA Worker");
         await appCommon.SuccessEventHandle();
 
+        await empInboxpage.clickInboxMyTaskAndSubmit("USA PTO Policy:");
+        await appCommon.SuccessEventHandle();
+
+
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        //await appCommon.ClickInbox();
         await appCommon.MyTasks();
+
         await hrInboxUS.formI9Review(data.HireDate, data.PostalCode, data.City, data.State, data.IssuingAuthority, data.I9ExpirationDate);
         await captureErrors.checkForScreenErrors();
+        
         await hrInboxUS.finaliseEmpVerification(data.USEmploymentVerificationStatus);
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();

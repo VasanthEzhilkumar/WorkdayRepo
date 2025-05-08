@@ -29,11 +29,8 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
   readonly addROWNationalIDs: Locator;
   readonly addROWadditionalGovernmentIDs: Locator;
   readonly addGovtID: Locator;
-<<<<<<< HEAD
   readonly checkWarningAndAlert: Locator;
-=======
   readonly idChangeTitle: Locator;
->>>>>>> Ramchandra
 
   EmployeeNumber: string[];
   readonly GnationalID: Locator;
@@ -228,12 +225,12 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
       await this.page.keyboard.press('Tab');
       // await this.page.waitForTimeout(500);
       // await this.GIssuedDate.click();
-      if (issuedDate !== "" && issuedDate !== undefined) {
+      if (issuedDate !== "NaN" && issuedDate !== undefined && issuedDate !== "") {
         await super.click(this.GIssuedDate);
         await super.setTextWithType(this.GIssuedDate, String(issuedDate));
       }
       //await this.GIssuedDate.type(issuedDate);
-      if (expirationDate !== "" && expirationDate !== undefined) {
+      if (expirationDate !== "" && expirationDate !== undefined && expirationDate !== "NaN") {
         await super.click(this.GExpirationDate);
         await super.setTextWithType(this.GExpirationDate, String(expirationDate));
       }

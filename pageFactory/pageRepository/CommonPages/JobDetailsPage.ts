@@ -47,8 +47,6 @@ export class JobDetailsPage extends WebActionsPage {
     this.context = context;
     this.supervisorhamburger = page.locator('text=Supervisory OrganizationSupervisory OrganizationOptions Expanded >> svg[role="presentation"]');
     this.supervisorMgrPage = page.getByLabel('Supervisory Organization');
-    // this.gName = page.locator('[id="\\35 6\\$551056--uid22-input"]');
-    // this.fName = page.locator('[id="\\35 6\\$551056--uid23-input"]');
     this.gName = page.locator('label:has-text("Given Name")');
     this.fName = page.locator('label:has-text("Family Name")')
     this.okButton = page.getByRole('button', { name: 'OK' })
@@ -77,8 +75,8 @@ export class JobDetailsPage extends WebActionsPage {
     this.additionalJobClassificationEXp = page.locator('text=Additional Job ClassificationsAdditional Job ClassificationsOptions Expanded >> [placeholder="Search"]');
     this.additionalJobClassificationClick = page.locator('text=Additional Job ClassificationsAdditional Job Classifications1 item selected, C - >> [placeholder="Search"]');
     this.additionalJobsecondItm = page.locator('text=Additional Job ClassificationsAdditional Job Classifications2 items selected, C  >> [placeholder="Search"]');
-    this.workshift = page.getByLabel('Work Shift');//locator('text=0 items selectedError: Select a Work Shift. >> [placeholder="Search"]');
-    this.workshiftExp = page.locator("//label[contains(.,'Work Shift')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']");
+    this.workshift = page.getByLabel('Work Shift').first();//locator('text=0 items selectedError: Select a Work Shift. >> [placeholder="Search"]');
+    this.workshiftExp = page.locator("//label[contains(.,'Work Shift')]/parent::div/following-sibling::div/descendant::input[@placeholder='Search']").first();
     // this.schdeuledHours = page.getByLabel('Scheduled Weekly Hours');//locator('label:has-text("Scheduled Weekly Hours")');
     this.schdeuledHours = page.locator('//label[text()="Scheduled Weekly Hours"]/parent::div/following-sibling::div//input');
     this.defaultHours = page.locator('//label[text()="Default Weekly Hours"]/parent::div/following-sibling::div//input');

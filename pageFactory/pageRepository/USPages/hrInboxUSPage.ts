@@ -230,8 +230,8 @@ export class hrInboxUSPage extends WebActionsPage {
 
     async finaliseEmpVerification(empstatus: string): Promise<void> {
 
-        await this.finalise.click();
-        await this.awaitinginfoClose.click();
+        await this.finalise.first().click({ 'force': true });
+        await this.awaitinginfoClose.first().click({ 'force': true });
         await this.employmentVerification.fill(empstatus);
         await this.page.keyboard.press('Enter');
         await this.page.waitForTimeout(1000);

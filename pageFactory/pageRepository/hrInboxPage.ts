@@ -148,12 +148,12 @@ export class HrInboxPage extends WebActionsPage {
     readonly areadeEstudo: Locator;
     readonly taxadeIRS: Locator;
     readonly portugalSocialSecurityCode: Locator;
-    readonly btnSkip:Locator;
-    readonly payrollTaxDeductionNL:Locator;
-    readonly WWaansturing:Locator;
-    readonly clickSkipThisTaskOK:Locator;
-    readonly txtPayrollTaxDeductionNL:Locator;
-    readonly txtWWaansturing:Locator;
+    readonly btnSkip: Locator;
+    readonly payrollTaxDeductionNL: Locator;
+    readonly WWaansturing: Locator;
+    readonly clickSkipThisTaskOK: Locator;
+    readonly txtPayrollTaxDeductionNL: Locator;
+    readonly txtWWaansturing: Locator;
     readonly estadolIRPF: Locator;
     readonly minusvaliaRH: Locator;
     readonly dodajWyksztalcenieTitle: Locator;
@@ -325,16 +325,16 @@ export class HrInboxPage extends WebActionsPage {
         //this.txtLevel = page.getByLabel('Level').first();
         //this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden & Mother's Maiden Names: Hire: '+ ' ' + FamilyName + ' ' + givenname '")]');
         this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden Names: Hire:  ' + FamilyName + ' ' + givenname + '")]');
-        this.btnSkip=page.locator("//span[text()='Skip']/parent::button[@data-uxi-button-type='action']");
+        this.btnSkip = page.locator("//span[text()='Skip']/parent::button[@data-uxi-button-type='action']");
         this.compensationTitle = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Propose Compensation Hire: ' + givenname + ' ' + FamilyName + '")]');
         this.areadeEstudo = page.locator('//label[text()="Area de Estudo"]/parent::div/following-sibling::div//input');
         this.taxadeIRS = page.locator('//label[text()="Taxa de IRS"]/parent::div/following-sibling::div//input');
         this.portugalSocialSecurityCode = page.locator('//label[text()="Social Security Code"]/parent::div/following-sibling::div//input');
         this.payrollTaxDeductionNL = page.getByRole('button', { name: 'Payroll Tax Deduction NL: ' + givenname + ' ' + FamilyName + '', exact: true });
         this.WWaansturing = page.getByRole('button', { name: 'WW aansturing: ' + givenname + ' ' + FamilyName + '', exact: true });
-        this.clickSkipThisTaskOK=page.locator("//span[contains(.,'OK')]/..");
-        this.txtPayrollTaxDeductionNL=page.locator("//label[contains(.,'Payroll Tax Deduction')]/parent::div/following-sibling::div//descendant::input[1]");
-        this.txtWWaansturing=page.locator("//label[contains(.,'WW aansturing')]/parent::div/following-sibling::div//descendant::input[1]")
+        this.clickSkipThisTaskOK = page.locator("//span[contains(.,'OK')]/..");
+        this.txtPayrollTaxDeductionNL = page.locator("//label[contains(.,'Payroll Tax Deduction')]/parent::div/following-sibling::div//descendant::input[1]");
+        this.txtWWaansturing = page.locator("//label[contains(.,'WW aansturing')]/parent::div/following-sibling::div//descendant::input[1]")
         this.estadolIRPF = page.locator('//label[contains(.,"Estado IRPF")]/parent::div/following-sibling::div//input');
         this.minusvaliaRH = page.locator('//label[contains(.,"Minusvalía RH")]/parent::div/following-sibling::div//input');
 
@@ -357,19 +357,19 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     //Generic Method To Set PayrollTax DeductionNL  @Added by Gayatri
-    async SetPayrollTaxDeductionNL(payrollTaxDeduction:string) {
+    async SetPayrollTaxDeductionNL(payrollTaxDeduction: string) {
         await this.payrollTaxDeductionNL.click();
-        await super.selectFromCustomDropDrown(this.txtPayrollTaxDeductionNL, payrollTaxDeduction); 
-        await this.hrSubmit.click(); 
+        await super.selectFromCustomDropDrown(this.txtPayrollTaxDeductionNL, payrollTaxDeduction);
+        await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
 
     //Generic Method To SetWWaansturing  @Added by Gayatri
 
-    async SetWWaansturing(btnWWaansturing:string) {
+    async SetWWaansturing(btnWWaansturing: string) {
         await this.WWaansturing.click();
-        await super.selectFromCustomDropDrown(this.txtWWaansturing, btnWWaansturing); 
-        await this.hrSubmit.click();   
+        await super.selectFromCustomDropDrown(this.txtWWaansturing, btnWWaansturing);
+        await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
 
@@ -486,12 +486,12 @@ export class HrInboxPage extends WebActionsPage {
         await this.btnAddPassPort.click();
         await super.setTextWithType(this.txtDateWhenMedicalExamTaken, DateWhenMedicalExamTaken);
         await super.setTextWithType(this.txtExpirationDateOfExam, ExpirationDateOfTheExam);
-        await this.hrSubmit.click(); 
+        await this.hrSubmit.click();
     }
 
     //Added By Gayatri for PageHireSkipOk
     async PageHireSkipThisTask() {
-        await this.btnSkip.click(); 
+        await this.btnSkip.click();
         await this.page.waitForTimeout(500);
         await this.clickSkipThisTaskOK.click();
     }
@@ -500,6 +500,7 @@ export class HrInboxPage extends WebActionsPage {
 
     async setCollectiveAgreementAndProfessionalCategoryAndLevel(CollectiveAgreement: any, ProfessionalCategory: any, Level: any) {
         await this.page.waitForTimeout(500);
+        await this.collectiveAgreementProfessional.click({ 'force': true })
         await super.click(this.collectiveAgreementProfessional);
         await super.selectFromCustomDropDrownBySliptAndEnter(this.txtAssignCollectiveAgreement, CollectiveAgreement);
         await this.txtAssignCollectiveAgreement.press('Tab');
@@ -572,7 +573,7 @@ export class HrInboxPage extends WebActionsPage {
 
     }
 
-     // Worker Education Details in Polish
+    // Worker Education Details in Polish
     async dodajWyksztalcenie(schoolName: string, schoolType: string, schoolStartDate: string, schoolEndDate: string) {
         await this.dodajWyksztalcenieTitle.click();
         await this.page.waitForTimeout(500);
@@ -647,11 +648,12 @@ export class HrInboxPage extends WebActionsPage {
 
 
     async setMaintainRightToWorkDocumentation(): Promise<void> {
-        await this.page.waitForTimeout(2500);
-        if (this.rightToWork.isVisible() && await this.rightToWork.count() > 0) {
+        await this.page.waitForTimeout(2000);
+        if (await this.rightToWork.count() > 0) {
             await this.rightToWork.click();
+            await this.page.waitForTimeout(500);
             await this.page.getByRole('button', { name: 'Submit' }).click();
-            await this.page.waitForTimeout(700);
+            await this.page.waitForTimeout(1000);
         }
     }
 
@@ -661,7 +663,7 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async medicalExam(givenName: string, familyName: string): Promise<void> {
-        await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Medical exam: Onboarding for '+givenName+' '+familyName+'")]').click();
+        await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Medical exam: Onboarding for ' + givenName + ' ' + familyName + '")]').click();
         await this.hrSubmit.click();
     }
 
@@ -767,9 +769,9 @@ export class HrInboxPage extends WebActionsPage {
 
         await this.submit.click();
         await this.page.waitForTimeout(500);
-        // if (await this.idChange.count() > 0 && await this.contractWarningAlert.count() > 0) {
-        await this.submit.click();
-        // }
+        if (await this.idChange.count() > 0 && await this.contractWarningAlert.count() > 0) {
+            await this.submit.click();
+        }
     }
 
     async fillGovIDDetails(
@@ -909,34 +911,46 @@ export class HrInboxPage extends WebActionsPage {
             await super.setTextWithDoubleEnter(this.mealvoucher, mealvoucher);
             await this.setTextWithDoubleEnter(this.healthSK, insuracneType);
         }
-        if (youngParent == "Yes" && youngParent != undefined) {
+        if (youngParent.toLocaleLowerCase() === "yes" && youngParent !== undefined) {
             await super.click(this.chkYoungParent);
             //  data.TaxFreeAmount, data.PensioneffectiveDate, data.
-            if (youngParentEffectiveDate != undefined && youngParentEffectiveDate != "NaN") {
+            if (youngParentEffectiveDate.toLocaleLowerCase() !== undefined && youngParentEffectiveDate !== "NaN") {
                 await super.setTextWithType(this.txtYoungParentEffectiveDate, youngParentEffectiveDate);
             }
         }
-        if (taxFreeAmount == "Yes" && taxFreeAmount != undefined) {
+        if (taxFreeAmount.toLocaleLowerCase() === "yes" && taxFreeAmount !== undefined) {
             await super.setText(this.chkTaxFreeAmount, taxFreeAmount);
             await super.setTextWithEnter(this.txtTaxFreeAmountEffectiveDate, taxFreeAmountEffectiveDate);
         }
-        if (pensioneffectiveDate == "Yes" && pensioneffectiveDate != undefined) {
+        if (pensioneffectiveDate.toLocaleLowerCase() === "yes" && pensioneffectiveDate !== undefined) {
             await super.setTextWithType(this.txtPensioneffectiveDate, pensioneffectiveDate);
         }
         await super.click(this.hrSubmit);
     }
 
-    async hrHireAdditionalDataDependentSK(medicalins: string, health: string) {
+    async hrHireAdditionalDataDependentSK(Child: string, DependentName: string, DependentChildBirthNumber: string, TaxBonus: string, TaxBonusEffectiveDate: string) {
+        await this.page.waitForTimeout(500);
+        if (await this.hireadditiondatasub.isVisible()) {
+            await this.hireadditiondatasub.click({ 'force': true });
+            if (await Child.toLocaleLowerCase() === 'yes') {
+                await expect(this.page.locator('b')).toContainText('*Do not enter more than 6 Dependents. A maximum of 6 Dependents will be sent to Payroll*');
+                await this.page.getByLabel('Add Row').click();
+                await this.page.waitForTimeout(500);
+                await this.page.getByRole('textbox').nth(1).fill(DependentName);
+                await this.page.getByRole('textbox').nth(1).press('Tab');
+                await this.page.getByRole('textbox').nth(2).fill(String(DependentChildBirthNumber));
+                const checkbox = await this.page.locator('//*[@data-automation-id="checkboxPanel"]//*[@type="checkbox"]').first().or(await this.page.locator('//*[@data-automation-id="checkboxPanel"]').first());
+                if (TaxBonus.toLocaleLowerCase() === 'yes' && TaxBonusEffectiveDate !== 'N/A' && TaxBonusEffectiveDate !== "" && TaxBonusEffectiveDate !== undefined) {
+                    await checkbox.click();
+                    await this.page.getByPlaceholder('DD').first().type(TaxBonusEffectiveDate);
+                } else if (TaxBonus.toLocaleLowerCase() === 'no' && TaxBonusEffectiveDate !== 'N/A' && TaxBonusEffectiveDate !== "" && TaxBonusEffectiveDate !== undefined) {
+                    await this.page.getByPlaceholder('DD').first().type(TaxBonusEffectiveDate);
+                }
 
-        await this.hireadditiondatasub.click();
-        await expect(this.page.locator('b')).toContainText('*Do not enter more than 6 Dependents. A maximum of 6 Dependents will be sent to Payroll*');
-        await this.page.getByLabel('Add Row').click();
-        await this.page.waitForTimeout(500);
-        await this.page.getByRole('textbox').nth(1).fill('Childone');
-        await this.page.getByRole('textbox').nth(1).press('Tab');
-        await this.page.getByRole('textbox').nth(2).fill('1234567891');
-        await this.hrSubmit.click();
-        await this.page.waitForTimeout(500);
+            }
+            await this.hrSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
     }
 
     async hrHireAdditionalData(mealvoucher: string, insuracneType: string) {

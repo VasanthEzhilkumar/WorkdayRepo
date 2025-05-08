@@ -300,7 +300,7 @@ export class GovernmentsIDPageRomania extends WebActionsPage {
     expirationDate: string,
     isFirstID: boolean
   ) {
-    await super.setTextWithEnter(this.GCountry, country);
+    await super.setTextWithEnter(this.GCountry.first(), country);
     await super.selectFromCustomDropDrown(this.GNationalIDType, String(nationalIDType));
 
     if (isFirstID) {

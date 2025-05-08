@@ -17,7 +17,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Copy of MKItaly2.xlsx';
+const excelFileName = 'Hires/Copy of ItalyREG.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -29,7 +29,8 @@ for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
 
   dataSet.forEach((data, index) => {
-    if (data.TestStatus !== "Passed") {
+
+    if (data.TestStatus !== "Passed" && data.Country === "Italy") {
       //  const givenName = givenName || `GivenName_${index + 1}`;
       //  const familyName = familyName || `FamilyName_${index + 1}`;
       const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
@@ -37,11 +38,8 @@ for (const sheetName in sheetsJson) {
 
       // const givenName = data.GivenName;
       // const familyName = data.FamilyName;
-      // const givenName: string = "Gussie";
-      // const familyName: string = "Stanton";
-      // if (data.TestStatus != 'Passed') {
 
-      test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, createPostition, jobDetailsPage, login, home, hireEmployee, appCommon, proxy }) => {
+      test(`@HireREG Employee - Test ${index + 1} `, async ({ page, context, createPostition, jobDetailsPage, login, home, hireEmployee, appCommon, proxy }) => {
         try {
           await page.setViewportSize({ width: 1280, height: 650 });
 

@@ -62,8 +62,8 @@ export class hireEmployeePage extends WebActionsPage {
   readonly emailAddressmgr: Locator;
   readonly emailTypemgr: Locator;
   readonly defaultHours: Locator;
-  readonly gnameforireland:Locator;
-  readonly setinitals:Locator;
+  readonly gnameforireland: Locator;
+  readonly setinitals: Locator;
   readonly flName: Locator;
   readonly slName: Locator;
 
@@ -77,7 +77,7 @@ export class hireEmployeePage extends WebActionsPage {
     this.supervisorMgrPage = page.getByLabel('Supervisory Organization');
     this.newPreHire = page.locator('text=Create a New Pre-Hire');
     this.contactInformation = page.locator('text=Contact Information >> nth=0');
-    this.gnameforireland=page.getByLabel('Given Name(s)');
+    this.gnameforireland = page.getByLabel('Given Name(s)');
     // this.gName = page.locator('[id="\\35 6\\$551056--uid22-input"]');
     // this.fName = page.locator('[id="\\35 6\\$551056--uid23-input"]');
     this.prefix = page.getByLabel('Prefix');
@@ -145,7 +145,7 @@ export class hireEmployeePage extends WebActionsPage {
 
     this.emailAddressmgr = page.getByLabel('Email Address');
     this.emailTypemgr = page.getByRole('group', { name: 'Email' }).getByPlaceholder('Search');
-    this.setinitals=page.locator("//label[contains(./text(),'Initials')]/ancestor::li/descendant::input[@data-automation-id='textInputBox']");
+    this.setinitals = page.locator("//label[contains(./text(),'Initials')]/ancestor::li/descendant::input[@data-automation-id='textInputBox']");
 
     this.flName = page.locator('//label[contains(./text(),"First Last Name")]/ancestor::li/descendant::input[@data-automation-id="textInputBox"]');
     this.slName = page.locator('//label[contains(./text(),"Second Last Name")]/ancestor::li/descendant::input[@data-automation-id="textInputBox"]');
@@ -160,7 +160,7 @@ export class hireEmployeePage extends WebActionsPage {
 
   async legalNameInformation(givenname: string, FamilyName: string, Prefix: string) {
     //await super.setTextWithDoubleEnter();
-    if ((Prefix != "NaN" && Prefix != "N/A" && Prefix != undefined && Prefix != "")) {
+    if ((Prefix !== "NaN" && Prefix !== "N/A" && Prefix !== undefined && Prefix !== "")) {
       await this.prefix.click();
       await this.page.locator('//div[@data-automation-id="promptOption" and @data-automation-label="' + String(Prefix).trim() + '"]').click();
       // await super.setTextWithDoubleEnter(this.prefix, String(Prefix));
@@ -174,18 +174,18 @@ export class hireEmployeePage extends WebActionsPage {
     // await this.fName.fill(FamilyName);
   }
 
-  async legalNameInformationBelgium(prefix: string, givenname: string, FamilyName: string ,intials:string) {
+  async legalNameInformationBelgium(prefix: string, givenname: string, FamilyName: string, intials: string) {
     //await super.setTextWithDoubleEnter();
     await super.setTextWithDoubleEnter(this.page.getByLabel('Prefix', { exact: true }), prefix.toString());
     await this.gName.fill(givenname);
     await this.fName.fill(FamilyName);
     if ((intials != "NaN" && intials != "N/A" && intials != undefined && intials != "")) {
-      await this.setinitals.fill(intials);  
-      
+      await this.setinitals.fill(intials);
+
     }
-    
+
   }
-  
+
   async legalNameInformationPoland(givenname: string, FamilyName: string) {
     //await super.setTextWithDoubleEnter();
     await this.gName.fill(givenname);

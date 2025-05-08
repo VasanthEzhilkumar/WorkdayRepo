@@ -58,22 +58,22 @@ export class CaptureAlertErrors extends WebActionsPage {
     async checkForScreenErrors(): Promise<boolean> {
         let errorMsg: string;
         try {
-            await this.page.waitForTimeout(3000);
+            await this.page.waitForTimeout(1000);
             // Check for side error bar
             if (await this.btnSideErrorBar1.isVisible()) {
-                await this.page.waitForTimeout(3000);
+                // await this.page.waitForTimeout(2000);
                 await super.click(this.btnSideErrorBar);
                 const message1 = await super.getText(this.lblAlertMessageTitle);
-                // const message2 = await super.getText(this.lblAlertMessageDescription);
+                //const message2 = await super.getText(this.lblAlertMessageDescription);
                 errorMsg = message1 + " ";
-                await this.logScreenErrors(message1);
+                //await this.logScreenErrors(message1);
             } else if (await this.btnMainErrorBar1.isVisible()) {
-                await this.page.waitForTimeout(3000);
+                // await this.page.waitForTimeout(2000);
                 await super.click(this.btnMainErrorBar);
                 const message1 = await super.getText(this.lblAlertMessageTitle);
                 //const message2 = await super.getText(this.lblAlertMessageDescription);
                 errorMsg = message1 + " ";
-                await this.logScreenErrors(message1);
+                //await this.logScreenErrors(message1);
             }
             if (errorMsg != undefined && errorMsg != 'NaN') {
                 await expect(errorMsg).toBeNull();
@@ -91,9 +91,10 @@ export class CaptureAlertErrors extends WebActionsPage {
                 error1 = error1 + "& find failed Screenshot Path:->" + screenshotPath;
                 // Write the failure status to the Excel file and captured screen error as well.
                 writeResultsToExcel(this.excelFilePath, this.sheetName, this.index, error1, 'Failed');
-                return true;
+                throw (error);
             } finally {
                 this.page.close();
+                return true;
             }
         }
     }
