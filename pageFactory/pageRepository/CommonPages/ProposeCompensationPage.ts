@@ -139,7 +139,7 @@ export class ProposeCompensationPage extends WebActionsPage {
         await this.page.waitForTimeout(5000);
         if (Salary !== "N/A" && Salary !== "NaN" && Salary !== undefined && Salary !== "Defaulted") {
             if (await this.btnEditSalary.isVisible()) {
-                await this.click(this.btnEditSalary);
+                await super.click(this.btnEditSalary);
                 await this.page.waitForTimeout(500);
                 if (await this.txtSalaryAmount.count() > 0) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
@@ -147,7 +147,7 @@ export class ProposeCompensationPage extends WebActionsPage {
                 await super.click(this.btnSaveSalary);
             }
             if (await this.btnEditHourly.isVisible()) {
-                await this.click(this.btnEditHourly);
+                await super.click(this.btnEditHourly);
                 //await this.page.waitForTimeout(1500);
                 if (await this.txtSalaryAmount.isVisible()) {
                     await super.setText(this.txtSalaryAmount, Salary.toString());
@@ -165,7 +165,7 @@ export class ProposeCompensationPage extends WebActionsPage {
             console.log("strLow - " + strLow);
             //await this.page.waitForTimeout(1500);
             if (await this.btnEditSalary.count() > 0) {
-                await this.click(this.btnEditSalary);
+                await super.click(this.btnEditSalary);
                 //if (await this.editSalary.count() > 0) {
                 await this.page.waitForTimeout(5000);
                 if (await this.txtSalaryAmount.isVisible()) {
@@ -176,7 +176,7 @@ export class ProposeCompensationPage extends WebActionsPage {
             }
 
             if (await this.btnEditHourly.isVisible()) {
-                await this.click(this.btnEditHourly);
+                await super.click(this.btnEditHourly);
                 await this.page.waitForTimeout(1500);
                 if (await this.txtSalaryAmount.isVisible()) {
                     await super.setText(this.txtSalaryAmount, strLow.toString());
@@ -208,7 +208,7 @@ export class ProposeCompensationPage extends WebActionsPage {
         if (AllowanceAmount !== "N/A" && AllowanceAmount !== "NaN" && AllowanceAmount !== undefined && AllowanceAmount !== "Defaulted") {
             if (await this.btnEditAllowance.isVisible()) {
                 //  && await this.editSalary.isVisible()) {
-                await this.click(this.btnEditAllowance);
+                await super.click(this.btnEditAllowance);
                 if (this.txtAllowanceAmount.isVisible()) {
                     await super.setText(this.txtAllowanceAmount, AllowanceAmount.toString());
                 }
