@@ -152,6 +152,7 @@ export class contactInformationAddressCzechia {
         await this.city.fill(City);
         await this.county.fill(County);
         await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(500);
         await this.postalCode.fill(String(PostalCode));
         await this.page.keyboard.press('Tab');
         await this.addressType.click()

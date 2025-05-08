@@ -20,7 +20,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Workday_NewHire_Portugal_Regression_PK14.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Portugal_Regression_PK17.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -63,16 +63,16 @@ for (const sheetName in sheetsJson) {
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
-        /*Login creds for PK14*/
-        const username = "90002196";
-        const password = "Primark0255!";
-
-        // /*Login creds for PK17*/
+        // /*Login creds for PK14*/
         // const username = "90002196";
-        // const password = "Wizos2025!";
+        // const password = "Primark0255!";
+
+        /*Login creds for PK17*/
+        const username = "90002196";
+        const password = "Wizos2025!";
 
         // initlize the web environment 
-        await login.goto("PK14");
+        await login.goto("PK17");
 
         // login into application 
         await login.sigIn(username, password);
@@ -165,7 +165,7 @@ for (const sheetName in sheetsJson) {
 
 
         //fill Contract Details for Employee
-        await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
+        await contractObj.setContractDetailsPT(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await appCommon.refreshInbox();

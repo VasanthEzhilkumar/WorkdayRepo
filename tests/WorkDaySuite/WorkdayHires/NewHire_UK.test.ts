@@ -20,7 +20,7 @@ let capObj: CaptureAlertErrors;
 let CompensationHRPartner: string;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Workday_NewHire_UKNI_Regression_PK14.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_UKNI_Regression_PK17.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -60,16 +60,17 @@ for (const sheetName in sheetsJson) {
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-        /*Login creds for PK14*/
-        const username = "90002196";
-        const password = "Primark0255!";
 
-        // /*Login creds for PK17*/
+        // /*Login creds for PK14*/
         // const username = "90002196";
-        // const password = "Wizos2025!";
+        // const password = "Primark0255!";
+
+        /*Login creds for PK17*/
+        const username = "90002196";
+        const password = "Wizos2025!";
 
         // initlize the web environment 
-        await login.goto("PK14");
+        await login.goto("PK17");
 
         // login into application 
         await login.sigIn(username, password);
@@ -118,6 +119,7 @@ for (const sheetName in sheetsJson) {
         await hireEmployee.okHireButton();
         await capObj.checkForScreenErrors();
 
+        await page.waitForTimeout(2000);
         await jobDetailsPageObj.setJobDetails(
           data.HireDate,
           data.EmployeeType.trim(),
@@ -146,7 +148,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.MyTasks();
-        await appCommon.ClickInbox();
+        // await appCommon.ClickInbox();
         await capObj.checkForScreenErrors();
 
         //Assign Initial Details for Employee
@@ -180,10 +182,11 @@ for (const sheetName in sheetsJson) {
             await appCommon.SearchboxEmp("Start Proxy");
             await proxy.startProxy(CompensationHRPartner);
             await appCommon.MyTasks();
-            await appCommon.ClickInbox();
+            // await appCommon.ClickInbox();
             await hrInbxPage.compensationHRapprove();
           } else {
-            await appCommon.ClickInbox();
+            // await appCommon.ClickInbox();
+            await appCommon.MyTasks();
           }
         }
 
@@ -203,7 +206,7 @@ for (const sheetName in sheetsJson) {
           // await appCommon.ClickInbox();
         }
 
-        await appCommon.ClickInbox();
+        // await appCommon.ClickInbox();
         await page.waitForTimeout(1500);
         await appCommon.MyTasks();
         await hrInbxPage.setMaintainRightToWorkDocumentation();
@@ -212,7 +215,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
         await appCommon.MyTasks();
-        await appCommon.ClickInbox();
+        // await appCommon.ClickInbox();
         await page.waitForTimeout(5000);
 
         await empInboxpage.onBoardingGuide();
@@ -261,12 +264,12 @@ for (const sheetName in sheetsJson) {
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.MyTasks();
-        await appCommon.ClickInbox();
+        // await appCommon.ClickInbox();
 
         await appCommon.MyTasks();
         await hrInbxPage.setMaintainRightToWorkDocumentation();
 
-        await appCommon.ClickInbox();
+        // await appCommon.ClickInbox();
         await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -281,9 +284,9 @@ for (const sheetName in sheetsJson) {
         if (PaygroupHRPartner != HRPartner) {
           await appCommon.SearchboxEmp("Start Proxy");
           await proxy.startProxy(PaygroupHRPartner);
-          await appCommon.ClickInbox();
+          // await appCommon.ClickInbox();
         } else {
-          await appCommon.ClickInbox();
+          // await appCommon.ClickInbox();
         }
 
         await appCommon.MyTasks();

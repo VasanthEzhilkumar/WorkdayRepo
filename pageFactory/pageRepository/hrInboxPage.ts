@@ -148,16 +148,18 @@ export class HrInboxPage extends WebActionsPage {
     readonly areadeEstudo: Locator;
     readonly taxadeIRS: Locator;
     readonly portugalSocialSecurityCode: Locator;
-    readonly btnSkip:Locator;
-    readonly payrollTaxDeductionNL:Locator;
-    readonly WWaansturing:Locator;
-    readonly clickSkipThisTaskOK:Locator;
-    readonly txtPayrollTaxDeductionNL:Locator;
-    readonly txtWWaansturing:Locator;
+    readonly btnSkip: Locator;
+    readonly payrollTaxDeductionNL: Locator;
+    readonly WWaansturing: Locator;
+    readonly clickSkipThisTaskOK: Locator;
+    readonly txtPayrollTaxDeductionNL: Locator;
+    readonly txtWWaansturing: Locator;
     readonly estadolIRPF: Locator;
     readonly minusvaliaRH: Locator;
     readonly dodajWyksztalcenieTitle: Locator;
     readonly dodajHistorieZatrudnieniaTitle: Locator;
+    readonly dodajDanePodatkoweTitle: Locator;
+    readonly nationalHealthFundCodeTitle: Locator;
     // readonly medicalExamTitle: Locator;
 
     EmployeeNumber: string[];
@@ -325,22 +327,23 @@ export class HrInboxPage extends WebActionsPage {
         //this.txtLevel = page.getByLabel('Level').first();
         //this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden & Mother's Maiden Names: Hire: '+ ' ' + FamilyName + ' ' + givenname '")]');
         this.maidenNameHungary = page.locator('//div[@data-automation-id="titleText" and contains(text(), "Maiden Names: Hire:  ' + FamilyName + ' ' + givenname + '")]');
-        this.btnSkip=page.locator("//span[text()='Skip']/parent::button[@data-uxi-button-type='action']");
+        this.btnSkip = page.locator("//span[text()='Skip']/parent::button[@data-uxi-button-type='action']");
         this.compensationTitle = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Propose Compensation Hire: ' + givenname + ' ' + FamilyName + '")]');
         this.areadeEstudo = page.locator('//label[text()="Area de Estudo"]/parent::div/following-sibling::div//input');
         this.taxadeIRS = page.locator('//label[text()="Taxa de IRS"]/parent::div/following-sibling::div//input');
         this.portugalSocialSecurityCode = page.locator('//label[text()="Social Security Code"]/parent::div/following-sibling::div//input');
         this.payrollTaxDeductionNL = page.getByRole('button', { name: 'Payroll Tax Deduction NL: ' + givenname + ' ' + FamilyName + '', exact: true });
         this.WWaansturing = page.getByRole('button', { name: 'WW aansturing: ' + givenname + ' ' + FamilyName + '', exact: true });
-        this.clickSkipThisTaskOK=page.locator("//span[contains(.,'OK')]/..");
-        this.txtPayrollTaxDeductionNL=page.locator("//label[contains(.,'Payroll Tax Deduction')]/parent::div/following-sibling::div//descendant::input[1]");
-        this.txtWWaansturing=page.locator("//label[contains(.,'WW aansturing')]/parent::div/following-sibling::div//descendant::input[1]")
+        this.clickSkipThisTaskOK = page.locator("//span[contains(.,'OK')]/..");
+        this.txtPayrollTaxDeductionNL = page.locator("//label[contains(.,'Payroll Tax Deduction')]/parent::div/following-sibling::div//descendant::input[1]");
+        this.txtWWaansturing = page.locator("//label[contains(.,'WW aansturing')]/parent::div/following-sibling::div//descendant::input[1]")
         this.estadolIRPF = page.locator('//label[contains(.,"Estado IRPF")]/parent::div/following-sibling::div//input');
         this.minusvaliaRH = page.locator('//label[contains(.,"Minusvalía RH")]/parent::div/following-sibling::div//input');
 
         this.dodajWyksztalcenieTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj wykształcenie:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.dodajHistorieZatrudnieniaTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj historię zatrudnienia:' + ' ' + givenname + ' ' + FamilyName + '")]');
-
+        this.dodajDanePodatkoweTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj dane podatkowe (PIT-2):' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland- National Health Fund Code:' + ' ' + givenname + ' ' + FamilyName + '")]');
 
     }
 
@@ -357,19 +360,19 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     //Generic Method To Set PayrollTax DeductionNL  @Added by Gayatri
-    async SetPayrollTaxDeductionNL(payrollTaxDeduction:string) {
+    async SetPayrollTaxDeductionNL(payrollTaxDeduction: string) {
         await this.payrollTaxDeductionNL.click();
-        await super.selectFromCustomDropDrown(this.txtPayrollTaxDeductionNL, payrollTaxDeduction); 
-        await this.hrSubmit.click(); 
+        await super.selectFromCustomDropDrown(this.txtPayrollTaxDeductionNL, payrollTaxDeduction);
+        await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
 
     //Generic Method To SetWWaansturing  @Added by Gayatri
 
-    async SetWWaansturing(btnWWaansturing:string) {
+    async SetWWaansturing(btnWWaansturing: string) {
         await this.WWaansturing.click();
-        await super.selectFromCustomDropDrown(this.txtWWaansturing, btnWWaansturing); 
-        await this.hrSubmit.click();   
+        await super.selectFromCustomDropDrown(this.txtWWaansturing, btnWWaansturing);
+        await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
 
@@ -415,6 +418,7 @@ export class HrInboxPage extends WebActionsPage {
         await this.hireadditiondatasub.click();
         await super.selectFromCustomDropDrown(this.areadeEstudo, AreadeEstudo);
         await super.selectFromCustomDropDrown(this.taxadeIRS, TaxadeIRS);
+        if(await this.portugalSocialSecurityCode.count()>0)
         await super.setTextWithEnter(this.portugalSocialSecurityCode, PortugalSocialSecurityCode);
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
@@ -486,12 +490,12 @@ export class HrInboxPage extends WebActionsPage {
         await this.btnAddPassPort.click();
         await super.setTextWithType(this.txtDateWhenMedicalExamTaken, DateWhenMedicalExamTaken);
         await super.setTextWithType(this.txtExpirationDateOfExam, ExpirationDateOfTheExam);
-        await this.hrSubmit.click(); 
+        await this.hrSubmit.click();
     }
 
     //Added By Gayatri for PageHireSkipOk
     async PageHireSkipThisTask() {
-        await this.btnSkip.click(); 
+        await this.btnSkip.click();
         await this.page.waitForTimeout(500);
         await this.clickSkipThisTaskOK.click();
     }
@@ -572,7 +576,7 @@ export class HrInboxPage extends WebActionsPage {
 
     }
 
-     // Worker Education Details in Polish
+    // Worker Education Details in Polish
     async dodajWyksztalcenie(schoolName: string, schoolType: string, schoolStartDate: string, schoolEndDate: string) {
         await this.dodajWyksztalcenieTitle.click();
         await this.page.waitForTimeout(500);
@@ -594,6 +598,25 @@ export class HrInboxPage extends WebActionsPage {
     //@added by Gayatri for new change for PK17
     async polandPITTaxInformation(UrządSkarbowy: string, Ulgapodatkowa: string, Częśćulgi: string, Typopodatkowania: string, identyfikatorpodatkowy: string) {
         await this.addPITTaxInformation.click();
+        await super.setTextWithEnter(this.addUrządSkarbowy, UrządSkarbowy);
+        await this.page.waitForTimeout(500);
+
+        await super.selectFromCustomDropDrown(this.addUlgapodatkowa, Ulgapodatkowa);
+        await super.selectFromCustomDropDrown(this.addCzęśćulgi, Częśćulgi);
+        await this.page.waitForTimeout(500);
+
+        await super.selectFromCustomDropDrown(this.addTypopodatkowania, Typopodatkowania);
+        await this.page.keyboard.press('Tab');
+        await this.page.waitForTimeout(500);
+        await super.selectFromCustomDropDrown(this.addidentyfikatorpodatkowy, identyfikatorpodatkowy);
+        await this.page.keyboard.press('Tab');
+        await this.page.waitForTimeout(500);
+        await this.hrSubmit.click();
+
+    }
+
+    async dodajDanePodatkowe(UrządSkarbowy: string, Ulgapodatkowa: string, Częśćulgi: string, Typopodatkowania: string, identyfikatorpodatkowy: string) {
+        await this.dodajDanePodatkoweTitle.click();
         await super.setTextWithEnter(this.addUrządSkarbowy, UrządSkarbowy);
         await this.page.waitForTimeout(500);
 
@@ -661,10 +684,16 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async medicalExam(givenName: string, familyName: string): Promise<void> {
-        await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Medical exam: Onboarding for '+givenName+' '+familyName+'")]').click();
+        await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Medical exam: Onboarding for ' + givenName + ' ' + familyName + '")]').click();
         await this.hrSubmit.click();
     }
 
+    async nationalHealthFundCode(HealthFundCode: string): Promise<void> {
+        await this.nationalHealthFundCodeTitle.click();
+        const locator =await this.page.locator('//label[contains(text(),"National Health Fund Code")]/parent::div/following-sibling::div/descendant ::input');
+        await super.setTextWithDoubleEnter(locator, HealthFundCode);
+        await this.hrSubmit.click();
+    }
 
     async setServiceDates() {
         await this.page.waitForTimeout(500);
