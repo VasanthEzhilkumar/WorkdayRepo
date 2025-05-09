@@ -22,7 +22,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/testDataRomania.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Romania_Regression_PK17.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -256,10 +256,10 @@ for (const sheetName in sheetsJson) {
         } catch (error) {
           console.error(`Test failed for ${givenName} ${familyName}:`, error);
           //if ((await capObj.getUpdateError()) == undefined) {
-            let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:{" + empNum + "}" + error.toString();
-            //   // Write the failure status to the Excel file
-            writeResultsToExcel(excelFilePath, sheetName, index, error1, 'Failed');
-            empNum = "";
+          let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:{" + empNum + "}" + error.toString();
+          //   // Write the failure status to the Excel file
+          writeResultsToExcel(excelFilePath, sheetName, index, error1, 'Failed');
+          empNum = "";
           // }
         }
       });

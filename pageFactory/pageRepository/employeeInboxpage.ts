@@ -688,20 +688,20 @@ export class employeeInboxPage extends WebActionsPage {
         await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
         // await this.page.keyboard.type(dob);
         // await this.page.keyboard.press('Enter');
-        await super.click(this.page.getByLabel('Save Date of Birth'));
+        // await super.click(this.page.getByLabel('Save Date of Birth'));
 
-        if (countryofbirth != "NaN" && countryofbirth != "N/A" && countryofbirth != undefined) {
+        if (countryofbirth !== "NaN" && countryofbirth !== "N/A" && countryofbirth !== undefined) {
             await super.click(this.editPlace);
             await super.setTextWithEnter(this.countryofbirth, countryofbirth);
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
-        if (city != "NaN" && city != "N/A" && city != undefined) {
+        if (city !== "NaN" && city !== "N/A" && city !== undefined) {
             //await super.click(this.editPlace);
             await super.setTextWithEnter(this.cityofBirth, city);
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
         await super.click(this.editmartial);
-        await super.setTextWithEnter(this.martialstatus, martialstat);
+        await super.setTextWithDoubleEnter(this.martialstatus, martialstat);
 
 
         await super.click(this.editCitizenship);

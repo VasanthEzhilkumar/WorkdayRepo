@@ -40,6 +40,7 @@ export class contactInformationAddressHungary {
         await this.county.press('Enter');
         await this.city.fill(city);
         await this.streetOrPlaceName.fill(StreetOrPlaceName);
+        await this.page.waitForTimeout(500);
         await this.streetOrPlaceType.fill(StreetOrPlaceType);
         await this.page.waitForTimeout(500);
         await this.streetNumber.fill(StreetNumber.toString());

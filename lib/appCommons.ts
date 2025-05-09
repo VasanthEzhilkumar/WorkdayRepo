@@ -261,7 +261,11 @@ export class appCommons extends WebActionsPage {
   }
 
   async tearDown() {
-    expect("Close").toEqual("Close");
+    // expect("Close").toEqual("Close");
+    this.page.close();
+    this.context.clearCookies();
+    this.context.close();
+
   }
 
   async assignPaygroupValidation(PayGroup: string) {
