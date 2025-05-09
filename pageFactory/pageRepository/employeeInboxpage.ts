@@ -129,6 +129,7 @@ export class employeeInboxPage extends WebActionsPage {
     readonly educationLevel: Locator;
     readonly educationCompletionDate: Locator;
     readonly Studies: Locator;
+    readonly givenNameH:Locator;
 
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
@@ -262,6 +263,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.hoverPersonalData = page.getByText('Personal Data');
         this.btnAddPaymentElections = page.locator("//button[@title='Add Payment Elections'][contains(.,'Add Payment Elections')]").first();
         this.AccountName = page.getByLabel('Name On Account');
+        this.givenNameH = page.locator('//label[text()="Given Name(s)"]/parent::div/following-sibling::div//input');
         this.maritalStatusDate = page.getByLabel('Marital Status Date');
         // this.addDependents = page.getByRole('button', { name: 'Add Your Dependents', exact: true });
         this.addDependents = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Your Dependent")]');
@@ -444,7 +446,7 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
     async empaddPhoto() {
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(1500);
         await this.addPhoto.click();
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
@@ -562,11 +564,13 @@ export class employeeInboxPage extends WebActionsPage {
 
     async spainStudyLevel(EducationLevel: string, EducationCompletionDate: string, Studies: string) {
         await this.page.waitForTimeout(500);
+        if (await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Spain Study Level")]').count()>0) { 
         await this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"Spain Study Level")]').click();
         await super.selectFromCustomDropDrown(this.educationLevel, EducationLevel);
         await super.setText(this.Studies, Studies);
         await this.paygroupSubmit.click();
     }
+}
 
     async empaddBankDetails(bankname: string, bankidentificationnumber: string, accnumber: any, ibannum: any) {
         await this.page.waitForTimeout(2000);
@@ -675,7 +679,7 @@ export class employeeInboxPage extends WebActionsPage {
 
     //async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
     //maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
-    async changePersonalInformationHun(gender: string, dob: string, city: string, martialstat: string, citizen: string, national: string, countryofbirth: string) {
+    async changePersonalInformationHun(gender: string, dob: string, city: string, martialstat: string,martialdate: string, citizen: string, national: string, countryofbirth: string) {
 
         await this.page.waitForTimeout(500);
         await this.perInformationforHungary.click();

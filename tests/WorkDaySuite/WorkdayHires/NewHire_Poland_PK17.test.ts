@@ -21,7 +21,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Copy of TestDataPoland-Accural test UPDATED-R.xlsx';
+const excelFileName = 'TestDataPoland-Regression.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -33,259 +33,254 @@ for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
 
   dataSet.forEach((data, index) => {
-    if (data.TestStatus !== "Passed") {  
-    //  const givenName = givenName || `GivenName_${index + 1}`;
-    //  const familyName = familyName || `FamilyName_${index + 1}`;
-    const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    const { givenName, familyName } = generateRandomName();
-    //const givenName = data.GivenName;
-    //const familyName = data.FamilyName;
-    // if (data.TestStatus != 'Passed') {
+    if (data.TestStatus !== "Passed") {
+      //  const givenName = givenName || `GivenName_${index + 1}`;
+      //  const familyName = familyName || `FamilyName_${index + 1}`;
+      const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
+      const { givenName, familyName } = generateRandomName();
+      //const givenName = data.GivenName;
+      //const familyName = data.FamilyName;
+      // if (data.TestStatus != 'Passed') {
 
-    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
-      try {
-        await page.setViewportSize({ width: 1280, height: 595 });
+      test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+        try {
+          await page.setViewportSize({ width: 1280, height: 595 });
 
-        // const givenName: string = "Gussie";
-        // const familyName: string = "Stanton";
+          // const givenName: string = "Gussie";
+          // const familyName: string = "Stanton";
 
-        const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
-        const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
-        const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
-        const homePagePoland = new contactInformationAddressPoland(page, context);
-        const jobDetailsPageObj = new JobDetailsPage(page, context);
-        const governemntIDs = new GovernmentsIDPagePoland(page, givenName, familyName, context);
-        const contractObj = new MaintainContractPage(page, givenName, familyName, context);
-        capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index);
-        //const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context);
-        const createPostition = new createPositionPage(page);
+          const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
+          const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
+          const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
+          const homePagePoland = new contactInformationAddressPoland(page, context);
+          const jobDetailsPageObj = new JobDetailsPage(page, context);
+          const governemntIDs = new GovernmentsIDPagePoland(page, givenName, familyName, context);
+          const contractObj = new MaintainContractPage(page, givenName, familyName, context);
+          capObj = new CaptureAlertErrors(page, givenName, familyName, excelFilePath, sheetName, index);
+          //const hireAdditionalData = new HireAdditionalData(page, givenName, familyName, context);
+          const createPostition = new createPositionPage(page);
 
-        console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
-        writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
+          console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
+          writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
-        const username = "90001655";
-        //const password = "Primark123!!";
-        const password = "Vasanth2025!";
+          const username = "90001655";
+          const password = "Vasanth2025!";
+          await login.goto("PK17");
+          await login.sigIn(username, password);
 
-        // initlize the web environment 
-        await login.goto("Poland");
+          // // create position for Management hires
+          // position = "No";
+          if (data.JobProfile.toString().includes("Manager")) {
+            await appCommon.SearchClickLink("Create Position");
+            await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
+            position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, String(data.EmployeeType).trim(), String((data.JobProfile)).trim(), String(data.TimeType).trim(), data.Location);
+            await capObj.checkForScreenErrors();
+            await appCommon.SuccessEventHandle();
+            await appCommon.MyTasks();
+            //passing position created for selecting exact task from My Task (inbox).
+            await empInboxpage.setDeparmentAndCostCenter(position, String(data.CostCenter.trim()), String(data.DepartmentSection).trim(), givenName, familyName);
+            await capObj.checkForScreenErrors();
+            await appCommon.SuccessEventHandle();
+            // Write the results to the Excel file
+            writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
+            await appCommon.MyTasks();
 
-        // login into application 
-        await login.sigIn(username, password);
+          }
+          else {
+            position = "Dummy Value"
+          }
 
-        // // create position for Management hires
-        // position = "No";
-        if (data.JobProfile.toString().includes("Manager")) {
-          await appCommon.SearchClickLink("Create Position");
-          await hireEmployee.searchSupervisoryOrganizationMgr(data.SupervisoryOrganisation);
-          position = await createPostition.createPositionForManager(data.HireDate, data.HireDate, String(data.EmployeeType).trim(), String((data.JobProfile)).trim(), String(data.TimeType).trim(), data.Location);
+          // search Hire employee on Home Page after login
+          await home.searchHireEmployee();
+
+          // set Supervisisroy Organazation 
+          await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation);
+          await hireEmployee.legalNameInformationPoland(givenName, familyName);
+          await hireEmployee.contactInformationpage();
+          await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
+          await homePagePoland.contactInformationAddress(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type,data.UseFor);
+          await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
+          await hireEmployee.okHireButton();
+          await capObj.checkForScreenErrors();
+
+          await jobDetailsPageObj.setJobDetails(
+            data.HireDate,
+            data.EmployeeType.trim(),
+            String(data.JobProfile).trim(),
+            data.TimeType,
+            data.WorkShift,
+            data.AdditionalJobClassifications,
+            position,
+            data.ScheduledWeeklyHours,
+            data.defaultHours,
+            data.Location,
+            data.EndEmploymentDate,
+            data.PayRateType
+          );
+
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
           await appCommon.MyTasks();
-          //passing position created for selecting exact task from My Task (inbox).
-          await empInboxpage.setDeparmentAndCostCenter(position, String(data.CostCenter.trim()), String(data.DepartmentSection).trim(), givenName, familyName);
+
+          await empInboxpage.setDeparmentAndCostCenter("position", data.CostCenter, data.DepartmentSection, givenName, familyName);
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
-          // Write the results to the Excel file
-          writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
+
+          const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
+          // //const HRPartner = "10554022"
+          // const HRPartner = "10559802"
+          await appCommon.Searchbox("Start Proxy");
+          await proxy.startProxy(HRPartner);
+          await appCommon.MyTasks();
+          await capObj.checkForScreenErrors();
+
+          //Assign HrpayGroup
+          await hrInbxPage.assignInitialPayGroupSubmit(data.ProposedPayGroupInitial);
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
+
+          await hrInbxPage.polandWorkerEducationDetails(data.SchoolName, data.SchoolType, data.SchoolStartDate, data.SchoolEndDate);
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
+
+
+          //Submit Worker Job History 
+          await hrInbxPage.workerJobHistory();
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
+
+          //Add Poland PIT Tax Information
+          await hrInbxPage.polandPITTaxInformation(data.UrządSkarbowy, data.Ulgapodatkowa, data.Częśćulgi, data.Typopodatkowania, data.Identyfikatorpodatkowy);
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
+
+          //Click Submit On MedicalExamForm
+          await hrInbxPage.SetMedicalExamForm();
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
+
+          //Click Submit First Ever Job Details
+          await hrInbxPage.firstEverJobDetails(data.FirstEverJobDetails, data.FirstJobExpiryDate);
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
+
+
+          //fill Contract Details for Employee
+          await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
+          await appCommon.refreshInbox();
+
+          //Click submit on service dates
+          await hrInbxPage.setServiceDates();
+          await appCommon.SuccessEventHandle();
+
+          // await appCommon.ClickInbox();
+          await appCommon.MyTasks();
+          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, data.AllowanceAmount);
+          await capObj.checkForScreenErrors();
+          //await appCommon.SuccessEventHandle();
+
+
+          empNum = await hrInbxPage.getEmployeeID();
+
+          console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
+
           await appCommon.MyTasks();
 
-        }
-        else {
-          position = "Dummy Value"
-        }
+          // empNum = String(data.EmployeeID);
+          await appCommon.SearchboxEmp("Start Proxy");
+          await proxy.startProxy(empNum);
+          await appCommon.ClickInbox();
+          await appCommon.MyTasks();
 
-        // search Hire employee on Home Page after login
-        await home.searchHireEmployee();
+          //After Entering to Employee Proxy onboarding process:)
+          await empInboxpage.onBoardingGuide();
+          await appCommon.SuccessEventHandle();
+          await empInboxpage.empaddPhoto();
+          await appCommon.SuccessEventHandle();
 
-        // set Supervisisroy Organazation 
-        await hireEmployee.searchSupervisoryOrganization(data.SupervisoryOrganisation);
-        await hireEmployee.legalNameInformationPoland(givenName, familyName);
-        await hireEmployee.contactInformationpage();
-        await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        await homePagePoland.contactInformationAddress(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type, "NaN");
-        await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
-        await hireEmployee.okHireButton();
-        await capObj.checkForScreenErrors();
+          //Add Bank Details For Poland
+          await empInboxpage.addEmployeeBankDetailsPoland(data.BankName, data.BankIdentificationCode, String(data.AccountNumber), String(data.IBAN), String(givenName));
+          await appCommon.SuccessEventHandle();
+          await capObj.checkForScreenErrors();
 
-        await jobDetailsPageObj.setJobDetails(
-          data.HireDate,
-          data.EmployeeType.trim(),
-          String(data.JobProfile).trim(),
-          data.TimeType,
-          data.WorkShift,
-          data.AdditionalJobClassifications,
-          position,
-          data.ScheduledWeeklyHours,
-          data.defaultHours,
-          data.Location,
-          data.EndEmploymentDate,
-          data.PayRateType
-        );
-
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        await appCommon.MyTasks();
-
-        await empInboxpage.setDeparmentAndCostCenter("position", data.CostCenter, data.DepartmentSection, givenName, familyName);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-        const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
-        // //const HRPartner = "10554022"
-        // const HRPartner = "10559802"
-        await appCommon.Searchbox("Start Proxy");
-        await proxy.startProxy(HRPartner);
-        await appCommon.MyTasks();
-        await capObj.checkForScreenErrors();
-
-        //Assign HrpayGroup
-        await hrInbxPage.assignInitialPayGroupSubmit(data.ProposedPayGroupInitial);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-        await hrInbxPage.polandWorkerEducationDetails(data.SchoolName, data.SchoolType, data.SchoolStartDate, data.SchoolEndDate);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+          //ChangeUpdateMyContactInfoForPoland
+          await empInboxpage.empChgeContactInformation();
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
 
 
-        //Submit Worker Job History 
-        await hrInbxPage.workerJobHistory();
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+          //ChangePersonalInformation
 
-        //Add Poland PIT Tax Information
-        await hrInbxPage.polandPITTaxInformation(data.UrządSkarbowy, data.Ulgapodatkowa, data.Częśćulgi, data.Typopodatkowania, data.Identyfikatorpodatkowy);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+          await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, "NaN", data.MaritalStatus, data.MaritalStatusDate, data.CitizenshipStatus, "NaN", "NaN", "NaN", "NaN", "NaN");
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
+          await empInboxpage.changepersonalinformationSubmit();
+          //await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
 
-        //Click Submit On MedicalExamForm
-        await hrInbxPage.SetMedicalExamForm();
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-        //Click Submit First Ever Job Details
-        await hrInbxPage.firstEverJobDetails(data.FirstEverJobDetails, data.FirstJobExpiryDate);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+          //*
+          //fill Government IDs  Details for Employee
+          await governemntIDs.setGovernmentIDsPoland(data.Country1, data.NationalIDType1, data.AddEditID1, data.Country2, data.NationalIDType2, data.AddEditID2, data.Country3, data.NationalIDType3, data.AddEditID3);
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
 
 
-        //fill Contract Details for Employee
-        await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        await appCommon.refreshInbox();
+          await empInboxpage.changeGovIDInformation();
+          await appCommon.SuccessEventHandle();
+          await empInboxpage.AddEmergecyInformation();
+          await appCommon.SuccessEventHandle();
 
-        //Click submit on service dates
-        await hrInbxPage.setServiceDates();
-        await appCommon.SuccessEventHandle();
+          await empInboxpage.reviewDocumentSubmitGeneric();
+          await appCommon.SuccessEventHandle();
 
-        // await appCommon.ClickInbox();
-        await appCommon.MyTasks();
-        await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, data.AllowanceAmount);
-        await capObj.checkForScreenErrors();
-        //await appCommon.SuccessEventHandle();
+          //Start Proxy As HR Again 
+          await appCommon.Searchbox("Start Proxy");
+          await proxy.startProxy(HRPartner);
+          await appCommon.ClickInbox();
+          await appCommon.MyTasks();
+          await capObj.checkForScreenErrors();
 
+          await hrInbxPage.setMaintainRightToWorkDocumentation();
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
 
-        empNum = await hrInbxPage.getEmployeeID();
-
-        console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
-
-        await appCommon.MyTasks();
-
-        // empNum = String(data.EmployeeID);
-        await appCommon.SearchboxEmp("Start Proxy");
-        await proxy.startProxy(empNum);
-        await appCommon.ClickInbox();
-        await appCommon.MyTasks();
-
-        //After Entering to Employee Proxy onboarding process:)
-        await empInboxpage.onBoardingGuide();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.empaddPhoto();
-        await appCommon.SuccessEventHandle();
-
-        //Add Bank Details For Poland
-        await empInboxpage.addEmployeeBankDetailsPoland(data.BankName, data.BankIdentificationCode, String(data.AccountNumber), String(data.IBAN), String(givenName));
-        await appCommon.SuccessEventHandle();
-        await capObj.checkForScreenErrors();
-
-        //ChangeUpdateMyContactInfoForPoland
-        await empInboxpage.empChgeContactInformation();
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+          await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
 
 
-        //ChangePersonalInformation
-
-        await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, "NaN", data.MaritalStatus, data.MaritalStatusDate, data.CitizenshipStatus, "NaN", "NaN", "NaN", "NaN", "NaN");
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.changepersonalinformationSubmit();
-        //await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-        //*
-        //fill Government IDs  Details for Employee
-        await governemntIDs.setGovernmentIDsPoland(data.Country1, data.NationalIDType1, data.AddEditID1, data.Country2, data.NationalIDType2, data.AddEditID2, data.Country3, data.NationalIDType3, data.AddEditID3);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
+          await hrInbxPage.clickInboxMyTaskAndApprove("Payment Election:");
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
 
 
-        await empInboxpage.changeGovIDInformation();
-        await appCommon.SuccessEventHandle();
-        await empInboxpage.AddEmergecyInformation();
-        await appCommon.SuccessEventHandle();
+          await appCommon.MyTasks();
+          await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
 
-        await empInboxpage.reviewDocumentSubmitGeneric();
-        await appCommon.SuccessEventHandle();
+          await appCommon.MyTasks();
+          await hrInbxPage.assignPaygroupApprove();
+          await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
 
-        //Start Proxy As HR Again 
-        await appCommon.Searchbox("Start Proxy");
-        await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
-        await appCommon.MyTasks();
-        await capObj.checkForScreenErrors();
-
-        await hrInbxPage.setMaintainRightToWorkDocumentation();
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-        await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-
-        await hrInbxPage.clickInboxMyTaskAndApprove("Payment Election:");
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-
-        await appCommon.MyTasks();
-        await hrInbxPage.assignPayGroupSubmit(data.ProposedPayGroupFinal);
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-        await appCommon.MyTasks();
-        await hrInbxPage.assignPaygroupApprove();
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
-        await appCommon.SearchClickLink(empNum)
-        await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
-        writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
-        empNum = "";
-
-      } catch (error) {
-        console.error(`Test failed for ${givenName} ${familyName}:`, error);
-        if ((await capObj.getUpdateError()) == undefined) {
-          let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:{" + empNum + "}" + error.toString();
-          //   // Write the failure status to the Excel file
-          writeResultsToExcel(excelFilePath, sheetName, index, error1, 'Failed');
+          await appCommon.SearchClickLink(empNum)
+          await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
+          writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
           empNum = "";
+
+        } catch (error) {
+          console.error(`Test failed for ${givenName} ${familyName}:`, error);
+          if ((await capObj.getUpdateError()) == undefined) {
+            let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:{" + empNum + "}" + error.toString();
+            //   // Write the failure status to the Excel file
+            writeResultsToExcel(excelFilePath, sheetName, index, error1, 'Failed');
+            empNum = "";
+          }
         }
-      }
-    });
-  }
+      });
+    }
   });
 }

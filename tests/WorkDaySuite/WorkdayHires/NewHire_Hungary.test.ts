@@ -38,7 +38,7 @@ for (const sheetName in sheetsJson) {
     const { givenName, familyName } = generateRandomName();
     // const givenName = data.GivenName;
     // const familyName = data.FamilyName;
-    // if (data.TestStatus != 'Passed') {
+     if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
@@ -136,7 +136,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
 
-        await empInboxpage.changePersonalInformationHun(data.Gender, data.DateOfBirth, data.CountryOfBirth, data.CityOfBirth, data.MaritalStatus, data.CitizenshipStatus, data.PrimaryNationality);
+        await empInboxpage.changePersonalInformationHun(data.Gender, data.DateOfBirth, data.CityOfBirth,data.MaritalStatus, data.MaritalStatusDate,data.CitizenshipStatus,data.PrimaryNationality,data.CountryOfBirth);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         //await empInboxpage.changepersonalinformationSubmit();
@@ -286,5 +286,6 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+  }
   });
 }
