@@ -129,6 +129,7 @@ export class employeeInboxPage extends WebActionsPage {
     readonly educationLevel: Locator;
     readonly educationCompletionDate: Locator;
     readonly Studies: Locator;
+    readonly givenNameH:Locator;
 
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
@@ -262,6 +263,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.hoverPersonalData = page.getByText('Personal Data');
         this.btnAddPaymentElections = page.locator("//button[@title='Add Payment Elections'][contains(.,'Add Payment Elections')]").first();
         this.AccountName = page.getByLabel('Name On Account');
+        this.givenNameH = page.locator('//label[text()="Given Name(s)"]/parent::div/following-sibling::div//input');
         this.maritalStatusDate = page.getByLabel('Marital Status Date');
         // this.addDependents = page.getByRole('button', { name: 'Add Your Dependents', exact: true });
         this.addDependents = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Your Dependent")]');

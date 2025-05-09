@@ -192,16 +192,18 @@ for (const sheetName in sheetsJson) {
                 await appCommon.SearchboxEmp("Start Proxy");
                 await proxy.startProxy(HRPartner);
                 await appCommon.MyTasks();
+                await appCommon.staticWait(19);
 
-                await hrInbxPage.clickInboxMyTaskAndSubmit("Verify nationality: Onboarding for");
-                await capObj.checkForScreenErrors();
+                await hrInbxPage.VerifyNationalityOnborading();
                 await appCommon.SuccessEventHandle();
-
+            
+                await appCommon.staticWait(10);
                 await appCommon.MyTasks();
-                await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
+                await hrInbxPage.PersonalInformationChangeApprove();
                 await appCommon.SuccessEventHandle();
-
+    
                 await page.waitForTimeout(5000);
+
                 await hrInbxPage.assignPayGroupApprove(data.ProposedPayGroupFinal);
                 await capObj.checkForScreenErrors();
                 await appCommon.SuccessEventHandle();
