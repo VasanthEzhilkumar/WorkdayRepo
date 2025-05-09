@@ -129,6 +129,7 @@ export class employeeInboxPage extends WebActionsPage {
     readonly educationLevel: Locator;
     readonly educationCompletionDate: Locator;
     readonly Studies: Locator;
+    readonly givenNameH:Locator;
 
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
@@ -260,6 +261,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.hoverPersonalData = page.getByText('Personal Data');
         this.btnAddPaymentElections = page.locator("//button[@title='Add Payment Elections'][contains(.,'Add Payment Elections')]").first();
         this.AccountName = page.getByLabel('Name On Account');
+        this.givenNameH = page.locator('//label[text()="Given Name(s)"]/parent::div/following-sibling::div//input');
         this.maritalStatusDate = page.getByLabel('Marital Status Date');
         // this.addDependents = page.getByRole('button', { name: 'Add Your Dependents', exact: true });
         this.addDependents = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Your Dependent")]');
@@ -669,11 +671,7 @@ export class employeeInboxPage extends WebActionsPage {
             
         }
         
-        
-        //async changePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
-        //maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, RaceEthnicity: string, Religion: string) {
-        async changePersonalInformationHun(gender: string, dob: string, city: string, martialstat: string, citizen: string, national: string, countryofbirth: string) {
-            
+        async changePersonalInformationHun(gender: string, dob: string, city: string, martialstat: string, maritalStatusDate:string,citizen: string, national: string, countryofbirth: string) {
             await this.page.waitForTimeout(500);
             await this.perInformationforHungary.click();
             await super.click(this.editGender);
@@ -683,9 +681,7 @@ export class employeeInboxPage extends WebActionsPage {
             await super.click(this.editDob);
             // await this.page.waitForTimeout(1000);
             await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
-            // await this.page.keyboard.type(dob);
-            // await this.page.keyboard.press('Enter');
-            await super.click(this.page.getByLabel('Save Date of Birth'));
+            //await super.click(this.page.getByLabel('Save Date of Birth'));
             
             if (countryofbirth != "NaN" && countryofbirth != "N/A" && countryofbirth != undefined) {
                 await super.click(this.editPlace);
@@ -697,10 +693,18 @@ export class employeeInboxPage extends WebActionsPage {
                 await super.setTextWithEnter(this.cityofBirth, city);
                 await super.click(this.page.getByLabel('Save Place of Birth'));
             }
-            await super.click(this.editmartial);
-            await super.setTextWithEnter(this.martialstatus, martialstat);
-            
-            
+            if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined) {
+                    if (await this.editmartial.count() > 0) {
+                        await super.click(this.editmartial);
+                        await super.setTextWithEnter(this.martialstatus, martialstat);
+                        //*Added By gayatri to select MaritalStatusDate
+                        if (maritalStatusDate !== "" && maritalStatusDate !== "NaN" && maritalStatusDate !== "N/A" && maritalStatusDate !== undefined) {
+                            await super.setTextWithType(this.page.getByPlaceholder('DD'), maritalStatusDate);
+                        }
+                        await super.click(this.page.getByLabel('Save Marital Status'));
+                    }
+                    
+                }
             await super.click(this.editCitizenship);
             await super.selectFromCustomDropDrown(this.citizenship, citizen);
             //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
@@ -1175,14 +1179,16 @@ export class employeeInboxPage extends WebActionsPage {
                         await super.click(this.addPersonalDetails);
                         await super.click(this.nameType);
                         await super.click(this.page.locator('(//div[contains(@data-automation-label,"' + AdditionalNameType + '")])[1]'));
-                        if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
-                            // await super.click(this.countryName);
-                            await super.setText(this.countryName, AdditionalNameCountry);
-                            this.page.keyboard.press('Enter');
-                        }
-                        if (await this.givenName.isVisible()) {
-                            // await super.click(this.givenName);
-                            await super.setText(this.givenName, AdditionalNameGivenName);
+                        // if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
+                        //     // await super.click(this.countryName);
+                        //     await super.setText(this.countryName, AdditionalNameCountry);
+                        //     this.page.keyboard.press('Enter');
+                        //     this.page.keyboard.press('Enter');
+
+                        // }
+                        if (await this.givenNameH.isVisible()) {
+                            //await super.click(this.givenName);
+                            await super.setText(this.givenNameH, AdditionalNameGivenName);
                         }
                         if (await this.familyName.isVisible()) {
                             // await super.click(this.familyName);
@@ -1197,17 +1203,12 @@ export class employeeInboxPage extends WebActionsPage {
                         await super.click(this.addPersonalDetails);
                         await super.click(this.nameType);
                         await super.click(this.page.locator('(//div[contains(@data-automation-label,"' + AdditionalNameType2 + '")])[1]'));
-                        if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
-                            // await super.click(this.countryName);
-                            await super.setText(this.countryName, AdditionalNameCountry);
-                            this.page.keyboard.press('Enter');
-                        }
-                        if (await this.givenName.isVisible()) {
-                            // await super.click(this.givenName);
-                            await super.setText(this.givenName, AdditionalNameGivenName);
+                        if (await this.givenNameH.isVisible()) {
+                            //await super.click(this.givenNameH);
+                            await super.setText(this.givenNameH, AdditionalNameGivenName);
                         }
                         if (await this.familyName.isVisible()) {
-                            // await super.click(this.familyName);
+                            //await super.click(this.familyName);
                             await super.setText(this.familyName, AdditionalNameFamilyName);
                         }
                         await super.click(this.okButtonpage);

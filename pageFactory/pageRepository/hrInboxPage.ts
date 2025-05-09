@@ -158,6 +158,8 @@ export class HrInboxPage extends WebActionsPage {
     readonly minusvaliaRH: Locator;
     readonly dodajWyksztalcenieTitle: Locator;
     readonly dodajHistorieZatrudnieniaTitle: Locator;
+    readonly verifyNationality :Locator;
+    readonly personalInformationChangePage:Locator;
     // readonly medicalExamTitle: Locator;
 
     EmployeeNumber: string[];
@@ -340,6 +342,8 @@ export class HrInboxPage extends WebActionsPage {
 
         this.dodajWyksztalcenieTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj wykształcenie:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.dodajHistorieZatrudnieniaTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj historię zatrudnienia:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.verifyNationality=page.getByRole('button', { name: 'Verify nationality: Onboarding for ' + givenname + ' ' + FamilyName }).first();
+        this.personalInformationChangePage=page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first();
 
 
     }
@@ -491,6 +495,7 @@ export class HrInboxPage extends WebActionsPage {
 
     //Added By Gayatri for PageHireSkipOk
     async PageHireSkipThisTask() {
+        await this.page.waitForTimeout(500);
         await this.btnSkip.click(); 
         await this.page.waitForTimeout(500);
         await this.clickSkipThisTaskOK.click();
@@ -1025,6 +1030,17 @@ export class HrInboxPage extends WebActionsPage {
         await super.click(this.editNoticePeriod);
         await super.click(this.hrSubmit)
     }
+    async VerifyNationalityOnborading() {
+        await this.verifyNationality.click();
+        await this.page.waitForTimeout(300);
+        await super.click(this.hrSubmit)
+    }
+
+    async PersonalInformationChangeApprove() {
+        await this.personalInformationChangePage.click();
+        await this.page.getByRole('button', { name: 'Approve' }).click();
+    }
+    
 
     async hrManageProbation(probReviewDate: string) {
         await this.page.waitForTimeout(500);

@@ -29,11 +29,8 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
   readonly addROWNationalIDs: Locator;
   readonly addROWadditionalGovernmentIDs: Locator;
   readonly addGovtID: Locator;
-<<<<<<< HEAD
   readonly checkWarningAndAlert: Locator;
-=======
   readonly idChangeTitle: Locator;
->>>>>>> Ramchandra
 
   EmployeeNumber: string[];
   readonly GnationalID: Locator;
