@@ -87,7 +87,9 @@ for (const sheetName in sheetsJson) {
           // Write the results to the Excel file
           writePositionToExcel(excelFilePath, sheetName, index, position, 'Position');
           await appCommon.MyTasks();
-        }
+        }else {
+            position = "DummyValue";
+          }
 
         // search Hire employee on Home Page after login
         await home.searchHireEmployee();
@@ -97,7 +99,7 @@ for (const sheetName in sheetsJson) {
         await hireEmployee.legalNameInformationHungary(givenName, familyName);
         await hireEmployee.contactInformationpage();
         await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        await homePageHun.contactInformationAddress(data.StreetNumber, data.PostalCode, data.City, data.County, data.Type, data.StreetOrPlaceName, data.StreetOrPlaceType);
+        await homePageHun.contactInformationAddress(data.StreetNumber, data.PostalCode, data.City, data.County, data.Type, data.StreetOrPlaceName, data.StreetOrPlaceType,data.UseFor);
         await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
         await hireEmployee.okHireButton();
         await capObj.checkForScreenErrors();
@@ -136,7 +138,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
 
-        await empInboxpage.changePersonalInformationHun(data.Gender, data.DateOfBirth, data.CityOfBirth,data.MaritalStatus, data.MaritalStatusDate,data.CitizenshipStatus,data.PrimaryNationality,data.CountryOfBirth);
+        await empInboxpage.changePersonalInformationHun(data.Gender, data.DateOfBirth, data.CityOfBirth,data.MaritalStatus, data.MaritalStatusDate,data.CitizenshipStatus,data.PrimaryNationality,data.CountryOfBirth,data.Disability,data.DisabilityDegree);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         //await empInboxpage.changepersonalinformationSubmit();
@@ -149,7 +151,7 @@ for (const sheetName in sheetsJson) {
 
         //Set Contract Details
 
-        await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
+        await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
