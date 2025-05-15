@@ -743,16 +743,18 @@ export class employeeInboxPage extends WebActionsPage {
         //@Added By Gayatri
         if (disability === "Yes") {
             await super.click(this.addDisability);
-            await super.setTextWithDoubleEnter(this.setDisability, "Disabled");
-            await this.page.keyboard.press('Enter');
-
-            await this.page.waitForTimeout(1000);
-            await this.page.getByRole('button', { name: 'Details' }).waitFor({ state: 'attached' });
-            await this.page.getByRole('button', { name: 'Details' }).click({ force: true });
-            await super.setTextWithEnter(this.disablityDegree, disabilityDegree.toString());
+            await super.setTextWithEnter(this.setDisability, "Disabled");
+            // await this.page.keyboard.press('Enter');
+            await this.page.waitForTimeout(3000);
+            //await this.page.getByRole('button', { name: 'Details' }).first().waitFor({ state: 'attached' });
+            await this.page.getByRole('button', { name: 'Details', exact: true }).first().click({ 'force': true });
+            await super.setText(this.disablityDegree, disabilityDegree.toString());
         }
 
         await super.click(this.paygroupSubmit);
+        // if (await this.paygroupSubmit.isVisible()) {
+        //     await super.click(this.paygroupSubmit);
+        // }
     }
     async changePersonalInformationSubmit1() {
 
