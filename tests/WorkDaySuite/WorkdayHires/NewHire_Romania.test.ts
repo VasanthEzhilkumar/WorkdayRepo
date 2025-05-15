@@ -35,7 +35,7 @@ for (const sheetName in sheetsJson) {
 
   dataSet.forEach((data, index) => {
 
-    if (data.TestCaseIDs.includes('Test')) {
+    if (data.TestCaseIDs.includes('Test') && data.TestStatus !== 'Passed') {
       //  const givenName = givenName || `GivenName_${index + 1}`;
       //  const familyName = familyName || `FamilyName_${index + 1}`;
       const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
@@ -155,6 +155,7 @@ for (const sheetName in sheetsJson) {
             , data.Pensioner, data.NegotiatedLeave);
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
+
           await hireAdditionalData.setDependentAdditionalInfoRomania();
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();

@@ -701,7 +701,6 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
         await super.click(this.editDob);
-        // await this.page.waitForTimeout(1000);
         await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
         // await this.page.keyboard.type(dob);
         // await this.page.keyboard.press('Enter');

@@ -176,7 +176,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
 
-        await hrInbxPage.setManageProbationHun("NaN", "NaN");
+        await hrInbxPage.setManageProbation("NaN", "NaN");
         //await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
@@ -245,7 +245,6 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.addAdditionalNameHungary(data.NameType, data.Country, data.GivenName1, data.FamilyName1, data.NameType2);
 
         //let HRPartner = "10559802";
-
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.MyTasks();
