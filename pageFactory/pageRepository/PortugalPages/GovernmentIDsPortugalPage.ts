@@ -284,13 +284,13 @@ export class GovernmentsIDPagePortugal extends WebActionsPage {
   ) {
     if (await this.idChangeTitle.count() > 0) {
       await super.click(this.idChangeTitle);
-
+      await this.page.waitForTimeout(600);
       await super.click(this.addROWNationalIDs);
       await this.fillGovIDDetails2(Country1, NationalIDType1, DepartmentSection1, true);
-
+      await this.page.waitForTimeout(600)
       await super.click(this.addROWNationalIDs);
       await this.fillGovIDDetails2(Country2, NationalIDType2, DepartmentSection2, false);
-
+      await this.page.waitForTimeout(600)
       await super.click(this.addROWNationalIDs);
       await this.fillGovIDDetails2(Country3, NationalIDType3, DepartmentSection3, false)
 

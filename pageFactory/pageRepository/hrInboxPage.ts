@@ -1024,10 +1024,7 @@ export class HrInboxPage extends WebActionsPage {
             if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
                 await super.click(this.hrSubmit);
             }
-            await this.page.waitForTimeout(1000);
-            if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
-                await super.click(this.hrSubmit);
-            }
+
         } else {
             console.log("Manage Probation Period Page is missing for This job profiles.");
         }
@@ -1062,11 +1059,19 @@ export class HrInboxPage extends WebActionsPage {
             if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
                 await super.setTextWithType(this.prbReviewDate, probReviewDate);
             }
-
-        } else {
             await super.click(this.hrSubmit);
-
+            await this.page.waitForTimeout(1000);
+            if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
+                await super.click(this.hrSubmit);
+            }
+            await this.page.waitForTimeout(1000);
+            if (await this.contractWarningAlert.isVisible() && await this.manageProbation.isVisible()) {
+                await super.click(this.hrSubmit);
+            }
+        } else {
+            console.log("Manage Probation Period Page is missing for This job profiles.");
         }
+        
 
     }
 

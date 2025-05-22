@@ -20,7 +20,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataHungry.xlsx';
+const excelFileName = 'Hungary_Payslip_New Hire_Store 970_Automation_Phani_ADDED NEW HIRES.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -35,15 +35,14 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    const { givenName, familyName } = generateRandomName();
-    // const givenName = data.GivenName;
-    // const familyName = data.FamilyName;
+    //const { givenName, familyName } = generateRandomName();
+    const givenName = data.GivenName;
+    const familyName = data.FamilyName;
      if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
-        await page.setViewportSize({ width: 1280, height: 600 });
-
+      await page.setViewportSize({ width: 1280, height: 595 });
         // const givenName: string = "Gussie";
         // const familyName: string = "Stanton";
 
@@ -62,7 +61,7 @@ for (const sheetName in sheetsJson) {
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
         const username = "90002196";
-        const password = "Wizos2025!";
+        const password = "Wizos2025!!";
 
         await login.goto("PK17");
 
@@ -176,8 +175,8 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
 
-        await hrInbxPage.setManageProbationHun("NaN", "NaN");
-        //await capObj.checkForScreenErrors();
+        await hrInbxPage.setManageProbation("NaN", "NaN");
+        await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
         //await appCommon.MyTasks();
@@ -197,7 +196,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
         await appCommon.MyTasks();
-
+        await appCommon.MyTasks();
         await empInboxpage.onBoardingGuide();
         await appCommon.SuccessEventHandle();
         await empInboxpage.empaddPhoto();

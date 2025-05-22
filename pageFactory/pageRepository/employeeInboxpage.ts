@@ -1222,9 +1222,9 @@ export class employeeInboxPage extends WebActionsPage {
             await super.setText(this.countryName, AdditionalNameCountry);
             this.page.keyboard.press('Enter');
         }
-        if (await this.givenName.isVisible()) {
+        if (await this.givenNameH.isVisible()) {
             // await super.click(this.givenName);
-            await super.setText(this.givenName, AdditionalNameGivenName);
+            await super.setText(this.givenNameH, AdditionalNameGivenName);
         }
         if (await this.familyName.isVisible()) {
             // await super.click(this.familyName);
@@ -1244,9 +1244,9 @@ export class employeeInboxPage extends WebActionsPage {
             await super.setText(this.countryName, AdditionalNameCountry);
             this.page.keyboard.press('Enter');
         }
-        if (await this.givenName.isVisible()) {
+        if (await this.givenNameH.isVisible()) {
             // await super.click(this.givenName);
-            await super.setText(this.givenName, AdditionalNameGivenName);
+            await super.setText(this.givenNameH, AdditionalNameGivenName);
         }
         if (await this.familyName.isVisible()) {
             // await super.click(this.familyName);

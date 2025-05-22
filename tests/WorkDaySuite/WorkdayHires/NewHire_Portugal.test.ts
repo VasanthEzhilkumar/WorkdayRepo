@@ -11,6 +11,7 @@ import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
 import { contactInformationAddressPortugal } from '@pages/PortugalPages/ContactInformationAddressPortugal';
 import { GovernmentsIDPagePortugal } from '@pages/PortugalPages/GovernmentIDsPortugalPage';
+import { generateRandomName } from 'utils/functional/utils';
 
 
 
@@ -35,12 +36,12 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    // const { givenName, familyName } = generateRandomName();
-    const givenName = data.GivenName;
-    const familyName = data.FamilyName;
+    const { givenName, familyName } = generateRandomName();
+    // const givenName = data.GivenName;
+    // const familyName = data.FamilyName;
     let govtID = 0;
     let personalInfo = 0;
-    // if (data.TestStatus != 'Passed') {
+    if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
@@ -261,5 +262,6 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+  }
   });
 }

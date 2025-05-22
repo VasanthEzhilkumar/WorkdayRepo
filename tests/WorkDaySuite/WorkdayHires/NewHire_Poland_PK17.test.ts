@@ -21,7 +21,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'TestDataPoland-Regression.xlsx';
+const excelFileName = 'Copy of Workday_NewHire_Poland_CR014-V0.3.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -37,9 +37,9 @@ for (const sheetName in sheetsJson) {
       //  const givenName = givenName || `GivenName_${index + 1}`;
       //  const familyName = familyName || `FamilyName_${index + 1}`;
       const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-      const { givenName, familyName } = generateRandomName();
-      //const givenName = data.GivenName;
-      //const familyName = data.FamilyName;
+      //const { givenName, familyName } = generateRandomName();
+      const givenName = data.GivenName;
+      const familyName = data.FamilyName;
       // if (data.TestStatus != 'Passed') {
 
       test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
@@ -63,8 +63,8 @@ for (const sheetName in sheetsJson) {
           console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
           writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
-          const username = "90001655";
-          const password = "Vasanth2025!";
+          const username = "90002196";
+          const password = "Wizos2025!!";
           await login.goto("PK17");
           await login.sigIn(username, password);
 

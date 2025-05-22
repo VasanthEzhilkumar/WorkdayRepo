@@ -37,7 +37,7 @@ for (const sheetName in sheetsJson) {
         test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
             try {
                 //await page.setViewportSize({ width: 1280, height: 600 });
-                await page.setViewportSize({ width: 1275, height: 595 });
+               await page.setViewportSize({ width: 1280, height: 600 });
 
                 const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
                 const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
@@ -156,7 +156,7 @@ for (const sheetName in sheetsJson) {
                 await appCommon.SuccessEventHandle();
 
                 await appCommon.MyTasks();
-                await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType, "NaN", "NaN");
+                await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType, "NaN", data.NameOnAccount);
                 await capObj.checkForScreenErrors();
                 await appCommon.SuccessEventHandle();
 

@@ -269,8 +269,9 @@ export class appCommons extends WebActionsPage {
   }
 
   async assignPaygroupValidation(PayGroup: string) {
+    await this.page.waitForTimeout(500);
     await this.btnPay.click();
-    await this.page.waitForTimeout(250);
+    await this.page.waitForTimeout(500);
     await this.page.getByRole('tablist').getByText('Pay Group').click();
     let actulValue = await super.getAllInnerText(this.txtPayGroup);
     await this.page.screenshot()

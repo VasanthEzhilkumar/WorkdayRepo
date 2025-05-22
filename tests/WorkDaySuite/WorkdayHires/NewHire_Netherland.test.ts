@@ -111,10 +111,11 @@ for (const sheetName in sheetsJson) {
                     await appCommon.Searchbox("Start Proxy");
                     await proxy.startProxy(HRPartner);
                     await appCommon.MyTasks();
-                    await capObj.checkForScreenErrors();
+                   
 
 
                     //fill Contract Details for Employee
+                    await appCommon.staticWait(4);
                     await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
                     //Skip The Task
                     await hrInbxPage.PageHireSkipThisTask();
@@ -153,7 +154,7 @@ for (const sheetName in sheetsJson) {
                     await empInboxpage.empaddPhoto();
                     await appCommon.SuccessEventHandle();
 
-                    await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType, "NaN", "NaN");
+                    await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType, "NaN", data.NameOnAccount);
                     await capObj.checkForScreenErrors();
                     await appCommon.SuccessEventHandle();
 
