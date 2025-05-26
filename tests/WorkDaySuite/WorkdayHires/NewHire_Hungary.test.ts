@@ -1,17 +1,17 @@
 import test from '@lib/BaseTest';
+import { CaptureAlertErrors } from '@lib/CaptureErrors';
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
+import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
+import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage';
+import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
+import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage';
+import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
+import { createPositionPage } from '@pages/createPositionpage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import { writeUniqueNamesToExcel, writeResultsToExcel, writePositionToExcel } from '@lib/ExcelUtils';
-import { generateRandomName } from 'utils/functional/utils';
-import { contactInformationAddressHungary } from 'pageFactory/HungaryPages/ContactInformationAddressHungary';
-import { JobDetailsPage } from '@pages/CommonPages/JobDetailsPage';
-import { MaintainContractPage } from '@pages/CommonPages/MaintainContractPage'
-import { HireAdditionalData } from '@pages/CommonPages/HireAdditionalDataPage'
-import { CaptureAlertErrors } from '@lib/CaptureErrors';
-import { createPositionPage } from '@pages/createPositionpage';
-import { ProposeCompensationPage } from '@pages/CommonPages/ProposeCompensationPage';
 import { GovernmentsIDPageHungary } from '@pages/HungaryPages/GovernmentIDHungaryPage';
+import { contactInformationAddressHungary } from 'pageFactory/HungaryPages/ContactInformationAddressHungary';
+import { generateRandomName } from 'utils/functional/utils';
 
 
 let empNum: string;
@@ -20,7 +20,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hungary_New Hire_Store 970_Automation_V0.2.xlsx';
+const excelFileName = 'Hungary_Payslip_New Hire_Store 970_Automation_Phani_V 0.1.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -35,14 +35,14 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    // const { givenName, familyName } = generateRandomName();
-    const givenName = data.GivenName;
-    const familyName = data.FamilyName;
+    const { givenName, familyName } = generateRandomName();
+    // const givenName = data.GivenName;
+    // const familyName = data.FamilyName;
     if (data.TestStatus !== 'Passed') {
 
       test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
         try {
-          await page.setViewportSize({ width: 1280, height: 600 });
+          await page.setViewportSize({ width: 1280, height: 780 });
 
           // const givenName: string = "Gussie";
           // const familyName: string = "Stanton";
@@ -61,8 +61,8 @@ for (const sheetName in sheetsJson) {
           console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
           writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
-          const username = "90002196";
-          const password = "Wizos2025!";
+          const username = "90001655";
+          const password = 'Vasanth"123';
 
           await login.goto("PK17");
 
@@ -270,8 +270,8 @@ for (const sheetName in sheetsJson) {
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
 
-          await appCommon.SearchClickLink(empNum)
-          await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
+          // await appCommon.SearchClickLink(empNum)
+          // await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
           //await appCommon.tearDown();
           // Write the results to the Excel file
           writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');

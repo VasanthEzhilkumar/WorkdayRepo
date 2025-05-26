@@ -18,7 +18,7 @@ const config: PlaywrightTestConfig = {
   retries: 0,
   workers: 1,
   fullyParallel: false,
-  // fullyParallel: true,
+// fullyParallel: true,
 
   //Reporters
   //Reporters['list'],
@@ -29,7 +29,7 @@ const config: PlaywrightTestConfig = {
       name: 'Chrome',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1280, height: 650 },
+        viewport: { width: 1280, height: 695 },
         //Browser Mode
         headless: false,
 
