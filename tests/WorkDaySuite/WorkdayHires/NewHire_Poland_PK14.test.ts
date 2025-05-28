@@ -40,7 +40,7 @@ for (const sheetName in sheetsJson) {
     // const familyName = data.FamilyName;
     let govtID = 0;
     let personalInfo = 0;
-    // if (data.TestStatus != 'Passed') {
+     if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
@@ -312,5 +312,6 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+  }
   });
 }

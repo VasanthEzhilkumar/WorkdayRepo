@@ -160,8 +160,8 @@ export class HrInboxPage extends WebActionsPage {
     readonly dodajHistorieZatrudnieniaTitle: Locator;
     readonly dodajDanePodatkoweTitle: Locator;
     readonly nationalHealthFundCodeTitle: Locator;
-    readonly verifyNationality :Locator;
-    readonly personalInformationChangePage:Locator;
+    readonly verifyNationality: Locator;
+    readonly personalInformationChangePage: Locator;
     // readonly medicalExamTitle: Locator;
 
     EmployeeNumber: string[];
@@ -346,8 +346,8 @@ export class HrInboxPage extends WebActionsPage {
         this.dodajHistorieZatrudnieniaTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj historię zatrudnienia:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.dodajDanePodatkoweTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj dane podatkowe (PIT-2):' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland- National Health Fund Code:' + ' ' + givenname + ' ' + FamilyName + '")]');
-        this.verifyNationality=page.getByRole('button', { name: 'Verify nationality: Onboarding for ' + givenname + ' ' + FamilyName }).first();
-        this.personalInformationChangePage=page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first();
+        this.verifyNationality = page.getByRole('button', { name: 'Verify nationality: Onboarding for ' + givenname + ' ' + FamilyName }).first();
+        this.personalInformationChangePage = page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first();
 
 
     }
@@ -423,8 +423,8 @@ export class HrInboxPage extends WebActionsPage {
         await this.hireadditiondatasub.click();
         await super.selectFromCustomDropDrown(this.areadeEstudo, AreadeEstudo);
         await super.selectFromCustomDropDrown(this.taxadeIRS, TaxadeIRS);
-        if(await this.portugalSocialSecurityCode.count()>0)
-        await super.setTextWithEnter(this.portugalSocialSecurityCode, PortugalSocialSecurityCode);
+        if (await this.portugalSocialSecurityCode.count() > 0)
+            await super.setTextWithEnter(this.portugalSocialSecurityCode, PortugalSocialSecurityCode);
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
     }
@@ -501,7 +501,7 @@ export class HrInboxPage extends WebActionsPage {
     //Added By Gayatri for PageHireSkipOk
     async PageHireSkipThisTask() {
         await this.page.waitForTimeout(500);
-        await this.btnSkip.click(); 
+        await this.btnSkip.click();
         await this.page.waitForTimeout(500);
         await this.clickSkipThisTaskOK.click();
     }
@@ -698,7 +698,7 @@ export class HrInboxPage extends WebActionsPage {
 
     async nationalHealthFundCode(HealthFundCode: string): Promise<void> {
         await this.nationalHealthFundCodeTitle.click();
-        const locator =await this.page.locator('//label[contains(text(),"National Health Fund Code")]/parent::div/following-sibling::div/descendant ::input');
+        const locator = await this.page.locator('//label[contains(text(),"National Health Fund Code")]/parent::div/following-sibling::div/descendant ::input');
         await super.setTextWithDoubleEnter(locator, HealthFundCode);
         await this.hrSubmit.click();
     }
@@ -1071,7 +1071,7 @@ export class HrInboxPage extends WebActionsPage {
         } else {
             console.log("Manage Probation Period Page is missing for This job profiles.");
         }
-        
+
 
     }
 
@@ -1079,17 +1079,40 @@ export class HrInboxPage extends WebActionsPage {
         await super.click(this.editNoticePeriod);
         await super.click(this.hrSubmit)
     }
+    // async VerifyNationalityOnborading() {
+    //     await this.page.waitForTimeout(800);
+    //     await this.verifyNationality.click();
+    //     await this.page.waitForTimeout(300);
+    //     await super.click(this.hrSubmit)
+    // }
     async VerifyNationalityOnborading() {
+        // Wait for the button to be visible and enabled before clicking
+        await this.verifyNationality.waitFor({ state: 'visible' });
         await this.verifyNationality.click();
-        await this.page.waitForTimeout(300);
-        await super.click(this.hrSubmit)
+
+        // Ensure the submit button is also ready before clicking
+        await this.hrSubmit.waitFor({ state: 'visible' });
+        await super.click(this.hrSubmit);
     }
 
     async PersonalInformationChangeApprove() {
+        // Wait until the personal information page link/button is visible in the DOM
+        await this.personalInformationChangePage.waitFor({ state: 'visible' });
         await this.personalInformationChangePage.click();
-        await this.page.getByRole('button', { name: 'Approve' }).click();
+    
+        // Wait until the "Approve" button is visible and ready
+        const approveButton = this.page.getByRole('button', { name: 'Approve' });
+        await approveButton.waitFor({ state: 'visible' });
+        await approveButton.click();
     }
     
+    // async PersonalInformationChangeApprove() {
+    //     await this.page.waitForTimeout(800);
+    //     await this.personalInformationChangePage.click();
+    //     await this.page.getByRole('button', { name: 'Approve' }).click();
+    // }
+    
+
 
     async hrManageProbation(probReviewDate: string) {
         await this.page.waitForTimeout(500);

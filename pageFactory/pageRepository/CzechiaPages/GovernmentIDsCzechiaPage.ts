@@ -96,6 +96,7 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     //await this.addId.click();
     //await this.idChange.click();
     await super.click(this.addROWNationalIDs);
+    await this.page.waitForTimeout(500);
     await this.fillGovIDDetails(country1, NationalIDType1, AddEditID1, IssuedDate1, ExpirationDate1, true);
 
     if (!country1.includes("Slovakia") && !country1.includes("Slovenia") && !country1.includes("France")) {
@@ -103,6 +104,7 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
       // await this.page.waitForTimeout(500);
       // await this.addId.click();
       await super.click(this.addROWNationalIDs);
+      await this.page.waitForTimeout(500);
       await this.fillGovIDDetails(Country2, NationalIDType2, AddEditID2, IssuedDate2, ExpirationDate2, false);
     }
     if (Country2.includes("Slovenia")) {

@@ -32,10 +32,11 @@ for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
 
   dataSet.forEach((data, index) => {
-    //  const givenName = givenName || `GivenName_${index + 1}`;
-    //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
     const { givenName, familyName } = generateRandomName();
+    // const givenName = data.GivenName;
+    // const familyName = data.FamilyName;
+     if (data.TestStatus != 'Passed') {;
 
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
@@ -57,7 +58,7 @@ for (const sheetName in sheetsJson) {
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
         const username = "90001655";
-        const password = "Vasanth2025!";
+        const password = 'Vasanth"123';
         await login.goto("PK17");
         await login.sigIn(username, password);
 
@@ -139,16 +140,18 @@ for (const sheetName in sheetsJson) {
         // await appCommon.refreshInbox();
 
         //fill Contract Details for Employee
+        await appCommon.MyTasks();
         await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, String(data.ContractReason));
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
 
+        await appCommon.MyTasks();
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
-
         await appCommon.MyTasks();
+        await appCommon.staticWait(4);
         await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "Slovenia", "NaN");
         await captureErrors.checkForScreenErrors();
         empNum = await hrInbxPage.getEmployeeID();
@@ -180,7 +183,7 @@ for (const sheetName in sheetsJson) {
 
         await empInboxpage.AddEmergecyInformation();
         await appCommon.SuccessEventHandle();
-
+        await appCommon.MyTasks();
         await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType, "NaN", data.NameOnAccount);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -199,6 +202,7 @@ for (const sheetName in sheetsJson) {
           data.GovernmentIDType2, data.AddEditID1, data.AddEditID2, data.IssuedDate1, data.IssuedDate2,
           data.ExpirationDate1, data.ExpirationDate2, "NaN", "NaN");
         await captureErrors.checkForScreenErrors();
+        await appCommon.MyTasks();
         await empInboxUS.changeGovIDInformationSubmit();
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -212,6 +216,7 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
+        await appCommon.MyTasks();  
         await editAndVissaPage.clickMaintainRightToWorkDocumentationANDeditPassportsAndVisas(empNum, data.Country, data.PassportIDType, data.IdentificationNo, data.IssuedDate, data.ExpirationDate);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -237,6 +242,7 @@ for (const sheetName in sheetsJson) {
       }
 
     });
+  }
   });
 }
 
