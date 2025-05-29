@@ -11,6 +11,7 @@ import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInf
 import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
+import { generateRandomName } from 'utils/functional/utils';
 
 
 let empNum: string;
@@ -18,7 +19,7 @@ let position: string;
 let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Workday_NewHire_Czechia_Regression_PK14.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Czechia_Regression_PK17.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -32,10 +33,10 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    // const { givenName, familyName } = generateRandomName();
-    const givenName = data.GivenName;
-    const familyName = data.FamilyName;
-    // if (data.TestStatus != 'Passed') {
+    const { givenName, familyName } = generateRandomName();
+    // const givenName = data.GivenName;
+    // const familyName = data.FamilyName;
+    if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
@@ -59,15 +60,15 @@ for (const sheetName in sheetsJson) {
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
         /*Login creds for PK14*/
-        const username = "90002196";
-        const password = "Primark0255!";
+        // const username = "90002196";
+        // const password = "Primark0255!";
 
         // /*Login creds for PK17*/
-        // const username = "90002196";
-        // const password = "Wizos2025!";
+        const username = "90001655";
+        const password = 'Vasanth"123';
 
         // initlize the web environment 
-        await login.goto("PK14");
+        await login.goto("PK17");
 
         // login into application 
         await login.sigIn(username, password);
@@ -240,7 +241,6 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await page.waitForTimeout(1500);
 
@@ -279,6 +279,7 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+  }
   });
 }
 

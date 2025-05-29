@@ -35,17 +35,15 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    const { givenName, familyName } = generateRandomName();
-    // const givenName = data.GivenName;
-    // const familyName = data.FamilyName;
-    if (data.TestStatus !== 'Passed') {
+    const givenName = data.GivenName;
+    const familyName = data.FamilyName;
+     if (data.TestStatus != 'Passed') {
 
-      test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
-        try {
-          await page.setViewportSize({ width: 1280, height: 780 });
-
-          // const givenName: string = "Gussie";
-          // const familyName: string = "Stanton";
+    test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+      try {
+      await page.setViewportSize({ width: 1280, height: 595 });
+        // const givenName: string = "Gussie";
+        // const familyName: string = "Stanton";
 
           const empInboxpage = new employeeInboxPage(page, familyName, givenName, jobProfile, context);
           const hrInbxPage = new HrInboxPage(page, familyName, givenName, context);
@@ -176,9 +174,9 @@ for (const sheetName in sheetsJson) {
           await appCommon.SuccessEventHandle();
 
 
-          await hrInbxPage.setManageProbation("NaN", "NaN");
-          //await capObj.checkForScreenErrors();
-          await appCommon.SuccessEventHandle();
+        await hrInbxPage.setManageProbation("NaN", "NaN");
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
 
           //await appCommon.MyTasks();
           await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, data.AllowanceAmount);
@@ -194,14 +192,14 @@ for (const sheetName in sheetsJson) {
 
           await appCommon.MyTasks();
 
-          await appCommon.SearchboxEmp("Start Proxy");
-          await proxy.startProxy(empNum);
-          await appCommon.MyTasks();
-
-          await empInboxpage.onBoardingGuide();
-          await appCommon.SuccessEventHandle();
-          await empInboxpage.empaddPhoto();
-          await appCommon.SuccessEventHandle();
+        await appCommon.SearchboxEmp("Start Proxy");
+        await proxy.startProxy(empNum);
+        await appCommon.MyTasks();
+        await appCommon.MyTasks();
+        await empInboxpage.onBoardingGuide();
+        await appCommon.SuccessEventHandle();
+        await empInboxpage.empaddPhoto();
+        await appCommon.SuccessEventHandle();
 
 
           //Till This Working Fine
