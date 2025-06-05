@@ -922,7 +922,7 @@ export class employeeInboxPage extends WebActionsPage {
     async changePersonalInformationNetherland(gender: string, dob: string, city: string,
         citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string) {
 
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(3000);
         await this.chgPersonalInformation.click();
         // if (await this.buttonchgpersonal.isVisible()) {
         await super.click(this.buttonchgpersonal);

@@ -18,7 +18,7 @@ let position: string;
 let captureErrors: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataNetherland1.xlsx';
+const excelFileName = 'Hires/testDataNetherland1.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -143,6 +143,7 @@ for (const sheetName in sheetsJson) {
                     await page.waitForTimeout(5000);
 
                     await appCommon.MyTasks();
+                    await page.waitForTimeout(5000);
                     await empInboxpage.onBoardingGuide();
                     await appCommon.SuccessEventHandle();
 
@@ -164,7 +165,7 @@ for (const sheetName in sheetsJson) {
 
                     await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
                     await appCommon.SuccessEventHandle();
-
+                    await page.waitForTimeout(5000);
                     await empInboxpage.changePersonalInformationNetherland(data.Gender, data.DateOfBirth, data.CityOfBirth, data.CitizenshipStatus, data.PrimaryNationality, data.CountryOfBirth, data.RegionOfBirth);
                     await capObj.checkForScreenErrors();
                     await appCommon.SuccessEventHandle();
