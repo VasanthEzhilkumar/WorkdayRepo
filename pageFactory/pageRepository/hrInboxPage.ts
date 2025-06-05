@@ -865,6 +865,7 @@ export class HrInboxPage extends WebActionsPage {
 
     async setchangePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
         maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string) {
+        await this.page.waitForTimeout(5000);    
         await this.hrchgPersonalInformation.click();
         await super.click(this.editGender);
         await super.click(this.setGenderdrpDown);

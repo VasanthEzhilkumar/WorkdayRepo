@@ -17,7 +17,7 @@ let position: string;
 let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'testDataIreland.xlsx';
+const excelFileName = 'Hires/testDataIreland.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -131,6 +131,7 @@ for (const sheetName in sheetsJson) {
 
                     //Probation Date Details for Employee
                     await appCommon.MyTasks();
+                    await page.waitForTimeout(1000);
                     await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
                     await appCommon.SuccessEventHandle();
 
@@ -146,7 +147,6 @@ for (const sheetName in sheetsJson) {
                     await appCommon.SearchboxEmp("Start Proxy");
                     await proxy.startProxy(empNum);
 
-                    await appCommon.MyTasks();
                     await page.waitForTimeout(5000);
                     await appCommon.MyTasks();
                     await empInboxpage.onBoardingGuide();
@@ -161,6 +161,7 @@ for (const sheetName in sheetsJson) {
                     await appCommon.SuccessEventHandle();
 
                     await appCommon.MyTasks();
+                    await page.waitForTimeout(1000);
                     await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
                     await appCommon.SuccessEventHandle();
                     await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.MaritalStatusDate, "NaN", data.PrimaryNationality, data.CountryOfBirth, data.RegionOfBirth, data.RaceEthnicity, "NaN");

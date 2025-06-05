@@ -36,6 +36,7 @@ for (const sheetName in sheetsJson) {
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
     const { givenName, familyName } = generateRandomName();
+    if (data.TestStatus !== "Passed") {
 
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
@@ -57,7 +58,7 @@ for (const sheetName in sheetsJson) {
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
         const username = "90001655";
-        const password = "Vasanth2025!";
+          const password = 'Vasanth"123';
         await login.goto("PK17");
         await login.sigIn(username, password);
 
@@ -237,6 +238,7 @@ for (const sheetName in sheetsJson) {
       }
 
     });
+  }
   });
 }
 

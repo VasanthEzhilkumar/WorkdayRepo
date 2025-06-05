@@ -33,6 +33,8 @@ for (const sheetName in sheetsJson) {
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
     const { givenName, familyName } = generateRandomName();
+    if (data.TestStatus != 'Passed') {
+
     
     
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, appCommon, context, login, home, hireEmployee, proxy }) => {
@@ -250,6 +252,7 @@ for (const sheetName in sheetsJson) {
         }
         
       });
+    }
     });
   }
   

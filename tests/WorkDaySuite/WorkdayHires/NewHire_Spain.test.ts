@@ -39,7 +39,7 @@ for (const sheetName in sheetsJson) {
     const givenName = data.GivenName;
     const familyName = data.FirstLastName;
     const secondLastName = data.SecondLastName;
-    // if (data.TestStatus != 'Passed') {
+    if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
@@ -258,5 +258,6 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+  }
   });
 }
