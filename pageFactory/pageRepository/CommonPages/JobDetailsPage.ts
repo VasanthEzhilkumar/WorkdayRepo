@@ -108,6 +108,7 @@ export class JobDetailsPage extends WebActionsPage {
     location: number,
     EndEmploymentDate: string,
     PayRateType: string,
+    Reason: string
   ) {
     // const str: String[] = AdditionalJobClassifications.split('@');
     if (position == undefined) {
@@ -120,7 +121,7 @@ export class JobDetailsPage extends WebActionsPage {
     await this.hireDate.click({ force: true });
     //await super.setTextWithType(this.hireDate,HireDate1);
     await super.setTextWithType(this.hireDate, HireDate1);
-    await super.setTextWithEnter(this.reason, "New Hire");
+    await super.setTextWithEnter(this.reason, Reason);
     await this.page.waitForTimeout(500);
     if (!position.includes('Auto')) {
       await super.selectFromCustomDropDrown(this.empType, EmployeeType.trim());

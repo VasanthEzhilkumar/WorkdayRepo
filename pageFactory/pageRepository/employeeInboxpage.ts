@@ -129,6 +129,8 @@ export class employeeInboxPage extends WebActionsPage {
     readonly educationLevel: Locator;
     readonly educationCompletionDate: Locator;
     readonly Studies: Locator;
+    readonly dodajDanePIT2Title: Locator;
+    readonly rodzinyDoUbezpieczeniaZdrowotnegoTitle : Locator;
 
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
@@ -294,7 +296,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.educationLevel = page.locator('//label[text()="Education Level"]/parent::div/following-sibling::div//input');
         this.educationCompletionDate = page.locator('');
         this.Studies = page.locator('//label[text()="Studies"]/parent::div/following-sibling::div//input');
-
+        this.dodajDanePIT2Title = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane PIT-2"]');
+        this.rodzinyDoUbezpieczeniaZdrowotnegoTitle = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane członków rodziny do ubezpieczenia zdrowotnego"]'); 
     }
 
 
@@ -367,6 +370,7 @@ export class employeeInboxPage extends WebActionsPage {
     */
     async setPartnerRevenueBelgiumDependents(PartnerRevenue: string) {
         await super.click(this.hireEmployeeBel);
+        if (PartnerRevenue !== "NaN" && PartnerRevenue !== "N/A" && PartnerRevenue !== undefined) 
         await super.setTextWithDoubleEnter(this.partnerRevenue, PartnerRevenue.toString());
         await this.paygroupSubmit.click();
     }
@@ -471,6 +475,24 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(1500);
         if (await this.addPITTaxInformation.count() > 0) {
             await this.addPITTaxInformation.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
+    }
+
+    async dodajDanePIT2() {
+        await this.page.waitForTimeout(1500);
+        if (await this.dodajDanePIT2Title.count() > 0) {
+            await this.dodajDanePIT2Title.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
+    }
+
+    async rodzinyDoUbezpieczeniaZdrowotnego() {
+        await this.page.waitForTimeout(1500);
+        if (await this.rodzinyDoUbezpieczeniaZdrowotnegoTitle.count() > 0) {
+            await this.rodzinyDoUbezpieczeniaZdrowotnegoTitle.click();
             await this.paygroupSubmit.click();
             await this.page.waitForTimeout(500);
         }

@@ -11,6 +11,7 @@ import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInf
 import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
+import { generateRandomName } from 'utils/functional/utils';
 
 
 let empNum: string;
@@ -132,7 +133,6 @@ for (const sheetName in sheetsJson) {
         // const HRPartner = "10559802"
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
 
@@ -152,9 +152,7 @@ for (const sheetName in sheetsJson) {
         await contractObj.setContractDetails(String(data.ContractType).trim(), data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        // await appCommon.refreshInbox();
 
-        // await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire("NaN", "NaN", "NaN", "NaN", data.AllowanceAmount);
         await capObj.checkForScreenErrors();
@@ -171,7 +169,6 @@ for (const sheetName in sheetsJson) {
         // empNum = String(data.EmployeeID);
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await page.waitForTimeout(5000);
 
@@ -192,7 +189,7 @@ for (const sheetName in sheetsJson) {
           data.LastYearAttended,
           data.GradeAverage
         );
-        await appCommon.ClickInbox();
+        await appCommon.MyTasks();
         await appCommon.SuccessEventHandle();
         await empInboxpage.empAddEducationSubmit();
         //await capObj.checkForScreenErrors();
@@ -240,7 +237,6 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await page.waitForTimeout(1500);
 

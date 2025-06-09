@@ -94,7 +94,7 @@ export class appCommons extends WebActionsPage {
     // await this.page.waitForLoadState();
     await this.searchboxhome.focus();
     await super.setTextWithEnter(this.searchboxhome, searchtext.toString());
-    await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a[contains(text(),'" + searchtext.trim() + "')])[1]"));
+    await super.click(this.page.locator("(//*[@data-automation-id='pex-search-result-header']//a[contains(text(),'" + searchtext.toString().trim() + "')])[1]"));
   }
 
   async checkUpNextCompensationParnterApproval(): Promise<boolean> {

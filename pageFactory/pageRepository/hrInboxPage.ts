@@ -160,6 +160,9 @@ export class HrInboxPage extends WebActionsPage {
     readonly dodajHistorieZatrudnieniaTitle: Locator;
     readonly dodajDanePodatkoweTitle: Locator;
     readonly nationalHealthFundCodeTitle: Locator;
+    readonly txtCountryOfBirth: Locator;
+    readonly txtRegionOfBirth: Locator;
+    readonly txtCityOfBirth: Locator;
     // readonly medicalExamTitle: Locator;
 
     EmployeeNumber: string[];
@@ -343,7 +346,10 @@ export class HrInboxPage extends WebActionsPage {
         this.dodajWyksztalcenieTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj wykształcenie:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.dodajHistorieZatrudnieniaTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj historię zatrudnienia:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.dodajDanePodatkoweTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj dane podatkowe (PIT-2):' + ' ' + givenname + ' ' + FamilyName + '")]');
-        this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland- National Health Fund Code:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Polska- National Health Fund Code:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.txtCountryOfBirth = page.locator('//label[text()="Country of Birth"]/parent::div/following-sibling::div//input');
+        this.txtRegionOfBirth = page.locator('//label[text()="Region of Birth"]/parent::div/following-sibling::div//input');
+        this.txtCityOfBirth = page.locator('//label[text()="City of Birth"]/parent::div/following-sibling::div//input');
 
     }
 
@@ -552,6 +558,7 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async assignInitialPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
+        await this.page.waitForTimeout(1500);
         await this.hrassignPaygroupInitial.click();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Submit' }).click();
@@ -920,6 +927,74 @@ export class HrInboxPage extends WebActionsPage {
         await super.click(this.hrSubmit);
         return 1;
     }
+
+    async setchangePersonalInformationBelgiumPK14(gender: string, dob: string, city: string, martialstat: string,
+        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string) {
+        await this.hrchgPersonalInformation.click();
+        await super.click(this.editGender);
+        await super.click(this.setGenderdrpDown);
+        await super.click(this.page.locator('[aria-label=' + gender + ']'));
+        await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
+
+        await super.click(this.editDob);
+        await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
+        await this.page.getByLabel('Save Date of Birth').first().scrollIntoViewIfNeeded();
+        await super.click(this.page.getByLabel('Save Date of Birth').first());
+
+        await this.page.waitForTimeout(500);
+        await super.click(this.editPlace);
+        if (CountryOFBirth !== "NaN" && CountryOFBirth !== "N/A" && CountryOFBirth !== undefined) {
+            await this.page.waitForTimeout(500);
+            await super.click(this.txtCountryOfBirth);
+            await this.page.waitForTimeout(500);
+            await this.page.getByLabel('Country of Birth').first().focus();
+            //await super.setTextWithEnter(this.page.locator('(//div[@data-automation-id="monikerSearchBox"]//input)[1]'), CountryOFBirth.toString());
+            await super.setTextWithEnter(this.page.getByLabel('Country of Birth').first(), CountryOFBirth.toString());
+            // await super.click(this.page.getByLabel('Save Place of Birth'));
+        }
+
+        if (RegionOfBirth !== "NaN" && RegionOfBirth !== "N/A" && RegionOfBirth !== undefined) {
+            await super.click(this.txtRegionOfBirth);
+            await super.setTextWithEnter(this.page.getByLabel('Region of Birth').first(), RegionOfBirth.toString());
+            // await super.click(this.page.getByLabel('Save Place of Birth'));
+        }
+
+        if (city !== "NaN" && city !== "N/A" && city !== undefined) {
+            await super.click(this.txtCityOfBirth);
+            await super.setTextWithEnter(this.cityofBirth, city);
+            // await super.click(this.page.getByLabel('Save Place of Birth'));
+        }
+        await super.click(this.page.getByLabel('Save Place of Birth'));
+
+        if (martialstat !== "NaN" && martialstat !== "N/A" && martialstat !== undefined) {
+            if (await this.editmartial.isVisible()) {
+                await super.click(this.editmartial);
+                await super.setTextWithEnter(this.martialstatus, martialstat);
+                //*@Gayatri for poland 
+                if (maritalStatusDate !== "NaN" && maritalStatusDate !== "N/A" && maritalStatusDate !== undefined) {
+                    await super.setTextWithType(this.page.getByPlaceholder('DD').first(), maritalStatusDate);
+                }
+                await super.click(this.page.getByLabel('Save Marital Status'));
+            } else {
+                console.log('Edit martial button is not present on the page so marking as skipping/fail. ');
+            }
+
+        }
+
+        await super.click(this.editCitizenship);
+        await super.selectFromCustomDropDrown(this.citizenship, citizen);
+        //await super.setTextWithDoubleEnter(this.page.getByRole('textbox', { name: 'Citizenship Status' }),citizen);
+        await super.click(this.page.getByLabel('Save Citizenship Status'));
+
+        if (national !== "" && national !== "NaN" && national !== "N/A" && national !== undefined) {
+            await super.click(this.editNationality);
+            await super.setTextWithDoubleEnter(this.nationality, national);
+            await this.page.waitForTimeout(1000);
+        }
+        await super.click(this.hrSubmit);
+        return 1;
+    }
+
     async hrcontractAddendum() {
         await this.contractAddendum.click();
         await this.page.waitForTimeout(500);
