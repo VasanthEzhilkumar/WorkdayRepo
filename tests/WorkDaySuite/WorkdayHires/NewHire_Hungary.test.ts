@@ -114,7 +114,8 @@ for (const sheetName in sheetsJson) {
           data.defaultHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
 
         //till this expect the additional details

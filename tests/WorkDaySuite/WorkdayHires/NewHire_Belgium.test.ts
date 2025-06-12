@@ -107,7 +107,8 @@ for (const sheetName in sheetsJson) {
           data.DefaultWeeklyHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
         
         await captureErrors.checkForScreenErrors();

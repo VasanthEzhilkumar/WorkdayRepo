@@ -122,7 +122,8 @@ for (const sheetName in sheetsJson) {
           data.defaultHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
 
         await capObj.checkForScreenErrors();
