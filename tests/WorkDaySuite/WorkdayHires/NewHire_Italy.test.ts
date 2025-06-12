@@ -17,7 +17,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Copy of ItalyREG.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Italy_Regression_PK17.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -55,7 +55,7 @@ for (const sheetName in sheetsJson) {
           await writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
           const username = "90001655";
-          const password = "Vasanth2025!";
+          const password = 'Vasanth"123';
 
           // initlize the web environment 
           await login.goto("PK17");

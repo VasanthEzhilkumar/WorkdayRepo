@@ -31,6 +31,7 @@ for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
 
   dataSet.forEach((data, index) => {
+    if (data.TestStatus !== "Passed"){
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = (data.JobProfile || `JobProfile_${index + 1}`).trim();
@@ -288,5 +289,6 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+  }
   });
 }

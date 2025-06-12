@@ -22,7 +22,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/testDataRomania.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Romania_Regression_PK17.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -35,7 +35,7 @@ for (const sheetName in sheetsJson) {
 
   dataSet.forEach((data, index) => {
 
-    if (data.TestCaseIDs.includes('Test')) {
+    if (data.TestCaseIDs.includes('Test') && data.TestStatus !== 'Passed') {
       //  const givenName = givenName || `GivenName_${index + 1}`;
       //  const familyName = familyName || `FamilyName_${index + 1}`;
       const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
@@ -45,7 +45,7 @@ for (const sheetName in sheetsJson) {
       // const familyName = data.FamilyName;
       // const givenName: string = "Gussie";
       // const familyName: string = "Stanton";
-      // if (data.TestStatus != 'Passed') {
+     if (data.TestStatus != 'Passed') {
 
       test(`@HireREG Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
         try {
@@ -66,7 +66,7 @@ for (const sheetName in sheetsJson) {
           writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
           const username = "90001655";
-          const password = "Vasanth2025!";
+        const password = 'Vasanth"123';
 
           // initlize the web environment 
           await login.goto("PK17");
@@ -156,6 +156,7 @@ for (const sheetName in sheetsJson) {
             , data.Pensioner, data.NegotiatedLeave);
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
+
           await hireAdditionalData.setDependentAdditionalInfoRomania();
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
@@ -257,13 +258,14 @@ for (const sheetName in sheetsJson) {
         } catch (error) {
           console.error(`Test failed for ${givenName} ${familyName}:`, error);
           //if ((await capObj.getUpdateError()) == undefined) {
-            let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:{" + empNum + "}" + error.toString();
-            //   // Write the failure status to the Excel file
-            writeResultsToExcel(excelFilePath, sheetName, index, error1, 'Failed');
-            empNum = "";
+          let error1 = "Test failed for '" + givenName + " " + familyName + "' Employee:{" + empNum + "}" + error.toString();
+          //   // Write the failure status to the Excel file
+          writeResultsToExcel(excelFilePath, sheetName, index, error1, 'Failed');
+          empNum = "";
           // }
         }
       });
+     }
     }
   });
 }
