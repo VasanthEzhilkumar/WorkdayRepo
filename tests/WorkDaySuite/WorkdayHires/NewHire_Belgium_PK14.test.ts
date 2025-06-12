@@ -109,7 +109,8 @@ for (const sheetName in sheetsJson) {
           data.DefaultWeeklyHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
 
         await captureErrors.checkForScreenErrors();
@@ -247,8 +248,12 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        let AddEducationTitle = "Add Education: Hire: " + givenName + " " + familyName;
-        await empInboxpage.clickInboxMyTaskAndSubmit(AddEducationTitle);
+        let Title = "Add Education: Hire: " + givenName + " " + familyName;
+        await empInboxpage.clickInboxMyTaskAndSubmit(Title);
+        await appCommon.SuccessEventHandle();
+
+        Title = "Change of reporting line manager after hire: Hire: " + givenName + " " + familyName;
+        await empInboxpage.clickInboxMyTaskAndSubmit(Title);
         await appCommon.SuccessEventHandle();
 
         //await appCommon.SuccessEventHandle();

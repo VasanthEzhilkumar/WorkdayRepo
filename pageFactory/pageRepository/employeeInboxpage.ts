@@ -130,7 +130,8 @@ export class employeeInboxPage extends WebActionsPage {
     readonly educationCompletionDate: Locator;
     readonly Studies: Locator;
     readonly dodajDanePIT2Title: Locator;
-    readonly rodzinyDoUbezpieczeniaZdrowotnegoTitle : Locator;
+    readonly rodzinyDoUbezpieczeniaZdrowotnegoTitle: Locator;
+    readonly empNationalHealthFundCodeTitle: Locator;
 
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
@@ -298,6 +299,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.Studies = page.locator('//label[text()="Studies"]/parent::div/following-sibling::div//input');
         this.dodajDanePIT2Title = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane PIT-2"]');
         this.rodzinyDoUbezpieczeniaZdrowotnegoTitle = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane członków rodziny do ubezpieczenia zdrowotnego"]'); 
+        this.empNationalHealthFundCodeTitle = page.locator('//div[@data-automation-id="titleText" and text()="National Health Fund Code"]');
+    
     }
 
 
@@ -498,6 +501,15 @@ export class employeeInboxPage extends WebActionsPage {
         }
     }
 
+    async empNationalHealthFundCode() {
+        await this.page.waitForTimeout(1500);
+        if (await this.empNationalHealthFundCodeTitle.count() > 0) {
+            await this.empNationalHealthFundCodeTitle.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
+    }
+
     async empHealthcareProviderMealVoucher(insuranceCompany: string, mealVoucher: string) {
         await this.page.waitForTimeout(500);
         await this.healthcareProviderMealVoucher.click();
@@ -653,7 +665,7 @@ export class employeeInboxPage extends WebActionsPage {
         }
         //await super.setText(this.AccountName, 'TestAutomation');
         await super.click(this.okButton);
-        this.page.waitForTimeout(200);
+        this.page.waitForTimeout(500);
         //await this.appCommon.ClickInbox();
         await this.appCommon.MyTasks();
         await super.click(this.addBankDetails1);// }

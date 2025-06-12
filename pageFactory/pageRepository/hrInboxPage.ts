@@ -656,6 +656,7 @@ export class HrInboxPage extends WebActionsPage {
 
     // Worker Job History in Polish
     async dodajHistorieZatrudnienia() {
+        await this.page.waitForTimeout(500);
         await this.dodajHistorieZatrudnieniaTitle.click();
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();

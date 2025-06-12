@@ -30,7 +30,7 @@ export class contactInformationAddressPoland {
         this.city = page.getByLabel('City');
         this.postalCode = page.getByLabel('Postal Code');
         this.addressType = page.getByLabel('Address', { exact: true }).getByLabel('Type');
-        this.addressUseFor = page.locator('//h2[text()="Address"]/parent::div/parent::div//label[text()="Use For"]/parent::div/following-sibling::div//span[@data-automation-id="promptIcon"]');
+        this.addressUseFor = page.locator('//h2[text()="Address"]/parent::div/parent::div//label[text()="Use For"]/parent::div/following-sibling::div//input');
 
     }
 
@@ -72,7 +72,10 @@ export class contactInformationAddressPoland {
         await this.Province.fill(Province.toString());
         await this.addressType.click();
         await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+        await this.page.waitForTimeout(1000);
         await this.page.keyboard.press('Tab');
+        await this.page.waitForTimeout(1000);
+        await this.page.locator('//h2[text()="Address"]/parent::div/parent::div//label[text()="Use For"]/parent::div/following-sibling::div//span[@data-automation-id="promptSearchButton"]').click();
         await this.addressUseFor.click();
         await this.page.waitForTimeout(2000);
         const selectedOpt = await this.page.locator('//div[@data-automation-id="promptOption"]/parent::div[@data-automation-id="promptLeafNode" and @data-automation-checked="Checked"]').count();

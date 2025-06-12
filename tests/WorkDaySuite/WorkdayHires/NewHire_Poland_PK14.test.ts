@@ -21,7 +21,7 @@ let CompensationHR;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Workday_Trial_Hires_29_05.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Poland_Regression_PK14.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -123,7 +123,8 @@ for (const sheetName in sheetsJson) {
           data.defaultHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
 
         await capObj.checkForScreenErrors();
@@ -270,6 +271,9 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.rodzinyDoUbezpieczeniaZdrowotnego();
         await appCommon.SuccessEventHandle();
 
+        await empInboxpage.empNationalHealthFundCode();
+        await appCommon.SuccessEventHandle();
+
         // await empInboxpage.reviewDocumentSubmitGeneric();
         // await appCommon.SuccessEventHandle();
 
@@ -302,7 +306,7 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await appCommon.MyTasks();
+        // await appCommon.MyTasks();
         await hrInbxPage.assignPaygroupApprove();
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
