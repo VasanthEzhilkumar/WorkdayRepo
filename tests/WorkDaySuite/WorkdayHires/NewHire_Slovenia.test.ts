@@ -20,7 +20,7 @@ let position: string;
 let captureErrors: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Copy of Copy of Workday_NewHire_Slovenia_Regression_PK17 End To End May 26.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Slovenia_Regression_PK17 End To End June 5.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -208,7 +208,6 @@ for (const sheetName in sheetsJson) {
 
           await appCommon.Searchbox("Start Proxy");
           await proxy.startProxy(HRPartner);
-          await appCommon.ClickInbox();
           await appCommon.MyTasks();
 
           await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");

@@ -1,4 +1,4 @@
-import { writeResultsToExcel } from '@lib/ExcelUtils';
+import { writePositionToExcel, writeResultsToExcel } from '@lib/ExcelUtils';
 import { Locator, Page, expect } from '@playwright/test';
 import { WebActionsPage } from 'lib/WebActionPage';
 
@@ -58,7 +58,7 @@ export class CaptureAlertErrors extends WebActionsPage {
     async checkForScreenErrors(): Promise<boolean> {
         let errorMsg: string;
         try {
-            await this.page.waitForTimeout(1000);
+            await this.page.waitForTimeout(1500);
             // Check for side error bar
             if (await this.btnSideErrorBar1.isVisible()) {
                 // await this.page.waitForTimeout(2000);
@@ -90,10 +90,10 @@ export class CaptureAlertErrors extends WebActionsPage {
                 await this.page.screenshot({ path: screenshotPath });
                 error1 = error1 + "& find failed Screenshot Path:->" + screenshotPath;
                 // Write the failure status to the Excel file and captured screen error as well.
-                writeResultsToExcel(this.excelFilePath, this.sheetName, this.index, error1, 'Failed');
+                await writePositionToExcel(this.excelFilePath, this.sheetName, this.index, error1, "TestStatus");
                 throw (error);
             } finally {
-                this.page.close();
+                await this.page.close();
                 return true;
             }
         }

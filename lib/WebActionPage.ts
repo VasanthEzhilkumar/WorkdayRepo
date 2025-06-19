@@ -1,5 +1,6 @@
 import { Locator, Page, } from '@playwright/test';
 import moment from "moment";
+import { testConfig } from 'testConfig';
 /*
 @Author      : @ Madhukar Kirkan
 @Description : all common action methods related to web page.
@@ -11,7 +12,7 @@ export class WebActionsPage {
 
     constructor(page: Page) {
         this.page = page;
-        this.timeOut = 500;
+        this.timeOut = testConfig.staticWait;
     }
 
     async setText(locator: Locator, varString: String,) {
@@ -235,7 +236,7 @@ export class WebActionsPage {
                 text = await locator.innerText();
                 console.log(`Getting Inner text from: ${locator}, text: "${text}"`);
                 return text;
-            } 
+            }
         } catch (error) {
             console.error(`Getting Inner text from : ${locator} failed ` + error);
             throw error;

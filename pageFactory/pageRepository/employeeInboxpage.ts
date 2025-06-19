@@ -374,6 +374,22 @@ export class employeeInboxPage extends WebActionsPage {
             await this.paygroupSubmit.click();
         }
     }
+
+    
+    async goToJobChange() {
+        await this.page.waitForTimeout(1000);
+        await super.click(this.page.locator("//*[@class='WMYV']// button[text() ='Actions']").first());
+        await this.page.waitForTimeout(500);
+        const transferOption = this.page.getByText('Transfer, Promote or Change').first();
+        if (await transferOption.isVisible()) {
+            await super.click(transferOption);
+        } else {
+            await this.page.getByText('Job Change').hover();
+            await this.page.waitForTimeout(100); // slight delay after hover
+            await super.click(transferOption);
+        }
+    }
+
     /**
     * @author : Madhukar Kirkan
     * @description : Added method for Belgium.

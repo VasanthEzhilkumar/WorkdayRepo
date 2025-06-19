@@ -2,6 +2,7 @@
 
 
 import { BrowserContext, Locator, Page } from '@playwright/test';
+import { testConfig } from 'testConfig';
 
 export class loginpage {
   readonly page: Page;
@@ -17,18 +18,17 @@ export class loginpage {
   }
 
   async goto(env: string) {
-
-    if (env.includes("PK17")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
-    } else if (env.includes("PK14")) {
-      await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark14/login.htmld');
-    } 
+    await this.page.goto(testConfig.WorkdayURL);
+    // if (env.includes("PK17")) {
+    //   await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark17/login.htmld');
+    // } else if (env.includes("PK14")) {
+    //   await this.page.goto('https://wd3-impl.workday.com/wday/authgwy/primark14/login.htmld');
+    // } 
   }
 
   async sigIn(username: string, password: string) {
-
-    await this.username.fill(username);
-    await this.password.fill(password);
+    await this.username.fill(testConfig.WorkdayUsername);
+    await this.password.fill(testConfig.WorkdayPassword);
     await this.signIn.click();
     await this.page.waitForLoadState();
     // await this.page.waitForTimeout(3000)

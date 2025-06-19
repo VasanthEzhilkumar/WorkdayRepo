@@ -2,6 +2,7 @@ import { WebActionsPage } from '@lib/WebActionPage';
 import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 
 export class HrInboxPage extends WebActionsPage {
+
     readonly page: Page;
     readonly context: BrowserContext;
     readonly hrassignPaygroup: Locator;
@@ -160,11 +161,18 @@ export class HrInboxPage extends WebActionsPage {
     readonly dodajHistorieZatrudnieniaTitle: Locator;
     readonly dodajDanePodatkoweTitle: Locator;
     readonly nationalHealthFundCodeTitle: Locator;
-    readonly verifyNationality :Locator;
-    readonly personalInformationChangePage:Locator;
+    readonly verifyNationality: Locator;
+    readonly personalInformationChangePage: Locator;
     // readonly medicalExamTitle: Locator;
 
     EmployeeNumber: string[];
+    contractAddendumPage: Locator;
+    ContractAddendumInfoPage: Locator;
+    AddendumEffectiveDate: Locator;
+    AddendumCreationDate: Locator;
+    AddendumEndDate: Locator;
+    txtAddendumNumber: Locator;
+    contractJobChange: Locator;
 
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
         super(page);
@@ -226,6 +234,8 @@ export class HrInboxPage extends WebActionsPage {
         this.PerIssuedDate = page.locator('text=DD >> nth=1');
         this.PerExpirationDate = page.locator('text=DD >> nth=3');
         this.Approve = page.locator('button:has-text("Approve")');
+        this.contractJobChange = page.getByRole('button', { name: 'Contract: ' + givenname + ' ' + FamilyName + '' }).first();
+
         this.contract = page.getByRole('button', { name: 'Contract: ' + givenname + ' ' + FamilyName + '', exact: true });
         //this.contract = page.locator('[aria-label="Inbox Items"] >> text=Contract:' + ' ' + givenname + ' ' + FamilyName + '');
         this.contractReason = page.getByLabel('Reason')//locator('text=ReasonReason0 items selected >> [placeholder="Search"]');
@@ -346,9 +356,15 @@ export class HrInboxPage extends WebActionsPage {
         this.dodajHistorieZatrudnieniaTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj historię zatrudnienia:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.dodajDanePodatkoweTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj dane podatkowe (PIT-2):' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland- National Health Fund Code:' + ' ' + givenname + ' ' + FamilyName + '")]');
-        this.verifyNationality=page.getByRole('button', { name: 'Verify nationality: Onboarding for ' + givenname + ' ' + FamilyName }).first();
-        this.personalInformationChangePage=page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first();
+        this.verifyNationality = page.getByRole('button', { name: 'Verify nationality: Onboarding for ' + givenname + ' ' + FamilyName }).first();
+        this.personalInformationChangePage = page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first();
 
+        this.txtAddendumNumber = page.locator("//div[@data-automation-id='numericWidget']/input[@data-automation-id='numericInput']").first();
+        this.contractAddendumPage = page.getByText('Edit Additional Data', { exact: true });
+        this.ContractAddendumInfoPage = page.getByRole('heading', { name: 'Contract Addendum Info' }).getByLabel('Contract Addendum Info').first();
+        this.AddendumEffectiveDate = page.getByPlaceholder('DD').nth(1);
+        this.AddendumCreationDate = page.getByPlaceholder('DD').first();
+        this.AddendumEndDate = page.getByPlaceholder('DD').nth(2);
 
     }
 
@@ -423,10 +439,31 @@ export class HrInboxPage extends WebActionsPage {
         await this.hireadditiondatasub.click();
         await super.selectFromCustomDropDrown(this.areadeEstudo, AreadeEstudo);
         await super.selectFromCustomDropDrown(this.taxadeIRS, TaxadeIRS);
-        if(await this.portugalSocialSecurityCode.count()>0)
-        await super.setTextWithEnter(this.portugalSocialSecurityCode, PortugalSocialSecurityCode);
+        if (await this.portugalSocialSecurityCode.count() > 0)
+            await super.setTextWithEnter(this.portugalSocialSecurityCode, PortugalSocialSecurityCode);
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
+    }
+
+    async setContractAddendumInfoIfVisible(ContractAddendumInfo_TerminateAddendumEffectiveDate: any, ContractAddendumInfo_AddendumCreationDate: any, ContractAddendumInfo_AddendumEndDate: any) {
+        await this.page.waitForTimeout(2000);
+        if (await this.contractJobChange.count() > 0) {
+            await this.contractJobChange.click();
+            await this.contractAddendumPage.waitFor();
+            // if (await this.contractAddendumPage.isVisible()) {
+            await this.page.getByLabel('Add Row').click();
+            const randomNumber = Math.floor(Math.random() * 10) + 1;
+            await super.setText(this.txtAddendumNumber, randomNumber.toString());
+            await super.setTextWithType(this.AddendumEffectiveDate, ContractAddendumInfo_TerminateAddendumEffectiveDate);
+            await super.setTextWithType(this.AddendumCreationDate, ContractAddendumInfo_AddendumCreationDate);
+            await super.setTextWithType(this.AddendumEndDate, ContractAddendumInfo_AddendumEndDate);
+            await super.setText(this.page.getByRole('textbox').nth(2), "Text");
+            await this.page.waitForTimeout(500);
+            await this.hrSubmit.click();
+            // }
+
+        }
+
     }
 
     async addHireAdditionalDataSpain(EstadolIRPF: string, MinusvaliaRH: string): Promise<void> {
@@ -501,7 +538,7 @@ export class HrInboxPage extends WebActionsPage {
     //Added By Gayatri for PageHireSkipOk
     async PageHireSkipThisTask() {
         await this.page.waitForTimeout(500);
-        await this.btnSkip.click(); 
+        await this.btnSkip.click();
         await this.page.waitForTimeout(500);
         await this.clickSkipThisTaskOK.click();
     }
@@ -698,7 +735,7 @@ export class HrInboxPage extends WebActionsPage {
 
     async nationalHealthFundCode(HealthFundCode: string): Promise<void> {
         await this.nationalHealthFundCodeTitle.click();
-        const locator =await this.page.locator('//label[contains(text(),"National Health Fund Code")]/parent::div/following-sibling::div/descendant ::input');
+        const locator = await this.page.locator('//label[contains(text(),"National Health Fund Code")]/parent::div/following-sibling::div/descendant ::input');
         await super.setTextWithDoubleEnter(locator, HealthFundCode);
         await this.hrSubmit.click();
     }
@@ -767,6 +804,30 @@ export class HrInboxPage extends WebActionsPage {
         await super.click(this.hrSubmit);
     }
 
+    async clickInboxMyTaskAndSubmitIfVisible(varString: string) {
+        const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]").first();
+        await this.page.waitForTimeout(1000);
+        if (await locator.isVisible() && await locator.count() > 0) {
+            await super.click(locator);
+            await super.click(this.hrSubmit);
+        }
+
+    }
+
+    async clickInboxMyTaskAndApproveIfVisible(varString: string) {
+        const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]");
+        const approve = await this.page.getByRole('button', { name: 'Approve' });
+        await this.page.waitForTimeout(1000);
+        if (await locator.first().isVisible() && await locator.first().count() > 0) {
+            await super.click(locator.first());
+            await super.click(approve);
+            await this.page.waitForTimeout(2500);
+            if (await approve.isVisible() && await locator.count() > 0) {
+                await super.click(approve);
+            }
+            await this.page.waitForTimeout(500);
+        }
+    }
     async clickInboxMyTaskAndApprove(varString: string) {
         const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]");
         const approve = await this.page.getByRole('button', { name: 'Approve' });
@@ -1084,7 +1145,7 @@ export class HrInboxPage extends WebActionsPage {
         await this.personalInformationChangePage.click();
         await this.page.getByRole('button', { name: 'Approve' }).click();
     }
-    
+
 
     async hrManageProbation(probReviewDate: string) {
         await this.page.waitForTimeout(500);

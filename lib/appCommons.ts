@@ -4,6 +4,8 @@ import { WebActionsPage } from './WebActionPage';
 
 
 export class appCommons extends WebActionsPage {
+
+
   readonly page: Page;
   readonly context: BrowserContext;
   readonly inboxtitle: Locator;
@@ -28,6 +30,7 @@ export class appCommons extends WebActionsPage {
   readonly btnJob: Locator;
   readonly txtPayGroup: Locator;
   readonly lnkViewDetails: Locator;
+  readonly successOpen: Locator;
 
   constructor(page: Page, context: BrowserContext) {
     super(page);
@@ -36,6 +39,7 @@ export class appCommons extends WebActionsPage {
     this.inboxtitle = page.getByLabel('My Tasks Items');
     this.searchboxhome = page.locator('[aria-label="Search Workday "]');
     this.successEvent = page.locator('h2:has-text("Success! Event submitted")');
+    this.successOpen = page.getByRole('button', { name: 'Open' });
     this.eventApproved = page.locator('text=Success! Event approved');
     this.successClose = page.locator('[aria-label="Close"] >> nth=2');
     this.refreshButton = page.locator('button:has-text("Refresh")');
@@ -63,6 +67,7 @@ export class appCommons extends WebActionsPage {
     await this.inboxtitle.click();
   }
 
+
   /*
   @description : used to set or apply static wait in second to the script.
   */
@@ -89,6 +94,34 @@ export class appCommons extends WebActionsPage {
     await this.searchboxhome.fill(searchtext);
     await this.searchboxhome.press('Enter');
   }
+
+
+  async getEmployeeGivenNameAndFamilyName(searchtext: string): Promise<[string, string]> {
+
+    const locator = this.page.locator(`(//*[@data-automation-id='workerProfileDetailsPanelName']//*[contains(text(),'${searchtext.trim()}')])[1]`);
+    await locator.waitFor();
+    const givenAndFamilyName = await super.getInnerText(locator);
+    const givenName = givenAndFamilyName.split(" ")[0];
+    const familyName = givenAndFamilyName.split(" ")[1];
+    // const [givenName, familyName] = givenAndFamilyName.split(" ");
+    return [givenName, familyName];
+  }
+
+  async SuccessEventHandleJobChange() {
+    await this.page.waitForTimeout(2000);
+    if (await this.successEvent.isVisible()) {
+      await super.click(this.successClose);
+    } else if (await this.eventApproved.isVisible()) {
+      await super.click(this.successClose);
+    } else if (await this.eventSubmitted.isVisible()) {
+      //await super.click(this.successClose);
+      await super.click(this.successOpen);
+    } else if (await this.markedcompleted.isVisible()) {
+      await super.click(this.successClose);
+    }
+
+  }
+
 
   async SearchClickLink(searchtext: string) {
     // await this.page.waitForLoadState();
@@ -145,6 +178,7 @@ export class appCommons extends WebActionsPage {
     }
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();
+    await this.page.getByLabel('All Items').first().click({ 'force': true });
 
   }
 
@@ -212,6 +246,47 @@ export class appCommons extends WebActionsPage {
     // } catch (error) {
     //   console.error("HR locator is not present in the DOM; therefore, the HR partner was not found.");
     // }
+  }
+
+  async getJobChangesHRpartnerID(givenname: any, familyname: any) {
+
+    await this.MyTasks();
+    await super.click(this.Archive);
+    await this.page.waitForTimeout(6000);
+    const buttons = await this.page.locator(`button:has-text('Promotion: ${givenname} ${familyname}')`).or(this.page.locator(`button:has-text('Data Change: ${givenname} ${familyname}')`));
+    // await this.page.waitForSelector(buttons);
+    await buttons.scrollIntoViewIfNeeded();
+    // const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
+    // Iterate over the found buttons and click the one that starts with 'Hire'
+    for (let i = 0; i < await buttons.count(); i++) {
+
+      const buttonText = await buttons.nth(i).textContent();
+      if (buttonText?.startsWith('Data Change')) {
+        await this.page.waitForTimeout(400);
+        //await buttons.nth(i).click();
+        await super.click(buttons.nth(i));
+      } else if (buttonText?.startsWith('Promotion')) {
+        await this.page.waitForTimeout(400);
+        //await buttons.nth(i).click();
+        await super.click(buttons.nth(i));
+      }
+    }
+    await this.page.waitForTimeout(3000);
+    await this.process.click({ 'force': true });
+    // Check if the field exists
+    if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {
+      //await this.txtItemsPerPage.waitFor;
+      // await this.txtItemsPerPage.click();
+      await super.click(this.txtItemsPerPage);
+      await super.click(this.listSelectAll);
+      // await this.listSelectAll.click();
+    }
+
+    // Wait for 3 seconds (consider using a more dynamic wait if possible)
+    await this.page.waitForTimeout(1000);
+    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
+    const HrID2 = this.getNumbersFromString(HrDetails);
+    return HrID2;
   }
 
   async getCompensationHRpartnerID() {

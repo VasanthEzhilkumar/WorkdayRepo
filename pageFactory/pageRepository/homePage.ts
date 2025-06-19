@@ -11,7 +11,7 @@ export class homepage {
   constructor(page: Page, context: BrowserContext) {
     this.page = page;
     this.searchboxHome = page.locator('[aria-label="Search Workday "]');
-    this.hireEmployeetask = page.getByRole('link', { name: 'Hire Employee' }).nth(1);
+    this.hireEmployeetask = page.locator("//li/*[text()='Tasks and Reports']/following-sibling::ol[@role='list']//a[text()='Hire Employee']").nth(1);
     this.searchIcon = page.locator('#wd-searchInput div svg[role="presentation"]');
     this.createpoistion = page.getByRole('link', { name: 'Create Position' });
   }
@@ -40,7 +40,7 @@ export class homepage {
     await this.hireEmployeetask.click();
     await this.page.waitForTimeout(2000)
   }
-  
+
   async searchEmp(strEmp: any): Promise<void> {
     await this.page.waitForTimeout(2000)
     // Wait until the searchboxHome is visible
@@ -52,35 +52,35 @@ export class homepage {
     // await this.searchboxHome.fill(strEmp.toString());
     // await this.searchboxHome.press('Enter');
     await this.page.waitForTimeout(3000)
-}
-
-  async getEmpName(strEmp: any): Promise < string > {
-  // Assume the employee ID is known
-  let employeeID = strEmp;
-
-  // Locate the link element by matching the ID within the name attribute
-  const element = await this.page.getByRole('link', { name: new RegExp(`\\(${employeeID}\\)`) });
-
-  // Extract the text content from the element
-  const name = await element.textContent();
-
-  // Assuming the text is in the format 'First Given (ID)'
-  if(name) {
-    // Split the name by spaces and parentheses
-    const splitName = name.split(' ');
-
-    // Extract first name (first part) and given name (second part)
-    const firstName = splitName[0];
-    const givenName = splitName[1];
-    // Extract the ID (last part inside parentheses)
-    const id = splitName[splitName.length - 1].replace(/[()]/g, '');
-    console.log(`${firstName} ${givenName}`);
-    await element.click()
-    return `${firstName} ${givenName}`;
-
   }
 
+  async getEmpName(strEmp: any): Promise<string> {
+    // Assume the employee ID is known
+    let employeeID = strEmp;
+
+    // Locate the link element by matching the ID within the name attribute
+    const element = await this.page.getByRole('link', { name: new RegExp(`\\(${employeeID}\\)`) });
+
+    // Extract the text content from the element
+    const name = await element.textContent();
+
+    // Assuming the text is in the format 'First Given (ID)'
+    if (name) {
+      // Split the name by spaces and parentheses
+      const splitName = name.split(' ');
+
+      // Extract first name (first part) and given name (second part)
+      const firstName = splitName[0];
+      const givenName = splitName[1];
+      // Extract the ID (last part inside parentheses)
+      const id = splitName[splitName.length - 1].replace(/[()]/g, '');
+      console.log(`${firstName} ${givenName}`);
+      await element.click()
+      return `${firstName} ${givenName}`;
+
+    }
 
 
-}
+
+  }
 }

@@ -1,5 +1,5 @@
-import * as xlsx from 'xlsx';
 import * as path from 'path';
+import * as xlsx from 'xlsx';
 
 
 import ExcelJS from 'exceljs';
@@ -161,7 +161,7 @@ export const writeResultsToExcel = async (filePath: string, sheetName: string, r
 
     row.commit();
     await workbook.xlsx.writeFile(filePath);
-   
+
   } else {
     console.error('Employee ID or Test Status column not found');
   }
