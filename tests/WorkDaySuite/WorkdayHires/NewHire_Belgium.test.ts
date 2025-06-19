@@ -33,6 +33,8 @@ for (const sheetName in sheetsJson) {
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
     const { givenName, familyName } = generateRandomName();
+    if (data.TestStatus != 'Passed') {
+
     
     
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, appCommon, context, login, home, hireEmployee, proxy }) => {
@@ -54,8 +56,13 @@ for (const sheetName in sheetsJson) {
         
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
         
+        // // /*Login creds for PK14*/
+        // const username = "90002196";
+        // const password = "Primark0255!";
+
+        // // /*Login creds for PK17*/
         const username = "90001655";
-        const password = "Vasanth2025!";
+        const password = 'Vasanth"123';
         await login.goto("PK17");
         //await login.goto((data.Country).toString());
         await login.sigIn(username, password);
@@ -101,7 +108,8 @@ for (const sheetName in sheetsJson) {
           data.DefaultWeeklyHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
         
         await captureErrors.checkForScreenErrors();
@@ -250,6 +258,7 @@ for (const sheetName in sheetsJson) {
         }
         
       });
+    }
     });
   }
   

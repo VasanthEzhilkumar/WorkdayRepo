@@ -10,7 +10,6 @@ import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInf
 import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
-import { generateRandomName } from 'utils/functional/utils';
 
 
 let empNum: string;
@@ -19,7 +18,7 @@ let capObj: CaptureAlertErrors;
 let CompensationHRPartner: string;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Workday_NewHire_UKNI_Regression_PK17.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_UKNI_Regression_PK14.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -31,12 +30,13 @@ for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
 
   dataSet.forEach((data, index) => {
+    if (data.TestStatus !== "Passed"){
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = (data.JobProfile || `JobProfile_${index + 1}`).trim();
-    const { givenName, familyName } = generateRandomName();
-    // const givenName = data.GivenName;
-    // const familyName = data.FamilyName;
+    // const { givenName, familyName } = generateRandomName();
+    const givenName = data.GivenName;
+    const familyName = data.FamilyName;
     // if (data.TestStatus != 'Passed') {
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
@@ -57,16 +57,16 @@ for (const sheetName in sheetsJson) {
 
         console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
-        /*Login creds for PK14*/
-        // const username = "90002196";
-        // const password = "Primark0255!";
-
-        // /*Login creds for PK17*/
+        // /*Login creds for PK14*/
         const username = "90002196";
-        const password = "Wizos2025!";
+        const password = "Primark0255!";
+
+        // // /*Login creds for PK17*/
+        // const username = "90002196";
+        // const password = "Wizos2025!";
 
         // initlize the web environment 
-        await login.goto("PK17");
+        await login.goto("PK14");
 
         // login into application 
         await login.sigIn(username, password);
@@ -126,7 +126,8 @@ for (const sheetName in sheetsJson) {
           data.DefaultWeeklyHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -142,7 +143,6 @@ for (const sheetName in sheetsJson) {
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.MyTasks();
-        // await appCommon.ClickInbox();
         // await capObj.checkForScreenErrors();
 
         //Assign Initial Details for Employee
@@ -164,7 +164,6 @@ for (const sheetName in sheetsJson) {
         // await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
 
-        // await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, String(data.Salary), "NaN", data.AllowanceAmount);
         await capObj.checkForScreenErrors();
@@ -175,7 +174,6 @@ for (const sheetName in sheetsJson) {
             await appCommon.SearchboxEmp("Start Proxy");
             await proxy.startProxy(CompensationHRPartner);
             await appCommon.MyTasks();
-            // await appCommon.ClickInbox();
             await hrInbxPage.compensationHRapprove();
           }
         }
@@ -219,9 +217,6 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.GBEmployeeHandbooksSubmit();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.reviewDocumentSubmitGeneric();
-        await appCommon.SuccessEventHandle();
-
         await empInboxpage.addCertificationSubmit();
         await appCommon.SuccessEventHandle();
 
@@ -240,6 +235,9 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changeGovIDInformation();
+        await appCommon.SuccessEventHandle();
+        
+        await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
 
         await appCommon.SearchboxEmp("Start Proxy");
@@ -290,5 +288,6 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+  }
   });
 }

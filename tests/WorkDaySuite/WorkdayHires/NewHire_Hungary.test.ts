@@ -11,7 +11,6 @@ import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
 import { GovernmentsIDPageHungary } from '@pages/HungaryPages/GovernmentIDHungaryPage';
 import { contactInformationAddressHungary } from 'pageFactory/HungaryPages/ContactInformationAddressHungary';
-import { generateRandomName } from 'utils/functional/utils';
 
 
 let empNum: string;
@@ -20,7 +19,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hungary_Payslip_New Hire_Store 970_Automation_Phani_V 0.1.xlsx';
+const excelFileName = 'Hungary_Accruals_New Hire_Store 970_Automation V0.1.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -35,17 +34,14 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    const { givenName, familyName } = generateRandomName();
-    // const givenName = data.GivenName;
-    // const familyName = data.FamilyName;
-    if (data.TestStatus !== 'Passed') {
+    //const { givenName, familyName } = generateRandomName();
+    const givenName = data.GivenName;
+     const familyName = data.FamilyName;
+    if (data.TestStatus != 'Passed') {
 
       test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
         try {
-          await page.setViewportSize({ width: 1280, height: 780 });
-
-          // const givenName: string = "Gussie";
-          // const familyName: string = "Stanton";
+          await page.setViewportSize({ width: 1280, height: 595 });
 
           const empInboxpage = new employeeInboxPage(page, familyName, givenName, jobProfile, context);
           const hrInbxPage = new HrInboxPage(page, familyName, givenName, context);
@@ -116,7 +112,8 @@ for (const sheetName in sheetsJson) {
             data.defaultHours,
             data.Location,
             data.EndEmploymentDate,
-            data.PayRateType
+            data.PayRateType,
+            data.Reason
           );
 
           //till this expect the additional details
@@ -177,11 +174,11 @@ for (const sheetName in sheetsJson) {
 
 
           await hrInbxPage.setManageProbation("NaN", "NaN");
-          //await capObj.checkForScreenErrors();
+          await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
 
           //await appCommon.MyTasks();
-          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, data.AllowanceAmount);
+          await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, "NaN");
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
 
@@ -197,7 +194,6 @@ for (const sheetName in sheetsJson) {
           await appCommon.SearchboxEmp("Start Proxy");
           await proxy.startProxy(empNum);
           await appCommon.MyTasks();
-
           await empInboxpage.onBoardingGuide();
           await appCommon.SuccessEventHandle();
           await empInboxpage.empaddPhoto();
@@ -270,8 +266,8 @@ for (const sheetName in sheetsJson) {
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
 
-          // await appCommon.SearchClickLink(empNum)
-          // await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
+          await appCommon.SearchClickLink(empNum)
+          await appCommon.assignPaygroupValidation(data.ProposedPayGroupFinal);
           //await appCommon.tearDown();
           // Write the results to the Excel file
           writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');

@@ -167,7 +167,56 @@ export const writeResultsToExcel = async (filePath: string, sheetName: string, r
   }
 };
 
+// Function to write test results to Excel
+export const writeErrorToExcel = async (filePath: string, sheetName: string, rowIndex: number, empNum: string, status: string) => {
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.readFile(filePath);
+  const worksheet = workbook.getWorksheet(sheetName);
 
+  // Find the column indices for Employee ID and Test Status
+  const headerRow = worksheet.getRow(1);
+  let employeeIdCol = -1;
+  let testStatusCol = -1;
+
+  headerRow.eachCell((cell, colNumber) => {
+    if (cell.value === 'Error') {
+      employeeIdCol = colNumber;
+    } else if (cell.value === 'TestStatus') {
+      testStatusCol = colNumber;
+    }
+  });
+
+  if (employeeIdCol !== -1 && testStatusCol !== -1) {
+    const row = worksheet.getRow(rowIndex + 2); // Adjust for 1-based index and header row
+    const empIdCell = row.getCell(employeeIdCol);
+    const statusCell = row.getCell(testStatusCol);
+
+    empIdCell.value = empNum;
+    statusCell.value = status;
+
+    if (status === 'Failed') {
+      // Apply red fill to the cell if the test failed
+      statusCell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFFF0000' } // Red color
+      };
+    } else if (status === 'Passed') {
+      // Apply green fill to the cell if the test passed
+      statusCell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF00FF00' } // Green color
+      };
+    }
+
+    row.commit();
+    await workbook.xlsx.writeFile(filePath);
+   
+  } else {
+    console.error('Employee ID or Test Status column not found');
+  }
+};
 
 // Generic Function to write values to Excel
 export const writePositionToExcel = async (filePath: string, sheetName: string, rowIndex: number, columnValue: string, columnName: string) => {

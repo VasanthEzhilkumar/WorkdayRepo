@@ -129,6 +129,9 @@ export class employeeInboxPage extends WebActionsPage {
     readonly educationLevel: Locator;
     readonly educationCompletionDate: Locator;
     readonly Studies: Locator;
+    readonly dodajDanePIT2Title: Locator;
+    readonly rodzinyDoUbezpieczeniaZdrowotnegoTitle: Locator;
+    readonly empNationalHealthFundCodeTitle: Locator;
     readonly givenNameH: Locator;
     readonly addDisability: Locator;
     readonly clickDetails: Locator;
@@ -301,6 +304,10 @@ export class employeeInboxPage extends WebActionsPage {
         this.educationLevel = page.locator('//label[text()="Education Level"]/parent::div/following-sibling::div//input');
         this.educationCompletionDate = page.locator('');
         this.Studies = page.locator('//label[text()="Studies"]/parent::div/following-sibling::div//input');
+        this.dodajDanePIT2Title = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane PIT-2"]');
+        this.rodzinyDoUbezpieczeniaZdrowotnegoTitle = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane członków rodziny do ubezpieczenia zdrowotnego"]'); 
+        this.empNationalHealthFundCodeTitle = page.locator('//div[@data-automation-id="titleText" and text()="National Health Fund Code"]');
+    
         this.addDisability = page.getByLabel('Add Disability');
         //this.clickDetails = page.getByText('Details');
         this.clickDetails = page.getByRole('button', { name: 'Details' });
@@ -397,6 +404,7 @@ export class employeeInboxPage extends WebActionsPage {
     */
     async setPartnerRevenueBelgiumDependents(PartnerRevenue: string) {
         await super.click(this.hireEmployeeBel);
+        if (PartnerRevenue !== "NaN" && PartnerRevenue !== "N/A" && PartnerRevenue !== undefined) 
         await super.setTextWithDoubleEnter(this.partnerRevenue, PartnerRevenue.toString());
         await this.paygroupSubmit.click();
     }
@@ -501,6 +509,33 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(1500);
         if (await this.addPITTaxInformation.count() > 0) {
             await this.addPITTaxInformation.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
+    }
+
+    async dodajDanePIT2() {
+        await this.page.waitForTimeout(1500);
+        if (await this.dodajDanePIT2Title.count() > 0) {
+            await this.dodajDanePIT2Title.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
+    }
+
+    async rodzinyDoUbezpieczeniaZdrowotnego() {
+        await this.page.waitForTimeout(1500);
+        if (await this.rodzinyDoUbezpieczeniaZdrowotnegoTitle.count() > 0) {
+            await this.rodzinyDoUbezpieczeniaZdrowotnegoTitle.click();
+            await this.paygroupSubmit.click();
+            await this.page.waitForTimeout(500);
+        }
+    }
+
+    async empNationalHealthFundCode() {
+        await this.page.waitForTimeout(1500);
+        if (await this.empNationalHealthFundCodeTitle.count() > 0) {
+            await this.empNationalHealthFundCodeTitle.click();
             await this.paygroupSubmit.click();
             await this.page.waitForTimeout(500);
         }
@@ -661,7 +696,7 @@ export class employeeInboxPage extends WebActionsPage {
         }
         //await super.setText(this.AccountName, 'TestAutomation');
         await super.click(this.okButton);
-        this.page.waitForTimeout(200);
+        this.page.waitForTimeout(500);
         //await this.appCommon.ClickInbox();
         await this.appCommon.MyTasks();
         await super.click(this.addBankDetails1);// }
@@ -938,7 +973,7 @@ export class employeeInboxPage extends WebActionsPage {
     async changePersonalInformationNetherland(gender: string, dob: string, city: string,
         citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string) {
 
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(3000);
         await this.chgPersonalInformation.click();
         // if (await this.buttonchgpersonal.isVisible()) {
         await super.click(this.buttonchgpersonal);
@@ -1237,11 +1272,11 @@ export class employeeInboxPage extends WebActionsPage {
         if (await this.countryName.isVisible() && String(AdditionalNameCountry) !== "NaN" && String(AdditionalNameCountry) !== "N/A" && String(AdditionalNameCountry) !== undefined) {
             // await super.click(this.countryName);
             await super.setText(this.countryName, AdditionalNameCountry);
-            await this.page.keyboard.press('Enter');
-        } 
-        if (await this.givenName.or(this.givenNameH).isVisible()) {
+            this.page.keyboard.press('Enter');
+        }
+        if (await this.givenNameH.isVisible()) {
             // await super.click(this.givenName);
-            await super.setText(this.givenName.or(this.givenNameH), AdditionalNameGivenName);
+            await super.setText(this.givenNameH, AdditionalNameGivenName);
         }
         if (await this.familyName.isVisible()) {
             // await super.click(this.familyName);
@@ -1261,9 +1296,9 @@ export class employeeInboxPage extends WebActionsPage {
             await super.setText(this.countryName, AdditionalNameCountry);
             this.page.keyboard.press('Enter');
         }
-        if (await this.givenName.or(this.givenNameH).isVisible()) {
+        if (await this.givenNameH.isVisible()) {
             // await super.click(this.givenName);
-            await super.setText(this.givenName.or(this.givenNameH), AdditionalNameGivenName);
+            await super.setText(this.givenNameH, AdditionalNameGivenName);
         }
         if (await this.familyName.isVisible()) {
             // await super.click(this.familyName);

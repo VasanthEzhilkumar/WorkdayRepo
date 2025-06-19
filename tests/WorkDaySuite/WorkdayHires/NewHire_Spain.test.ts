@@ -35,11 +35,11 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    // const { givenName, familyName } = generateRandomName();
-    const givenName = data.GivenName;
-    const familyName = data.FirstLastName;
+    const { givenName, familyName } = generateRandomName();
+    // const givenName = data.GivenName;
+    // const familyName = data.FirstLastName;
     const secondLastName = data.SecondLastName;
-    // if (data.TestStatus != 'Passed') {
+    if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
@@ -66,8 +66,8 @@ for (const sheetName in sheetsJson) {
         // const password = "Primark0255!";
 
         /*Login creds for PK17*/
-        const username = "90002196";
-        const password = "Wizos2025!";
+        const username = "90001655";
+        const password = 'Vasanth"123';
 
         // initlize the web environment 
         await login.goto("PK17");
@@ -122,7 +122,8 @@ for (const sheetName in sheetsJson) {
           data.defaultHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
 
         await capObj.checkForScreenErrors();
@@ -138,7 +139,7 @@ for (const sheetName in sheetsJson) {
         // const HRPartner = "10559802"
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
+        // await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
 
@@ -179,7 +180,7 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
-        await appCommon.ClickInbox();
+        // await appCommon.ClickInbox();
         await appCommon.MyTasks();
 
         //After Entering to Employee Proxy onboarding process:)
@@ -258,5 +259,6 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+  }
   });
 }

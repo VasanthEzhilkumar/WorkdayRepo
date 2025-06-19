@@ -28,6 +28,7 @@ for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
 
   dataSet.forEach((data, index) => {
+    if (data.TestStatus !== "Passed"){
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
@@ -52,7 +53,7 @@ for (const sheetName in sheetsJson) {
         writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
         const username = "90001655";
-        const password = "Vasanth2025!";
+        const password = 'Vasanth"123';
         await login.goto("PK17");
         await login.sigIn(username, password);
 
@@ -97,7 +98,8 @@ for (const sheetName in sheetsJson) {
           data.DefaultWeeklyHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
 
         await captureErrors.checkForScreenErrors();
@@ -226,6 +228,7 @@ for (const sheetName in sheetsJson) {
       }
 
     });
+  }
   });
 }
 

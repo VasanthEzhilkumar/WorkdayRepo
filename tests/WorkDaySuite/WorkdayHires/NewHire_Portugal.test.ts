@@ -11,6 +11,7 @@ import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
 import { contactInformationAddressPortugal } from '@pages/PortugalPages/ContactInformationAddressPortugal';
 import { GovernmentsIDPagePortugal } from '@pages/PortugalPages/GovernmentIDsPortugalPage';
+import { generateRandomName } from 'utils/functional/utils';
 
 
 
@@ -35,11 +36,10 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    // const { givenName, familyName } = generateRandomName();
-    const givenName = data.GivenName;
-    const familyName = data.FamilyName;
-    let govtID = 0;
-    let personalInfo = 0;
+    const { givenName, familyName } = generateRandomName();
+    // const givenName = data.GivenName;
+    // const familyName = data.FamilyName;
+   
     // if (data.TestStatus != 'Passed') {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
@@ -68,8 +68,8 @@ for (const sheetName in sheetsJson) {
         // const password = "Primark0255!";
 
         /*Login creds for PK17*/
-        const username = "90002196";
-        const password = "Wizos2025!";
+        const username = "90001655";
+        const password = 'Vasanth"123';
 
         // initlize the web environment 
         await login.goto("PK17");
@@ -132,7 +132,8 @@ for (const sheetName in sheetsJson) {
           data.defaultHours,
           data.Location,
           data.EndEmploymentDate,
-          data.PayRateType
+          data.PayRateType,
+          data.Reason
         );
 
         await capObj.checkForScreenErrors();
@@ -148,7 +149,6 @@ for (const sheetName in sheetsJson) {
         // const HRPartner = "10559802"
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
 
@@ -170,11 +170,10 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
         await appCommon.refreshInbox();
 
-        govtID = await governemntIDs.setGovernmentIDsPortugalHr(data.Country1, data.NationalIDType1, data.AddEditID1, data.Country2, data.NationalIDType2, data.AddEditID2, data.Country3, data.NationalIDType3, data.AddEditID3);
+        await governemntIDs.setGovernmentIDsPortugalHr(data.Country1, data.NationalIDType1, data.AddEditID1, data.Country2, data.NationalIDType2, data.AddEditID2, data.Country3, data.NationalIDType3, data.AddEditID3);
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        // await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, data.AllowanceAmount);
         await capObj.checkForScreenErrors();
@@ -189,7 +188,6 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
 
         //After Entering to Employee Proxy onboarding process:)
@@ -261,5 +259,6 @@ for (const sheetName in sheetsJson) {
         }
       }
     });
+  // }
   });
 }

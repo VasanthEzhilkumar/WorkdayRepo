@@ -45,7 +45,7 @@ for (const sheetName in sheetsJson) {
       // const familyName = data.FamilyName;
       // const givenName: string = "Gussie";
       // const familyName: string = "Stanton";
-      // if (data.TestStatus != 'Passed') {
+     if (data.TestStatus != 'Passed') {
 
       test(`@HireREG Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
         try {
@@ -66,7 +66,7 @@ for (const sheetName in sheetsJson) {
           writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
           const username = "90001655";
-          const password = "Vasanth2025!";
+        const password = 'Vasanth"123';
 
           // initlize the web environment 
           await login.goto("PK17");
@@ -118,7 +118,8 @@ for (const sheetName in sheetsJson) {
             data.defaultHours,
             data.Location,
             data.EndEmploymentDate,
-            data.PayRateType
+            data.PayRateType,
+            data.Reason
           );
 
           await capObj.checkForScreenErrors();
@@ -264,6 +265,7 @@ for (const sheetName in sheetsJson) {
           // }
         }
       });
+     }
     }
   });
 }

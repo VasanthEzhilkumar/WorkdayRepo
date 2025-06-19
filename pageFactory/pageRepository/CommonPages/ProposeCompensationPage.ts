@@ -204,7 +204,7 @@ export class ProposeCompensationPage extends WebActionsPage {
             await this.page.waitForTimeout(500);
             await this.btnDeletePopupslovenia.first().click();
         }
-
+        await this.page.waitForTimeout(2000);
         if (AllowanceAmount !== "N/A" && AllowanceAmount !== "NaN" && AllowanceAmount !== undefined && AllowanceAmount !== "Defaulted") {
             if (await this.btnEditAllowance.isVisible()) {
                 //  && await this.editSalary.isVisible()) {

@@ -66,7 +66,9 @@ export class hireEmployeePage extends WebActionsPage {
   readonly setinitals: Locator;
   readonly flName: Locator;
   readonly slName: Locator;
-
+  readonly givenName: Locator;
+  readonly rehireRadioBtn : Locator;
+ readonly existingPreHireTxt: Locator;
 
   constructor(page: Page, context: BrowserContext) {
     super(page)
@@ -81,9 +83,9 @@ export class hireEmployeePage extends WebActionsPage {
     // this.gName = page.locator('[id="\\35 6\\$551056--uid22-input"]');
     // this.fName = page.locator('[id="\\35 6\\$551056--uid23-input"]');
     this.prefix = page.getByLabel('Prefix');
-    this.gName = page.locator('label:has-text("Given Name")').first();
+    this.gName = page.locator('//label[contains(text(),"Given Name")]//parent::div/following-sibling::div//input').first();
     // this.fName = page.locator('label:has-text("Family Name")').first();
-    this.fName = page.locator("(//label[contains(./text(),'Family Name')]/ancestor::li/descendant::input[@data-automation-id='textInputBox'])[1]");
+    this.fName = page.locator("(//label[contains(./text(),'Family Name')]/ancestor::li/descendant::input[@data-automation-id='textInputBox'])[1]").first();
     // this.gName = page.locator('label:has-text("Given Name")');
     // this.fName = page.locator('label:has-text("Family Name")');
     this.lName = page.locator('label:has-text("Last Name")');
@@ -149,6 +151,10 @@ export class hireEmployeePage extends WebActionsPage {
 
     this.flName = page.locator('//label[contains(./text(),"First Last Name")]/ancestor::li/descendant::input[@data-automation-id="textInputBox"]');
     this.slName = page.locator('//label[contains(./text(),"Second Last Name")]/ancestor::li/descendant::input[@data-automation-id="textInputBox"]');
+    this.givenName = page.locator('//label[contains(text(),"Given Name(s)")]//parent::div/following-sibling::div//input').first();
+    
+    this.rehireRadioBtn = page.locator('//label[@data-automation-label="Existing Pre-Hire"]/parent::*[@data-automation-id="radioBtn"]//input');
+    this.existingPreHireTxt = page.locator('//div[@data-automation-id="radioGroupChildWidget"]//input');
 
   }
 
@@ -188,7 +194,7 @@ export class hireEmployeePage extends WebActionsPage {
 
   async legalNameInformationPoland(givenname: string, FamilyName: string) {
     //await super.setTextWithDoubleEnter();
-    await this.gName.fill(givenname);
+    await this.givenName.fill(givenname);
     await this.fName.fill(FamilyName);
   }
 
@@ -305,6 +311,7 @@ export class hireEmployeePage extends WebActionsPage {
   async searchSupervisoryOrganization(supervisoryOrganisation: string) {
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0] + '(' + supervisoryOrganisation1[1];
+    await this.page.waitForTimeout(500);
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
     await this.page.waitForTimeout(1000);
     const superOrg = await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]");
@@ -314,6 +321,22 @@ export class hireEmployeePage extends WebActionsPage {
     }
     await this.page.waitForTimeout(1000);
     await this.newPreHire.click();
+    await this.okButtonHireEmployee.click();
+  }
+
+  async searchSupervisoryOrganizationRehire(supervisoryOrganisation: string, PreHire: string) {
+    let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
+    let supervisoryOrganisation2 = supervisoryOrganisation1[0] + '(' + supervisoryOrganisation1[1];
+    await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
+    await this.page.waitForTimeout(1000);
+    const superOrg = await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]");
+    if (await superOrg.isVisible()) {
+      await superOrg.scrollIntoViewIfNeeded();
+      await superOrg.click();
+    }
+    await this.page.waitForTimeout(1000);
+    await this.rehireRadioBtn.click();
+    await super.setTextWithEnter(this.existingPreHireTxt, PreHire);
     await this.okButtonHireEmployee.click();
   }
 

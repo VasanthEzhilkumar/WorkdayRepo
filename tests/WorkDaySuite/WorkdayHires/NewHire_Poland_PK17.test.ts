@@ -13,15 +13,13 @@ import { contactInformationAddressPoland } from '@pages/PolandPages/contactInfor
 import { GovernmentsIDPagePoland } from '@pages/PolandPages/GovernmentIDsPolandPage';
 import { generateRandomName } from 'utils/functional/utils';
 
-
-
 let empNum: string;
 let position: string;
 let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'TestDataPoland-Regression.xlsx';
+const excelFileName = 'Hires/TestDataPoland-Regression.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -64,7 +62,7 @@ for (const sheetName in sheetsJson) {
           writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
           const username = "90001655";
-          const password = "Vasanth2025!";
+          const password = 'Vasanth"123';
           await login.goto("PK17");
           await login.sigIn(username, password);
 
@@ -98,7 +96,7 @@ for (const sheetName in sheetsJson) {
           await hireEmployee.legalNameInformationPoland(givenName, familyName);
           await hireEmployee.contactInformationpage();
           await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-          await homePagePoland.contactInformationAddress(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type,data.UseFor);
+          await homePagePoland.contactInformationAddress(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type, data.UseFor);
           await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
           await hireEmployee.okHireButton();
           await capObj.checkForScreenErrors();
@@ -115,7 +113,8 @@ for (const sheetName in sheetsJson) {
             data.defaultHours,
             data.Location,
             data.EndEmploymentDate,
-            data.PayRateType
+            data.PayRateType,
+            data.Reason
           );
 
           await capObj.checkForScreenErrors();
@@ -238,7 +237,6 @@ for (const sheetName in sheetsJson) {
           //Start Proxy As HR Again 
           await appCommon.Searchbox("Start Proxy");
           await proxy.startProxy(HRPartner);
-          await appCommon.ClickInbox();
           await appCommon.MyTasks();
           await capObj.checkForScreenErrors();
 
