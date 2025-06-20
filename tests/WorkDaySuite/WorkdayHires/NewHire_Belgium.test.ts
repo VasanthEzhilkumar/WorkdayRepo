@@ -180,7 +180,6 @@ for (const sheetName in sheetsJson) {
           
           await appCommon.SearchboxEmp("Start Proxy");
           await proxy.startProxy(empNum);
-          //await appCommon.ClickInbox();
           await appCommon.MyTasks();
           
           await empInboxpage.onBoardingGuide();

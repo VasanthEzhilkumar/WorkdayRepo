@@ -13888,3 +13888,17 @@
 {"level":"info","message":"Test Case Completed : @JobChange - Test 7  Status : passed"}
 {"level":"info","message":"Test Case Started : @JobChange - Test 8 "}
 {"level":"info","message":"Test Case Completed : @JobChange - Test 8  Status : passed"}
+{"level":"error","message":"SyntaxError: H:\\WDplaywright_LatestCode\\tests\\WorkDaySuite\\WorkdayHires\\NewHire_Poland_PK14.test.ts: Unexpected token, expected \",\" (328:2)\n\n\u001b[0m \u001b[90m 326 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 327 |\u001b[39m   }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 328 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 329 |\u001b[39m }\u001b[0m"}
+{"level":"info","message":"Test Case Started : @Rehire Employee - Test 1 "}
+{"level":"error","message":"SyntaxError: H:\\WDplaywright_LatestCode\\tests\\WorkDaySuite\\WorkdayHires\\NewHire_Poland_PK14.test.ts: Unexpected token, expected \",\" (328:2)\n\n\u001b[0m \u001b[90m 326 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 327 |\u001b[39m   }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 328 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 329 |\u001b[39m }\u001b[0m"}
+{"level":"info","message":"Test Case Started : @Rehire Employee - Test 1 "}
+{"level":"error","message":"SyntaxError: H:\\WDplaywright_LatestCode\\tests\\WorkDaySuite\\WorkdayHires\\NewHire_Poland_PK14.test.ts: Unexpected token, expected \",\" (328:2)\n\n\u001b[0m \u001b[90m 326 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 327 |\u001b[39m   }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 328 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 329 |\u001b[39m }\u001b[0m"}
+{"level":"info","message":"Test Case Started : @Rehire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Rehire Employee - Test 1  Status : passed"}
+{"level":"error","message":"SyntaxError: H:\\WDplaywright_LatestCode\\tests\\WorkDaySuite\\WorkdayHires\\NewHire_Poland_PK14.test.ts: Unexpected token, expected \",\" (328:2)\n\n\u001b[0m \u001b[90m 326 |\u001b[39m     })\u001b[33m;\u001b[39m\n \u001b[90m 327 |\u001b[39m   }\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 328 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m     |\u001b[39m   \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 329 |\u001b[39m }\u001b[0m"}
+{"level":"info","message":"Test Case Started : @Rehire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Rehire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @Rehire Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @Rehire Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @Rehire Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @Rehire Employee - Test 2  Status : passed"}
