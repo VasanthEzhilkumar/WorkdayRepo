@@ -31,7 +31,7 @@ export class loginpage {
     await this.password.fill(testConfig.WorkdayPassword);
     await this.signIn.click();
     await this.page.waitForLoadState();
-    // await this.page.waitForTimeout(3000)
+    await this.page.waitForTimeout(3000)
   }
 }
 

@@ -195,6 +195,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empaddBankDetails(data.BankName, data.BankCode, data.AccountNumber, data.IBAN);
 
         await appCommon.MyTasks();
+        await page.waitForTimeout(1000);
         await hrInbxPage.addWorkerBankDetails();
         await appCommon.SuccessEventHandle();
 

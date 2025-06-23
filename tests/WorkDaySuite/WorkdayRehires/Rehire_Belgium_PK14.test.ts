@@ -90,13 +90,6 @@ for (const sheetName in sheetsJson) {
         await home.searchHireEmployee();
 
         await hireEmployee.searchSupervisoryOrganizationRehire(data.SupervisoryOrganisation, data.ExistingPreHire);
-        // await hireEmployee.legalNameInformationBelgium(data.Prefix, givenName, familyName, "NaN");
-        // await hireEmployee.contactInformationpage();
-        // await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
-        // await homePageBelgium.contactInformationAddress(data.StreetName, data.HouseNumber, data.Province, data.PostalCode, data.City, data.Type);
-        // await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
-        // await hireEmployee.okHireButton();
-        // await captureErrors.checkForScreenErrors();
         await jobDetailsPage.setJobDetails(
           data.HireDate,
           data.EmployeeType,
@@ -152,10 +145,6 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.clickInboxMyTaskAndSubmit(Title);
         await appCommon.SuccessEventHandle();
 
-
-        // await hrInbxPage.setManageProbation("NaN", data.ProbationReviewDate);
-        // await appCommon.SuccessEventHandle();
-        // await appCommon.refreshInbox();
         if (!data.JobProfile.toString().includes("Manager")) {
           await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "", data.AllowanceAmount);
           await captureErrors.checkForScreenErrors();

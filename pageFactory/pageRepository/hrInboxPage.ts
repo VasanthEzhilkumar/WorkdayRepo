@@ -523,6 +523,7 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async addWorkerBankDetails(): Promise<void> {
+        await this.page.waitForTimeout(2000);
         await this.addbank.click();
         await this.hrSubmit.click();
         await this.page.waitForTimeout(2000);
