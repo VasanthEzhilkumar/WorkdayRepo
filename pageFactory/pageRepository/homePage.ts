@@ -11,7 +11,8 @@ export class homepage {
   constructor(page: Page, context: BrowserContext) {
     this.page = page;
     this.searchboxHome = page.locator('[aria-label="Search Workday "]');
-    this.hireEmployeetask = page.getByRole('link', { name: 'Hire Employee' }).nth(2);
+    //this.hireEmployeetask = page.getByRole('link', { name: 'Hire Employee' }).nth(1);
+    this.hireEmployeetask=page.getByRole('link', { name: 'Hire Employee' }).nth(2);
     this.searchIcon = page.locator('#wd-searchInput div svg[role="presentation"]');
     this.createpoistion = page.getByRole('link', { name: 'Create Position' });
   }

@@ -1,5 +1,4 @@
 import test from '@lib/BaseTest';
-
 import { CaptureAlertErrors } from '@lib/CaptureErrors';
 import { excelToJson, getExcelFilePath } from '@lib/ExceltoJsonUtil';
 import { writePositionToExcel, writeResultsToExcel, writeUniqueNamesToExcel } from '@lib/ExcelUtils';
@@ -38,10 +37,6 @@ for (const sheetName in sheetsJson) {
       //  const familyName = familyName || `FamilyName_${index + 1}`;
       const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
       const { givenName, familyName } = generateRandomName();
-      //const givenName = data.GivenName;
-      //const familyName = data.FamilyName;
-      // if (data.TestStatus != 'Passed') {
-
       test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
         try {
           await page.setViewportSize({ width: 1280, height: 595 });
@@ -99,6 +94,7 @@ for (const sheetName in sheetsJson) {
           await hireEmployee.contactInformationpage();
           await hireEmployee.contactInformationPhone(data.PhoneNumber, data.PhoneDevice, data.Type);
           await homePagePoland.contactInformationAddress(data.StreetName, data.houseNumber, data.Municipality, data.District, data.Province, data.PostalCode, data.City, data.Type, data.UseFor);
+          await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
           await hireEmployee.contactInformationEmail(data.EmailAddress, data.Type);
           await hireEmployee.okHireButton();
           await capObj.checkForScreenErrors();

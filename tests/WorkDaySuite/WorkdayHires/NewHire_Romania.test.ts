@@ -219,10 +219,10 @@ for (const sheetName in sheetsJson) {
           //need to make it generic method for adding additional name such maiden name, fathers name
           await empInboxpage.addAdditionalName(data.NameType, data.GivenName1, data.FamilyName1);
           //let HRPartner = "10559802";
+           await appCommon.SuccessEventHandle();
 
           await appCommon.SearchboxEmp("Start Proxy");
           await proxy.startProxy(HRPartner);
-          await appCommon.ClickInbox();
           await appCommon.MyTasks();
 
           await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");

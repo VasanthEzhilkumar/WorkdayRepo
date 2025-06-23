@@ -20,7 +20,7 @@ let capObj: CaptureAlertErrors;
 
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hungary_Accruals_New Hire_Store 970_Automation V0.1.xlsx';
+const excelFileName = 'Hires/testDataHungry.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format

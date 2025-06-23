@@ -180,7 +180,7 @@ export class JobDetailsPage extends WebActionsPage {
     }
     await super.click(this.submitButton);
     // Check for error button
-    // await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(1000);
     const errorButton = this.page.getByRole('button', { name: 'Error' });
     if (await errorButton.count() > 0) {
       await errorButton.click();
