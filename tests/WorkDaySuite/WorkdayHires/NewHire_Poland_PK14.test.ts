@@ -135,9 +135,9 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        // const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
+        const HRPartner = await appCommon.getHRpartnerID(givenName, familyName);
         // //const HRPartner = "10554022"
-        const HRPartner = "10230200"
+        // const HRPartner = "10230200"
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
         // await appCommon.ClickInbox();
