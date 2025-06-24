@@ -146,7 +146,7 @@ for (const sheetName in sheetsJson) {
         Title = "Personal Information Change: " + givenName + " " + familyName;
         await empInboxpage.clickInboxMyTaskAndSubmit(Title);
         await appCommon.SuccessEventHandle();
-/*
+
         // await hrInbxPage.setManageProbation("NaN", data.ProbationReviewDate);
         // await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
@@ -167,7 +167,7 @@ for (const sheetName in sheetsJson) {
           // empNum = await hrInbxPage.getEmployeeID();
           console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
           // await appCommon.SuccessEventHandle();
-        } else {   */
+        } else {
           //It will get HR partner ID for hr proxy
           const HRidforProposeCompensation = await appCommon.getHRpartnerID(givenName, familyName);
           await appCommon.Searchbox("Start Proxy");
@@ -185,7 +185,7 @@ for (const sheetName in sheetsJson) {
             await proxy.startProxy(CompensationApprovalHR);
             await appCommon.MyTasks();
             await hrInbxPage.clickInboxMyTaskAndApprove("Propose Compensation Hire:");
-          // }
+          }
 
           await appCommon.Searchbox("Stop Proxy");
           await proxy.stopproxy();
