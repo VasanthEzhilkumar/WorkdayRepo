@@ -166,7 +166,9 @@ export class HrInboxPage extends WebActionsPage {
     readonly txtCityOfBirth: Locator;
     readonly verifyNationality: Locator;
     readonly personalInformationChangePage: Locator;
-    // readonly medicalExamTitle: Locator;
+    readonly hrchgPersonalInformationTitle: Locator;
+    readonly editEduLevel: Locator;
+    readonly eduLevel: Locator;
 
     EmployeeNumber: string[];
     contractAddendumPage: Locator;
@@ -284,7 +286,7 @@ export class HrInboxPage extends WebActionsPage {
         this.addMedicalExam = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Add Medical Exam: ' + givenname + ' ' + FamilyName + '")]');
         this.collectiveAgreementProfessional = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Employee Collective Agreement: ' + givenname + ' ' + FamilyName + '")]');
         // this.lblEmpID = page.locator("//span[contains(text(),'Success!')]/parent::h1/following-sibling::div/descendant::div[contains(text(),'Propose Compensation Hire:')]");
-        this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for ' + givenname + ' ' + FamilyName + '")]');
+        // this.rightToWork = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Maintain Right to Work Documentation: Onboarding for ' + givenname + ' ' + FamilyName + '")]');
         this.txtYoungParentEffectiveDate = page.locator("//label[contains(.,'Young Parent Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
         this.chkYoungParent = page.locator("//label[contains(.,'Young Parent')]/parent::div/following-sibling::div/descendant::div[@data-automation-id='checkboxPanel']");
         this.txtTaxFreeAmountEffectiveDate = page.locator("//label[contains(.,'Tax Free Amount Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
@@ -373,6 +375,9 @@ export class HrInboxPage extends WebActionsPage {
         this.AddendumEffectiveDate = page.getByPlaceholder('DD').nth(1);
         this.AddendumCreationDate = page.getByPlaceholder('DD').first();
         this.AddendumEndDate = page.getByPlaceholder('DD').nth(2);
+        this.hrchgPersonalInformationTitle = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Personal Information Change: ' + givenname + ' ' + FamilyName + '")]');
+        this.editEduLevel = page.locator('[aria-label="Edit Education Level"]');
+        this.eduLevel = page.locator('//label[contains(text(),"Education Level")]/parent::div/following-sibling::div/descendant::input');
 
     }
 
@@ -745,10 +750,12 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async nationalHealthFundCode(HealthFundCode: string): Promise<void> {
-        await this.nationalHealthFundCodeTitle.click();
-        const locator = await this.page.locator('//label[contains(text(),"National Health Fund Code")]/parent::div/following-sibling::div/descendant ::input');
-        await super.setTextWithDoubleEnter(locator, HealthFundCode);
-        await this.hrSubmit.click();
+        if (await this.nationalHealthFundCodeTitle.count() > 0) {
+            await this.nationalHealthFundCodeTitle.click();
+            const locator = await this.page.locator('//label[contains(text(),"National Health Fund Code")]/parent::div/following-sibling::div/descendant ::input');
+            await super.setTextWithDoubleEnter(locator, HealthFundCode);
+            await this.hrSubmit.click();
+        }
     }
 
     async setServiceDates() {
@@ -1001,8 +1008,9 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setchangePersonalInformationBelgiumPK14(gender: string, dob: string, city: string, martialstat: string,
-        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string) {
-        await this.hrchgPersonalInformation.click();
+        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, 
+        edulevel: string) {
+        await this.hrchgPersonalInformationTitle.click();
         await super.click(this.editGender);
         await super.click(this.setGenderdrpDown);
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
@@ -1061,6 +1069,12 @@ export class HrInboxPage extends WebActionsPage {
         if (national !== "" && national !== "NaN" && national !== "N/A" && national !== undefined) {
             await super.click(this.editNationality);
             await super.setTextWithDoubleEnter(this.nationality, national);
+            await this.page.waitForTimeout(1000);
+        }
+
+        if (edulevel !== "" && edulevel !== "NaN" && edulevel !== "N/A" && edulevel !== undefined) {
+            await super.click(this.editEduLevel);
+            await super.setTextWithDoubleEnter(this.eduLevel, edulevel);
             await this.page.waitForTimeout(1000);
         }
         await super.click(this.hrSubmit);

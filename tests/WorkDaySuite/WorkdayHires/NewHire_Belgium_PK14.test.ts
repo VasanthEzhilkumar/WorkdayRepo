@@ -141,13 +141,9 @@ for (const sheetName in sheetsJson) {
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await hrInbxPage.clickInboxMyTaskAndSubmit("Hire:");
-        await capObj.checkForScreenErrors();
-        await appCommon.SuccessEventHandle();
-
         ///------new
         await hrInbxPage.setchangePersonalInformationBelgiumPK14(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, data.MaritalStatusDate,
-          data.CitizenshipStatus, data.PrimaryNationality, data.CountryOfBirth, data.RegionOfBirth);
+          data.CitizenshipStatus, data.PrimaryNationality, data.CountryOfBirth, data.RegionOfBirth, data.EducationLevel);
         await appCommon.SuccessEventHandle();
 
         // await hrInbxPage.setManageProbation("NaN", data.ProbationReviewDate);
@@ -180,9 +176,19 @@ for (const sheetName in sheetsJson) {
           await captureErrors.checkForScreenErrors();
           empNum = await hrInbxPage.getEmployeeID();
           console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
+          await appCommon.Searchbox("Stop Proxy");
+          await proxy.stopproxy();
+          await page.waitForTimeout(1000);
+          await appCommon.Searchbox("Start Proxy");
+          await proxy.startProxy(HRPartner);
+          // await appCommon.ClickInbox();
+          await appCommon.MyTasks();
         }
-        // await appCommon.Searchbox("Stop Proxy");
-        // await proxy.stopproxy();
+
+        await appCommon.MyTasks();
+        await hrInbxPage.clickInboxMyTaskAndSubmit("Hire:");
+        await capObj.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
@@ -216,7 +222,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
 
-
+        await appCommon.MyTasks();
         await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, data.AccountNumber, String(data.IBAN), data.AccountType, "NaN", "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
