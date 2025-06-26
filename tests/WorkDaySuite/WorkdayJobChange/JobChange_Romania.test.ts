@@ -70,79 +70,79 @@ for (const sheetName in sheetsJson) {
           const createPostition = new createPositionPage(page);
           const jobHistoryPage = new JobHistoryPage(page);
 
-          // // // create position for Management hires
-          // if (data.ChangeJob_JobProfile.toString().includes("Manager") && data.Process.toString().toLocaleLowerCase() === "promotion_manager") {
-          //   await appCommon.SearchClickLink("Create Position");
-          //   await hireEmployee.searchSupervisoryOrganizationMgr(String(data.ChangeJob_Start_NewTeam));
-          //   // await hireEmployee.searchSupervisoryOrganizationGermany(data.SupervisoryOrganisation);
-          //   position = await createPostition.createPositionForManager(data.ChangeJob_Start_EffectiveDate, data.ChangeJob_Start_EffectiveDate, data.ChangeJob_JobClassifications_EmployeeType, data.ChangeJob_JobProfile, data.ChangeJob_JobClassifications_TimeType, data.ChangeJob_Start_NewLocation);
-          //   await capObj.checkForScreenErrors();
-          //   await appCommon.SuccessEventHandle();
-          //   await appCommon.MyTasks();
-          //   //passing position created for selecting exact task from My Task (inbox).
-          //   await empInboxpage.setDeparmentAndCostCenter(position, data.ChangeJob_Company_CostCentre, data.ChangeJob_Company_Department, givenName, familyName);
-          //   await capObj.checkForScreenErrors();
-          //   await appCommon.SuccessEventHandle();
-          //   // Write the results to the Excel file
-          //   await writePositionToExcel(excelFilePath, sheetName, index, position, 'JobDetails_Position_JobDetailsPosition');
-          //   await appCommon.MyTasks();
-          // } else {
-          //   position = "DummyValue";
-          // }
+          // // create position for Management hires
+          if (data.ChangeJob_JobProfile.toString().includes("Manager") && data.Process.toString().toLocaleLowerCase() === "promotion_manager") {
+            await appCommon.SearchClickLink("Create Position");
+            await hireEmployee.searchSupervisoryOrganizationMgr(String(data.ChangeJob_Start_NewTeam));
+            // await hireEmployee.searchSupervisoryOrganizationGermany(data.SupervisoryOrganisation);
+            position = await createPostition.createPositionForManager(data.ChangeJob_Start_EffectiveDate, data.ChangeJob_Start_EffectiveDate, data.ChangeJob_JobClassifications_EmployeeType, data.ChangeJob_JobProfile, data.ChangeJob_JobClassifications_TimeType, data.ChangeJob_Start_NewLocation);
+            await capObj.checkForScreenErrors();
+            await appCommon.SuccessEventHandle();
+            await appCommon.MyTasks();
+            //passing position created for selecting exact task from My Task (inbox).
+            await empInboxpage.setDeparmentAndCostCenter(position, data.ChangeJob_Company_CostCentre, data.ChangeJob_Company_Department, givenName, familyName);
+            await capObj.checkForScreenErrors();
+            await appCommon.SuccessEventHandle();
+            // Write the results to the Excel file
+            await writePositionToExcel(excelFilePath, sheetName, index, position, 'JobDetails_Position_JobDetailsPosition');
+            await appCommon.MyTasks();
+          } else {
+            position = "DummyValue";
+          }
 
-          // await appCommon.SearchClickLink(data.EmployeeID.toString());
-          // await empInboxpage.goToJobChange();
-          // //start screen
-          // await jobChangePage.editStartDetails(data.ChangeJob_Start_EffectiveDate.toString(), data.ChangeJob_Start_Reason.toString(), data.ChangeJob_Start_NextPayPeriod, data.ChangeJob_Start_NewTeam, data.ChangeJob_Start_NewManager, data.ChangeJob_Start_NewLocation);
-          // await capObj.checkForScreenErrors();
+          await appCommon.SearchClickLink(data.EmployeeID.toString());
+          await empInboxpage.goToJobChange();
+          //start screen
+          await jobChangePage.editStartDetails(data.ChangeJob_Start_EffectiveDate.toString(), data.ChangeJob_Start_Reason.toString(), data.ChangeJob_Start_NextPayPeriod, data.ChangeJob_Start_NewTeam, data.ChangeJob_Start_NewManager, data.ChangeJob_Start_NewLocation);
+          await capObj.checkForScreenErrors();
 
-          // // if (!data.Process.toString().includes("Promotion_Manager"))
-          // await jobChangePage.clickNext();
+          // if (!data.Process.toString().includes("Promotion_Manager"))
+          await jobChangePage.clickNext();
 
-          // //jobProfile screen
-          // await jobChangePage.editJobProfile(String(position), data.ChangeJob_JobProfile.toString());
-          // await capObj.checkForScreenErrors()
+          //jobProfile screen
+          await jobChangePage.editJobProfile(String(position), data.ChangeJob_JobProfile.toString());
+          await capObj.checkForScreenErrors()
 
-          // //location screen
-          // await jobChangePage.editLocationDetails(data.ChangeJob_LocationDetails_Location, data.ChangeJob_LocationDetails_ScheduledWeeklyHours, data.ChangeJob_LocationDetails_WorkShift);
-          // await capObj.checkForScreenErrors()
+          //location screen
+          await jobChangePage.editLocationDetails(data.ChangeJob_LocationDetails_Location, data.ChangeJob_LocationDetails_ScheduledWeeklyHours, data.ChangeJob_LocationDetails_WorkShift);
+          await capObj.checkForScreenErrors()
 
-          // //Edit Administartor screeen
-          // await jobChangePage.editAdminDetails(
-          //   data.ChangeJob_JobClassifications_AdditionalJobClassifications,
-          //   data.ChangeJob_JobClassifications_EmployeeType,
-          //   data.ChangeJob_JobClassifications_TimeType,
-          //   data.ChangeJob_JobClassifications_PayRateType,
-          //   data.ChangeJob_JobClassifications_DefaultWeeklyHours,
-          //   data.ChangeJob_JobClassifications_EndEmploymentDate,
-          //   data.ChangeJob_JobClassifications_FirstDayofWork);
-          // await capObj.checkForScreenErrors()
+          //Edit Administartor screeen
+          await jobChangePage.editAdminDetails(
+            data.ChangeJob_JobClassifications_AdditionalJobClassifications,
+            data.ChangeJob_JobClassifications_EmployeeType,
+            data.ChangeJob_JobClassifications_TimeType,
+            data.ChangeJob_JobClassifications_PayRateType,
+            data.ChangeJob_JobClassifications_DefaultWeeklyHours,
+            data.ChangeJob_JobClassifications_EndEmploymentDate,
+            data.ChangeJob_JobClassifications_FirstDayofWork);
+          await capObj.checkForScreenErrors()
 
-          // //Edit Organization Details screeen
-          // await jobChangePage.editOrganizationDetails(data.ChangeJob_Company_CostCentre, data.ChangeJob_Company_Department);
-          // await capObj.checkForScreenErrors()
+          //Edit Organization Details screeen
+          await jobChangePage.editOrganizationDetails(data.ChangeJob_Company_CostCentre, data.ChangeJob_Company_Department);
+          await capObj.checkForScreenErrors()
 
-          // await jobChangePage.ReviewSummarySubmit();
-          // await capObj.checkForScreenErrors()
+          await jobChangePage.ReviewSummarySubmit();
+          await capObj.checkForScreenErrors()
           ////////It will get HR partner ID for hr proxy
           const HRPartner = await appCommon.getJobChangesHRpartnerID(givenName, familyName);
           await appCommon.Searchbox("Start Proxy");
           await proxy.startProxy(HRPartner);
           await appCommon.MyTasks();
 
-          // if (data.Process.toString().includes("Promotion_Manager")) {
-          //   await hrInbxPage.clickInboxMyTaskAndApprove("Promotion:");
-          //   await capObj.checkForScreenErrors()
-          //   await appCommon.SuccessEventHandle();
-          // } else {
-          //   await hrInbxPage.clickInboxMyTaskAndApprove("Data Change:");
-          //   await capObj.checkForScreenErrors()
-          //   await appCommon.SuccessEventHandle();
-          // }
+          if (data.Process.toString().includes("Promotion_Manager")) {
+            await hrInbxPage.clickInboxMyTaskAndApprove("Promotion:");
+            await capObj.checkForScreenErrors()
+            await appCommon.SuccessEventHandle();
+          } else {
+            await hrInbxPage.clickInboxMyTaskAndApprove("Data Change:");
+            await capObj.checkForScreenErrors()
+            await appCommon.SuccessEventHandle();
+          }
 
-          // await hrInbxPage.clickInboxMyTaskAndSubmitIfVisible("Contract:");
-          // await capObj.checkForScreenErrors()
-          // await appCommon.SuccessEventHandle();
+          await hrInbxPage.clickInboxMyTaskAndSubmitIfVisible("Contract:");
+          await capObj.checkForScreenErrors()
+          await appCommon.SuccessEventHandle();
 
           await hrInbxPage.setContractAddendumInfoIfVisible(
             data.ContractAddendumInfo_TerminateAddendumEffectiveDate,
