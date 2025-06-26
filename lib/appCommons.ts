@@ -31,6 +31,7 @@ export class appCommons extends WebActionsPage {
   readonly txtPayGroup: Locator;
   readonly lnkViewDetails: Locator;
   readonly successOpen: Locator;
+  readonly hrPartnerSecondXpath: Locator;
 
   constructor(page: Page, context: BrowserContext) {
     super(page);
@@ -53,6 +54,7 @@ export class appCommons extends WebActionsPage {
     this.txtItemsPerPage = page.locator("//label[contains(text(),'Items per page')]/parent::div//descendant::input[@placeholder='Choose an option' and not(contains(@value,'All'))]");
     this.listSelectAll = page.locator("/*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
     this.lblHrDetails2 = page.locator("((//div[contains(text(),'Awaiting Action')]//ancestor::td//following-sibling::td)[3])[1]");
+    this.hrPartnerSecondXpath = page.locator('(//div[contains(@data-automation-id,"selectedItem")]//div[contains(@data-automation-label,"HR Partner")])[2]');
     this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']").first();
     this.btnPay = page.getByRole('link', { name: 'Pay' });
     //this.btnPay = page.locator("//div[@data-automation-id='workerProfileMenuItemWrapper']/div[contains(.,'Pay')]");
@@ -211,6 +213,7 @@ export class appCommons extends WebActionsPage {
 
   }
 
+
   async getHRpartnerID(givenname: string, familyname: string) {
 
     await this.MyTasks();
@@ -240,7 +243,7 @@ export class appCommons extends WebActionsPage {
 
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
     await this.page.waitForTimeout(1000);
-    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
+    const HrDetails: string = await this.getInnerText1(this.lblHrDetails2);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
     // } catch (error) {
@@ -253,7 +256,7 @@ export class appCommons extends WebActionsPage {
     await this.MyTasks();
     await super.click(this.Archive);
     await this.page.waitForTimeout(6000);
-    const buttons = await this.page.locator(`button:has-text('Promotion: ${givenname} ${familyname}')`).or(this.page.locator(`button:has-text('Data Change: ${givenname} ${familyname}')`));
+    const buttons = await this.page.locator(`button:has-text('Promotion: ${givenname} ${familyname}')`).first().or(this.page.locator(`button:has-text('Data Change: ${givenname} ${familyname}')`).first());
     // await this.page.waitForSelector(buttons);
     await buttons.scrollIntoViewIfNeeded();
     // const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
@@ -284,9 +287,15 @@ export class appCommons extends WebActionsPage {
 
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
     await this.page.waitForTimeout(1000);
-    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
-    const HrID2 = this.getNumbersFromString(HrDetails);
-    return HrID2;
+    const FirstHRparnter: string = await this.getInnerText1(this.lblHrDetails2);
+    const SecondHRparnter = await this.getInnerText1(this.hrPartnerSecondXpath);
+    const HrIDFirst = this.getNumbersFromString(FirstHRparnter);
+    const HrIDSecond = this.getNumbersFromString(SecondHRparnter);
+    if ((await HrIDFirst).toString().startsWith('0', 0)) {
+      return HrIDSecond;
+    } else {
+      return HrIDFirst;
+    }
   }
 
   async getCompensationHRpartnerID() {
@@ -306,18 +315,19 @@ export class appCommons extends WebActionsPage {
 
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
     await this.page.waitForTimeout(1000);
-    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
+    const HrDetails: string = await this.getInnerText1(this.lblHrDetails2);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
   }
 
 
-  async getInnerText1(page, fieldSelector: Locator): Promise<string> {
+  async getInnerText1(fieldSelector: Locator): Promise<string> {
     await fieldSelector.waitFor;
     //await fieldSelector.scrollIntoViewIfNeeded();
     await expect(fieldSelector).toBeVisible();
     return await fieldSelector.textContent();
   }
+
 
   // Example implementation of getNumbers function
   // async getNumbersFromString(input: string): Promise<string> {

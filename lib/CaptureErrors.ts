@@ -91,7 +91,7 @@ export class CaptureAlertErrors extends WebActionsPage {
                 error1 = error1 + "& find failed Screenshot Path:->" + screenshotPath;
                 // Write the failure status to the Excel file and captured screen error as well.
                 await writePositionToExcel(this.excelFilePath, this.sheetName, this.index, error1, "TestStatus");
-                throw (error);
+                throw new error(error);
             } finally {
                 await this.page.close();
                 return true;

@@ -88,7 +88,7 @@ export class ProposeCompensationPage extends WebActionsPage {
         this.hrSubmit = page.locator('button:has-text("Submit")');
         this.submit = page.getByRole('button', { name: 'Submit' });
         this.Approve = page.locator('button:has-text("Approve")');
-        this.proposeCompensation = page.locator('text=Propose Compensation Hire: ' + ' ' + givenname + ' ' + FamilyName).or(page.locator('text=Compensation Change:' + ' ' + givenname + ' ' + FamilyName));
+        this.proposeCompensation = page.locator('text=Propose Compensation Hire: ' + ' ' + givenname + ' ' + FamilyName).first().or(page.locator('text=Compensation Change:' + ' ' + givenname + ' ' + FamilyName).first());
         this.editNoticePeriod = page.locator('text=Edit Notice Periods for Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.editSalary = page.getByRole('button', { name: 'Edit Salary' });
         this.getsalaryProposition = page.locator('[id="\\35 6\\$530701"]');

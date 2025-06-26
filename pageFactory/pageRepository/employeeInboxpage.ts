@@ -305,9 +305,9 @@ export class employeeInboxPage extends WebActionsPage {
         this.educationCompletionDate = page.locator('');
         this.Studies = page.locator('//label[text()="Studies"]/parent::div/following-sibling::div//input');
         this.dodajDanePIT2Title = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane PIT-2"]');
-        this.rodzinyDoUbezpieczeniaZdrowotnegoTitle = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane członków rodziny do ubezpieczenia zdrowotnego"]'); 
+        this.rodzinyDoUbezpieczeniaZdrowotnegoTitle = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane członków rodziny do ubezpieczenia zdrowotnego"]');
         this.empNationalHealthFundCodeTitle = page.locator('//div[@data-automation-id="titleText" and text()="National Health Fund Code"]');
-    
+
         this.addDisability = page.getByLabel('Add Disability');
         //this.clickDetails = page.getByText('Details');
         this.clickDetails = page.getByRole('button', { name: 'Details' });
@@ -382,10 +382,11 @@ export class employeeInboxPage extends WebActionsPage {
         }
     }
 
-    
+
     async goToJobChange() {
-        await this.page.waitForTimeout(1000);
-        await super.click(this.page.locator("//*[@class='WMYV']// button[text() ='Actions']").first());
+        const actions = await this.page.locator("//*[@data-automation-id='workerProfileDetailsPanel']// button[text() ='Actions' and @data-automation-id='relatedActionsButton']").first();
+        await actions.waitFor();
+        await super.click(actions);
         await this.page.waitForTimeout(500);
         const transferOption = this.page.getByText('Transfer, Promote or Change').first();
         if (await transferOption.isVisible()) {
@@ -404,8 +405,8 @@ export class employeeInboxPage extends WebActionsPage {
     */
     async setPartnerRevenueBelgiumDependents(PartnerRevenue: string) {
         await super.click(this.hireEmployeeBel);
-        if (PartnerRevenue !== "NaN" && PartnerRevenue !== "N/A" && PartnerRevenue !== undefined) 
-        await super.setTextWithDoubleEnter(this.partnerRevenue, PartnerRevenue.toString());
+        if (PartnerRevenue !== "NaN" && PartnerRevenue !== "N/A" && PartnerRevenue !== undefined)
+            await super.setTextWithDoubleEnter(this.partnerRevenue, PartnerRevenue.toString());
         await this.paygroupSubmit.click();
     }
 

@@ -13902,3 +13902,64 @@
 {"level":"info","message":"Test Case Completed : @Rehire Employee - Test 1  Status : passed"}
 {"level":"info","message":"Test Case Started : @Rehire Employee - Test 2 "}
 {"level":"info","message":"Test Case Completed : @Rehire Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 2 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 3 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 4 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 4  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 5 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 5  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 6  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 4 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 4  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 5 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 5  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 6 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 6  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 4 "}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HireREG Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HireREG Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 3 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 6 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 6  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 4 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 4  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 7 "}
+{"level":"info","message":"Test Case Started : @JobChange - Test 7 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 7  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 8 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 8  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 8 "}
+{"level":"info","message":"Test Case Started : @JobChange - Test 8 "}
+{"level":"info","message":"Test Case Started : @JobChange - Test 8 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 8  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 8 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 8  Status : passed"}

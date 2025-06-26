@@ -252,11 +252,17 @@ export class JobChangePage extends WebActionsPage {
     async editAdminDetails(ChangeJob_JobClassifications_AdditionalJobClassifications: any, ChangeJob_JobClassifications_EmployeeType: any, ChangeJob_JobClassifications_TimeType: any, ChangeJob_JobClassifications_PayRateType: any, ChangeJob_JobClassifications_DefaultWeeklyHours: any, ChangeJob_JobClassifications_EndEmploymentDate: any, ChangeJob_JobClassifications_FirstDayofWork: any) {
         await this.page.waitForTimeout(2000);
         if (ChangeJob_JobClassifications_AdditionalJobClassifications !== "N/A" && ChangeJob_JobClassifications_AdditionalJobClassifications !== undefined && ChangeJob_JobClassifications_AdditionalJobClassifications !== " ") {
+           await this.page.waitForTimeout(500);
             await this.page.locator("//button[@aria-label='Edit Job Classifications']").click();
-            if (await this.txtAdditionalJobClassifications.isVisible())
-                await super.setTextWithDoubleEnter(this.txtAdditionalJobClassifications, String(ChangeJob_JobClassifications_AdditionalJobClassifications));
-        }
+            if (await this.txtAdditionalJobClassifications.count() > 0) {
+                const arrayOfJobClassification: [] = ChangeJob_JobClassifications_AdditionalJobClassifications.split("@");
+                for (const additionalJobClas of arrayOfJobClassification) {
+                    await super.setTextWithDoubleEnter(this.txtAdditionalJobClassifications, String(additionalJobClas));
+                }
+            }
 
+        }
+        await this.page.waitForTimeout(500);
         await this.btnEditAdministrative.click();
         await this.page.waitForTimeout(700);
         if (ChangeJob_JobClassifications_EmployeeType !== "N/A" && ChangeJob_JobClassifications_EmployeeType !== undefined && ChangeJob_JobClassifications_EmployeeType !== " " && await this.txtEmployeeType.count() > 0) {

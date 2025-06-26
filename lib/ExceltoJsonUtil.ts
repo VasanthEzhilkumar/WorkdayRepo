@@ -48,7 +48,7 @@ export function excelToJson(filePath: string): Record<string, any[]> {
                     if (typeof cellValue === 'number' && cellValue > 25569 && cellValue < 60000) {
                         row[key] = excelDateToJSDate(cellValue);
                     }
-                  
+
                 }
             }
         });
@@ -58,6 +58,7 @@ export function excelToJson(filePath: string): Record<string, any[]> {
 
     return sheetsJson;
 }
+
 
 
 // export async function copyFolderToSharedDrive(sourceDir: string, destinationDir: string) {
