@@ -162,10 +162,12 @@ for (const sheetName in sheetsJson) {
 
           await empInboxpage.AddEmergecyInformation();
           await appCommon.SuccessEventHandle();
-
+          await page.waitForTimeout(5000);
+          await appCommon.MyTasks();
           await empInboxpage.reviewDocumentSubmitGeneric();
           await appCommon.SuccessEventHandle();
-
+          await page.waitForTimeout(5000);
+          await appCommon.MyTasks();
           await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
           await appCommon.SuccessEventHandle();
 

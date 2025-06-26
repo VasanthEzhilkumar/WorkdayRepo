@@ -35,9 +35,9 @@ for (const sheetName in sheetsJson) {
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
-    const { givenName, familyName } = generateRandomName();
-    // const givenName = data.GivenName;
-    // const familyName = data.FirstLastName;
+    //const { givenName, familyName } = generateRandomName();
+    const givenName = data.GivenName;
+    const familyName = data.FirstLastName;
     const secondLastName = data.SecondLastName;
     if (data.TestStatus != 'Passed') {
 

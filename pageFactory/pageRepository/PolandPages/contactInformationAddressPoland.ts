@@ -1,6 +1,8 @@
 import { BrowserContext, Locator, Page } from '@playwright/test';
 
 export class contactInformationAddressPoland {
+    
+    
 
     readonly page: Page;
     readonly street: Locator;
@@ -33,8 +35,7 @@ export class contactInformationAddressPoland {
         this.addressUseFor = page.locator('//h2[text()="Address"]/parent::div/parent::div//label[text()="Use For"]/parent::div/following-sibling::div//input');
 
     }
-
-    async contactInformationAddress(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string, useFor: string) {
+ async contactInformationAddress(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string, useFor: string) {
         //await super.click(this.addAddress);
         await this.page.waitForTimeout(500);
         await this.addAddress.click();
@@ -49,15 +50,33 @@ export class contactInformationAddressPoland {
         if (District !== "N/A" && District !== "NaN" && District !== undefined && District !== "") {
             await this.District.fill(District.toString());
         }
+
         await this.Province.fill(Province.toString());
         await this.addressType.click();
+        //commented
+        // await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+        // await this.page.keyboard.press('Tab');
+        // await this.addressUseFor.click();
+        // await this.page.locator('//div[@data-automation-label="'+useFor+'"]').click();
+
+
         await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
+        await this.page.waitForTimeout(1000);
         await this.page.keyboard.press('Tab');
+        await this.page.waitForTimeout(1000);
+        await this.page.locator('//h2[text()="Address"]/parent::div/parent::div//label[text()="Use For"]/parent::div/following-sibling::div//span[@data-automation-id="promptSearchButton"]').click();
         await this.addressUseFor.click();
-        await this.page.locator('//div[@data-automation-label="'+useFor+'"]').click();
+        await this.page.waitForTimeout(2000);
+        const selectedOpt = await this.page.locator('//div[@data-automation-id="promptOption"]/parent::div[@data-automation-id="promptLeafNode" and @data-automation-checked="Checked"]').count();
+        for (let i = 1; i <= selectedOpt; i++) {
+            await this.page.waitForTimeout(1000);
+            await this.page.locator('(//div[@data-automation-id="promptOption"]/parent::div[@data-automation-id="promptLeafNode" and @data-automation-checked="Checked"])[' + i + ']').click();
+            await this.page.waitForTimeout(1000);
+        }
+        await this.page.locator('//div[@data-automation-label="' + useFor + '"]').click();
 
     }
-
+    
     async contactInformationAddressPK14(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string, useFor: string) {
         //await super.click(this.addAddress);
         await this.page.waitForTimeout(500);

@@ -1311,14 +1311,26 @@ export class employeeInboxPage extends WebActionsPage {
     }
 
 
+    async clickInboxMyTaskAndSubmitEditAdditionalData(varString: string) {
+        if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first().isVisible()) {
+            await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
+            await super.click(this.paygroupSubmit);
+            await this.page.waitForTimeout(1000);
+        }
+    }
     async clickInboxMyTaskAndSubmit(varString: string) {
         if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first().isVisible()) {
+            await this.page.waitForTimeout(1000);
             await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
             await this.clickIAgreeCheckBox();
             await super.click(this.paygroupSubmit);
             await this.page.waitForTimeout(1000);
         }
     }
+
+
+
+
 
     async clickInboxMyTaskAndApprove(varString: string) {
         await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());

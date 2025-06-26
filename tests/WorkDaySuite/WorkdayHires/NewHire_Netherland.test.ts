@@ -170,6 +170,8 @@ for (const sheetName in sheetsJson) {
                     await empInboxpage.changePersonalInformationNetherland(data.Gender, data.DateOfBirth, data.CityOfBirth, data.CitizenshipStatus, data.PrimaryNationality, data.CountryOfBirth, data.RegionOfBirth);
                     await capObj.checkForScreenErrors();
                     await appCommon.SuccessEventHandle();
+                    await page.waitForTimeout(5000);
+                    await appCommon.MyTasks();
                     await empInboxpage.changepersonalinformationSubmit();
                     await appCommon.SuccessEventHandle();
 
@@ -186,6 +188,7 @@ for (const sheetName in sheetsJson) {
                     await proxy.startProxy(HRPartner);
                     await appCommon.MyTasks();
 
+                    await appCommon.staticWait(10);
                     await hrInbxPage.setMaintainRightToWorkDocumentation()
                     await captureErrors.checkForScreenErrors();
                     await appCommon.SuccessEventHandle();

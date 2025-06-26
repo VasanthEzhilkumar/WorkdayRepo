@@ -170,6 +170,9 @@ export class appCommons extends WebActionsPage {
     if (await txtNotificationCloseButton.first().count() > 0) {
       await super.click(txtNotificationCloseButton.first());
     }
+    if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').nth(0).count() > 0) {
+      await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]').first());
+    }
     await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
     while (!await this.page.getByLabel('Advanced Search').isVisible() && j < 3) {
       await super.click(this.page.locator('//div[@data-automation-id="tooltipsWrapper"]/button[@data-automation-id="inbox_preview"]').nth(0));
@@ -177,6 +180,9 @@ export class appCommons extends WebActionsPage {
     }
     if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').nth(0).count() > 0) {
       await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]').first());
+    }    
+    if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').count() > 0) {
+      await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]'));
     }
     await this.clickCollpaseMyTasks();
     await this.clickXifWelcomeToMyTaskExists();

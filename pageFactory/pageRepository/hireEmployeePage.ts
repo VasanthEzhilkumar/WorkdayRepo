@@ -76,7 +76,7 @@ export class hireEmployeePage extends WebActionsPage {
     this.supervisorysearch = page.locator('text=Supervisory OrganizationSupervisory Organization0 items selected >> [placeholder="Search"]');
     this.supervisorysearchexp = page.locator('text=Supervisory OrganizationSupervisory OrganizationOptions Expanded >> [placeholder="Search"]');
     this.supervisorhamburger = page.locator('text=Supervisory OrganizationSupervisory OrganizationOptions Expanded >> svg[role="presentation"]');
-    this.supervisorMgrPage = page.getByLabel('Supervisory Organization');
+    this.supervisorMgrPage = page.getByLabel('Supervisory Organization').nth(0);
     this.newPreHire = page.locator('text=Create a New Pre-Hire');
     this.contactInformation = page.locator('text=Contact Information >> nth=0');
     this.gnameforireland = page.getByLabel('Given Name(s)');
