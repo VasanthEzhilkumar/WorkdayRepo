@@ -47,7 +47,7 @@ export class employeeInboxUSPage extends WebActionsPage {
 
         this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true })//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.buttonchgpersonal = page.locator('button:has-text("Change My Personal Information")');
-        this.chgGovid = page.getByRole('button', { name: 'Change/Update My Government IDs', exact: true })
+        this.chgGovid = page.getByRole('button', { name: 'Change/Update My Government IDs', exact: true }).or(page.getByRole('button', { name: 'Change/Update My Government IDs: Onboarding for ' }));
         this.paygroupSubmit = page.locator('button:has-text("Submit")');
         this.setGenderdrpDown = page.locator('text=select oneselect one');
         this.setGender = page.locator('[aria-label="Male"]');
