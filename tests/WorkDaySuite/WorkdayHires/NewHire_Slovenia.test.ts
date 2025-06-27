@@ -20,11 +20,7 @@ let position: string;
 let captureErrors: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-<<<<<<< HEAD
-const excelFileName = 'Hires/Workday_NewHire_Slovenia_Regression_PK17 End To End June 5.xlsx';
-=======
-const excelFileName = 'Hires 2 jun 19 Slovenia.xlsx';
->>>>>>> Gayatri
+const excelFileName = 'Hires/Hires 2 jun 24 Slovenia (1).xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -185,7 +181,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.AddEmergecyInformation();
+        await empInboxpage.clickInboxMyTaskAndSubmit("Add Emergency Contacts:");
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType, "NaN", data.NameOnAccount);
@@ -212,10 +208,9 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
 
-        await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
+        await hrInbxPage.clickInboxMyTaskAndApproveIfVisible("Personal Information Change:");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 

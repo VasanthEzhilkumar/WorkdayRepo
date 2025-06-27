@@ -321,9 +321,9 @@ for (const sheetName in sheetsJson) {
           //   // Write the failure status to the Excel file
           writeResultsToExcel(excelFilePath, sheetName, index, error1, 'Failed');
           empNum = "";
-        }
+       }
       }
     });
+  }
   });
-  // });
 }

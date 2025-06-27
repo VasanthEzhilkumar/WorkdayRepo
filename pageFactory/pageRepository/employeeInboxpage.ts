@@ -163,13 +163,14 @@ export class employeeInboxPage extends WebActionsPage {
         this.saveDep = page.locator('[aria-label="Save Other"]');
         this.saveCostCenterbtn = page.locator('[aria-label="Save Cost Center"]');
         this.GBEmpHandbooks = page.locator('text=GB Employee Handbooks:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
-        this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
+        //this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
+        this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName ).or(page.locator('text=Onboarding Guide:').first());
         //text=Onboarding Guide: Retail Assistant_NEW - ZESKY ELVEN (10286606)
 
-        this.addPhoto = page.getByRole('button', { name: 'Add a Photo', exact: true });
+        this.addPhoto = page.getByRole('button', { name: 'Add a Photo', exact: true }).or(page.getByRole('button', { name: 'Add a Photo: Onboarding for' }).first());
         this.verifyLegalName = page.getByRole('button', { name: 'Verfiy Legal Name', exact: true });
         this.ChangeContactInfo = page.getByRole('button', { name: 'Change/Update My Contact Information', exact: true });
-        this.addBankDetails1 = page.locator("//div[@data-automation-id='titleText'][contains(./text(),'Add Bank Details')]");
+        this.addBankDetails1 = page.locator("//div[@data-automation-id='titleText'][contains(./text(),'Add Bank Details')]").or(page.locator("//div[@data-automation-id='titleText'][starts-with(text(),'Add Bank Details')]"));
         this.addBankDetails = page.getByRole('button', { name: 'Add ' + givenname + ' ' + FamilyName + ' ' })
         this.paymentElections = page.locator('button:has-text("Add Payment Elections")');
         this.bankName = page.locator('label:has-text("Bank Name")');
@@ -188,10 +189,10 @@ export class employeeInboxPage extends WebActionsPage {
         //this.accNumber2 = page.locator('label:has-text("Account Number")');
         //this.IBAN2 = page.locator('label:has-text("IBAN")');
 
-        this.chgContactInformation = page.locator('[aria-label="Inbox Items"] >> text=Change/Update My Contact Information');
-        this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true });//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
+        this.chgContactInformation = page.locator('[aria-label="Inbox Items"] >> text=Change/Update My Contact Information').or(page.getByRole('button', { name: 'Change/Update My Personal' }).first());
+        this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true }).or(page.getByRole('button', { name: 'Change/Update My Personal Information: Onboarding for '}));//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.buttonchgpersonal = page.locator('button:has-text("Change My Personal Information")');
-        this.hrchgPersonalInformation = page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first();//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
+        this.hrchgPersonalInformation = page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first()//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.editGender = page.locator('[aria-label="Edit Gender"]');
         this.editDob = page.locator('[aria-label="Edit Date of Birth"]');
         this.editPlace = page.locator('[aria-label="Edit Place of Birth"]');
@@ -202,8 +203,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.editReligion = page.getByLabel('Edit Religion');
         this.editGenderIdentity = page.getByLabel('Edit Gender & Other Gender');
 
-        this.chgGovid = page.getByRole('button', { name: 'Change/Update My Government IDs', exact: true });//locator('[aria-label="Inbox Items"] >> text=Change/Update My Government IDs');
-        this.addemergncyContacts = page.getByRole('button', { name: 'Add Emergency Contacts', exact: true });//locator('[aria-label="Inbox Items"] >> text=Add Emergency Contacts');
+        this.chgGovid = page.getByRole('button', { name: 'Change/Update My Government IDs', exact: true }).or(page.getByRole('button', { name: 'Change/Update My Government' }));//locator('[aria-label="Inbox Items"] >> text=Change/Update My Government IDs');
+        this.addemergncyContacts = page.getByRole('button', { name: 'Add Emergency Contacts:' });
 
         this.setGenderdrpDown = page.locator('text=select oneselect one');
         this.setGender = page.locator('[aria-label="Male"]');
@@ -240,9 +241,9 @@ export class employeeInboxPage extends WebActionsPage {
         this.lastName = page.locator('label:has-text("Last Name")');
         this.okButtonpage = page.locator('button:has-text("OK")');
         this.doneButton = page.locator('button:has-text("Done")');
-        this.reviewDocTotal = page.locator('//div[text()="Review Documents" and @data-automation-id="titleText"]');
-        this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true }).first();//locator('[aria-label="Inbox Items"] >> text=Review Documents');
-        this.addCerti = page.getByRole('button', { name: 'Add Certifications (External)', exact: true });//locator('[aria-label="Inbox Items"] >> text=Add Certifications (External)');
+        this.reviewDocTotal = page.locator('//div[(@data-automation-id="titleText") and (text()="Review Documents" or starts-with(text(), "Onboarding for "))]');
+        this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true }).first().or(page.locator('//div[(@data-automation-id="titleText") and (text()="Review Documents" or starts-with(text(), "Onboarding for "))]').first());//locator('[aria-label="Inbox Items"] >> text=Review Documents');
+        this.addCerti = page.getByRole('button', { name: 'Add Certifications (External)', exact: true }).or(page.getByRole('button', { name: 'Add Certifications (External' }));//locator('[aria-label="Inbox Items"] >> text=Add Certifications (External)');
         this.addCertiNetherland = page.getByRole('button', { name: 'Add Certifications (External - Netherlands)', exact: true });
         this.romFather = page.locator('[aria-label="Inbox Items"] >> text=Romania Father');
 
@@ -251,10 +252,9 @@ export class employeeInboxPage extends WebActionsPage {
         //this.agreeCheckbox = page.locator('//div[@data-automation-id="checkboxPanel"]');//locator('[id="\\32 97-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\33 20-container"] [id="\\35 6\\$202639"] div').nth(2)
         this.agreeCheckboxGrid1 = page.locator('//div[contains(@data-automation-id,"checkboxPanel")]');//locator('[id="\\35 6\\$202639--uid152"] div')
         this.agreeCheckboxGrid2 = page.locator('[id="\\33 43-container"] [id="\\35 6\\$202639"] div').nth(2);//locator('[id="\\35 6\\$202639--uid142"] div')//locator('label:has-text("I Agree")');locator('[id="\\35 6\\$202639--uid162"] div')
-        this.addEdu = page.getByRole('button', { name: 'Add Education', exact: true });
+        this.addEdu = page.getByRole('button', { name: 'Add Education', exact: true }).or(page.getByRole('button', { name: 'Add Education: Onboarding for' }));
         this.addAccounts = page.getByRole('button', { name: 'Add Accounts' });
         this.addRowBankbtn = page.locator("(//div[@data-automation-id='icon']/parent::button)[1]");
-
         this.perInformation = page.locator('[aria-label="Inbox Items"] >> text=Personal Information Change:' + ' ' + givenname + ' ' + FamilyName);
         //this.perInformationforHungary = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Personal Information Change:' + ' ' + FamilyName + ' ' + givenname + '")]');
         //this.perInformationforHungary=page.locator('//button/div[@data-automation-id="titleText" and contains(text(),"Personal Information Change:'+ FamilyName + ' ' + givenname + '")]');
