@@ -20,11 +20,7 @@ let position: string;
 let captureErrors: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-<<<<<<< HEAD
-const excelFileName = 'Hires/Workday_NewHire_Slovenia_Regression_PK17 End To End June 5.xlsx';
-=======
-const excelFileName = 'Hires 2 jun 19 Slovenia.xlsx';
->>>>>>> Gayatri
+const excelFileName = 'Hires/Hires June 27 Slovenia.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -161,7 +157,7 @@ for (const sheetName in sheetsJson) {
         empNum = await hrInbxPage.getEmployeeID();
         console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
 
-        await appCommon.Searchbox("Stop Proxy");
+        // await appCommon.Searchbox("Stop Proxy");
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
