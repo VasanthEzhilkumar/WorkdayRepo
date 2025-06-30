@@ -181,7 +181,7 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.AddEmergecyInformation();
+        await empInboxpage.clickInboxMyTaskAndSubmit("Add Emergency Contacts:");
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType, "NaN", data.NameOnAccount);
@@ -208,10 +208,9 @@ for (const sheetName in sheetsJson) {
 
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        await appCommon.ClickInbox();
         await appCommon.MyTasks();
 
-        await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
+        await hrInbxPage.clickInboxMyTaskAndApproveIfVisible("Personal Information Change:");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 

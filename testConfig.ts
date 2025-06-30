@@ -6,7 +6,7 @@ export const testConfig = {
     WorkdayUsername: `90001655`,
     WorkdayPassword:'Vasanth"123',
     waitForElement: 120000,
-    staticWait: 300,
+    staticWait: 600,
     dbUsername: ``,
     dbPassword: ``,
     dbServerName: ``,

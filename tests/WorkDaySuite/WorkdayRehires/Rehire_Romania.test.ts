@@ -119,19 +119,18 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.clickInboxMyTaskAndSubmit("ID Change:");
         await appCommon.SuccessEventHandle();
 
+
+        await hrInbxPage.clickInboxMyTaskAndSubmit("Hire:");
+        await appCommon.SuccessEventHandle();
+        await appCommon.MyTasks();
+
+        await hrInbxPage.clickInboxMyTaskAndSubmit("Hire:");
+        await appCommon.SuccessEventHandle();
+        await appCommon.MyTasks();
         //fill Contract Details for Employee
         await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, "NaN", data.ContractEndDate, String(data.ContractReason));
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
-        await hrInbxPage.clickInboxMyTaskAndSubmit("Hire:");
-        await appCommon.SuccessEventHandle();
-        await appCommon.MyTasks();
-
-
-        await hrInbxPage.clickInboxMyTaskAndSubmit("Hire:");
-        await appCommon.SuccessEventHandle();
-        await appCommon.MyTasks();
 
         await hrInbxPage.clickInboxMyTaskAndSubmit("Manage Probation Period:");
         await appCommon.SuccessEventHandle();

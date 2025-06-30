@@ -40,7 +40,8 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     this.page = page;
     this.context = context;
     this.hrSubmit = page.locator('button:has-text("Submit")');
-    this.idChange = page.locator('//div[@data-automation-id="titleText" and text()="Change/Update My Government IDs"]').first();
+    //this.idChange = 
+    this.idChange = page.locator('//div[@data-automation-id="titleText" and starts-with(text(), "Change/Update My Government IDs")]').first();
     this.addId = page.locator('tbody').filter({ hasText: '*Country*National ID' }).getByLabel('Add Row')//page.locator('text=*Country*National ID TypeCurrent IDAdd/Edit IDIssued DateExpiration DateIssued B >> [aria-label="Add Row"]');
     this.addROWNationalIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[1]");
     this.addROWadditionalGovernmentIDs = page.locator("(//button[@aria-label='Add Row' and @role='button'])[2]");
