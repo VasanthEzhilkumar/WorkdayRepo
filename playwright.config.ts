@@ -18,6 +18,7 @@ const config: PlaywrightTestConfig = {
   retries: 0,
   workers: 1,
   fullyParallel: false,
+  testDir: './tests',
 // fullyParallel: true,
 
   //Reporters

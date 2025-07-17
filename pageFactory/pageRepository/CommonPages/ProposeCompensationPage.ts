@@ -202,7 +202,7 @@ export class ProposeCompensationPage extends WebActionsPage {
             // this.clickDeletePopupbtn();
             await this.btnDeleteallowanceSlovenia.nth(0).click();
             await this.page.waitForTimeout(500);
-            await this.btnDeletePopupslovenia.first().click();
+            await this.btnDeletePopupslovenia.first().click({ 'force': true });
         }
         await this.page.waitForTimeout(2500);
         if (AllowanceAmount !== "N/A" && AllowanceAmount !== "NaN" && AllowanceAmount !== undefined && AllowanceAmount !== "Defaulted") {
@@ -220,15 +220,138 @@ export class ProposeCompensationPage extends WebActionsPage {
         await this.page.waitForTimeout(3000);
         if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
             if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+                await this.page.waitForTimeout(1000);
                 await super.click(this.hrSubmit);
             }
         }
-        await this.page.waitForTimeout(3000);
-        if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
-            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
-                await super.click(this.hrSubmit);
-            }
-        }
+        await this.page.waitForTimeout(5000);
+        // if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
+        //     if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+        //         await super.click(this.hrSubmit);
+        //     }
+        // }
         // await this.page.waitForTimeout(3000);
     }
+
+
+    /*
+    @Author      : @ Madhukar Kirkan
+    @Description : This generic method is used to set salary amount, Grade profile and step if required on Propse Compensation Page.
+    @Param       :  required test data such as GradeProfile, step etc
+    @updated on 25th Oct'24 by  : @ Ramchandra Desai - added Allowance Amount argument to make it more generic 
+  */
+    async setProposeCompensationJobChanges(GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
+        await this.page.waitForTimeout(1500);
+        await this.page.waitForLoadState();
+        if (await this.proposeCompensation.count() > 0) {
+
+            await super.click(this.proposeCompensation);
+            if (await GradeProfile !== "N/A" && await GradeProfile !== "NaN" && await GradeProfile !== undefined && await GradeProfile.toLowerCase() !== "defaulted") {
+                await super.click(this.lblGradeProfile);
+                await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
+                await this.page.waitForTimeout(1500);
+                if (await Step !== "N/A" && await Step !== "NaN" && await Step !== undefined && await Step.toLowerCase() !== "defaulted" && (await this.txtStep.isVisible())) {
+                    //await super.click(this.txtStep);
+                    await super.setTextWithDoubleEnter(this.txtStep, Step);
+                }
+                await super.click(this.page.getByLabel('Save Guidelines'));
+            }
+            await this.page.waitForTimeout(5000);
+            if (Salary !== "N/A" && Salary !== "NaN" && Salary !== undefined && Salary !== "Defaulted") {
+                if (await this.btnEditSalary.isVisible()) {
+                    await super.click(this.btnEditSalary);
+                    await this.page.waitForTimeout(500);
+                    if (await this.txtSalaryAmount.count() > 0) {
+                        await super.setText(this.txtSalaryAmount, Salary.toString());
+                    }
+                    await super.click(this.btnSaveSalary);
+                }
+                if (await this.btnEditHourly.isVisible()) {
+                    await super.click(this.btnEditHourly);
+                    //await this.page.waitForTimeout(1500);
+                    if (await this.txtSalaryAmount.isVisible()) {
+                        await super.setText(this.txtSalaryAmount, Salary.toString());
+                    }
+                    await super.click(this.btnSaveHourly);
+                }
+            } else {
+                await this.page.waitForTimeout(1000);
+                let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
+                // if(strTotalBasePayRangeValue != undefined && strTotalBasePayRangeValue != 'NaN'){
+                let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
+                console.log("strTotalBasePayRangeValueArray - " + strTotalBasePayRangeValueArray);
+                const strLow = strTotalBasePayRangeValueArray[0];
+                // const strHingh = strTotalBasePayRangeValueArray[2];
+                console.log("strLow - " + strLow);
+                //await this.page.waitForTimeout(1500);
+                if (await this.btnEditSalary.count() > 0) {
+                    await super.click(this.btnEditSalary);
+                    //if (await this.editSalary.count() > 0) {
+                    await this.page.waitForTimeout(4000);
+                    if (await this.txtSalaryAmount.isVisible()) {
+                        await super.setText(this.txtSalaryAmount, strLow.toString());
+                    }
+                    // }
+                    await super.click(this.btnSaveSalary);
+                }
+
+                if (await this.btnEditHourly.isVisible()) {
+                    await super.click(this.btnEditHourly);
+                    await this.page.waitForTimeout(1500);
+                    if (await this.txtSalaryAmount.isVisible()) {
+                        await super.setText(this.txtSalaryAmount, strLow.toString());
+                    }
+                    await super.click(this.btnSaveHourly);
+                }
+                //}
+            }
+            //@added by Gayatri if allowance btn need to be deleted
+            if (await Country === "Hungary") {
+                //this.clickDeletePopupbtn();
+                await this.btnDeleteallowance.click();
+                await this.page.waitForTimeout(500);
+                await this.btnDeletePopup.click();
+            }
+            //@added by Gayatri if allowance btn need to be deleted
+            //updated by @Madhukar for Slovenia need to delete first and fourth allowance.
+            if (await Country === "Slovenia") {
+                await this.btnDeleteallowanceSlovenia.nth(2).click();
+                await this.page.waitForTimeout(700);
+                await this.btnDeletePopupslovenia.first().click({ 'force': true });
+                await this.page.waitForTimeout(1000);
+                // this.clickDeletePopupbtn();
+                await this.btnDeleteallowanceSlovenia.nth(0).click();
+                await this.page.waitForTimeout(500);
+                await this.btnDeletePopupslovenia.first().click({ 'force': true });
+            }
+            await this.page.waitForTimeout(2500);
+            if (AllowanceAmount !== "N/A" && AllowanceAmount !== "NaN" && AllowanceAmount !== undefined && AllowanceAmount !== "Defaulted") {
+                if (await this.btnEditAllowance.isVisible()) {
+                    //  && await this.editSalary.isVisible()) {
+                    await super.click(this.btnEditAllowance);
+                    if (this.txtAllowanceAmount.isVisible()) {
+                        await super.setText(this.txtAllowanceAmount, AllowanceAmount.toString());
+                    }
+                    await super.click(this.btnSaveAllowance);
+                }
+            }
+
+            await this.hrSubmit.click();
+            await this.page.waitForTimeout(3000);
+            if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
+                if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+                    await this.page.waitForTimeout(1000);
+                    await super.click(this.hrSubmit);
+                }
+            }
+            await this.page.waitForTimeout(5000);
+            // if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
+            //     if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+            //         await super.click(this.hrSubmit);
+            //     }
+            // }
+            // await this.page.waitForTimeout(3000);
+        }
+    }
+
 }

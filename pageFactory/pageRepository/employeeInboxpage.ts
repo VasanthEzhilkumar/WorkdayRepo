@@ -164,7 +164,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.saveCostCenterbtn = page.locator('[aria-label="Save Cost Center"]');
         this.GBEmpHandbooks = page.locator('text=GB Employee Handbooks:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
         //this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
-        this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName ).or(page.locator('text=Onboarding Guide:').first());
+        this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName).or(page.locator('text=Onboarding Guide:').first());
         //text=Onboarding Guide: Retail Assistant_NEW - ZESKY ELVEN (10286606)
 
         this.addPhoto = page.getByRole('button', { name: 'Add a Photo', exact: true }).or(page.getByRole('button', { name: 'Add a Photo: Onboarding for' }).first());
@@ -190,7 +190,7 @@ export class employeeInboxPage extends WebActionsPage {
         //this.IBAN2 = page.locator('label:has-text("IBAN")');
 
         this.chgContactInformation = page.locator('[aria-label="Inbox Items"] >> text=Change/Update My Contact Information').or(page.getByRole('button', { name: 'Change/Update My Personal' }).first());
-        this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true }).or(page.getByRole('button', { name: 'Change/Update My Personal Information: Onboarding for '}));//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
+        this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true }).or(page.getByRole('button', { name: 'Change/Update My Personal Information: Onboarding for ' }));//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.buttonchgpersonal = page.locator('button:has-text("Change My Personal Information")');
         this.hrchgPersonalInformation = page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first()//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.editGender = page.locator('[aria-label="Edit Gender"]');
@@ -242,7 +242,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.okButtonpage = page.locator('button:has-text("OK")');
         this.doneButton = page.locator('button:has-text("Done")');
         this.reviewDocTotal = page.locator('//div[(@data-automation-id="titleText") and (text()="Review Documents" or starts-with(text(), "Onboarding for "))]');
-        this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true }).first().or(page.locator('//div[(@data-automation-id="titleText") and (text()="Review Documents" or starts-with(text(), "Onboarding for "))]').first());//locator('[aria-label="Inbox Items"] >> text=Review Documents');
+        this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true }).nth(0)
+            .or(page.locator('(//div[(@data-automation-id="titleText") and starts-with(text(), "Onboarding for ")])[1]').first());
         this.addCerti = page.getByRole('button', { name: 'Add Certifications (External)', exact: true }).or(page.getByRole('button', { name: 'Add Certifications (External' }));//locator('[aria-label="Inbox Items"] >> text=Add Certifications (External)');
         this.addCertiNetherland = page.getByRole('button', { name: 'Add Certifications (External - Netherlands)', exact: true });
         this.romFather = page.locator('[aria-label="Inbox Items"] >> text=Romania Father');
@@ -324,7 +325,7 @@ export class employeeInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(500);
         let reviewTitleCount = await this.reviewDocTotal.count();
         for (let i = 1; i <= reviewTitleCount; i++) {
-            if (await this.reviewDoc.isVisible()) {
+            if (await this.reviewDoc.nth(0).isVisible()) {
                 await super.click(this.reviewDoc);
                 await this.page.waitForTimeout(1000);
                 for (let j = 1; j <= await this.agreeCheckbox.count(); j++) {
@@ -1312,14 +1313,17 @@ export class employeeInboxPage extends WebActionsPage {
 
 
     async clickInboxMyTaskAndSubmitEditAdditionalData(varString: string) {
+        await this.page.waitForTimeout(1000);
         if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first().isVisible()) {
             await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
+            await this.page.waitForTimeout(1000);
             await super.click(this.paygroupSubmit);
             await this.page.waitForTimeout(1000);
         }
     }
     async clickInboxMyTaskAndSubmit(varString: string) {
-        if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first().isVisible()) {
+        await this.page.waitForTimeout(1000);
+        if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").nth(0).isVisible()) {
             await this.page.waitForTimeout(1000);
             await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
             await this.clickIAgreeCheckBox();

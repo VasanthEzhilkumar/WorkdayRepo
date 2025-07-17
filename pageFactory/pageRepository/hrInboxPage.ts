@@ -542,10 +542,12 @@ export class HrInboxPage extends WebActionsPage {
 
 
     async setAddMedicalExam(DateWhenMedicalExamTaken: any, ExpirationDateOfTheExam: any) {
+        await this.page.waitForTimeout(1000);
         await this.addMedicalExam.click();
         await this.btnAddPassPort.click();
         await super.setTextWithType(this.txtDateWhenMedicalExamTaken, DateWhenMedicalExamTaken);
         await super.setTextWithType(this.txtExpirationDateOfExam, ExpirationDateOfTheExam);
+        await this.page.waitForTimeout(1000);
         await this.hrSubmit.click();
     }
 
@@ -561,15 +563,19 @@ export class HrInboxPage extends WebActionsPage {
 
     async setCollectiveAgreementAndProfessionalCategoryAndLevel(CollectiveAgreement: any, ProfessionalCategory: any, Level: any) {
         await this.page.waitForTimeout(500);
-        await this.collectiveAgreementProfessional.click({ 'force': true })
-        await super.click(this.collectiveAgreementProfessional);
-        await super.selectFromCustomDropDrownBySliptAndEnter(this.txtAssignCollectiveAgreement, CollectiveAgreement);
-        await this.txtAssignCollectiveAgreement.press('Tab');
-        await super.selectFromCustomDropDrown(this.txtProfessionalCategory, ProfessionalCategory);
-        await this.txtProfessionalCategory.press('Tab');
-        await super.selectFromCustomDropDrown(this.txtLevel, Level);
-        await this.txtLevel.press('Tab');
-        await this.hrSubmit.click();
+        await this.page.waitForLoadState();
+        if (await this.collectiveAgreementProfessional.count() > 0) {
+            await this.collectiveAgreementProfessional.click({ 'force': true })
+            await super.click(this.collectiveAgreementProfessional);
+            await super.selectFromCustomDropDrownBySliptAndEnter(this.txtAssignCollectiveAgreement, CollectiveAgreement);
+            await this.txtAssignCollectiveAgreement.press('Tab');
+            await super.selectFromCustomDropDrown(this.txtProfessionalCategory, ProfessionalCategory);
+            await this.txtProfessionalCategory.press('Tab');
+            await super.selectFromCustomDropDrown(this.txtLevel, Level);
+            await this.txtLevel.press('Tab');
+            await this.hrSubmit.click();
+        }
+
     }
 
     async changePersonalInformationApproveAndSubmit(): Promise<void> {
@@ -818,12 +824,14 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async clickInboxMyTaskAndSubmit(varString: string) {
+        await this.page.waitForTimeout(1000);
         await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]").first());
         await super.click(this.hrSubmit);
     }
 
     async clickInboxMyTaskAndSubmitIfVisible(varString: string) {
         const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]").first();
+        await this.page.waitForLoadState();
         await this.page.waitForTimeout(1000);
         if (await locator.isVisible() && await locator.count() > 0) {
             await super.click(locator);
@@ -835,8 +843,9 @@ export class HrInboxPage extends WebActionsPage {
     async clickInboxMyTaskAndApproveIfVisible(varString: string) {
         const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]");
         const approve = await this.page.getByRole('button', { name: 'Approve' });
-        await this.page.waitForTimeout(1000);
-        if (await locator.first().isVisible() && await locator.first().count() > 0) {
+        await this.page.waitForLoadState();
+        await this.page.waitForTimeout(2500);
+        if (await locator.nth(0).count() > 0) {
             await super.click(locator.first());
             await super.click(approve);
             await this.page.waitForTimeout(2500);
@@ -851,7 +860,9 @@ export class HrInboxPage extends WebActionsPage {
         const approve = await this.page.getByRole('button', { name: 'Approve' });
         await super.click(locator.first());
         await super.click(approve);
+        await this.page.waitForLoadState()
         await this.page.waitForTimeout(3000);
+
         if (await approve.isVisible() && await locator.count() > 0) {
             await super.click(approve);
         }
@@ -1008,7 +1019,7 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setchangePersonalInformationBelgiumPK14(gender: string, dob: string, city: string, martialstat: string,
-        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, 
+        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string,
         edulevel: string) {
         await this.hrchgPersonalInformationTitle.click();
         await super.click(this.editGender);

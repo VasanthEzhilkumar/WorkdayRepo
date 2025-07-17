@@ -65,8 +65,8 @@ for (const sheetName in sheetsJson) {
             console.log(`Starting Test for Hire  ${givenName} ${familyName}`);
             writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName)
 
-            const username = "90001655";
-            const password = 'Vasanth"123';
+            const username = "Dummy";
+            const password = 'Vasant';
 
             // initlize the web environment 
             await login.goto("PK17");
@@ -137,9 +137,7 @@ for (const sheetName in sheetsJson) {
             // const HRPartner = "10559802"
             await appCommon.Searchbox("Start Proxy");
             await proxy.startProxy(HRPartner);
-            await appCommon.ClickInbox();
             await appCommon.MyTasks();
-            await capObj.checkForScreenErrors();
 
             //fill Government IDs  Details for Employee
             await governemntIDs.setGovernmentIDsRomania(data.Country1, data.Country2, data.NationalIDType1,
@@ -152,7 +150,6 @@ for (const sheetName in sheetsJson) {
             await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, data.ContractReason);
             await capObj.checkForScreenErrors();
             await appCommon.SuccessEventHandle();
-            await appCommon.refreshInbox();
 
             await hireAdditionalData.setHireAdditionalInfoDataRomania(data.HealthHouse, data.MealVoucher, data.BasicFunction
               , data.Pensioner, data.NegotiatedLeave);
@@ -164,7 +161,7 @@ for (const sheetName in sheetsJson) {
             await appCommon.SuccessEventHandle();
 
             await hrInbxPage.setManageProbation("NaN", "NaN");
-            //await capObj.checkForScreenErrors();
+            await capObj.checkForScreenErrors();
             await appCommon.SuccessEventHandle();
 
             // await appCommon.ClickInbox();
@@ -181,38 +178,38 @@ for (const sheetName in sheetsJson) {
             console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
             await appCommon.MyTasks();
             // await appCommon.Searchbox("Stop Proxy");
-            // await proxy.stopproxy();
+            // await proxyHelper.stopproxy();
 
             // empNum = String(data.EmployeeID);
             await appCommon.SearchboxEmp("Start Proxy");
             await proxy.startProxy(empNum);
-            //await appCommon.ClickInbox();
             await appCommon.MyTasks();
 
             await empInboxpage.onBoardingGuide();
             await appCommon.SuccessEventHandle();
+
             await empInboxpage.empaddPhoto();
             await appCommon.SuccessEventHandle();
 
             await empInboxpage.changePersonalInformation(data.Gender, data.DateOfBirth, data.CityOfBirth, data.MaritalStatus, "NaN", data.CitizenshipStatus, data.PrimaryNationality, "NaN", "NaN", "NaN", "NaN");
             await capObj.checkForScreenErrors();
             await appCommon.SuccessEventHandle();
-            await empInboxpage.changepersonalinformationSubmit();
 
-            //await capObj.checkForScreenErrors();
+            await empInboxpage.changepersonalinformationSubmit();
             await appCommon.SuccessEventHandle();
+
             await empInboxpage.changeGovIDInformation();
             await appCommon.SuccessEventHandle();
 
             await empInboxpage.AddEmergecyInformation();
             await appCommon.SuccessEventHandle();
-            await empInboxpage.reviewDocumentSubmitGeneric();
-            // await capObj.checkForScreenErrors();
 
+            await empInboxpage.reviewDocumentSubmitGeneric();
             await appCommon.SuccessEventHandle();
+
             await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
-            // await capObj.checkForScreenErrors();
             await appCommon.SuccessEventHandle();
+
             await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankCode, String(data.AccountNumber), String(data.IBAN), data.AccountType, "NaN", "NaN");
             await capObj.checkForScreenErrors();
             await appCommon.SuccessEventHandle();
@@ -224,7 +221,6 @@ for (const sheetName in sheetsJson) {
 
             await appCommon.SearchboxEmp("Start Proxy");
             await proxy.startProxy(HRPartner);
-            await appCommon.ClickInbox();
             await appCommon.MyTasks();
 
             await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");
