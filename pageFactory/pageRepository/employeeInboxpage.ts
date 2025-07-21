@@ -37,6 +37,7 @@ export class employeeInboxPage extends WebActionsPage {
     readonly cityofBirth: Locator;
     readonly martialstatus: Locator;
     readonly citizenship: Locator;
+
     readonly nationality: Locator;
     readonly peopleLink: Locator;
     readonly personaldetails: Locator;
@@ -164,7 +165,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.saveCostCenterbtn = page.locator('[aria-label="Save Cost Center"]');
         this.GBEmpHandbooks = page.locator('text=GB Employee Handbooks:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
         //this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName);
-        this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName ).or(page.locator('text=Onboarding Guide:').first());
+        this.onBoarding = page.locator('text=Onboarding Guide:' + ' ' + jobprofile + ' - ' + givenname + ' ' + FamilyName).or(page.locator('text=Onboarding Guide:').first());
         //text=Onboarding Guide: Retail Assistant_NEW - ZESKY ELVEN (10286606)
 
         this.addPhoto = page.getByRole('button', { name: 'Add a Photo', exact: true }).or(page.getByRole('button', { name: 'Add a Photo: Onboarding for' }).first());
@@ -190,7 +191,7 @@ export class employeeInboxPage extends WebActionsPage {
         //this.IBAN2 = page.locator('label:has-text("IBAN")');
 
         this.chgContactInformation = page.locator('[aria-label="Inbox Items"] >> text=Change/Update My Contact Information').or(page.getByRole('button', { name: 'Change/Update My Personal' }).first());
-        this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true }).or(page.getByRole('button', { name: 'Change/Update My Personal Information: Onboarding for '}));//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
+        this.chgPersonalInformation = page.getByRole('button', { name: 'Change/Update My Personal Information', exact: true }).or(page.getByRole('button', { name: 'Change/Update My Personal Information: Onboarding for ' }));//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.buttonchgpersonal = page.locator('button:has-text("Change My Personal Information")');
         this.hrchgPersonalInformation = page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first()//locator('[aria-label="Inbox Items"] >> text=Change/Update My Personal Information');
         this.editGender = page.locator('[aria-label="Edit Gender"]');
@@ -202,10 +203,8 @@ export class employeeInboxPage extends WebActionsPage {
         this.editRaceEthnicity = page.getByLabel('Edit Race/Ethnicity');
         this.editReligion = page.getByLabel('Edit Religion');
         this.editGenderIdentity = page.getByLabel('Edit Gender & Other Gender');
-
-        this.chgGovid = page.getByRole('button', { name: 'Change/Update My Government IDs', exact: true }).or(page.getByRole('button', { name: 'Change/Update My Government' }));//locator('[aria-label="Inbox Items"] >> text=Change/Update My Government IDs');
-        this.addemergncyContacts = page.getByRole('button', { name: 'Add Emergency Contacts:' });
-
+        this.addemergncyContacts = page.getByRole('button', { name: 'Add Emergency Contacts', exact: true });//locator('[aria-label="Inbox Items"] >> text=Add Emergency Contacts');
+        this.chgGovid = page.getByRole('button', { name: 'Change/Update My Government IDs', exact: true }).first();
         this.setGenderdrpDown = page.locator('text=select oneselect one');
         this.setGender = page.locator('[aria-label="Male"]');
         this.cityofBirth = page.locator('input[role="textbox"]');
@@ -241,9 +240,14 @@ export class employeeInboxPage extends WebActionsPage {
         this.lastName = page.locator('label:has-text("Last Name")');
         this.okButtonpage = page.locator('button:has-text("OK")');
         this.doneButton = page.locator('button:has-text("Done")');
-        this.reviewDocTotal = page.locator('//div[(@data-automation-id="titleText") and (text()="Review Documents" or starts-with(text(), "Onboarding for "))]');
-        this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true }).first().or(page.locator('//div[(@data-automation-id="titleText") and (text()="Review Documents" or starts-with(text(), "Onboarding for "))]').first());//locator('[aria-label="Inbox Items"] >> text=Review Documents');
-        this.addCerti = page.getByRole('button', { name: 'Add Certifications (External)', exact: true }).or(page.getByRole('button', { name: 'Add Certifications (External' }));//locator('[aria-label="Inbox Items"] >> text=Add Certifications (External)');
+        //this.reviewDocTotal = page.locator('//div[(@data-automation-id="titleText") and (text()="Review Documents" or starts-with(text(), "Onboarding for "))]');
+        //this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true }).first().or(page.locator('(//div[(@data-automation-id="titleText") and (text()="Review Documents" or starts-with(text(), "Onboarding for "))])[1]').first());//locator('[aria-label="Inbox Items"] >> text=Review Documents');
+        //this.reviewDoc = page.locator('//div[@data-automation-id="titleText" and (normalize-space(text())="Review Documents" or starts-with(normalize-space(text()), "Onboarding for "))]').first().or(page.getByRole('button', { name: 'Review Documents', exact: true }).first());
+
+        this.reviewDocTotal = page.locator('//div[text()="Review Documents" and @data-automation-id="titleText"]');
+        this.reviewDoc = page.getByRole('button', { name: 'Review Documents', exact: true }).first();//locator('[aria-label="Inbox Items"] >> text=Review Documents');
+
+        this.addCerti = page.getByRole('button', { name: 'Add Certifications (External)', exact: true });//locator('[aria-label="Inbox Items"] >> text=Add Certifications (External)');
         this.addCertiNetherland = page.getByRole('button', { name: 'Add Certifications (External - Netherlands)', exact: true });
         this.romFather = page.locator('[aria-label="Inbox Items"] >> text=Romania Father');
 
@@ -321,7 +325,7 @@ export class employeeInboxPage extends WebActionsPage {
 
 
     async reviewDocumentSubmitGeneric() {
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(1000);
         let reviewTitleCount = await this.reviewDocTotal.count();
         for (let i = 1; i <= reviewTitleCount; i++) {
             if (await this.reviewDoc.isVisible()) {
@@ -730,6 +734,14 @@ export class employeeInboxPage extends WebActionsPage {
 
         await this.paygroupSubmit.click();
 
+    }
+
+    async HealthcareProviderMealVoucherSubmit() {
+         await this.healthcareProviderMealVoucher.click();
+        await this.page.waitForTimeout(500);
+         await this.paygroupSubmit.click();
+        await this.page.waitForTimeout(500);
+        
     }
 
     async changeContactInformation() {
@@ -1190,6 +1202,7 @@ export class employeeInboxPage extends WebActionsPage {
         }
     }
     async addCertificationNetherlandSubmit() {
+         await this.page.waitForTimeout(1000);
         if (await this.addCertiNetherland.isVisible()) {
             await this.addCertiNetherland.click();
             await this.paygroupSubmit.click();
@@ -1319,9 +1332,11 @@ export class employeeInboxPage extends WebActionsPage {
         }
     }
     async clickInboxMyTaskAndSubmit(varString: string) {
+        await this.page.waitForTimeout(3000);
         if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first().isVisible()) {
-            await this.page.waitForTimeout(1000);
+            await this.page.waitForTimeout(3000);
             await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
+            await this.page.waitForTimeout(1000);
             await this.clickIAgreeCheckBox();
             await super.click(this.paygroupSubmit);
             await this.page.waitForTimeout(1000);

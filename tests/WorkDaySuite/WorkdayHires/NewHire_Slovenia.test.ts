@@ -20,7 +20,7 @@ let position: string;
 let captureErrors: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Hires 2 jun 24 Slovenia (1).xlsx';
+const excelFileName = 'Hires/Workday_NewHire_Slovenia_Regression_PK17.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -32,9 +32,11 @@ for (const sheetName in sheetsJson) {
   const dataSet = sheetsJson[sheetName];
 
   dataSet.forEach((data, index) => {
-    //  const givenName = givenName || `GivenName_${index + 1}`;
-    //  const familyName = familyName || `FamilyName_${index + 1}`;
+      // const givenName = givenName || `GivenName_${index + 1}`;
+      // const familyName = familyName || `FamilyName_${index + 1}`;
     const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
+    // const givenName = data.GivenName;
+    // const familyName = data.FamilyName;
     const { givenName, familyName } = generateRandomName();
     if (data.TestStatus !== "Passed") {
 
@@ -124,7 +126,7 @@ for (const sheetName in sheetsJson) {
 
         await hrInbxPage.clickInboxMyTaskAndSubmit("Service Dates Change:");
         await appCommon.SuccessEventHandle();
-
+         await appCommon.MyTasks();
         await hrInbxPage.clickInboxMyTaskAndSubmit("Add Dependents:");
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -136,7 +138,6 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.setAddMedicalExam(data.DateWhenMedicalExamTaken, data.ExpirationDateOfTheExam);
         await appCommon.SuccessEventHandle();
         //await appCommon.refreshInbox();
-
         await hrInbxPage.setCollectiveAgreementAndProfessionalCategoryAndLevel(data.CollectiveAgreement, data.ProfessionalCategory, data.Level);
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
@@ -146,18 +147,14 @@ for (const sheetName in sheetsJson) {
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
         await appCommon.SuccessEventHandle();
         // await appCommon.refreshInbox();
 
-        await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "Slovenia", "NaN");
-        await captureErrors.checkForScreenErrors();
+        //await captureErrors.checkForScreenErrors();
         empNum = await hrInbxPage.getEmployeeID();
         console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
-
-        await appCommon.Searchbox("Stop Proxy");
 
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
@@ -171,6 +168,7 @@ for (const sheetName in sheetsJson) {
 
         await empInboxpage.clickInboxMyTaskAndSubmit("Change/Update My Contact Information");
         await appCommon.SuccessEventHandle();
+        
 
         await empInboxpage.clickInboxMyTaskAndSubmit("Add Certifications");
         await appCommon.SuccessEventHandle();
@@ -179,9 +177,6 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.reviewDocumentSubmitGeneric();
-        await appCommon.SuccessEventHandle();
-
-        await empInboxpage.clickInboxMyTaskAndSubmit("Add Emergency Contacts:");
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, "NaN", String(data.IBAN), data.AccountType, "NaN", data.NameOnAccount);
@@ -204,6 +199,9 @@ for (const sheetName in sheetsJson) {
         await captureErrors.checkForScreenErrors();
         await empInboxUS.changeGovIDInformationSubmit();
         await captureErrors.checkForScreenErrors();
+        await appCommon.SuccessEventHandle();
+
+        await empInboxpage.clickInboxMyTaskAndSubmit("Add Emergency Contacts");
         await appCommon.SuccessEventHandle();
 
         await appCommon.Searchbox("Start Proxy");

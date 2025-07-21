@@ -217,18 +217,18 @@ export class ProposeCompensationPage extends WebActionsPage {
         }
 
         await this.hrSubmit.click();
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForTimeout(5000);
         if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
             if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
                 await super.click(this.hrSubmit);
             }
         }
+        // await this.page.waitForTimeout(5000);
+        // if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
+        //     if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+        //         await super.click(this.hrSubmit);
+        //     }
+        // }
         await this.page.waitForTimeout(3000);
-        if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
-            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
-                await super.click(this.hrSubmit);
-            }
-        }
-        // await this.page.waitForTimeout(3000);
     }
 }

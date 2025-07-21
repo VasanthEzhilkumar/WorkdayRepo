@@ -204,12 +204,12 @@ for (const sheetName in sheetsJson) {
           await empInboxpage.reviewDocumentSubmitGeneric();
           await appCommon.SuccessEventHandle();
 
-          await empInboxpage.AddEmergecyInformation();
+          await empInboxpage.clickInboxMyTaskAndSubmit("Add Emergency Contacts");
           await appCommon.SuccessEventHandle();
 
-            await empInboxpage.reviewDocumentSubmitGeneric();
+          await empInboxpage.reviewDocumentSubmitGeneric();
           await appCommon.SuccessEventHandle();
-          
+
 
           await empInboxpage.addEmployeeBankDetails(data.BankName, data.BankIdentificationCode, data.AccountNumber, String(data.IBAN), data.AccountType, "NaN", "NaN");
           await capObj.checkForScreenErrors();

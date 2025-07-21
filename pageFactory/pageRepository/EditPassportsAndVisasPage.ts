@@ -86,6 +86,12 @@ export class EditPassportsAndVisasPage extends WebActionsPage {
         await super.click(this.btnSubmit);
     }
 
+    async SubmitaintainRightToWorkDocumentationANDeditPassportsAndVisas() {
+        await this.page.waitForTimeout(500);
+        await this.taskMaintainRighttoWorkDocumentation.click();
+        await super.click(this.btnSubmit);
+    }
+
     async hrPaygroupSubmit(): Promise<void> {
         await this.taskMaintainRighttoWorkDocumentation.click();
         if (await this.validatePayGroup.isVisible()) {

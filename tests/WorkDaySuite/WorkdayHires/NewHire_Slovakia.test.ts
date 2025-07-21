@@ -171,7 +171,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.SuccessEventHandle();
         await empInboxpage.changeGovIDInformation();
         await appCommon.SuccessEventHandle();
-        await empInboxpage.AddEmergecyInformation();
+        await empInboxpage.clickInboxMyTaskAndSubmit("Add Emergency Contacts");
         await appCommon.SuccessEventHandle();
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
@@ -187,10 +187,12 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
 
         await hrInbxPage.updateWorkerContactInfo();
+         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        // await appCommon.MyTasks();
+        //await appCommon.MyTasks();
         // await appCommon.Searchbox(empNum)
+         await page.waitForTimeout(1000);
         await appCommon.SearchClickLink(empNum)
         await empInboxpage.empaddBankDetails(data.BankName, data.BankCode, data.AccountNumber, data.IBAN);
 

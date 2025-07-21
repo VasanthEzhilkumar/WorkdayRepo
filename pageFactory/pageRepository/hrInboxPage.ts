@@ -212,7 +212,9 @@ export class HrInboxPage extends WebActionsPage {
         this.lblprocessCompletedSuccessfully = page.locator("//div[@data-automation-id='textView' or contains(text(),'Process Successfully Completed')]");
         this.btnDone = page.locator("//span[contains(.,'Done')]/ancestor::button[@title='Done']");
 
-        this.AssignPaygroupforPayroll = page.locator('text=Assign Paygroup for Payroll: ' + givenname + ' ' + FamilyName + '');
+        this.AssignPaygroupforPayroll = page.locator('text=Assign Paygroup for Payroll:' + givenname + ' ' + FamilyName + '');
+        //this.AssignPaygroupforPayroll = page.locator('text=Assign Paygroup for Payroll: ' + givenname + ' ' + FamilyName + '');
+        this.AssignPaygroupforPayroll = page.getByRole('button', { name: 'Assign Paygroup for Payroll:' })
         //this.hrAssignPayGroupForHire = page.locator('text=Assign Pay Group for Hire: ' + FamilyName + ' ' + givenname + '');
         //this.hrAssignPayGroupForHire = page.locator(`text=Assign Pay Group for Hire: ${FamilyName} ${givenname}`);
         this.hrAssignPayGroupForHire = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Pay Group for Hire: ' + givenname + ' ' + FamilyName + '")]');
@@ -274,7 +276,7 @@ export class HrInboxPage extends WebActionsPage {
         this.perInfochgn = page.locator('text=Personal Information Change: ' + ' ' + givenname + ' ' + FamilyName).first();
         //this.assignPaygroup = page.locator('text=Assign Paygroup for Payroll: ' + ' ' + givenname + ' ' + FamilyName);
         this.assignPaygroup = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Assign Paygroup for Payroll") and contains(text(),"' + givenname + ' ' + FamilyName + '")]');
-        this.assignPg = page.getByLabel('Proposed Pay Group', { exact: true });//locator('label:has-text("Proposed Pay Group")');
+        this.assignPg = page.getByLabel('Proposed Pay Group', { exact: true });
         this.assignPGApprove = page.locator('text=Assign Pay Group for Hire:' + ' ' + givenname + ' ' + FamilyName);
         this.passportVisa = page.locator('text=Passports and Visa Change: ' + ' ' + givenname + ' ' + FamilyName);
         this.editSalary = page.getByRole('button', { name: 'Edit Salary' });
@@ -542,6 +544,7 @@ export class HrInboxPage extends WebActionsPage {
 
 
     async setAddMedicalExam(DateWhenMedicalExamTaken: any, ExpirationDateOfTheExam: any) {
+        await this.page.waitForTimeout(2000);
         await this.addMedicalExam.click();
         await this.btnAddPassPort.click();
         await super.setTextWithType(this.txtDateWhenMedicalExamTaken, DateWhenMedicalExamTaken);
@@ -787,6 +790,14 @@ export class HrInboxPage extends WebActionsPage {
         await this.page.waitForTimeout(700);
     }
 
+    async assignPayGroupSubmitHire(ProposedPayGroup: any): Promise<void> {
+        await this.hrAssignPayGroupForHire.click();
+        //await this.assignPg.fill(ProposedPayGroup.toString());
+        await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
+        await this.page.getByRole('button', { name: 'Approve' }).click();
+        await this.page.waitForTimeout(700);
+    }
+
 
     async assignPayGroupForHireApprove(ProposedPayGroup: any) {
         await this.hrAssignPayGroupForHire.click();
@@ -798,11 +809,21 @@ export class HrInboxPage extends WebActionsPage {
 
 
 
+
     async assignPayGroupApprove(ProposedPayGroup: any): Promise<void> {
         await this.page.waitForTimeout(700);
         await this.AssignPaygroupforPayroll.click();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Approve' }).click();
+        await this.page.waitForTimeout(700);
+    }
+
+
+    async assignPayGroupSubmitPayroll(ProposedPayGroup: any): Promise<void> {
+        await this.page.waitForTimeout(700);
+        await this.AssignPaygroupforPayroll.click();
+        await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
+        await this.page.getByRole('button', { name: 'Submit' }).click();
         await this.page.waitForTimeout(700);
     }
 
@@ -818,7 +839,9 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async clickInboxMyTaskAndSubmit(varString: string) {
+        await this.page.waitForTimeout(2000);
         await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]").first());
+        await this.page.waitForTimeout(1000);
         await super.click(this.hrSubmit);
     }
 
@@ -835,7 +858,7 @@ export class HrInboxPage extends WebActionsPage {
     async clickInboxMyTaskAndApproveIfVisible(varString: string) {
         const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]");
         const approve = await this.page.getByRole('button', { name: 'Approve' });
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(5000);
         if (await locator.first().isVisible() && await locator.first().count() > 0) {
             await super.click(locator.first());
             await super.click(approve);
@@ -1163,7 +1186,7 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setManageProbation(probEndDate: string, probReviewDate: string) {
-        await this.page.waitForTimeout(3000);
+        await this.page.waitForTimeout(4000);
         if (await this.manageProbation.count() > 0) {
             await super.click(this.manageProbation);
             // await super.setTextWithType(this.prbStartDate, '');
@@ -1384,6 +1407,7 @@ export class HrInboxPage extends WebActionsPage {
         }
         await this.hrSubmit.click(); //Last step
     }
+    
 
 }
 

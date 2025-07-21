@@ -10,6 +10,7 @@ import { contactInformationAddressCzechia } from '@pages/CzechiaPages/ContactInf
 import { GovernmentsIDPageCzechia } from '@pages/CzechiaPages/GovernmentIDsCzechiaPage';
 import { employeeInboxPage } from '@pages/employeeInboxpage';
 import { HrInboxPage } from '@pages/hrInboxPage';
+import { generateRandomName } from 'utils/functional/utils';
 
 
 let empNum: string;
@@ -33,10 +34,10 @@ for (const sheetName in sheetsJson) {
     if (data.TestStatus !== "Passed"){
     //  const givenName = givenName || `GivenName_${index + 1}`;
     //  const familyName = familyName || `FamilyName_${index + 1}`;
-    const jobProfile = (data.JobProfile || `JobProfile_${index + 1}`).trim();
-    // const { givenName, familyName } = generateRandomName();
-    const givenName = data.GivenName;
-    const familyName = data.FamilyName;
+      const jobProfile = (data.JobProfile || `JobProfile_${index + 1}`).trim();
+     const { givenName, familyName } = generateRandomName();
+    // const givenName = data.GivenName;
+    // const familyName = data.FamilyName;
     // if (data.TestStatus != 'Passed') {
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
@@ -142,26 +143,12 @@ for (const sheetName in sheetsJson) {
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.MyTasks();
-        // await capObj.checkForScreenErrors();
 
-        //Assign Initial Details for Employee
-        // await appCommon.MyTasks();
-        // await hrInbxPage.assignInitialPayGroupSubmit(data.ProposedPayGroupInitial);
-        // await capObj.checkForScreenErrors();
-        // await appCommon.SuccessEventHandle();
-
-        // Probation Date Details for Employee
-        // await appCommon.MyTasks();
         await appCommon.staticWait(3);
         await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        //fill Contract Details for Employee
-        // await contractObj.setContractDetails(String(data.ContractType).trim(), data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, "NaN");
-        // await capObj.checkForScreenErrors();
-        // await appCommon.SuccessEventHandle();
-        // await appCommon.refreshInbox();
 
         await appCommon.MyTasks();
         await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, String(data.Salary), "NaN", data.AllowanceAmount);
@@ -192,6 +179,7 @@ for (const sheetName in sheetsJson) {
         await appCommon.MyTasks();
         await appCommon.staticWait(3)
         await hrInbxPage.setMaintainRightToWorkDocumentation();
+        await appCommon.SuccessEventHandle();
         // empNum = String(data.EmployeeID);
 
         await appCommon.SearchboxEmp("Start Proxy");
@@ -265,10 +253,6 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        // await appCommon.MyTasks();
-        // await hrInbxPage.assignPaygroupApprove();
-        // await capObj.checkForScreenErrors();
-        // await appCommon.SuccessEventHandle();
 
         await appCommon.SearchClickLink(empNum)
         await appCommon.assignPaygroupValidation(String(data.ProposedPayGroupFinal));

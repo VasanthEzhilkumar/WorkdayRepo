@@ -58,7 +58,7 @@ export class MaintainContractPage extends WebActionsPage {
 
     async setContractDetails(contractType: string, contractStatus: string,
         DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(2000);
         if (await this.contract.count() > 0) {
 
             await super.click(this.contract);

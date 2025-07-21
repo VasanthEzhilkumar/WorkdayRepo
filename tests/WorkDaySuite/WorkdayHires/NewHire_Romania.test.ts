@@ -224,7 +224,6 @@ for (const sheetName in sheetsJson) {
 
             await appCommon.SearchboxEmp("Start Proxy");
             await proxy.startProxy(HRPartner);
-            await appCommon.ClickInbox();
             await appCommon.MyTasks();
 
             await hrInbxPage.clickInboxMyTaskAndApprove("Personal Information Change:");

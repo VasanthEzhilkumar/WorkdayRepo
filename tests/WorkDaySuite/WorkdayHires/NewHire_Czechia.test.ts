@@ -161,16 +161,17 @@ for (const sheetName in sheetsJson) {
         //await appCommon.SuccessEventHandle();
         empNum = await hrInbxPage.getEmployeeID();
         console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
-        // await appCommon.refreshInbox();
+        await appCommon.refreshInbox();
         //Maintain Right to Work Documentation
         await appCommon.MyTasks();
         await page.waitForTimeout(1000);
         await hrInbxPage.setMaintainRightToWorkDocumentation();
+        await appCommon.SuccessEventHandle();
 
         // empNum = String(data.EmployeeID);
         await appCommon.SearchboxEmp("Start Proxy");
-        await proxy.startProxy(empNum);
-        await appCommon.MyTasks();
+          await proxy.startProxy(empNum);
+          await appCommon.MyTasks();
         await page.waitForTimeout(5000);
 
         await empInboxpage.reviewDocumentSubmitGeneric();
@@ -224,8 +225,6 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.empHealthcareProviderMealVoucher(data.HealthInsuranceCompany, data.MealVoucher);
         await appCommon.SuccessEventHandle();
 
-
-
         //fill Government IDs  Details for Employee
         await governemntIDs.setGovernmentIDsCzechia(data.Country1, data.Country2, data.NationalIDType1,
           data.NationalIDType2, data.AddEditID1, data.AddEditID2, data.IssuedDate1, data.IssuedDate2,
@@ -234,8 +233,9 @@ for (const sheetName in sheetsJson) {
         await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
         await empInboxpage.changeGovIDInformation();
+        await capObj.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
+        await page.waitForTimeout(1500);
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(HRPartner);
         await appCommon.MyTasks();
