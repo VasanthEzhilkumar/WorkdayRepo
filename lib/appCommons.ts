@@ -85,6 +85,7 @@ export class appCommons extends WebActionsPage {
     }
     //await this.searchboxhome.clear();
     await this.page.waitForTimeout(700);
+    await this.searchboxhome.clear();
     await this.searchboxhome.fill(searchtext);
     await this.page.waitForTimeout(500);
     await this.searchboxhome.press('Enter');
@@ -180,7 +181,7 @@ export class appCommons extends WebActionsPage {
     }
     if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').nth(0).count() > 0) {
       await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]').first());
-    }    
+    }
     if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').count() > 0) {
       await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]'));
     }

@@ -120,7 +120,8 @@ export class JobDetailsPage extends WebActionsPage {
     await this.page.waitForTimeout(2000);
     await this.hireDate.click({ force: true });
     //await super.setTextWithType(this.hireDate,HireDate1);
-    await super.setTextWithType(this.hireDate, HireDate1);
+    await this.page.waitForLoadState();
+    await super.setTextWithType(this.hireDate, HireDate1.toString());
     await super.setTextWithEnter(this.reason, Reason);
     await this.page.waitForTimeout(500);
     if (!position.includes('Auto')) {

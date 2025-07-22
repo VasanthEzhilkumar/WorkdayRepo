@@ -20,7 +20,6 @@ export class WebActionsPage {
             await this.page.waitForTimeout(this.timeOut);
             await locator.scrollIntoViewIfNeeded();
             await locator.focus();
-            // await locator.clear();
             await locator.fill(String(varString));
             await this.page.keyboard.press('Tab');
             // await this.page.waitForTimeout(300);
@@ -38,7 +37,7 @@ export class WebActionsPage {
             // await locator.clear();
             await locator.type(String(varString));
             await this.page.waitForTimeout(200);
-            await this.page.keyboard.press('Tab');
+            await this.page.keyboard.press('Enter');
             console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
             console.error(`Typing "${varString}" into: ${locator} failed` + error);
@@ -126,6 +125,7 @@ export class WebActionsPage {
             // await locator.clear();
             await locator.fill(String(varString));
             await locator.press('Enter');
+            await this.page.waitForLoadState();
             await this.page.waitForTimeout(1000);
             await this.page.keyboard.press('Enter');
             await this.page.keyboard.press('Tab');
@@ -341,8 +341,12 @@ export class WebActionsPage {
             }
         }
         await this.page.waitForTimeout(this.timeOut);
-        await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").waitFor();
-        await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").click();
+
+        const dateButton = this.page.locator('//*[(@data-automation-id="datePickerDay" or @data-automation-id="datePickerSelectedDay") and text()="' + Number(day) + '"][@data-uxi-datepicker-year="' + String(year) + '" and @data-uxi-datepicker-mmdd="' + String(month) + String(day) + '"]');
+        await dateButton.waitFor();
+        await dateButton.click();
+        // await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").waitFor();
+        // await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").click();
         await this.page.waitForTimeout(this.timeOut);
     }
 }

@@ -156,7 +156,9 @@ export class JobChangePage extends WebActionsPage {
         await this.page.waitForTimeout(1000);
         await this.btnEditStartDetails.click();
         await this.page.getByPlaceholder('DD').first().focus();
-        await super.setTextWithType(await this.page.getByPlaceholder('DD').first(), String(startDate));
+        //await super.setTextWithType(await this.page.getByPlaceholder('DD').first(), String(startDate));
+        await super.selectDatePicker(String(startDate));
+
         await super.setTextWithDoubleEnter(this.txtReason, reason);
 
         if (nextPayPeriod !== "N/A" && nextPayPeriod !== undefined && nextPayPeriod !== " " && await this.rbNextPayPeriod_Off.isVisible()) {
@@ -252,7 +254,7 @@ export class JobChangePage extends WebActionsPage {
     async editAdminDetails(ChangeJob_JobClassifications_AdditionalJobClassifications: any, ChangeJob_JobClassifications_EmployeeType: any, ChangeJob_JobClassifications_TimeType: any, ChangeJob_JobClassifications_PayRateType: any, ChangeJob_JobClassifications_DefaultWeeklyHours: any, ChangeJob_JobClassifications_EndEmploymentDate: any, ChangeJob_JobClassifications_FirstDayofWork: any) {
         await this.page.waitForTimeout(2000);
         if (ChangeJob_JobClassifications_AdditionalJobClassifications !== "N/A" && ChangeJob_JobClassifications_AdditionalJobClassifications !== undefined && ChangeJob_JobClassifications_AdditionalJobClassifications !== " ") {
-           await this.page.waitForTimeout(500);
+            await this.page.waitForTimeout(500);
             await this.page.locator("//button[@aria-label='Edit Job Classifications']").click();
             if (await this.txtAdditionalJobClassifications.count() > 0) {
                 const arrayOfJobClassification: [] = ChangeJob_JobClassifications_AdditionalJobClassifications.split("@");

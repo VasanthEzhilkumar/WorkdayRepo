@@ -204,7 +204,7 @@ export class employeeInboxPage extends WebActionsPage {
         this.editGenderIdentity = page.getByLabel('Edit Gender & Other Gender');
 
         this.chgGovid = page.getByRole('button', { name: 'Change/Update My Government IDs', exact: true }).or(page.getByRole('button', { name: 'Change/Update My Government' }));//locator('[aria-label="Inbox Items"] >> text=Change/Update My Government IDs');
-        this.addemergncyContacts = page.getByRole('button', { name: 'Add Emergency Contacts:' });
+        this.addemergncyContacts = page.getByRole('button', { name: 'Add Emergency Contacts' }).first();
 
         this.setGenderdrpDown = page.locator('text=select oneselect one');
         this.setGender = page.locator('[aria-label="Male"]');
@@ -1083,7 +1083,7 @@ export class employeeInboxPage extends WebActionsPage {
     async changeGovIDInformation() {
 
         await this.page.waitForTimeout(500);
-        await this.chgGovid.click();
+        await this.chgGovid.first().click();
         await this.paygroupSubmit.click();
 
     }

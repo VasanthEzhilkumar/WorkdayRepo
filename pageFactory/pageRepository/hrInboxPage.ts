@@ -1,3 +1,4 @@
+import { th } from '@faker-js/faker';
 import { WebActionsPage } from '@lib/WebActionPage';
 import { BrowserContext, Locator, Page, expect } from '@playwright/test';
 
@@ -263,7 +264,8 @@ export class HrInboxPage extends WebActionsPage {
         this.manageProbation = page.locator('text=Manage Probation Period: ' + ' ' + givenname + ' ' + FamilyName);
         this.manageProbationHUn = page.locator('text=Manage Probation Period: ' + ' ' + FamilyName + ' ' + givenname);
         this.prbStartDate = page.locator('label:has-text("Probation Start Date")');
-        this.prbEndDate = page.locator('label:has-text("Probation End Date")');
+        //this.prbEndDate = page.locator('label:has-text("Probation End Date")');
+        this.prbEndDate = page.getByLabel('Probation End Date').getByPlaceholder('DD').first();
         this.prbReviewDate = page.locator('label:has-text("Probation Review Date")');
         this.proposeCompensation = page.locator('text=Propose Compensation Hire: ' + ' ' + givenname + ' ' + FamilyName);
         this.editNoticePeriod = page.locator('text=Edit Notice Periods for Hire:' + ' ' + givenname + ' ' + FamilyName);
@@ -737,6 +739,7 @@ export class HrInboxPage extends WebActionsPage {
 
     async setMaintainRightToWorkDocumentation(): Promise<void> {
         await this.page.waitForTimeout(2000);
+        await this.page.waitForLoadState();
         if (await this.rightToWork.count() > 0) {
             await this.rightToWork.click();
             await this.page.waitForTimeout(500);
@@ -1175,6 +1178,7 @@ export class HrInboxPage extends WebActionsPage {
 
     async setManageProbation(probEndDate: string, probReviewDate: string) {
         await this.page.waitForTimeout(3000);
+        await this.page.waitForLoadState();
         if (await this.manageProbation.count() > 0) {
             await super.click(this.manageProbation);
             // await super.setTextWithType(this.prbStartDate, '');
