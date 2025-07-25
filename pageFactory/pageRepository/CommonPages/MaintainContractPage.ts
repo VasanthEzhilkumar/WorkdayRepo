@@ -27,6 +27,9 @@ export class MaintainContractPage extends WebActionsPage {
 
 
     EmployeeNumber: string[];
+    DEmployerSignedCalender: Locator;
+    DEmployeSignedCalender: Locator;
+    contractEndateCalender: Locator;
 
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
         super(page)
@@ -48,6 +51,9 @@ export class MaintainContractPage extends WebActionsPage {
         this.contractAddendum = page.locator('[aria-label="Inbox Items"] >> text=Contract:' + ' ' + givenname + ' ' + FamilyName + '');
         this.contractAddendumtext = page.locator('h3:has-text("Romania Contract Addendum Info")');
         this.contractWarningAlert = this.page.locator('//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"]').first();
+        this.DEmployerSignedCalender = page.getByLabel('Date Employer Signed').getByLabel('Calendar').first();
+        this.DEmployeSignedCalender = page.getByLabel('Date Employee Signed').getByLabel('Calendar').first();
+        this.contractEndateCalender = page.getByLabel('Contract End Date').getByLabel('Calendar').first();
     }
 
     /*
@@ -57,7 +63,7 @@ export class MaintainContractPage extends WebActionsPage {
     */
 
     async setContractDetails(contractType: string, contractStatus: string,
-        DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
+        DEmpsigned: string, DEmplyersigned: string, contractEnddate1: string, reason: string) {
         await this.page.waitForTimeout(500);
         if (await this.contract.count() > 0) {
 
@@ -78,16 +84,20 @@ export class MaintainContractPage extends WebActionsPage {
             if (await DEmpsigned !== 'N/A' && await DEmpsigned !== 'NaN' && await DEmpsigned !== undefined) {
                 await super.click(this.DEmployeSigned);
                 await super.setTextWithType(this.DEmployeSigned, DEmpsigned);
+                // await super.selectDatePicker(this.DEmployeSignedCalender, DEmpsigned);
             }
 
             if (await DEmplyersigned !== 'N/A' && await DEmplyersigned !== 'NaN' && await DEmplyersigned !== undefined) {
                 await super.click(this.DEmployerSigned);
                 await super.setTextWithType(this.DEmployerSigned, DEmplyersigned);
+                // await super.selectDatePicker(this.DEmployerSignedCalender, DEmplyersigned);
             }
 
-            if (await contractEnddate !== 'N/A' && await contractEnddate !== 'NaN' && await contractEnddate !== undefined) {
+            if (await contractEnddate1 !== 'N/A' && await contractEnddate1 !== 'NaN' && await contractEnddate1 !== undefined) {
                 await super.click(this.contractEndate);
-                await super.setTextWithType(this.contractEndate, contractEnddate);
+                console.log('Contract End Date is -' + contractEnddate1)
+                await super.setTextWithType(this.contractEndate, contractEnddate1);
+                // await super.selectDatePicker(this.contractEndateCalender, String(contractEnddate1));
             }
             await super.click(this.hrSubmit);
             await this.page.waitForTimeout(2000);

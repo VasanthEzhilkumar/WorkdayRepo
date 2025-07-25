@@ -179,6 +179,8 @@ export class HrInboxPage extends WebActionsPage {
     AddendumEndDate: Locator;
     txtAddendumNumber: Locator;
     contractJobChange: Locator;
+    prbEndDateCalender: Locator;
+    prbStartDatealender: Locator;
 
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
         super(page);
@@ -266,6 +268,8 @@ export class HrInboxPage extends WebActionsPage {
         this.prbStartDate = page.locator('label:has-text("Probation Start Date")');
         //this.prbEndDate = page.locator('label:has-text("Probation End Date")');
         this.prbEndDate = page.getByLabel('Probation End Date').getByPlaceholder('DD').first();
+        this.prbEndDateCalender = page.getByLabel('Probation End Date').getByLabel('Calendar').first();
+        this.prbStartDatealender = page.getByLabel('Probation Start Date').getByLabel('Calendar').first()
         this.prbReviewDate = page.locator('label:has-text("Probation Review Date")');
         this.proposeCompensation = page.locator('text=Propose Compensation Hire: ' + ' ' + givenname + ' ' + FamilyName);
         this.editNoticePeriod = page.locator('text=Edit Notice Periods for Hire:' + ' ' + givenname + ' ' + FamilyName);
@@ -1185,6 +1189,7 @@ export class HrInboxPage extends WebActionsPage {
             await this.page.waitForTimeout(1000);
             if (await probEndDate != 'NaN' && await probEndDate != 'N/A' && await probEndDate != undefined) {
                 await super.setTextWithType(this.prbEndDate, probEndDate);
+                // await super.selectDatePicker(this.prbEndDateCalender, probEndDate);
             }
             if (await probReviewDate != 'NaN' && await probReviewDate != 'N/A' && await probReviewDate != undefined) {
                 await super.setTextWithType(this.prbReviewDate, probReviewDate);

@@ -18,7 +18,7 @@ let position: string;
 let captureErrors: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/testDataNetherland1.xlsx';
+const excelFileName = 'Hires/testDataNetherland6.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -33,7 +33,7 @@ for (const sheetName in sheetsJson) {
             const jobProfile = data.JobProfile || `JobProfile_${index + 1}`;
             const { givenName, familyName } = generateRandomName();
 
-            test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+            test(`@HirePK6 Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
                 try {
                     await page.setViewportSize({ width: 1275, height: 595 });//
                     const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);

@@ -35,9 +35,11 @@ export class WebActionsPage {
         try {
             await this.page.waitForTimeout(this.timeOut);
             // await locator.clear();
-            await locator.type(String(varString));
-            await this.page.waitForTimeout(200);
-            await this.page.keyboard.press('Enter');
+            // await locator.type(String(varString));
+            // await this.page.waitForTimeout(200);
+            // await this.page.keyboard.press('Enter');
+            await locator.click();
+            await this.page.keyboard.type(String(varString), { delay: 100 });
             console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
             console.error(`Typing "${varString}" into: ${locator} failed` + error);
@@ -304,49 +306,52 @@ export class WebActionsPage {
         return flag;
     }
 
-    async selectDatePicker(dateToSelect: string) {
-        const [day, month, year] = dateToSelect.split('/');
-        // Extract day, month (as a string), and year
-        let month1 = Number(month);
-        let monthAsString: string;
-        // Array of month names
-        const monthNames = [
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        ];
-        let monthMap: Map<number, string> = new Map();
-        // Populate the map using the monthNames array
-        monthNames.forEach((month, index) => {
-            monthMap.set(index + 1, month);
-        });
-        // Log the map to see the result
-        console.log("Month As string -" + monthMap.get(month1));
-        monthAsString = monthMap.get(month1).toString();
-        await this.page.waitForTimeout(this.timeOut);
-        await this.page.click("(//*[@aria-label='Calendar' and @role= 'button'])[1]")
-        const mmYY = this.page.locator('(//*[@data-automation-id="monthPickerHeader"]//span[@data-automation-id="datePickerMonth"])[1]');
-        const prev = this.page.locator('(//*[@data-automation-id="datePicker"]//button[@data-automation-id="previousControl"])[1]');
-        const next = this.page.locator('(//*[@data-automation-id="datePicker"]//button[@data-automation-id="nextControl"])[1]');
-        const mothYear = monthAsString.trim() + " " + year;
-        // let dateToSelect: string = "May 2019";
-        const thisMonth = moment(mothYear.trim(), "MMMM YYYY").isBefore();
-        console.log("this month? " + thisMonth);
-        const thisMonth1 = monthAsString.trim() + "  " + year;
-        await this.page.waitForTimeout(this.timeOut);
-        while (await mmYY.textContent() != thisMonth1) {
-            if (thisMonth) {
-                await prev.click();
-            } else {
-                await next.click();
-            }
-        }
-        await this.page.waitForTimeout(this.timeOut);
+    async selectDatePicker(locators: Locator, dateToSelect: string) {
 
-        const dateButton = this.page.locator('//*[(@data-automation-id="datePickerDay" or @data-automation-id="datePickerSelectedDay") and text()="' + Number(day) + '"][@data-uxi-datepicker-year="' + String(year) + '" and @data-uxi-datepicker-mmdd="' + String(month) + String(day) + '"]');
-        await dateButton.waitFor();
-        await dateButton.click();
-        // await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").waitFor();
-        // await this.page.locator("//*[@data-automation-id='datePickerDay' and text()='" + day + "'][contains(@aria-label,'" + thisMonth1 + "')]").click();
-        await this.page.waitForTimeout(this.timeOut);
+        if (dateToSelect !== 'N/A' && dateToSelect !== undefined &&
+            dateToSelect !== "" && dateToSelect !== null && dateToSelect !== 'NaN' && dateToSelect.includes('/')) {
+            const [day, month, year] = dateToSelect.split('/');
+            // Extract day, month (as a string), and year
+            let month1 = Number(month);
+            let monthAsString: string;
+            // Array of month names
+            const monthNames = [
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
+            ];
+            let monthMap: Map<number, string> = new Map();
+            // Populate the map using the monthNames array
+            monthNames.forEach((month, index) => {
+                monthMap.set(index + 1, month);
+            });
+            // Log the map to see the result
+            console.log("Month As string -" + monthMap.get(month1));
+            monthAsString = monthMap.get(month1).toString();
+            await this.page.waitForTimeout(this.timeOut);
+            await locators.click({ 'force': true });
+            const mmYY = this.page.locator('(//*[@data-automation-id="monthPickerHeader"]//span[@data-automation-id="datePickerMonth"])[1]');
+            const prev = this.page.locator('(//*[@data-automation-id="datePicker"]//button[@data-automation-id="previousControl"])[1]');
+            const next = this.page.locator('(//*[@data-automation-id="datePicker"]//button[@data-automation-id="nextControl"])[1]');
+            const mothYear = monthAsString.trim() + " " + year;
+            // let dateToSelect: string = "May 2019";
+            const thisMonth = moment(mothYear.trim(), "MMMM YYYY").isBefore();
+            console.log("this month? " + thisMonth);
+            const thisMonth1 = monthAsString.trim() + "  " + year;
+            await this.page.waitForTimeout(this.timeOut);
+            while (await mmYY.textContent() !== thisMonth1) {
+                if (thisMonth) {
+                    await prev.click();
+                } else {
+                    await next.click();
+                }
+            }
+            await this.page.waitForTimeout(this.timeOut);
+
+            const dateButton = this.page.locator('//*[(@data-automation-id="datePickerDay" or @data-automation-id="datePickerSelectedDay") and text()="' + Number(day) + '"][@data-uxi-datepicker-year="' + String(year) + '" and @data-uxi-datepicker-mmdd="' + String(month) + String(day) + '"]');
+            await dateButton.waitFor();
+            await dateButton.click();
+            await this.page.waitForTimeout(this.timeOut);
+        }
+
     }
 }

@@ -122,6 +122,7 @@ export class JobDetailsPage extends WebActionsPage {
     //await super.setTextWithType(this.hireDate,HireDate1);
     await this.page.waitForLoadState();
     await super.setTextWithType(this.hireDate, HireDate1.toString());
+    // await super.selectDatePicker(this.page.locator('li').filter({ hasText: 'Hire Datecurrent value is DD/' }).getByLabel('Calendar').first(), HireDate1.toString());
     await super.setTextWithEnter(this.reason, Reason);
     await this.page.waitForTimeout(500);
     if (!position.includes('Auto')) {

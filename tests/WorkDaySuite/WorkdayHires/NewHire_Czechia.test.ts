@@ -20,6 +20,8 @@ let capObj: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
 const excelFileName = 'Hires/Workday_NewHire_Czechia_Regression_PK17.xlsx';
+// const excelFileName = 'Hires/Workday_NewHire_Czechia_Regression_PK6.xlsx';
+
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -38,7 +40,7 @@ for (const sheetName in sheetsJson) {
     // const familyName = data.FamilyName;
     if (data.TestStatus != 'Passed') {
 
-      test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
+      test(`@HirePK6 Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
         try {
           await page.setViewportSize({ width: 1375, height: 750 });
 
@@ -150,7 +152,7 @@ for (const sheetName in sheetsJson) {
           await appCommon.SuccessEventHandle();
 
           //fill Contract Details for Employee
-          await contractObj.setContractDetails(String(data.ContractType).trim(), data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, "NaN");
+          await contractObj.setContractDetails(String(data.ContractType).trim(), data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, String(data.ContractEndDate), "NaN");
           await capObj.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
 

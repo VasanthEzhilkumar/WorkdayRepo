@@ -191,11 +191,14 @@ export class createPositionPage extends WebActionsPage {
         let position: string = await this.setPositionTitle();
         await super.click(this.avialbledate);
         await this.page.waitForLoadState();
-        // getByLabel('Availability Date').getByPlaceholder('DD')
-        // getByLabel('Earliest Hire Date').getByPlaceholder('DD')
         await super.setTextWithType(this.page.getByLabel('Availability Date').getByPlaceholder('DD').first(), availabilitydate);
         await super.click(this.earlierhiredate);
         await super.setTextWithType(this.page.getByLabel('Earliest Hire Date').getByPlaceholder('DD').first(), earliestdate);
+
+        // await super.selectDatePicker(this.page.getByLabel('Availability Date').getByLabel('Calendar').first(), availabilitydate);
+        // await super.click(this.earlierhiredate);
+        // await super.selectDatePicker(this.page.getByLabel('Earliest Hire Date').getByLabel('Calendar').first(), earliestdate);
+
         await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString());
         await super.setTextWithEnter(this.location, Location);
         await super.selectFromCustomDropDrown(this.timetype, timetype);

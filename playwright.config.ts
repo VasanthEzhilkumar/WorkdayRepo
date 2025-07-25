@@ -1,4 +1,4 @@
-import { PlaywrightTestConfig, devices } from '@playwright/test';
+import { PlaywrightTestConfig, devices, defineConfig } from '@playwright/test';
 // import { testConfig } from './testConfig';
 // const ENV = process.env.npm_config_ENV;
 
@@ -6,6 +6,9 @@ import { PlaywrightTestConfig, devices } from '@playwright/test';
  console.log(`Please provide a correct environment value after command like "--ENV=qa|dev|qaApi|devApi"`);
  process.exit();
 } */
+defineConfig({
+  grep: /@HirePK6/,
+});
 
 const config: PlaywrightTestConfig = {
 
@@ -19,7 +22,8 @@ const config: PlaywrightTestConfig = {
   workers: 1,
   fullyParallel: false,
   testDir: './tests',
-// fullyParallel: true,
+
+  // fullyParallel: true,
 
   //Reporters
   //Reporters['list'],
@@ -36,11 +40,11 @@ const config: PlaywrightTestConfig = {
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,
-        //actionTimeout:20000,
+        actionTimeout: 30000,
 
         //Artifacts
         screenshot: 'on',
-        video: `on`,
+        video: `retain-on-failure`,
         trace: `retain-on-failure`,
 
         //Slows down execution by ms

@@ -34,6 +34,8 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
 
   EmployeeNumber: string[];
   readonly GnationalID: Locator;
+  GExpirationDateCalender: Locator;
+  GIssuedDateCalender: Locator;
 
   constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
     super(page);
@@ -52,6 +54,9 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     this.GnationalID = page.locator('text=1 item selected, CzechiaCzechia1 item selected, Identity Card NumberIdentity Car >> [id="\\35 6\\$533359"] input[role="textbox"]');
     this.checkWarningAndAlert = this.page.locator('(//div[@role="button"]//div[@data-automation-id="errorWidgetBarMessageCountCanvas"])[1]');
 
+    this.GExpirationDateCalender = page.locator("//table[@class='mainTable']/tbody/tr/td[8]/descendant::div[@aria-label='Calendar' and @role = 'button']");
+    this.GIssuedDateCalender = page.locator("//table[@class='mainTable']/tbody/tr/td[7]/descendant::div[@aria-label='Calendar' and @role = 'button']");
+
     this.GExpirationDate = page.locator("//table[@class='mainTable']/tbody/tr/td[8]/descendant::input[@placeholder='DD']");
     this.GIssuedDate = page.locator("//table[@class='mainTable']/tbody/tr/td[7]/descendant::input[@placeholder='DD']");
     this.IssuedBy = page.locator("(//div[@data-automation-id='textInput' or contains(title,'Issued')])[2]/input");
@@ -66,7 +71,7 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
     this.govIDsEdit2 = page.locator('(//div[@data-automation-id="textInput"])[1]/input');
     this.addGovtID = page.locator('//button[@title="Change My Government IDs"]');
     this.idChangeTitle = this.page.locator('//div[@data-automation-id="titleText" and contains(text(),"ID Change: ' + givenname + ' ' + FamilyName + '")]');
-    
+
   }
 
 
@@ -231,11 +236,14 @@ export class GovernmentsIDPageCzechia extends WebActionsPage {
       if (issuedDate !== "NaN" && issuedDate !== undefined && issuedDate !== "") {
         await super.click(this.GIssuedDate);
         await super.setTextWithType(this.GIssuedDate, String(issuedDate));
+        // await super.selectDatePicker(this.GIssuedDateCalender, String(issuedDate));
+
       }
       //await this.GIssuedDate.type(issuedDate);
       if (expirationDate !== "" && expirationDate !== undefined && expirationDate !== "NaN") {
         await super.click(this.GExpirationDate);
         await super.setTextWithType(this.GExpirationDate, String(expirationDate));
+        // await super.selectDatePicker(this.GExpirationDateCalender, String(expirationDate));
       }
       if (await this.IssuedBy.isVisible()) {
         await super.setText(this.IssuedBy, String('Test'));
