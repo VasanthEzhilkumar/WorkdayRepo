@@ -51,6 +51,9 @@ export class ProposeCompensationPage extends WebActionsPage {
     readonly btnDeletePopupslovenia: Locator;
     readonly btnDeleteallowanceSlovenia: Locator;
 
+    readonly deleteAllowance: Locator;
+    readonly deleteAllowanceConfirmation: Locator;
+
     EmployeeNumber: string[];
 
     constructor(page: Page, givenname: string, FamilyName: string, context: BrowserContext) {
@@ -70,8 +73,8 @@ export class ProposeCompensationPage extends WebActionsPage {
         this.btnEditSalary = page.locator("//button[@aria-label='Edit Salary']");
         this.btnSaveSalary = page.locator("//button[@aria-label='Save Salary']");
 
-        this.btnEditAllowance = page.locator("//button[@aria-label='Edit Allowance']");
-        this.btnSaveAllowance = page.locator("//button[@aria-label='Save Allowance']");
+        this.btnEditAllowance = page.locator("//button[@aria-label='Edit Allowance Row 1']");
+        this.btnSaveAllowance = page.locator("//button[@aria-label='Save Allowance Row 1']");
         this.txtAllowanceAmount = page.locator("//label[text()='Amount']/parent::div/following-sibling::div//input");
 
         this.btnEditHourly = page.locator("//button[@aria-label='Edit Hourly']");
@@ -102,6 +105,9 @@ export class ProposeCompensationPage extends WebActionsPage {
         this.btnDeleteallowanceSlovenia = page.locator("(//button[@title = 'Delete' and contains(@aria-label,'Delete Allowance')])");
         this.btnMainErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarViewAllCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
         this.btnSideErrorBar1 = this.page.locator("(//div[@data-automation-id='errorWidgetBarCanvas']//ancestor::div//descendant::div[contains(@title,'" + givenname + " " + FamilyName + "')])[1]");
+        this.deleteAllowance = this.page.locator("//button[contains(@aria-label,'Delete Allowance Row') or contains(@aria-label,'Delete Allowance')]");
+        this.deleteAllowanceConfirmation = this.page.locator('//button[@data-automation-id="wd-CommandButton_uic_deleteButton"]');
+
 
     }
 
@@ -126,6 +132,7 @@ export class ProposeCompensationPage extends WebActionsPage {
     async setProposeCompensationHire(GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
         await this.page.waitForTimeout(1500);
         await super.click(this.proposeCompensation);
+        await this.page.waitForLoadState();
         if (await GradeProfile !== "N/A" && await GradeProfile !== "NaN" && await GradeProfile !== undefined && await GradeProfile.toLowerCase() !== "defaulted") {
             await super.click(this.lblGradeProfile);
             await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
@@ -164,7 +171,7 @@ export class ProposeCompensationPage extends WebActionsPage {
             // const strHingh = strTotalBasePayRangeValueArray[2];
             console.log("strLow - " + strLow);
             //await this.page.waitForTimeout(1500);
-            if (await this.btnEditSalary.count() > 0) {
+            if (await this.btnEditSalary.count() > 0 && await this.btnEditSalary.isVisible()) {
                 await super.click(this.btnEditSalary);
                 //if (await this.editSalary.count() > 0) {
                 await this.page.waitForTimeout(4000);
@@ -209,13 +216,14 @@ export class ProposeCompensationPage extends WebActionsPage {
             if (await this.btnEditAllowance.isVisible()) {
                 //  && await this.editSalary.isVisible()) {
                 await super.click(this.btnEditAllowance);
-                if (this.txtAllowanceAmount.isVisible()) {
+                await this.page.waitForTimeout(1500);
+                if (await this.txtAllowanceAmount.isVisible()) {
                     await super.setText(this.txtAllowanceAmount, AllowanceAmount.toString());
                 }
                 await super.click(this.btnSaveAllowance);
             }
         }
-
+        await this.page.waitForLoadState();
         await this.hrSubmit.click();
         await this.page.waitForTimeout(5000);
         if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
@@ -231,4 +239,152 @@ export class ProposeCompensationPage extends WebActionsPage {
         // }
         await this.page.waitForTimeout(3000);
     }
+
+    async setProposeCompensationHirePolandPK14(GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
+        await this.page.waitForTimeout(1500);
+        await this.proposeCompensation.waitFor({ state: 'visible' });
+        await super.click(this.proposeCompensation);
+        await this.page.waitForLoadState();
+        if (await GradeProfile !== "N/A" && await GradeProfile !== "NaN" && await GradeProfile !== undefined && await GradeProfile.toLowerCase() !== "defaulted") {
+            await super.click(this.lblGradeProfile);
+            await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
+            await this.page.waitForTimeout(1500);
+            if (await Step !== "N/A" && await Step !== "NaN" && await Step !== undefined && await Step.toLowerCase() !== "defaulted" && (await this.txtStep.isVisible())) {
+                //await super.click(this.txtStep);
+                await super.setTextWithDoubleEnter(this.txtStep, Step);
+            }
+            await super.click(this.page.getByLabel('Save Guidelines'));
+        }
+        await this.page.waitForTimeout(5000);
+        if (Salary !== "N/A" && Salary !== "NaN" && Salary !== undefined && Salary !== "Defaulted") {
+            if (await this.btnEditSalary.isVisible()) {
+                await super.click(this.btnEditSalary);
+                await this.page.waitForTimeout(500);
+                if (await this.txtSalaryAmount.count() > 0) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
+                await super.click(this.btnSaveSalary);
+            }
+            if (await this.btnEditHourly.isVisible()) {
+                await super.click(this.btnEditHourly);
+                //await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
+                await super.click(this.btnSaveHourly);
+            }
+        } else {
+            await this.page.waitForTimeout(1000);
+            let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
+            // if(strTotalBasePayRangeValue != undefined && strTotalBasePayRangeValue != 'NaN'){
+            let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
+            console.log("strTotalBasePayRangeValueArray - " + strTotalBasePayRangeValueArray);
+            const strLow = strTotalBasePayRangeValueArray[0];
+            // const strHingh = strTotalBasePayRangeValueArray[2];
+            console.log("strLow - " + strLow);
+            //await this.page.waitForTimeout(1500);
+            if (await this.btnEditSalary.count() > 0 && await this.btnEditSalary.isVisible()) {
+                await super.click(this.btnEditSalary);
+                //if (await this.editSalary.count() > 0) {
+                await this.page.waitForTimeout(4000);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
+                // }
+                await super.click(this.btnSaveSalary);
+            }
+
+            if (await this.btnEditHourly.isVisible()) {
+                await super.click(this.btnEditHourly);
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
+                await super.click(this.btnSaveHourly);
+            }
+            //}
+        }
+        //@added by Gayatri if allowance btn need to be deleted
+        // if (await Country === "Hungary") {
+        //     //this.clickDeletePopupbtn();
+        //     await this.btnDeleteallowance.click();
+        //     await this.page.waitForTimeout(500);
+        //     await this.btnDeletePopup.click();
+        // }
+        //@added by Gayatri if allowance btn need to be deleted
+        //updated by @Madhukar for Slovenia need to delete first and fourth allowance.
+        // if (await Country === "Slovenia") {
+        //     await this.btnDeleteallowanceSlovenia.nth(3).click();
+        //     await this.page.waitForTimeout(700);
+        //     await this.btnDeletePopupslovenia.first().click({ 'force': true });
+        //     await this.page.waitForTimeout(1000);
+        //     // this.clickDeletePopupbtn();
+        //     await this.btnDeleteallowanceSlovenia.nth(0).click();
+        //     await this.page.waitForTimeout(500);
+        //     await this.btnDeletePopupslovenia.first().click();
+        // }
+        // await this.page.waitForTimeout(2500);
+        // if (AllowanceAmount !== "N/A" && AllowanceAmount !== "NaN" && AllowanceAmount !== undefined && AllowanceAmount !== "Defaulted") {
+        //     if (await this.btnEditAllowance.isVisible()) {
+        //         //  && await this.editSalary.isVisible()) {
+        //         await super.click(this.btnEditAllowance);
+        //         await this.page.waitForTimeout(1500);
+        //         if (await this.txtAllowanceAmount.isVisible()) {
+        //             await super.setText(this.txtAllowanceAmount, AllowanceAmount.toString());
+        //         }
+        //         await super.click(this.btnSaveAllowance);
+        //     }
+        // }
+
+        //Code to delete all allowances
+        //  let deleteAllowance = this.page.locator("//button[@data-automation-id='iconButtonApiView' and @title='Delete' and contains(@aria-label,'Delete Allowance Row')]");
+
+        // let deleteAllowance = this.page.locator("//button[contains(@aria-label,'Delete Allowance Row')]");
+        // let deleteAllowanceConfirmation = this.page.locator('//button[@data-automation-id="wd-CommandButton_uic_deleteButton"]'); 
+        // // and @title="Delete"]');
+
+        // deleteAllAllowance();
+
+        let count = await this.deleteAllowance.count();
+        for (let i = 1; i <= count; i++) {
+            await this.page.waitForTimeout(2000);
+            await this.page.locator("(//button[contains(@aria-label,'Delete Allowance')])[1]").click();
+            await this.page.waitForTimeout(2000);
+            await this.deleteAllowanceConfirmation.click();
+        }
+        await this.page.waitForTimeout(2000);
+        // await this.page.waitForLoadState();
+        await this.hrSubmit.click();
+        await this.page.waitForLoadState();
+        await this.page.waitForTimeout(3000);
+        if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
+            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible()) && await this.proposeCompensation.isVisible()) {
+                // await super.click(this.proposeCompensation);
+                await this.page.waitForLoadState();
+                await super.click(this.hrSubmit);
+            }
+        }
+        await this.page.waitForTimeout(3000);
+        await this.page.waitForLoadState();
+        if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
+            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible()) && await this.proposeCompensation.isVisible()) {
+                // await super.click(this.proposeCompensation);
+                await this.page.waitForLoadState();
+                await super.click(this.hrSubmit);
+            }
+        }
+        // await this.page.waitForTimeout(3000);
+    }
 }
+
+
+async function deleteAllAllowance() {
+
+    let count = await this.deleteAllowance.count();
+    for (let i = 1; i <= count; i++) {
+        await this.page.locator("(//button[contains(@aria-label,'Delete Allowance')])[1]").click();
+        await this.page.waitForLoadState();
+        await this.deleteAllowanceConfirmation.click();
+    }
+}
+

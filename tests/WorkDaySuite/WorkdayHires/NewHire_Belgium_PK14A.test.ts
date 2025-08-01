@@ -14,7 +14,6 @@ import { HrInboxPage } from '@pages/hrInboxPage';
 let empNum: string;
 let position: string;
 let captureErrors: CaptureAlertErrors;
-let CompensationApprovalHR: string = "NoID";
 
 // Define the relative directory path to your Excel file
 const excelFileName = 'Hires/Workday_NewHire_Belgium_Regression_PK14.xlsx';
@@ -172,8 +171,8 @@ for (const sheetName in sheetsJson) {
             // //await appCommon.ClickInbox();
             // await appCommon.MyTasks();
             // await hrInbxPage.clickInboxMyTaskAndApprove("Propose Compensation Hire:");
-            //// empNum = await hrInbxPage.getEmployeeID();
-            //// console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
+            empNum = await hrInbxPage.getEmployeeID();
+            console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
             // await appCommon.SuccessEventHandle();
           } else {
             //It will get HR partner ID for hr proxy
@@ -184,41 +183,6 @@ for (const sheetName in sheetsJson) {
             await page.waitForTimeout(3000);
             await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "", data.AllowanceAmount);
             await captureErrors.checkForScreenErrors();
-            //// empNum = await hrInbxPage.getEmployeeID();
-            //// console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
-            //// await appCommon.Searchbox("Stop Proxy");
-            //// await proxy.stopproxy();
-            //// await page.waitForTimeout(1000);
-            //// await appCommon.Searchbox("Start Proxy");
-            //// await proxy.startProxy(HRPartner);
-            // await appCommon.ClickInbox();
-            // await appCommon.MyTasks();
-          }
-
-          if (await page.locator('//div[contains(@title,"Up Next: Compensation Partner | Review Compensation Hire") or contains(@title,"Up Next: Global Compensation Partner | Approval by Global Compensation Partner")]').count() > 0) {
-            CompensationApprovalHR = await appCommon.getCompensationHRpartnerID();
-            await appCommon.Searchbox("Stop Proxy");
-            await proxy.stopproxy();
-            await page.waitForTimeout(2500);
-            await appCommon.Searchbox("Start Proxy");
-            await proxy.startProxy(CompensationApprovalHR);
-            await appCommon.MyTasks();
-            await page.waitForTimeout(2500);
-            await appCommon.clickSkipTour();
-            await hrInbxPage.clickInboxMyTaskAndApproveOnce("Propose Compensation Hire:");
-
-            if (await page.locator('//div[contains(@title,"Up Next: Compensation Partner | Review Compensation Hire") or contains(@title,"Up Next: Global Compensation Partner | Approval by Global Compensation Partner")]').count() > 0) {
-              CompensationApprovalHR = await appCommon.getCompensationHRpartnerID();
-              await appCommon.Searchbox("Stop Proxy");
-              await proxy.stopproxy();
-              await page.waitForTimeout(2500);
-              await appCommon.Searchbox("Start Proxy");
-              await proxy.startProxy(CompensationApprovalHR);
-              await appCommon.MyTasks();
-              await page.waitForTimeout(2500);
-              await appCommon.clickSkipTour();
-              await hrInbxPage.clickInboxMyTaskAndApproveOnce("Propose Compensation Hire:");
-            }
             empNum = await hrInbxPage.getEmployeeID();
             console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
             await appCommon.Searchbox("Stop Proxy");
@@ -226,17 +190,8 @@ for (const sheetName in sheetsJson) {
             await page.waitForTimeout(1000);
             await appCommon.Searchbox("Start Proxy");
             await proxy.startProxy(HRPartner);
+            // await appCommon.ClickInbox();
             // await appCommon.MyTasks();
-          } else {
-            empNum = await hrInbxPage.getEmployeeID();
-            console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
-            if (CompensationApprovalHR == "NoID") {
-              await appCommon.Searchbox("Stop Proxy");
-              await proxy.stopproxy();
-              await page.waitForTimeout(1000);
-              await appCommon.Searchbox("Start Proxy");
-              await proxy.startProxy(HRPartner);
-            }
           }
 
           await page.waitForTimeout(1000);
@@ -347,7 +302,6 @@ for (const sheetName in sheetsJson) {
           // Write the results to the Excel file
           writeResultsToExcel(excelFilePath, sheetName, index, empNum, 'Passed');
           empNum = "";
-          CompensationApprovalHR = "";
 
         } catch (error) {
           console.error(`Test failed for ${givenName} ${familyName}:`, error);
@@ -356,7 +310,6 @@ for (const sheetName in sheetsJson) {
             //   // Write the failure status to the Excel file
             writeResultsToExcel(excelFilePath, sheetName, index, error1, 'Failed');
             empNum = "";
-            CompensationApprovalHR = "";
           }
         }
 

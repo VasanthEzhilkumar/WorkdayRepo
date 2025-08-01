@@ -169,6 +169,12 @@ export class HrInboxPage extends WebActionsPage {
     readonly hrchgPersonalInformationTitle: Locator;
     readonly editEduLevel: Locator;
     readonly eduLevel: Locator;
+    readonly addRow: Locator;
+    readonly companyName: Locator;
+    readonly startDate: Locator;
+    readonly endDate: Locator;
+    readonly addKosztyUzyskaniaPrzychodu: Locator;
+    readonly seniorityDate: Locator;
 
     EmployeeNumber: string[];
     contractAddendumPage: Locator;
@@ -362,12 +368,10 @@ export class HrInboxPage extends WebActionsPage {
         this.dodajWyksztalcenieTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj wykształcenie:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.dodajHistorieZatrudnieniaTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj historię zatrudnienia:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.dodajDanePodatkoweTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj dane podatkowe (PIT-2):' + ' ' + givenname + ' ' + FamilyName + '")]');
-        this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Poland- National Health Fund Code:' + ' ' + givenname + ' ' + FamilyName + '")]');
-        // this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Polska- National Health Fund Code:' + ' ' + givenname + ' ' + FamilyName + '")]');
+        this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"Dodaj oddział NFZ:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.txtCountryOfBirth = page.locator('//label[text()="Country of Birth"]/parent::div/following-sibling::div//input');
         this.txtRegionOfBirth = page.locator('//label[text()="Region of Birth"]/parent::div/following-sibling::div//input');
         this.txtCityOfBirth = page.locator('//label[text()="City of Birth"]/parent::div/following-sibling::div//input');
-        this.nationalHealthFundCodeTitle = page.locator('//button/div[@data-automation-id="titleText" and contains (text(),"National Health Fund Code:' + ' ' + givenname + ' ' + FamilyName + '")]');
         this.verifyNationality = page.getByRole('button', { name: 'Verify nationality: Onboarding for ' + givenname + ' ' + FamilyName }).first();
         this.personalInformationChangePage = page.getByRole('button', { name: 'Personal Information Change: ' + givenname + ' ' + FamilyName }).first();
 
@@ -380,6 +384,12 @@ export class HrInboxPage extends WebActionsPage {
         this.hrchgPersonalInformationTitle = page.locator('//div[@data-automation-id="titleText" and contains(text(),"Personal Information Change: ' + givenname + ' ' + FamilyName + '")]');
         this.editEduLevel = page.locator('[aria-label="Edit Education Level"]');
         this.eduLevel = page.locator('//label[contains(text(),"Education Level")]/parent::div/following-sibling::div/descendant::input');
+        this.addRow = page.locator('//button[@aria-label="Add Row"]');
+        this.companyName = page.locator('//input[@data-automation-id="textInputBox"]');
+        this.startDate = page.locator('//input[@data-automation-id="dateSectionDay-input"]').nth(0);
+        this.endDate = page.locator('//input[@data-automation-id="dateSectionDay-input"]').nth(1);
+        this.addKosztyUzyskaniaPrzychodu = page.getByLabel('Koszty uzyskania przychodu');
+        this.seniorityDate = page.locator('//label[text()="Seniority Date"]/parent::div/following-sibling::div//input[@data-automation-id="dateSectionDay-input"]');
 
     }
 
@@ -391,6 +401,7 @@ export class HrInboxPage extends WebActionsPage {
     }
     async setHourlyRegime(HourlyRegime: any) {
         await this.hireadditiondatasub.click();
+        await this.page.waitForLoadState();
         await super.selectFromCustomDropDrown(this.txtHourlyRegime, HourlyRegime);
         await this.hrSubmit.click();
     }
@@ -589,6 +600,17 @@ export class HrInboxPage extends WebActionsPage {
     }
     async getEmployeeID() {
         await super.click(this.lnkViewDetails);
+        await this.page.waitForLoadState();
+        await this.page.waitForTimeout(500);
+        this.EmployeeNumber = await super.getAllInnerText(this.lblEmpID);
+        await this.page.waitForTimeout(500);
+        this.EmployeeNumber = this.EmployeeNumber.toString().split('(');
+        this.EmployeeNumber = this.EmployeeNumber[1].toString().split(')');
+        return this.EmployeeNumber[0].toString();
+    }
+
+    async getEmployeeIDAfterMaintainRightToWorkDocumentation() {
+        await super.click(this.lnkViewDetails);
         await this.page.waitForTimeout(500);
         this.EmployeeNumber = await super.getAllInnerText(this.lblEmpID);
         await this.page.waitForTimeout(500);
@@ -613,7 +635,9 @@ export class HrInboxPage extends WebActionsPage {
 
     async assignInitialPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
         await this.page.waitForTimeout(1500);
+        // await this.hrassignPaygroupInitial.waitFor({ state: 'visible' });
         await this.hrassignPaygroupInitial.click();
+        await this.page.waitForLoadState();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Submit' }).click();
     }
@@ -640,8 +664,11 @@ export class HrInboxPage extends WebActionsPage {
 
     // Worker Education Details in Polish
     async dodajWyksztalcenie(schoolName: string, schoolType: string, schoolStartDate: string, schoolEndDate: string) {
+        
+        await this.dodajWyksztalcenieTitle.waitFor({ state: 'visible' });
         await this.dodajWyksztalcenieTitle.click();
         await this.page.waitForTimeout(500);
+        await this.page.waitForLoadState();
         await this.polandSchoolName.click();
         await this.polandSchoolName.fill(schoolName);
         await this.page.keyboard.press('Tab');
@@ -654,6 +681,7 @@ export class HrInboxPage extends WebActionsPage {
         await this.polandschoolEndDate.click();
         await super.setTextWithType(this.polandschoolEndDate, schoolEndDate);
         await this.page.keyboard.press('Tab');
+        await this.page.waitForTimeout(2000);
         await this.hrSubmit.click();
     }
 
@@ -677,12 +705,16 @@ export class HrInboxPage extends WebActionsPage {
 
     }
 
-    async dodajDanePodatkowe(UrządSkarbowy: string, Ulgapodatkowa: string, Częśćulgi: string, Typopodatkowania: string, identyfikatorpodatkowy: string) {
+    async dodajDanePodatkowe(UrządSkarbowy: string, Ulgapodatkowa: string, Częśćulgi: string, Typopodatkowania: string, identyfikatorpodatkowy: string, KosztyUzyskaniaPrzychodu: string) {
+        await this.dodajDanePodatkoweTitle.waitFor({ state: 'visible' });
         await this.dodajDanePodatkoweTitle.click();
+        await this.page.waitForTimeout(1000);
+        await this.page.waitForLoadState();
         await super.setTextWithEnter(this.addUrządSkarbowy, UrządSkarbowy);
         await this.page.waitForTimeout(500);
 
         await super.selectFromCustomDropDrown(this.addUlgapodatkowa, Ulgapodatkowa);
+        await super.selectFromCustomDropDrown(this.addKosztyUzyskaniaPrzychodu, KosztyUzyskaniaPrzychodu);
         await super.selectFromCustomDropDrown(this.addCzęśćulgi, Częśćulgi);
         await this.page.waitForTimeout(500);
 
@@ -709,9 +741,20 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     // Worker Job History in Polish
-    async dodajHistorieZatrudnienia() {
+    async dodajHistorieZatrudnienia(FirstEverJobDetails: string, FirstJobStartDate: string, FirstJobExpiryDate: string) {
         await this.page.waitForTimeout(500);
+        await this.dodajHistorieZatrudnieniaTitle.waitFor({ state: 'visible' });
         await this.dodajHistorieZatrudnieniaTitle.click();
+        await this.page.waitForLoadState();
+        if (FirstEverJobDetails !== "No" && FirstEverJobDetails !== "N/A" && FirstEverJobDetails !== "NaN" && FirstEverJobDetails !== undefined && FirstEverJobDetails !== "") {
+            await this.addRow.click();
+            await super.setText(this.companyName, FirstEverJobDetails);
+            await super.setTextWithType(this.page.getByPlaceholder('DD').nth(0), FirstJobStartDate.toString());
+            await super.setTextWithType(this.page.getByPlaceholder('DD').nth(1), FirstJobExpiryDate.toString());
+            await this.page.keyboard.press('Tab');
+            // await super.setTextWithType(this.startDate, FirstJobStartDate);
+            // await super.setTextWithType(this.endDate, FirstJobExpiryDate);
+        }
         await this.page.waitForTimeout(500);
         await this.hrSubmit.click();
     }
@@ -734,6 +777,7 @@ export class HrInboxPage extends WebActionsPage {
 
     async setMaintainRightToWorkDocumentation(): Promise<void> {
         await this.page.waitForTimeout(2000);
+        await this.page.waitForLoadState();
         if (await this.rightToWork.count() > 0) {
             await this.rightToWork.click();
             await this.page.waitForTimeout(500);
@@ -743,6 +787,7 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async assignPaygroupApprove(): Promise<void> {
+        await this.page.waitForLoadState();
         await this.assignPGApprove.click();
         await this.Approve.click();
     }
@@ -753,24 +798,33 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async nationalHealthFundCode(HealthFundCode: string): Promise<void> {
+        await this.page.waitForLoadState();
         if (await this.nationalHealthFundCodeTitle.count() > 0) {
             await this.nationalHealthFundCodeTitle.click();
-            const locator = await this.page.locator('//label[contains(text(),"National Health Fund Code")]/parent::div/following-sibling::div/descendant ::input');
+            await this.page.waitForLoadState();
+            const locator = await this.page.locator('//label[contains(text(),"Kod NFZ")]/parent::div/following-sibling::div/descendant ::input');
             await super.setTextWithDoubleEnter(locator, HealthFundCode);
+            await this.page.waitForTimeout(1000);
             await this.hrSubmit.click();
         }
     }
 
-    async setServiceDates() {
+    async setServiceDates(SeniorityDate:string) {
         await this.page.waitForTimeout(500);
+        await this.setservicedateschange.waitFor({ state: 'visible' });
         await this.setservicedateschange.click();
+        await this.page.waitForLoadState();
+        await super.setTextWithType(this.seniorityDate, SeniorityDate.toString());
         await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
 
     async SetMedicalExamForm() {
         await this.page.waitForTimeout(500);
+        
+        await this.addMedicalExam.waitFor({ state: 'visible' });
         await this.addMedicalExam.click();
+        await this.page.waitForLoadState();
         await this.hrSubmit.click();
         await this.page.waitForTimeout(500);
     }
@@ -784,6 +838,7 @@ export class HrInboxPage extends WebActionsPage {
 
     async assignPayGroupSubmit(ProposedPayGroup: any): Promise<void> {
         await this.assignPaygroup.click();
+        await this.page.waitForLoadState();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.keyboard.press('Tab');
         await this.page.getByRole('button', { name: 'Submit' }).click();
@@ -813,6 +868,7 @@ export class HrInboxPage extends WebActionsPage {
     async assignPayGroupApprove(ProposedPayGroup: any): Promise<void> {
         await this.page.waitForTimeout(700);
         await this.AssignPaygroupforPayroll.click();
+        await this.page.waitForLoadState();
         await super.selectFromCustomDropDrown(this.assignPg, ProposedPayGroup.toString());
         await this.page.getByRole('button', { name: 'Approve' }).click();
         await this.page.waitForTimeout(700);
@@ -840,9 +896,11 @@ export class HrInboxPage extends WebActionsPage {
 
     async clickInboxMyTaskAndSubmit(varString: string) {
         await this.page.waitForTimeout(2000);
-        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]").first());
-        await this.page.waitForTimeout(1000);
-        await super.click(this.hrSubmit);
+        if (this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]").isVisible()) {
+            await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]").first());
+            await this.page.waitForTimeout(1000);
+            await super.click(this.hrSubmit);
+        }
     }
 
     async clickInboxMyTaskAndSubmitIfVisible(varString: string) {
@@ -872,13 +930,27 @@ export class HrInboxPage extends WebActionsPage {
     async clickInboxMyTaskAndApprove(varString: string) {
         const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]");
         const approve = await this.page.getByRole('button', { name: 'Approve' });
+        await this.page.waitForLoadState();
+        await this.page.waitForTimeout(2500);
         await super.click(locator.first());
+        await this.page.waitForLoadState();
         await super.click(approve);
         await this.page.waitForTimeout(3000);
-        if (await approve.isVisible() && await locator.count() > 0) {
+        if (await approve.isVisible() && await locator.isVisible()) {
             await super.click(approve);
         }
         await this.page.waitForTimeout(500);
+    }
+
+    async clickInboxMyTaskAndApproveOnce(varString: string) {
+        const locator = await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + " " + this.givenName1 + " " + this.fimilyName1 + "')]");
+        const approve = await this.page.getByRole('button', { name: 'Approve' });
+        await this.page.waitForLoadState();
+        await this.page.waitForTimeout(2500);
+        await super.click(locator.first());
+        await this.page.waitForLoadState();
+        await super.click(approve);
+        await this.page.waitForTimeout(3000);
     }
 
     async EnterGovID(
@@ -893,7 +965,9 @@ export class HrInboxPage extends WebActionsPage {
         IssuedDate2: string,
         ExpirationDate2: string
     ) {
+        await this.idChange.waitFor({ state: 'visible' });
         await this.idChange.click();
+        await this.page.waitForLoadState();
         await this.addId.click();
         await this.fillGovIDDetails(country1, NationalIDType1, NIDPersonal, IssuedDate1, ExpirationDate1, true);
 
@@ -968,14 +1042,16 @@ export class HrInboxPage extends WebActionsPage {
     async setchangePersonalInformation(gender: string, dob: string, city: string, martialstat: string,
         maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string) {
         await this.page.waitForTimeout(5000);
+        await this.hrchgPersonalInformation.waitFor({ state: 'visible' });
         await this.hrchgPersonalInformation.click();
+        await this.page.waitForLoadState();
         await super.click(this.editGender);
         await super.click(this.setGenderdrpDown);
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
 
         await super.click(this.editDob);
-        await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
+        await super.setTextWithType(this.page.getByPlaceholder('DD'), String(dob));
         await this.page.getByLabel('Save Date of Birth').first().scrollIntoViewIfNeeded();
         await super.click(this.page.getByLabel('Save Date of Birth').first());
 
@@ -985,7 +1061,7 @@ export class HrInboxPage extends WebActionsPage {
             await this.page.waitForTimeout(500);
             await this.page.getByLabel('Country of Birth').first().focus();
             //await super.setTextWithEnter(this.page.locator('(//div[@data-automation-id="monikerSearchBox"]//input)[1]'), CountryOFBirth.toString());
-            await super.setTextWithEnter(this.page.getByLabel('Country of Birth').first(), CountryOFBirth.toString());
+            await super.setTextWithType(this.page.getByLabel('Country of Birth').first(), CountryOFBirth.toString());
             await super.click(this.page.getByLabel('Save Place of Birth'));
         }
 
@@ -1031,9 +1107,10 @@ export class HrInboxPage extends WebActionsPage {
     }
 
     async setchangePersonalInformationBelgiumPK14(gender: string, dob: string, city: string, martialstat: string,
-        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string, 
+        maritalStatusDate: string, citizen: string, national: string, CountryOFBirth: string, RegionOfBirth: string,
         edulevel: string) {
         await this.hrchgPersonalInformationTitle.click();
+        await this.page.waitForLoadState();
         await super.click(this.editGender);
         await super.click(this.setGenderdrpDown);
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
