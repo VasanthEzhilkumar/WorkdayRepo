@@ -59,9 +59,11 @@ export class MaintainContractPage extends WebActionsPage {
     async setContractDetails(contractType: string, contractStatus: string,
         DEmpsigned: string, DEmplyersigned: string, contractEnddate: string, reason: string) {
         await this.page.waitForTimeout(500);
+        await this.page.waitForLoadState();
         if (await this.contract.count() > 0) {
 
             await super.click(this.contract);
+            await this.page.waitForLoadState();
             //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
             if (await reason !== 'N/A' && await reason !== 'NaN' && await reason !== undefined) {
                 await super.click(this.contractReason);
@@ -78,16 +80,19 @@ export class MaintainContractPage extends WebActionsPage {
             if (await DEmpsigned !== 'N/A' && await DEmpsigned !== 'NaN' && await DEmpsigned !== undefined) {
                 await super.click(this.DEmployeSigned);
                 await super.setTextWithType(this.DEmployeSigned, DEmpsigned);
+                await this.page.keyboard.press("Tab");
             }
 
             if (await DEmplyersigned !== 'N/A' && await DEmplyersigned !== 'NaN' && await DEmplyersigned !== undefined) {
                 await super.click(this.DEmployerSigned);
                 await super.setTextWithType(this.DEmployerSigned, DEmplyersigned);
+                await this.page.keyboard.press("Tab");
             }
 
             if (await contractEnddate !== 'N/A' && await contractEnddate !== 'NaN' && await contractEnddate !== undefined) {
                 await super.click(this.contractEndate);
                 await super.setTextWithType(this.contractEndate, contractEnddate);
+                await this.page.keyboard.press("Tab");
             }
             await super.click(this.hrSubmit);
             await this.page.waitForTimeout(2000);

@@ -138,6 +138,20 @@ export class employeeInboxPage extends WebActionsPage {
     readonly disablityDegree: Locator;
     readonly saveDisability: Locator;
     readonly setDisability: Locator;
+    readonly editCompany: Locator;
+    readonly saveCompany: Locator;
+    readonly txtCompany: Locator;
+
+
+    readonly btnSave: Locator;
+    readonly btnEdit: Locator;
+    // readonly btnSubmit: Locator;
+    readonly lblReason: Locator;
+    readonly editReason: Locator;
+    readonly txtPrimaryReason: Locator;
+    readonly txtSecondaryReason: Locator;
+    readonly txtLocalTerminationReason: Locator;
+    readonly btnSaveReason: Locator;
 
 
     constructor(page: Page, givenname: string, FamilyName: string, jobprofile: string, context: BrowserContext) {
@@ -156,6 +170,11 @@ export class employeeInboxPage extends WebActionsPage {
         this.costCenter = page.getByLabel('Edit Cost Center')
         this.editCostCenter = page.getByLabel('Edit Cost Center')
         this.txtCostCenter = page.getByLabel('Content Area').getByPlaceholder('Search').first();
+
+        this.editCompany = page.getByLabel('Edit Company');
+        // this.txtCompany = page.getByRole('textbox', { name: 'Company' });
+        this.txtCompany = page.locator('//label[text()="Company"]/parent::div/following-sibling::div//input');
+        this.saveCompany = page.getByLabel('Save Company');
 
         this.assignOrg = page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + FamilyName + ' ' }).first();//locator('[aria-label="Inbox Items"] >> text=Assign Organizations: Hire:'+' '+givenname+' '+FamilyName+' ');
         this.editOther = page.locator('[aria-label="Edit Other"]');
@@ -305,9 +324,9 @@ export class employeeInboxPage extends WebActionsPage {
         this.educationCompletionDate = page.locator('');
         this.Studies = page.locator('//label[text()="Studies"]/parent::div/following-sibling::div//input');
         this.dodajDanePIT2Title = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane PIT-2"]');
-        this.rodzinyDoUbezpieczeniaZdrowotnegoTitle = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane członków rodziny do ubezpieczenia zdrowotnego"]'); 
-        this.empNationalHealthFundCodeTitle = page.locator('//div[@data-automation-id="titleText" and text()="National Health Fund Code"]');
-    
+        this.rodzinyDoUbezpieczeniaZdrowotnegoTitle = page.locator('//div[@data-automation-id="titleText" and text()="Dodaj dane członków rodziny do ubezpieczenia zdrowotnego"]');
+        this.empNationalHealthFundCodeTitle = page.locator('//div[@data-automation-id="titleText" and text()="Polska-Dodaj oddział NFZ"]');
+
         this.addDisability = page.getByLabel('Add Disability');
         //this.clickDetails = page.getByText('Details');
         this.clickDetails = page.getByRole('button', { name: 'Details' });
@@ -315,6 +334,11 @@ export class employeeInboxPage extends WebActionsPage {
         this.saveDisability = page.getByLabel('Save Disability');
         this.setDisability = page.getByRole('textbox', { name: 'Disability' });
 
+
+        this.editReason = page.locator('//button[@aria-label="Edit Primary Reason"]');
+        this.txtPrimaryReason = page.locator('//label[text()="Primary Reason"]/parent::div/following-sibling::div//input');
+        this.txtSecondaryReason = page.locator('//label[text()="Secondary Reasons"]/parent::div/following-sibling::div//input');
+        this.txtLocalTerminationReason = page.locator('//label[text()="Local Termination Reason"]/parent::div/following-sibling::div//input');
 
     }
 
@@ -326,6 +350,7 @@ export class employeeInboxPage extends WebActionsPage {
         for (let i = 1; i <= reviewTitleCount; i++) {
             if (await this.reviewDoc.isVisible()) {
                 await super.click(this.reviewDoc);
+                await this.page.waitForLoadState();
                 await this.page.waitForTimeout(1000);
                 for (let j = 1; j <= await this.agreeCheckbox.count(); j++) {
                     // await this.page.waitForTimeout(1500);
@@ -382,7 +407,7 @@ export class employeeInboxPage extends WebActionsPage {
         }
     }
 
-    
+
     async goToJobChange() {
         await this.page.waitForTimeout(1000);
         await super.click(this.page.locator("//*[@class='WMYV']// button[text() ='Actions']").first());
@@ -397,6 +422,26 @@ export class employeeInboxPage extends WebActionsPage {
         }
     }
 
+    async goToTermination() {
+        await this.page.waitForTimeout(1000);
+        await super.click(this.page.locator('//button[@data-automation-id="relatedActionsButton" and text() ="Actions"]').first());
+        await this.page.waitForTimeout(500);
+        await this.page.locator('//*[@data-automation-id="relatedActionsItemLabel" and @data-automation-label="Job Change"]').hover();
+        await this.page.waitForTimeout(1000);
+        await this.page.locator('//*[@data-automation-id="relatedActionsItemLabel" and @data-automation-label="Terminate Employee"]').first().click();
+        await this.page.waitForTimeout(3000);
+    }
+
+    async setReason(PrimaryReason: string, SecondaryReason: string, LocalTerminationReason: string) {
+        // await page.waitForLoadState();
+        await this.page.waitForTimeout(5000);
+        await this.editReason.click();
+        await super.setTextWithEnter2(this.txtPrimaryReason, PrimaryReason);
+        await super.setTextWithEnter2(this.txtSecondaryReason, SecondaryReason);
+        await super.setTextWithEnter2(this.txtLocalTerminationReason, LocalTerminationReason);
+        await this.btnSave.first().click();
+    }
+
     /**
     * @author : Madhukar Kirkan
     * @description : Added method for Belgium.
@@ -404,8 +449,9 @@ export class employeeInboxPage extends WebActionsPage {
     */
     async setPartnerRevenueBelgiumDependents(PartnerRevenue: string) {
         await super.click(this.hireEmployeeBel);
-        if (PartnerRevenue !== "NaN" && PartnerRevenue !== "N/A" && PartnerRevenue !== undefined) 
-        await super.setTextWithDoubleEnter(this.partnerRevenue, PartnerRevenue.toString());
+        await this.page.waitForLoadState();
+        if (PartnerRevenue !== "NaN" && PartnerRevenue !== "N/A" && PartnerRevenue !== undefined)
+            await super.setTextWithDoubleEnter(this.partnerRevenue, PartnerRevenue.toString());
         await this.paygroupSubmit.click();
     }
 
@@ -455,6 +501,27 @@ export class employeeInboxPage extends WebActionsPage {
         await super.click(this.paygroupSubmit);
     }
 
+    async setCompanyDeparmentAndCostCenter(position: string, CostCenter: string, Department: string, givenname: string, Familyname: string, Company: string) {
+
+        if (position.includes('Auto')) {
+            await super.click(this.page.getByRole('button', { name: 'Assign Organizations: Create Position: ' + position }).first());
+        } else {
+            await this.page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + Familyname + ' ' }).first().click();
+        }
+
+        await super.click(this.editCompany);
+        await super.setTextWithDoubleEnter(this.txtCompany, String(Company));
+        await super.click(this.saveCompany);
+
+        await super.click(this.editCostCenter);
+        await super.setTextWithDoubleEnter(this.txtCostCenter, String(CostCenter));
+        await super.click(this.saveCostCenterbtn);
+        await super.click(this.editOther);
+        await super.setTextWithDoubleEnter(this.setDeparment, String(Department));
+        //await super.click(this.saveDep);
+        await super.click(this.paygroupSubmit);
+    }
+
     async assignDeparment(CostCenter: string, givenname: string, Familyname: string) {
         await this.page.getByRole('button', { name: 'Assign Organizations: Hire:' + ' ' + givenname + ' ' + Familyname + ' ' }).first().click();
         await this.editOther.click();
@@ -470,6 +537,7 @@ export class employeeInboxPage extends WebActionsPage {
     async onBoardingGuide() {
         await this.page.waitForTimeout(500);
         await this.onBoarding.click();
+        await this.page.waitForLoadState();
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
     }
@@ -484,6 +552,7 @@ export class employeeInboxPage extends WebActionsPage {
     async empaddPhoto() {
         await this.page.waitForTimeout(1500);
         await this.addPhoto.click();
+        await this.page.waitForLoadState();
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
     }
@@ -492,12 +561,14 @@ export class employeeInboxPage extends WebActionsPage {
     async empChgeContactInformation() {
         await this.page.waitForTimeout(500);
         await this.ChangeContactInfo.click();
+        await this.page.waitForLoadState();
         await this.paygroupSubmit.click();
         await this.page.waitForTimeout(500);
     }
 
     async empaddDependents() {
         await this.page.waitForTimeout(1500);
+        await this.page.waitForLoadState();
         if (await this.addDependents.count() > 0) {
             await this.addDependents.click();
             await this.paygroupSubmit.click();
@@ -516,6 +587,7 @@ export class employeeInboxPage extends WebActionsPage {
 
     async dodajDanePIT2() {
         await this.page.waitForTimeout(1500);
+        await this.page.waitForLoadState();
         if (await this.dodajDanePIT2Title.count() > 0) {
             await this.dodajDanePIT2Title.click();
             await this.paygroupSubmit.click();
@@ -525,6 +597,7 @@ export class employeeInboxPage extends WebActionsPage {
 
     async rodzinyDoUbezpieczeniaZdrowotnego() {
         await this.page.waitForTimeout(1500);
+        await this.page.waitForLoadState();
         if (await this.rodzinyDoUbezpieczeniaZdrowotnegoTitle.count() > 0) {
             await this.rodzinyDoUbezpieczeniaZdrowotnegoTitle.click();
             await this.paygroupSubmit.click();
@@ -534,6 +607,7 @@ export class employeeInboxPage extends WebActionsPage {
 
     async empNationalHealthFundCode() {
         await this.page.waitForTimeout(1500);
+        await this.page.waitForLoadState();
         if (await this.empNationalHealthFundCodeTitle.count() > 0) {
             await this.empNationalHealthFundCodeTitle.click();
             await this.paygroupSubmit.click();
@@ -665,9 +739,11 @@ export class employeeInboxPage extends WebActionsPage {
     async addEmployeeBankDetails(bankName: string, bankidentificationnumber: string, accNumber: string, IBANNumber: string, AccType: string, BankSortCode: string, NameOnAccount: string) {
         await this.page.waitForTimeout(1000);
         await super.click(this.addBankDetails1);
+        await this.page.waitForLoadState();
         // if (await this.btnAddPaymentElections.isVisible()) {
         await super.click(this.btnAddPaymentElections);
         await this.page.waitForTimeout(1000);
+        await this.page.waitForLoadState();
         if (await this.bankName.count() > 0 && String(bankName) !== "NaN" && String(bankName) !== "N/A" && String(bankName) !== undefined) {
             await super.setText(this.bankName, bankName);
         }
@@ -707,6 +783,7 @@ export class employeeInboxPage extends WebActionsPage {
         accNumber: string, IBANNumber: string, nameonAccount: string) {
         await super.click(this.addBankDetails1);
         // if (await this.btnAddPaymentElections.isVisible()) {
+        await this.page.waitForLoadState();
         await super.click(this.btnAddPaymentElections);
         await super.setText(this.bankName, bankName);
         await super.setText(this.bankIdentificationCode, bankidentificationnumber);
@@ -1071,6 +1148,7 @@ export class employeeInboxPage extends WebActionsPage {
 
     async changepersonalinformationSubmit() {
         await this.page.waitForTimeout(1000);
+        await this.page.waitForLoadState();
         if (await this.chgPersonalInformation.isVisible()) {
             await this.chgPersonalInformation.click();
             await this.page.waitForTimeout(1000);
@@ -1090,6 +1168,7 @@ export class employeeInboxPage extends WebActionsPage {
 
         await this.page.waitForTimeout(500);
         await this.addemergncyContacts.click();
+        await this.page.waitForLoadState();
         await this.paygroupSubmit.click();
 
     }
@@ -1321,6 +1400,7 @@ export class employeeInboxPage extends WebActionsPage {
         if (await this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first().isVisible()) {
             await this.page.waitForTimeout(1000);
             await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
+            await this.page.waitForLoadState();
             await this.clickIAgreeCheckBox();
             await super.click(this.paygroupSubmit);
             await this.page.waitForTimeout(1000);
@@ -1334,6 +1414,12 @@ export class employeeInboxPage extends WebActionsPage {
     async clickInboxMyTaskAndApprove(varString: string) {
         await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
         await this.clickIAgreeCheckBox();
+        await super.click(this.page.getByRole('button', { name: 'Approve' }).first());
+    }
+
+    async clickInboxMyTaskAndApproveWithoutCheck(varString: string) {
+        await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
+        // await this.clickIAgreeCheckBox();
         await super.click(this.page.getByRole('button', { name: 'Approve' }).first());
     }
 

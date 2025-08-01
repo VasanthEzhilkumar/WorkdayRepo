@@ -31,6 +31,7 @@ export class appCommons extends WebActionsPage {
   readonly txtPayGroup: Locator;
   readonly lnkViewDetails: Locator;
   readonly successOpen: Locator;
+  readonly lblHrDetails3: Locator;
 
   constructor(page: Page, context: BrowserContext) {
     super(page);
@@ -60,6 +61,8 @@ export class appCommons extends WebActionsPage {
     this.tbWorkerHistroy = page.locator("//ul[@data-automation-id='tabBar']/li[@role='tab']/div/div[contains(text(),'Worker History') and  @data-automation-id='tabLabel']").first();
     this.txtPayGroup = page.locator("//label[contains(text(),'Pay Group')]//parent::div//following-sibling::div//descendant ::div[@data-automation-id='promptOption']");
     this.lnkViewDetails = page.locator("(//button[contains(.,'View Details')])[1]");
+    this.lblHrDetails3 = page.locator('(((//div[contains(text(),"Awaiting Action")]//ancestor::tr/following-sibling::tr)[1]//td)[6]//div)[9]');
+
   }
 
   async ClickInbox() {
@@ -105,6 +108,20 @@ export class appCommons extends WebActionsPage {
     const familyName = givenAndFamilyName.split(" ")[1];
     // const [givenName, familyName] = givenAndFamilyName.split(" ");
     return [givenName, familyName];
+  }
+
+  async getJobProfile() {
+    const locator = this.page.locator('//*[@data-automation-id="workerProfileDetailsPanelSubtitleContainer"]/div');
+    await locator.waitFor();
+    const jobProfile = await super.getInnerText(locator);
+    return jobProfile.toString();
+  }
+
+  async getEmpType() {
+    const locator = this.page.locator('(//label[text()="Employee Type"]//parent::div//following-sibling::div)[2]//div[@data-automation-id="promptOption"]');
+    await locator.waitFor();
+    const jobProfile = await super.getInnerText(locator);
+    return jobProfile.toString();
   }
 
   async SuccessEventHandleJobChange() {
@@ -178,16 +195,41 @@ export class appCommons extends WebActionsPage {
     }
     if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').nth(0).count() > 0) {
       await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]').first());
-    }    
+    }
+
+    await this.clickCollpaseMyTasks();
+    await this.clickXifWelcomeToMyTaskExists();
+    if (await this.page.getByLabel('All Items').first().isVisible())
+      await this.page.getByLabel('All Items').first().click({ 'force': true });
+
+    if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').nth(0).count() > 0) {
+      await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]').first());
+    }
+
     if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').count() > 0) {
       await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]'));
     }
-    await this.clickCollpaseMyTasks();
-    await this.clickXifWelcomeToMyTaskExists();
-    await this.page.getByLabel('All Items').first().click({ 'force': true });
+
+    if (await this.page.locator('//span[text()="Skip for now"]').count() > 0) {
+      await super.click(this.page.locator('//span[text()="Skip for now"]'));
+    }
 
   }
 
+  async clickSkipTour() {
+    await this.page.waitForTimeout(2000);
+    if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').nth(0).count() > 0) {
+      await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]').first());
+    }
+
+    if (await this.page.locator('//button[@data-automation-id="tour-skip-button"]').count() > 0) {
+      await super.click(this.page.locator('//button[@data-automation-id="tour-skip-button"]'));
+    }
+
+    if (await this.page.locator('//span[text()="Skip for now"]').count() > 0) {
+      await super.click(this.page.locator('//span[text()="Skip for now"]'));
+    }
+  }
 
   async clickXifWelcomeToMyTaskExists() {
     // Check if the element exists
@@ -246,7 +288,150 @@ export class appCommons extends WebActionsPage {
 
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
     await this.page.waitForTimeout(1000);
+    await this.page.locator('//div[@data-automation-id="tableWrapper"]').scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(500);
+    await this.page.locator('//div[@data-automation-id="tableWrapper"]').hover();
+    while (!await this.lblHrDetails2.isVisible()) {
+      await this.page.mouse.wheel(0, 100)
+      this.page.waitForTimeout(1000)
+    }
+    await this.lblHrDetails2.scrollIntoViewIfNeeded();
     const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
+    const HrID2 = this.getNumbersFromString(HrDetails);
+    return HrID2;
+    // } catch (error) {
+    //   console.error("HR locator is not present in the DOM; therefore, the HR partner was not found.");
+    // }
+  }
+
+  async getTerminationHRpartnerID(givenname: string, familyname: string) {
+
+    await this.MyTasks();
+    await super.click(this.Archive);
+    await this.page.waitForTimeout(6000);
+    await this.page.waitForSelector(`button:has-text('Terminate: ${givenname} ${familyname}')`);
+    const buttons = await this.page.locator(`button:has-text('Terminate: ${givenname} ${familyname}')`);
+    // Iterate over the found buttons and click the one that starts with 'Terminate'
+    for (let i = 0; i < await buttons.count(); i++) {
+      const buttonText = await buttons.nth(i).textContent();
+      if (buttonText?.startsWith('Terminate')) {
+        await this.page.waitForTimeout(400);
+        //await buttons.nth(i).click();
+        await super.click(buttons.nth(i));
+      }
+    }
+    await this.page.waitForTimeout(3000);
+    await this.process.click({ 'force': true });
+    // Check if the field exists
+    if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {
+      //await this.txtItemsPerPage.waitFor;
+      // await this.txtItemsPerPage.click();
+      await super.click(this.txtItemsPerPage);
+      await super.click(this.listSelectAll);
+      // await this.listSelectAll.click();
+    }
+
+    // Wait for 3 seconds (consider using a more dynamic wait if possible)
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('//div[@data-automation-id="tableWrapper"]').scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(500);
+    await this.page.locator('//div[@data-automation-id="tableWrapper"]').hover();
+    while (!await this.lblHrDetails2.isVisible()) {
+      await this.page.mouse.wheel(0, 100)
+      this.page.waitForTimeout(1000)
+    }
+    await this.lblHrDetails2.scrollIntoViewIfNeeded();
+    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
+    const HrID2 = this.getNumbersFromString(HrDetails);
+    return HrID2;
+    // } catch (error) {
+    //   console.error("HR locator is not present in the DOM; therefore, the HR partner was not found.");
+    // }
+  }
+
+  async getSecondTerminationHRpartnerID(givenname: string, familyname: string) {
+
+    await this.MyTasks();
+    await super.click(this.Archive);
+    await this.page.waitForTimeout(6000);
+    await this.page.waitForSelector(`button:has-text('Terminate: ${givenname} ${familyname}')`);
+    const buttons = await this.page.locator(`button:has-text('Terminate: ${givenname} ${familyname}')`);
+    // Iterate over the found buttons and click the one that starts with 'Terminate'
+    for (let i = 0; i < await buttons.count(); i++) {
+      const buttonText = await buttons.nth(i).textContent();
+      if (buttonText?.startsWith('Terminate')) {
+        await this.page.waitForTimeout(400);
+        //await buttons.nth(i).click();
+        await super.click(buttons.nth(i));
+      }
+    }
+    await this.page.waitForTimeout(3000);
+    await this.process.click({ 'force': true });
+    // Check if the field exists
+    if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {
+      //await this.txtItemsPerPage.waitFor;
+      // await this.txtItemsPerPage.click();
+      await super.click(this.txtItemsPerPage);
+      await super.click(this.listSelectAll);
+      // await this.listSelectAll.click();
+    }
+
+    // Wait for 3 seconds (consider using a more dynamic wait if possible)
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('//div[@data-automation-id="tableWrapper"]').scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(500);
+    await this.page.locator('//div[@data-automation-id="tableWrapper"]').hover();
+    while (!await this.lblHrDetails3.isVisible()) {
+      await this.page.mouse.wheel(0, 100)
+      this.page.waitForTimeout(1000)
+    }
+    await this.lblHrDetails3.scrollIntoViewIfNeeded();
+    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails3);
+    const HrID2 = this.getNumbersFromString(HrDetails);
+    return HrID2;
+    // } catch (error) {
+    //   console.error("HR locator is not present in the DOM; therefore, the HR partner was not found.");
+    // }
+  }
+
+  async getSecondHRpartnerID(givenname: string, familyname: string) {
+
+    await this.MyTasks();
+    await super.click(this.Archive);
+    await this.page.waitForTimeout(6000);
+    await this.page.waitForSelector(`button:has-text('Hire: ${givenname} ${familyname}')`);
+    const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);
+    // Iterate over the found buttons and click the one that starts with 'Hire'
+    for (let i = 0; i < await buttons.count(); i++) {
+      const buttonText = await buttons.nth(i).textContent();
+      if (buttonText?.startsWith('Hire')) {
+        await this.page.waitForTimeout(400);
+        //await buttons.nth(i).click();
+        await super.click(buttons.nth(i));
+      }
+    }
+    await this.page.waitForTimeout(3000);
+    await this.process.click({ 'force': true });
+    // Check if the field exists
+    if (await this.txtItemsPerPage.isVisible() && await this.txtItemsPerPage.count() > 0) {
+      //await this.txtItemsPerPage.waitFor;
+      // await this.txtItemsPerPage.click();
+      await super.click(this.txtItemsPerPage);
+      await super.click(this.listSelectAll);
+      // await this.listSelectAll.click();
+    }
+
+    // Wait for 3 seconds (consider using a more dynamic wait if possible)
+    await this.page.waitForTimeout(1000);
+    await this.page.locator('//div[@data-automation-id="tableWrapper"]').scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(500);
+    await this.page.locator('//div[@data-automation-id="tableWrapper"]').hover();
+    while (!await this.lblHrDetails3.isVisible()) {
+      await this.page.mouse.wheel(0, 100)
+      this.page.waitForTimeout(1000)
+    }
+    await this.lblHrDetails3.scrollIntoViewIfNeeded();
+    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails3);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
     // } catch (error) {
@@ -290,6 +475,7 @@ export class appCommons extends WebActionsPage {
 
     // Wait for 3 seconds (consider using a more dynamic wait if possible)
     await this.page.waitForTimeout(1000);
+    await this.lblHrDetails2.scrollIntoViewIfNeeded();
     const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
@@ -359,7 +545,16 @@ export class appCommons extends WebActionsPage {
     await expect(String(actulValue[0].trim())).toEqual(PayGroup.trim());
   }
 
-
+  async validateTermination() {
+    await this.page.waitForTimeout(1000);
+    const empTitle = this.page.locator('//*[@data-automation-id="workerProfileDetailsPanelName"]/h1');
+    await this.page.waitForTimeout(2000);
+    let actulValue = await super.getAllInnerText(empTitle);
+    console.log(actulValue);
+    actulValue = actulValue.toString().split(" ");
+    await this.page.screenshot();
+    await expect(String(actulValue[2].trim())).toEqual("(Terminated)"); //&& String(actulValue[4].trim()).includes(String(empID)));
+  }
 
   async clickHRPartnerLink(givenname: string, familyname: string): Promise<string | null> {
 

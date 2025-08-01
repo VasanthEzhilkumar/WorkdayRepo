@@ -36,8 +36,25 @@ export class WebActionsPage {
         try {
             await this.page.waitForTimeout(this.timeOut);
             // await locator.clear();
-            await locator.type(String(varString));
-            await this.page.waitForTimeout(200);
+            await locator.click();
+            await this.page.keyboard.type(String(varString));
+            // await this.page.waitForTimeout(2000);
+            await this.page.keyboard.press('Tab');
+            console.log(`Typing "${varString}" into: ${locator}`);
+        } catch (error) {
+            console.error(`Typing "${varString}" into: ${locator} failed` + error);
+            throw error;
+        }
+
+    }
+
+    async setDateWithKeyboardType(locator: Locator, varString: String,) {
+        try {
+            await this.page.waitForTimeout(this.timeOut);
+            // await locator.clear();
+            await locator.click();
+            await this.page.keyboard.type(String(varString));
+            // await this.page.waitForTimeout(2000);
             await this.page.keyboard.press('Tab');
             console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
@@ -55,6 +72,23 @@ export class WebActionsPage {
             await locator.fill(String(varString));
             await this.page.waitForTimeout(2000);
             await locator.press('Enter');
+            console.log(`Entering "${varString}" value into: ${locator}`);
+
+        } catch (error) {
+            console.error(`Entering  "${varString}" value with single Enter - into: ${locator} failed` + error);
+            throw error;
+        }
+
+    }
+
+    async setTextWithEnter2(locator: Locator, varString: String,) {
+        try {
+            await this.page.waitForTimeout(this.timeOut);
+            await locator.click();
+            await locator.fill(String(varString));
+            await this.page.waitForTimeout(1000);
+            await locator.press('Enter');
+            await this.page.waitForTimeout(1000);
             console.log(`Entering "${varString}" value into: ${locator}`);
 
         } catch (error) {
@@ -96,6 +130,7 @@ export class WebActionsPage {
     async selectFromCustomDropDrown(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
+            await this.page.waitForLoadState();
             await locator.focus();
             await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(varString));
@@ -105,6 +140,8 @@ export class WebActionsPage {
             await this.page.waitForTimeout(1000);
             const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
             if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
+                await this.page.waitForLoadState();
+                await this.page.waitForTimeout(1000);
                 await custumLocator.scrollIntoViewIfNeeded();
                 await custumLocator.click();
                 // await this.page.waitForTimeout(1000);

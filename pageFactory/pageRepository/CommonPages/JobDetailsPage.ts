@@ -119,8 +119,11 @@ export class JobDetailsPage extends WebActionsPage {
     // await this.hireDate.focus();
     await this.page.waitForTimeout(2000);
     await this.hireDate.click({ force: true });
+    await this.page.waitForTimeout(2000);
     //await super.setTextWithType(this.hireDate,HireDate1);
     await super.setTextWithType(this.hireDate, HireDate1);
+    await this.page.waitForTimeout(500);
+    await this.page.keyboard.press("Tab");
     await super.setTextWithEnter(this.reason, Reason);
     await this.page.waitForTimeout(500);
     if (!position.includes('Auto')) {
@@ -175,7 +178,10 @@ export class JobDetailsPage extends WebActionsPage {
 
     if (await this.endEmploymentDate.isVisible() && EndEmploymentDate !== "N/A" && EndEmploymentDate !== "NaN" && EndEmploymentDate !== undefined) {
       if (EndEmploymentDate !== "N/A" && EndEmploymentDate !== "NaN" && EndEmploymentDate !== undefined && EndEmploymentDate !== "") {
+        await this.page.waitForTimeout(1000);
+        // await this.endEmploymentDate.waitFor({ state: 'visible' });
         await super.setTextWithType(this.endEmploymentDate, EndEmploymentDate);
+        await this.page.keyboard.press("Tab");
       }
     }
     await super.click(this.submitButton);

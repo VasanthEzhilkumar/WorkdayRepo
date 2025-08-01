@@ -1,9 +1,6 @@
 import { BrowserContext, Locator, Page } from '@playwright/test';
 
 export class contactInformationAddressPoland {
-    
-    
-
     readonly page: Page;
     readonly street: Locator;
     readonly city: Locator;
@@ -18,9 +15,10 @@ export class contactInformationAddressPoland {
     readonly District: Locator;
     readonly Province: Locator;
     readonly addressUseFor: Locator;
+    readonly txtEffectiveDate: Locator
 
     constructor(page: Page, context: BrowserContext) {
-        //super(page:Page, context: BrowserContext);
+        // super(page:Page, context: BrowserContext);
         this.page = page;
         this.street = page.getByLabel('Street', { exact: true })
         this.addAddress = page.locator('[aria-label="Add Address"]');
@@ -33,10 +31,11 @@ export class contactInformationAddressPoland {
         this.postalCode = page.getByLabel('Postal Code');
         this.addressType = page.getByLabel('Address', { exact: true }).getByLabel('Type');
         this.addressUseFor = page.locator('//h2[text()="Address"]/parent::div/parent::div//label[text()="Use For"]/parent::div/following-sibling::div//input');
+        this.txtEffectiveDate = page.locator("//label[contains(.,'Effective Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
 
     }
- async contactInformationAddress(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string, useFor: string) {
-        //await super.click(this.addAddress);
+    async contactInformationAddress(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string, useFor: string) {
+        // await super.click(this.addAddress);
         await this.page.waitForTimeout(500);
         await this.addAddress.click();
         await this.streetName.fill(StreetName);
@@ -76,11 +75,22 @@ export class contactInformationAddressPoland {
         await this.page.locator('//div[@data-automation-label="' + useFor + '"]').click();
 
     }
-    
-    async contactInformationAddressPK14(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string, useFor: string) {
+
+    async contactInformationAddressPK14(StreetName: string, houseNumber: string, Municipality: string, District: string, Province: string, PostalCode: number, city: string, addressType: string, useFor: string, effectiveDate: string) {
         //await super.click(this.addAddress);
         await this.page.waitForTimeout(500);
         await this.addAddress.click();
+        await this.page.waitForLoadState();
+        await this.page.waitForTimeout(3000);
+        if (await this.txtEffectiveDate.isVisible() && effectiveDate !== "N/A" && effectiveDate !== "NaN" && effectiveDate !== undefined) {
+            if (effectiveDate !== "N/A" && effectiveDate !== "NaN" && effectiveDate !== undefined && effectiveDate !== "") {
+                await this.page.waitForTimeout(500);
+                await this.txtEffectiveDate.click();
+                await this.page.keyboard.type(String(effectiveDate));
+                // await this.page.waitForTimeout(2000);
+                await this.page.keyboard.press('Tab');
+            }
+        }
         await this.streetName.fill(StreetName);
         await this.houseNumber.fill(houseNumber.toString());
         await this.city.fill(PostalCode.toString());
@@ -88,7 +98,21 @@ export class contactInformationAddressPoland {
         await this.postalCode.fill(PostalCode.toString());
         await this.Municipality.fill(Municipality.toString());
         await this.District.fill(District.toString());
+
         await this.Province.fill(Province.toString());
+        await this.page.waitForTimeout(1000);
+        await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(2000);
+        const ProvinceLocator: Locator = this.page.locator("(//*[@data-automation-label='" + Province + "' or text()='" + Province + "'])[1]");
+        if (await ProvinceLocator.isVisible() && await ProvinceLocator.count() > 0) {
+            // await this.page.waitForLoadState();
+            // await this.page.waitForTimeout(2000);
+            // await ProvinceLocator.scrollIntoViewIfNeeded();
+            await this.page.waitForTimeout(1000);
+            await ProvinceLocator.click();
+            // await this.page.waitForTimeout(1000);
+        }
+
         await this.addressType.click();
         await this.page.getByLabel('' + addressType + ' checkbox Not Checked').getByRole('checkbox').check();
         await this.page.waitForTimeout(1000);
