@@ -67,8 +67,8 @@ export class hireEmployeePage extends WebActionsPage {
   readonly flName: Locator;
   readonly slName: Locator;
   readonly givenName: Locator;
-  readonly rehireRadioBtn : Locator;
- readonly existingPreHireTxt: Locator;
+  readonly rehireRadioBtn: Locator;
+  readonly existingPreHireTxt: Locator;
 
   constructor(page: Page, context: BrowserContext) {
     super(page)
@@ -152,7 +152,7 @@ export class hireEmployeePage extends WebActionsPage {
     this.flName = page.locator('//label[contains(./text(),"First Last Name")]/ancestor::li/descendant::input[@data-automation-id="textInputBox"]');
     this.slName = page.locator('//label[contains(./text(),"Second Last Name")]/ancestor::li/descendant::input[@data-automation-id="textInputBox"]');
     this.givenName = page.locator('//label[contains(text(),"Given Name(s)")]//parent::div/following-sibling::div//input').first();
-    
+
     this.rehireRadioBtn = page.locator('//label[@data-automation-label="Existing Pre-Hire"]/parent::*[@data-automation-id="radioBtn"]//input');
     this.existingPreHireTxt = page.locator('//div[@data-automation-id="radioGroupChildWidget"]//input');
 
@@ -342,8 +342,8 @@ export class hireEmployeePage extends WebActionsPage {
 
   ///Managers
   async searchSupervisoryOrganizationMgr(supervisoryOrganisation: string) {
-    let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
-    let supervisoryOrganisation2 = supervisoryOrganisation1[0];
+    let supervisoryOrganisation2: string = supervisoryOrganisation.toString().split('(')[0];
+    // let supervisoryOrganisation2 = supervisoryOrganisation1[0];
     await this.page.waitForTimeout(2000);
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
     await this.page.waitForTimeout(2500);

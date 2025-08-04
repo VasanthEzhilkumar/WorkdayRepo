@@ -71,3 +71,107 @@
 {"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 1  Status : passed"}
 {"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 2 "}
 {"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 1  Status : interrupted"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 1 "}
+{"level":"error","message":"Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments."}
+{"level":"error","message":"Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments."}
+{"level":"error","message":"Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments."}
+{"level":"error","message":"Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments."}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 2  Status : failed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 2 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @HirePK6 Employee - Test 1 "}
+{"level":"info","message":"Test Case Completed : @HirePK6 Employee - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 2 "}
+{"level":"info","message":"Test Case Started : @JobChange - Test 2 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 2  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 3 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 3 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 3 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 3 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobChange - Test 3 "}
+{"level":"info","message":"Test Case Completed : @JobChange - Test 3  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : passed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}
+{"level":"info","message":"Test Case Started : @JobRequisition and Integration with Smart Recruitors - Test 1 "}
+{"level":"info","message":"Test Case Completed : @JobRequisition and Integration with Smart Recruitors - Test 1  Status : failed"}

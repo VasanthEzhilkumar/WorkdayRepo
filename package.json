@@ -40,8 +40,6 @@
     "npm": "^11.2.0",
     "pdfjs-dist-es5": "^2.13.216",
     "pg": "^8.11.5",
-    "playwright": "^1.51.1",
-    "typescript": "^5.4.5",
     "winston": "^3.13.0",
     "xlsx": "^0.18.5",
     "xml2js": "^0.6.2"
@@ -55,6 +53,11 @@
     "@types/xml2js": "^0.4.14",
     "eslint": "^8.57.1",
     "globals": "^15.11.0",
+    "playwright": "^1.54.2",
+    "playwright-extra": "^4.3.6",
+    "playwright-extra-plugin-stealth": "^0.0.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2",
     "typescript-eslint": "^8.11.0"
   },
   "directories": {
@@ -63,5 +66,14 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VasanthEzhilkumar/WorkdayRepo.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/VasanthEzhilkumar/WorkdayRepo/issues"
+  },
+  "homepage": "https://github.com/VasanthEzhilkumar/WorkdayRepo#readme"
 }

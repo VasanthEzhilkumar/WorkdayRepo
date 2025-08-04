@@ -1,4 +1,4 @@
-import { PlaywrightTestConfig, devices, defineConfig } from '@playwright/test';
+import { PlaywrightTestConfig, defineConfig, devices } from '@playwright/test';
 // import { testConfig } from './testConfig';
 // const ENV = process.env.npm_config_ENV;
 
@@ -15,6 +15,8 @@ const config: PlaywrightTestConfig = {
   //Global Setup to run before all tests
   globalSetup: `./global-setup`,
 
+  //sets timeout for each test case
+  //number of retries if test case fails
   //sets timeout for each test case
   timeout: 900000,
   //number of retries if test case fails
@@ -34,9 +36,14 @@ const config: PlaywrightTestConfig = {
       name: 'Chrome',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1280, height: 695 },
+        viewport: { width: 1280, height: 800   },
         //Browser Mode
         headless: false,
+        // javaScriptEnabled: true,
+        // userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/117.0.0.0 Safari/537.36',
+        // locale: 'en-US',
+        // javaScriptEnabled: true,
+        // storageState: 'auth-session.json',
 
         //Enable File Downloads in Chrome
         acceptDownloads: true,

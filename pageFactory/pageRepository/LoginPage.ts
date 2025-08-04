@@ -26,12 +26,32 @@ export class loginpage {
     // } 
   }
 
-  async sigIn(username: string, password: string) {
+  async sigIn(username?: string, password?: string) {
+    await this.page.goto(testConfig.SmartRecruiter);
     await this.username.fill(testConfig.WorkdayUsername);
     await this.password.fill(testConfig.WorkdayPassword);
     await this.signIn.click();
     await this.page.waitForLoadState();
     await this.page.waitForTimeout(3000)
   }
+
+  async LogInInToSmartRecruiter() {
+    await this.page.goto(testConfig.SmartRecruiter, {
+      waitUntil: 'load',
+      timeout: 60000
+    });
+    await this.page.evaluate(() => {
+      window.location.href = testConfig.SmartRecruiter;
+    });
+    await this.page.locator('[data-test="input email"]').fill(testConfig.SmartRUsername);
+    await this.page.locator('[data-test="input password"]').fill(testConfig.SamrtRPassword);
+    await this.signIn.click();
+    await this.page.waitForLoadState();
+    await this.page.waitForTimeout(3000)
+  }
+
+
+
 }
+
 

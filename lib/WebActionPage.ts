@@ -35,11 +35,11 @@ export class WebActionsPage {
         try {
             await this.page.waitForTimeout(this.timeOut);
             // await locator.clear();
-            // await locator.type(String(varString));
-            // await this.page.waitForTimeout(200);
-            // await this.page.keyboard.press('Enter');
-            await locator.click();
-            await this.page.keyboard.type(String(varString), { delay: 100 });
+            await locator.type(String(varString));
+            await this.page.waitForTimeout(200);
+            await this.page.keyboard.press('Tab');
+            // await locator.click();
+            // await this.page.keyboard.type(String(varString), { delay: 100 });
             console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
             console.error(`Typing "${varString}" into: ${locator} failed` + error);
@@ -115,6 +115,26 @@ export class WebActionsPage {
             console.log(`Selecting "${varString}" from Custom DropDown - into: ${locator}`);
         } catch (error) {
             console.error(`Selecting  "${varString}" value from Custom DropDown- into: ${locator} failed` + error);
+            throw error;
+        }
+
+    }
+    async selectFromCustomList(locator: Locator, varString: String,) {
+        try {
+            await this.page.waitForTimeout(this.timeOut);
+            await locator.click();
+            await this.page.waitForTimeout(1000);
+            const custumLocator: Locator = this.page.locator("(//*[@data-automation-label='" + varString + "' or text()='" + varString + "'])[1]");
+            if (await custumLocator.isVisible() && await custumLocator.count() > 0) {
+                await custumLocator.scrollIntoViewIfNeeded();
+                await custumLocator.click();
+                // await this.page.waitForTimeout(1000);
+            }
+            await this.page.keyboard.press('Tab');
+            //await this.page.waitForTimeout(this.timeOut);
+            console.log(`Selecting "${varString}" from Custom DropDown list - into: ${locator}`);
+        } catch (error) {
+            console.error(`Selecting  "${varString}" value from Custom DropDown list- into: ${locator} failed` + error);
             throw error;
         }
 

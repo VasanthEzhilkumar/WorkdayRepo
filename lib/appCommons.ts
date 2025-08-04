@@ -52,7 +52,9 @@ export class appCommons extends WebActionsPage {
     this.fullscreen = page.getByRole('button', { name: 'Toggle Fullscreen Viewing Mode' });
     this.lblPopUpWelcomeToMyTask = page.locator("//*[contains(text(),'Welcome to My Tasks!')]//ancestor::div[@data-automation-id='tour-modal']//button[@data-automation-id='closeButton']");
     this.txtItemsPerPage = page.locator("//label[contains(text(),'Items per page')]/parent::div//descendant::input[@placeholder='Choose an option' and not(contains(@value,'All'))]");
-    this.listSelectAll = page.locator("/*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
+    //this.listSelectAll = page.locator("//*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
+    this.listSelectAll = page.getByRole('option', { name: 'All' }).nth(0);//("//*[@data-automation-id='paginationSelectMenu']/div//ul/*[@data-id='All']");
+
     this.lblHrDetails2 = page.locator("((//div[contains(text(),'Awaiting Action')]//ancestor::td//following-sibling::td)[3])[1]");
     this.hrPartnerSecondXpath = page.locator('(//div[contains(@data-automation-id,"selectedItem")]//div[contains(@data-automation-label,"HR Partner")])[2]');
     this.btnMyTaskCollapse = page.locator("//section[@data-automation-id='navPanel']/button[@aria-expanded='true' and @data-automation-id='navPanelToggleButton']").first();
@@ -263,7 +265,7 @@ export class appCommons extends WebActionsPage {
     await this.MyTasks();
     await super.click(this.Archive);
     await this.page.waitForTimeout(6000);
-    const buttons = await this.page.locator(`button:has-text('Promotion: ${givenname} ${familyname}')`).first().or(this.page.locator(`button:has-text('Data Change: ${givenname} ${familyname}')`).first());
+    const buttons = await this.page.locator(`button:has-text('Promotion: ${givenname} ${familyname}')`).nth(0).or(this.page.locator(`button:has-text('Data Change: ${givenname} ${familyname}')`).nth(0));
     // await this.page.waitForSelector(buttons);
     await buttons.scrollIntoViewIfNeeded();
     // const buttons = await this.page.locator(`button:has-text('Hire: ${givenname} ${familyname}')`);

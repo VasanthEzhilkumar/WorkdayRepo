@@ -16,7 +16,7 @@ let position: string;
 let captureErrors: CaptureAlertErrors;
 
 // Define the relative directory path to your Excel file
-const excelFileName = 'Hires/Workday_NewHire_France_Regression_PK6.xlsx';
+const excelFileName = 'Hires/Workday_NewHire_France_Regression_PK17.xlsx';
 const excelFilePath = getExcelFilePath(excelFileName);
 
 // Convert the Excel sheets to JSON format
@@ -123,7 +123,7 @@ for (const sheetName in sheetsJson) {
           await proxy.startProxy(HRPartner);
           await appCommon.MyTasks();
 
-
+          await appCommon.staticWait(4);
           await hrInbxPage.setCollectiveAgreementAndProfessionalCategoryAndLevel(data.CollectiveAgreement, data.ProfessionalCategory, data.Level);
           await captureErrors.checkForScreenErrors();
           await appCommon.SuccessEventHandle();
@@ -241,6 +241,7 @@ for (const sheetName in sheetsJson) {
           await appCommon.MyTasks();
           await hrInbxPage.assignPayGroupApprove(String(data.ProposedPayGroupFinal));
           // await capObj.checkForScreenErrors();
+          await appCommon.SuccessEventHandle();
           await appCommon.SearchClickLink(empNum)
           await appCommon.assignPaygroupValidation(String(data.ProposedPayGroupFinal));
           // Write the results to the Excel file

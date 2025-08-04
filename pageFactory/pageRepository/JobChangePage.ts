@@ -156,8 +156,8 @@ export class JobChangePage extends WebActionsPage {
         await this.page.waitForTimeout(1000);
         await this.btnEditStartDetails.click();
         await this.page.getByPlaceholder('DD').first().focus();
-        //await super.setTextWithType(await this.page.getByPlaceholder('DD').first(), String(startDate));
-        await super.selectDatePicker(String(startDate));
+        await super.setTextWithType(await this.page.getByPlaceholder('DD').first(), String(startDate));
+        // await super.selectDatePicker(String(startDate));
 
         await super.setTextWithDoubleEnter(this.txtReason, reason);
 

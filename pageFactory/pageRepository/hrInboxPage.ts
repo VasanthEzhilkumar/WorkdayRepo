@@ -568,7 +568,7 @@ export class HrInboxPage extends WebActionsPage {
 
 
     async setCollectiveAgreementAndProfessionalCategoryAndLevel(CollectiveAgreement: any, ProfessionalCategory: any, Level: any) {
-        await this.page.waitForTimeout(500);
+        await this.page.waitForTimeout(1000);
         await this.page.waitForLoadState();
         if (await this.collectiveAgreementProfessional.count() > 0) {
             await this.collectiveAgreementProfessional.click({ 'force': true })
