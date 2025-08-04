@@ -201,7 +201,7 @@ export class createPositionPage extends WebActionsPage {
 
         await super.selectFromCustomDropDrown(this.jobprofile, jobprofile.toString());
         await super.setTextWithEnter(this.location, Location);
-        await super.selectFromCustomDropDrown(this.timetype, timetype);
+        // await super.selectFromCustomDropDrown(this.timetype, timetype);
         await super.setTextWithEnter(this.empType, "Employee");
         await super.selectFromCustomDropDrown(this.workersubtye, EmployeeType);
         await super.click(this.paygroupSubmit);

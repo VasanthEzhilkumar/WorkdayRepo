@@ -185,8 +185,7 @@ for (const sheetName in sheetsJson) {
 
           // empNum = String(data.EmployeeID);
           await appCommon.SearchboxEmp("Start Proxy");
-          await proxy.startProxy(empNum);
-          await appCommon.ClickInbox();
+          await proxy.startProxy(empNum)
           await appCommon.MyTasks();
 
           //After Entering to Employee Proxy onboarding process:)

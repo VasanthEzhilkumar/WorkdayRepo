@@ -38,7 +38,7 @@ for (const sheetName in sheetsJson) {
     test(`@HirePK6 Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
         //await page.viewportSize();
-        await page.setViewportSize({ width: 1285, height: 900 });
+         await page.setViewportSize({ width: 1275, height: 595 })
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
         const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
@@ -125,8 +125,11 @@ for (const sheetName in sheetsJson) {
         if (data.JobProfile.toString().includes("Manager")) {
           await appCommon.Searchbox("Stop Proxy");
           await proxy.stopproxy();
+          await appCommon.staticWait(4); 
+
           const HRPartner2 = await appCommon.getHRpartnerID(givenName, familyName);
           await appCommon.Searchbox("Start Proxy");
+           await appCommon.staticWait(4);
           await proxy.startProxy(HRPartner2);
           await appCommon.MyTasks();
           await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, "NaN", "NaN");
@@ -158,7 +161,7 @@ for (const sheetName in sheetsJson) {
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.AddEmergecyInformation();
+         await empInboxpage.clickInboxMyTaskAndSubmit("Add Emergency Contacts");
         await appCommon.SuccessEventHandle();
 
         await empInboxpage.reviewDocumentSubmitGeneric();

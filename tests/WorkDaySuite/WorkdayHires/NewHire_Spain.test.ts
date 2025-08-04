@@ -139,7 +139,6 @@ for (const sheetName in sheetsJson) {
         // const HRPartner = "10559802"
         await appCommon.Searchbox("Start Proxy");
         await proxy.startProxy(HRPartner);
-        // await appCommon.ClickInbox();
         await appCommon.MyTasks();
         await capObj.checkForScreenErrors();
 
@@ -196,9 +195,9 @@ for (const sheetName in sheetsJson) {
         await empInboxpage.changeGovIDInformation();
         await appCommon.SuccessEventHandle();
 
-        await empInboxpage.AddEmergecyInformation();
+         await empInboxpage.clickInboxMyTaskAndSubmit("Add Emergency Contacts");
         await appCommon.SuccessEventHandle();
-
+        
         await empInboxpage.reviewDocumentSubmitGeneric();
         await appCommon.SuccessEventHandle();
 

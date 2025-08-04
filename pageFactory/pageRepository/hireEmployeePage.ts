@@ -311,9 +311,9 @@ export class hireEmployeePage extends WebActionsPage {
   async searchSupervisoryOrganization(supervisoryOrganisation: string) {
     let supervisoryOrganisation1: string[] = supervisoryOrganisation.toString().split('(');
     let supervisoryOrganisation2 = supervisoryOrganisation1[0] + '(' + supervisoryOrganisation1[1];
-    await this.page.waitForTimeout(500);
+    await this.page.waitForTimeout(2000);
     await super.setTextWithEnter(this.supervisorMgrPage, supervisoryOrganisation2);
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(2000);
     const superOrg = await this.page.locator("(//div[@data-automation-label='" + supervisoryOrganisation + "' or text()='" + supervisoryOrganisation + "'])[1]");
     if (await superOrg.isVisible()) {
       await superOrg.scrollIntoViewIfNeeded();
@@ -337,6 +337,11 @@ export class hireEmployeePage extends WebActionsPage {
     await this.page.waitForTimeout(1000);
     await this.rehireRadioBtn.click();
     await super.setTextWithEnter(this.existingPreHireTxt, PreHire);
+    await this.page.waitForTimeout(500);
+    let loc = this.page.locator('//div[@data-automation-id="promptOption" and text()="' + PreHire + '"]');
+    if (await loc.count()>0) {
+      await this.page.locator('//div[@data-automation-id="promptOption" and text()="' + PreHire + '"]').click();
+    }
     await this.okButtonHireEmployee.click();
   }
 

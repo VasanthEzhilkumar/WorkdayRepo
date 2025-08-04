@@ -68,6 +68,7 @@ export class MaintainContractPage extends WebActionsPage {
         if (await this.contract.count() > 0) {
 
             await super.click(this.contract);
+            await this.page.waitForLoadState();
             //await super.click(this.page.locator('[aria-label="Main checkbox Not Checked"] >> text=Main')); 
             if (await reason !== 'N/A' && await reason !== 'NaN' && await reason !== undefined) {
                 await super.click(this.contractReason);
@@ -84,7 +85,7 @@ export class MaintainContractPage extends WebActionsPage {
             if (await DEmpsigned !== 'N/A' && await DEmpsigned !== 'NaN' && await DEmpsigned !== undefined) {
                 await super.click(this.DEmployeSigned);
                 await super.setTextWithType(this.DEmployeSigned, DEmpsigned);
-                // await super.selectDatePicker(this.DEmployeSignedCalender, DEmpsigned);
+                await this.page.keyboard.press("Tab");
             }
 
             if (await DEmplyersigned !== 'N/A' && await DEmplyersigned !== 'NaN' && await DEmplyersigned !== undefined) {

@@ -218,7 +218,9 @@ export class hrInboxUSPage extends WebActionsPage {
         await this.i9city.fill(city)
         await this.i9state.fill(state)
         await this.i9zipcode.fill(zipcode.toString())
-        await super.setTextWithEnter(this.i9OverDueReason, "Audit Revealed that New Hire Was Not Run");
+        if (await this.i9OverDueReason.isVisible()) {
+            await super.setTextWithEnter(this.i9OverDueReason, "Audit Revealed that New Hire Was Not Run");
+        }
         await this.Approve.click();
     }
 
