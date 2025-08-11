@@ -299,7 +299,7 @@ export class appCommons extends WebActionsPage {
       this.page.waitForTimeout(1000)
     }
     await this.lblHrDetails2.scrollIntoViewIfNeeded();
-    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
+    const HrDetails: string = await this.getInnerText1(this.lblHrDetails2);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
     // } catch (error) {
@@ -344,7 +344,7 @@ export class appCommons extends WebActionsPage {
       this.page.waitForTimeout(1000)
     }
     await this.lblHrDetails2.scrollIntoViewIfNeeded();
-    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails2);
+    const HrDetails: string = await this.getInnerText1(this.lblHrDetails2);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
     // } catch (error) {
@@ -389,7 +389,7 @@ export class appCommons extends WebActionsPage {
       this.page.waitForTimeout(1000)
     }
     await this.lblHrDetails3.scrollIntoViewIfNeeded();
-    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails3);
+    const HrDetails: string = await this.getInnerText1(this.lblHrDetails3);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
     // } catch (error) {
@@ -434,7 +434,7 @@ export class appCommons extends WebActionsPage {
       this.page.waitForTimeout(1000)
     }
     await this.lblHrDetails3.scrollIntoViewIfNeeded();
-    const HrDetails: string = await this.getInnerText1(this.page, this.lblHrDetails3);
+    const HrDetails: string = await this.getInnerText1(this.lblHrDetails3);
     const HrID2 = this.getNumbersFromString(HrDetails);
     return HrID2;
     // } catch (error) {

@@ -32,7 +32,7 @@ export class WebActionsPage {
 
     }
 
-    async setTextWithType(locator: Locator, varString: String,) {
+    async setTextWithType1(locator: Locator, varString: String,) {
         try {
             await this.page.waitForTimeout(this.timeOut);
             // await locator.clear();
@@ -56,12 +56,31 @@ export class WebActionsPage {
             await this.page.keyboard.type(String(varString));
             // await this.page.waitForTimeout(2000);
             await this.page.keyboard.press('Tab');
+            await this.page.waitForTimeout(2000);
+            await locator.type(String(varString));
+            await this.page.waitForTimeout(200);
+            await this.page.keyboard.press('Enter');
             console.log(`Typing "${varString}" into: ${locator}`);
         } catch (error) {
             console.error(`Typing "${varString}" into: ${locator} failed` + error);
             throw error;
         }
 
+    }
+    async setTextWithType(locator: Locator, varString: String,) {
+        try {
+            await this.page.waitForTimeout(this.timeOut);
+            // await locator.clear();
+            await locator.click();
+            await this.page.keyboard.type(String(varString));
+            // await this.page.waitForTimeout(2000);
+            await this.page.keyboard.press('Tab');
+            console.log(`Typing "${varString}" into: ${locator}`);
+        } catch (error) {
+            console.error(`Typing "${varString}" into: ${locator} failed` + error);
+            throw error;
+        }
+ 
     }
 
     async setTextWithEnter(locator: Locator, varString: String,) {

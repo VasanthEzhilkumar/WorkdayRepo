@@ -199,7 +199,7 @@ for (const sheetName in sheetsJson) {
                     await appCommon.SearchboxEmp("Start Proxy");
                     await proxy.startProxy(HRPartner);
                     await appCommon.MyTasks();
-                    await appCommon.staticWait(19);
+                    await appCommon.staticWait(2);
 
                     await hrInbxPage.VerifyNationalityOnborading();
                     await appCommon.SuccessEventHandle();

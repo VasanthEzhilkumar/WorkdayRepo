@@ -1420,6 +1420,7 @@ export class employeeInboxPage extends WebActionsPage {
             await this.page.waitForTimeout(1000);
             await this.page.waitForLoadState();
             await this.clickIAgreeCheckBox();
+             await this.page.waitForTimeout(1000);
             await super.click(this.paygroupSubmit);
             await this.page.waitForTimeout(1000);
         }

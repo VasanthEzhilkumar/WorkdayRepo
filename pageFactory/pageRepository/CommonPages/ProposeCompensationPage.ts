@@ -50,6 +50,9 @@ export class ProposeCompensationPage extends WebActionsPage {
     readonly btnDeletePopup: Locator;
     readonly btnDeletePopupslovenia: Locator;
     readonly btnDeleteallowanceSlovenia: Locator;
+    readonly txtProgressionDate:Locator;
+    readonly btnEditGuidelines:Locator;
+    readonly btnProgressionDate:Locator;
 
     readonly deleteAllowance: Locator;
     readonly deleteAllowanceConfirmation: Locator;
@@ -109,6 +112,9 @@ export class ProposeCompensationPage extends WebActionsPage {
         this.deleteAllowanceConfirmation = this.page.locator('//button[@data-automation-id="wd-CommandButton_uic_deleteButton"]');
 
 
+        this.txtProgressionDate=this.page.locator("//label[contains(.,'Progression Start Date')]/parent::div/following-sibling::div/descendant::input[@data-automation-id='dateSectionDay-input']");
+        this.btnEditGuidelines=this.page.getByLabel('Edit Guidelines');
+        this.btnProgressionDate=this.page.locator("//label[contains(.,'Progression Start Date')]");
     }
 
 
@@ -170,8 +176,8 @@ export class ProposeCompensationPage extends WebActionsPage {
             const strLow = strTotalBasePayRangeValueArray[0];
             // const strHingh = strTotalBasePayRangeValueArray[2];
             console.log("strLow - " + strLow);
-            //await this.page.waitForTimeout(1500);
-            if (await this.btnEditSalary.count() > 0 && await this.btnEditSalary.isVisible()) {
+            await this.page.waitForTimeout(1500);
+            if (await this.btnEditSalary.count() > 0 && await this.btnEditSalary.isVisible() ) {
                 await super.click(this.btnEditSalary);
                 //if (await this.editSalary.count() > 0) {
                 await this.page.waitForTimeout(4000);
@@ -182,7 +188,7 @@ export class ProposeCompensationPage extends WebActionsPage {
                 await super.click(this.btnSaveSalary);
             }
 
-            if (await this.btnEditHourly.isVisible()) {
+            if (await this.btnEditHourly.isVisible() && await this.btnEditHourly.count() > 0) {
                 await super.click(this.btnEditHourly);
                 await this.page.waitForTimeout(1500);
                 if (await this.txtSalaryAmount.isVisible()) {
@@ -237,6 +243,156 @@ export class ProposeCompensationPage extends WebActionsPage {
         //         await super.click(this.hrSubmit);
         //     }
         // }
+        await this.page.waitForTimeout(3000);
+
+    }
+    async setProposeCompensationReHire(HireDate:string,GradeProfile: string, Step: string, Salary: String, Country: string, AllowanceAmount: string) {
+        await this.page.waitForTimeout(1500);
+        await super.click(this.proposeCompensation);
+        if (await GradeProfile !== "N/A" && await GradeProfile !== "NaN" && await GradeProfile !== undefined && await GradeProfile.toLowerCase() !== "defaulted") {
+            await super.click(this.lblGradeProfile);
+            await super.setTextWithDoubleEnter(this.txtGradeProfile, GradeProfile);
+            await this.page.waitForTimeout(1500);
+        }   
+            if (await Step !== "N/A" && await Step !== "NaN" && await Step !== undefined && await Step.toLowerCase() !== "defaulted" && (await this.txtStep.isVisible())) {
+                await super.setTextWithDoubleEnter(this.txtStep, Step);
+            }
+
+             if (await HireDate !== 'N/A' && await HireDate !== 'NaN' && await HireDate !== undefined) {
+                await super.click(this.btnEditGuidelines);
+                await super.click(this.btnProgressionDate);
+                await super.click(this.txtProgressionDate);
+                await super.setTextWithType(this.txtProgressionDate, HireDate);
+             } 
+        await super.click(this.page.getByLabel('Save Guidelines'));
+            
+
+        if (Salary !== "N/A" && Salary !== "NaN" && Salary !== undefined && Salary !== "Defaulted") {
+            if (await this.btnEditSalary.isVisible()) {
+                await super.click(this.btnEditSalary);
+                await this.page.waitForTimeout(500);
+                if (await this.txtSalaryAmount.count() > 0) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
+                await super.click(this.btnSaveSalary);
+            }
+            if (await this.btnEditHourly.isVisible()) {
+                await super.click(this.btnEditHourly);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
+                await super.click(this.btnSaveHourly);
+            }
+        } else {
+            await this.page.waitForTimeout(1000);
+            let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
+            // if(strTotalBasePayRangeValue != undefined && strTotalBasePayRangeValue != 'NaN'){
+            let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
+            console.log("strTotalBasePayRangeValueArray - " + strTotalBasePayRangeValueArray);
+            const strLow = strTotalBasePayRangeValueArray[0];
+            // const strHingh = strTotalBasePayRangeValueArray[2];
+            console.log("strLow - " + strLow);
+            await this.page.waitForTimeout(1500);
+            if (await this.btnEditSalary.count() > 0 && await this.btnEditSalary.isVisible() ) {
+                await super.click(this.btnEditSalary);
+                //if (await this.editSalary.count() > 0) {
+                await this.page.waitForTimeout(4000);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
+                // }
+                await super.click(this.btnSaveSalary);
+            }
+
+            if (await this.btnEditHourly.isVisible() && await this.btnEditHourly.count() > 0) {
+                await super.click(this.btnEditHourly);
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
+                await super.click(this.btnSaveHourly);
+            }
+
+        }
+        await this.page.waitForTimeout(2500);
+        await this.hrSubmit.click();
+        await this.page.waitForTimeout(5000);
+        if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
+            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+                await super.click(this.hrSubmit);
+            }
+        }
+        await this.page.waitForTimeout(3000);
+
+}
+    async setProposeCompensationReHireIrealnd(HireDate:string, Salary: String) {
+        await this.page.waitForTimeout(1500);
+        await super.click(this.proposeCompensation);
+        
+        await super.click(this.lblGradeProfile);
+             if (await HireDate !== 'N/A' && await HireDate !== 'NaN' && await HireDate !== undefined) {
+                await super.click(this.txtProgressionDate);
+                await super.setTextWithType(this.txtProgressionDate, HireDate);
+            await super.click(this.page.getByLabel('Save Guidelines'));
+             }    
+        
+        await this.page.waitForTimeout(5000);
+        if (Salary !== "N/A" && Salary !== "NaN" && Salary !== undefined && Salary !== "Defaulted") {
+            if (await this.btnEditSalary.isVisible()) {
+                await super.click(this.btnEditSalary);
+                await this.page.waitForTimeout(500);
+                if (await this.txtSalaryAmount.count() > 0) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
+                await super.click(this.btnSaveSalary);
+            }
+            if (await this.btnEditHourly.isVisible()) {
+                await super.click(this.btnEditHourly);
+                //await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, Salary.toString());
+                }
+                await super.click(this.btnSaveHourly);
+            }
+        } else {
+            await this.page.waitForTimeout(1000);
+            let strTotalBasePayRangeValue: string = await super.getInnerText(this.lblBasePayRange);
+            // if(strTotalBasePayRangeValue != undefined && strTotalBasePayRangeValue != 'NaN'){
+            let strTotalBasePayRangeValueArray: string[] = strTotalBasePayRangeValue.split(" ");
+            console.log("strTotalBasePayRangeValueArray - " + strTotalBasePayRangeValueArray);
+            const strLow = strTotalBasePayRangeValueArray[0];
+            // const strHingh = strTotalBasePayRangeValueArray[2];
+            console.log("strLow - " + strLow);
+            await this.page.waitForTimeout(1500);
+            if (await this.btnEditSalary.count() > 0 && await this.btnEditSalary.isVisible() ) {
+                await super.click(this.btnEditSalary);
+                //if (await this.editSalary.count() > 0) {
+                await this.page.waitForTimeout(4000);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
+                // }
+                await super.click(this.btnSaveSalary);
+            }
+
+            if (await this.btnEditHourly.isVisible() && await this.btnEditHourly.count() > 0) {
+                await super.click(this.btnEditHourly);
+                await this.page.waitForTimeout(1500);
+                if (await this.txtSalaryAmount.isVisible()) {
+                    await super.setText(this.txtSalaryAmount, strLow.toString());
+                }
+                await super.click(this.btnSaveHourly);
+            }
+            //}
+        }
+
+        await this.hrSubmit.click();
+        await this.page.waitForTimeout(5000);
+        if (await this.checkWarningAndAlert.isVisible() && await this.proposeCompensation.isVisible()) {
+            if ((await this.btnMainErrorBar1.isVisible() || await this.btnSideErrorBar1.isVisible())) {
+                await super.click(this.hrSubmit);
+            }
+        }
         await this.page.waitForTimeout(3000);
     }
 

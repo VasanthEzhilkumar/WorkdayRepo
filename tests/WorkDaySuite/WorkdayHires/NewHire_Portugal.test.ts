@@ -184,8 +184,6 @@ for (const sheetName in sheetsJson) {
 
         console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
 
-        await appCommon.MyTasks();
-
         await appCommon.SearchboxEmp("Start Proxy");
         await proxy.startProxy(empNum);
         await appCommon.MyTasks();
