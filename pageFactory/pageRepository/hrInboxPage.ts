@@ -265,7 +265,8 @@ export class HrInboxPage extends WebActionsPage {
         this.manageProbation = page.locator('text=Manage Probation Period: ' + ' ' + givenname + ' ' + FamilyName);
         this.manageProbationHUn = page.locator('text=Manage Probation Period: ' + ' ' + FamilyName + ' ' + givenname);
         this.prbStartDate = page.locator('label:has-text("Probation Start Date")');
-        this.prbEndDate = page.locator('label:has-text("Probation End Date")');
+        //this.prbEndDate = page.locator('label:has-text("Probation End Date")');
+        this.prbEndDate= page.getByLabel('Probation End Date').getByPlaceholder('DD').first();
         this.prbReviewDate = page.locator('label:has-text("Probation Review Date")');
         this.proposeCompensation = page.locator('text=Propose Compensation Hire: ' + ' ' + givenname + ' ' + FamilyName);
         this.editNoticePeriod = page.locator('text=Edit Notice Periods for Hire:' + ' ' + givenname + ' ' + FamilyName);
@@ -742,6 +743,8 @@ export class HrInboxPage extends WebActionsPage {
         }
     }
 
+    
+
     async assignPaygroupApprove(): Promise<void> {
         await this.assignPGApprove.click();
         await this.Approve.click();
@@ -973,9 +976,11 @@ export class HrInboxPage extends WebActionsPage {
         await super.click(this.setGenderdrpDown);
         await super.click(this.page.locator('[aria-label=' + gender + ']'));
         await super.click(this.page.locator('//div[@data-automation-id="saveButton"]//*[@aria-label="Save Gender"]'));
-
+        await this.page.waitForTimeout(5000);    
         await super.click(this.editDob);
+        await this.page.waitForTimeout(5000);
         await super.setTextWithType(this.page.getByPlaceholder('DD'), dob);
+        await this.page.waitForTimeout(5000);
         await this.page.getByLabel('Save Date of Birth').first().scrollIntoViewIfNeeded();
         await super.click(this.page.getByLabel('Save Date of Birth').first());
 

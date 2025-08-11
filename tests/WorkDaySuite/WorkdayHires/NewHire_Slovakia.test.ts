@@ -37,7 +37,7 @@ for (const sheetName in sheetsJson) {
 
     test(`@Hire Employee - Test ${index + 1} `, async ({ page, context, login, home, hireEmployee, appCommon, proxy }) => {
       try {
-        await page.setViewportSize({ width: 1275, height: 595 });//
+         await page.setViewportSize({ width: 1280, height: 595 });
         const empInboxpage = new employeeInboxPage(page, givenName, familyName, jobProfile, context);
         const hrInbxPage = new HrInboxPage(page, givenName, familyName, context);
         const proposeCompensation = new ProposeCompensationPage(page, givenName, familyName, context);
@@ -122,11 +122,11 @@ for (const sheetName in sheetsJson) {
         await contractObj.setContractDetails(data.ContractType, data.Status, data.DateEmployeeSigned, data.DateEmployerSigned, data.ContractEndDate, String(data.ContractReason));
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-        //await appCommon.refreshInbox();
+        await appCommon.refreshInbox();
         await hrInbxPage.hrHireAdditionalDataDependentSK(data.Child, data.DependentName, String(data.DependentChildBirthNumber), data.TaxBonus, data.TaxBonusEffectiveDate);
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
+          await appCommon.refreshInbox();
         await hrInbxPage.hrHireAdditionalDataSK(data.MealVoucher, data.HealthInsuranceType, data.YoungParent, data.YoungParentEffectiveDate, data.TaxFreeAmount, data.TaxFreeAmountEffectiveDate, data.PensioneffectiveDate);
         await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
@@ -189,9 +189,6 @@ for (const sheetName in sheetsJson) {
         await hrInbxPage.updateWorkerContactInfo();
          await captureErrors.checkForScreenErrors();
         await appCommon.SuccessEventHandle();
-
-        //await appCommon.MyTasks();
-        // await appCommon.Searchbox(empNum)
          await page.waitForTimeout(1000);
         await appCommon.SearchClickLink(empNum)
         await empInboxpage.empaddBankDetails(data.BankName, data.BankCode, data.AccountNumber, data.IBAN);
@@ -207,8 +204,6 @@ for (const sheetName in sheetsJson) {
 
         await hrInbxPage.updatePassportsAndVisa();
         await appCommon.SuccessEventHandle();
-        // await appCommon.refreshInbox();
-        //await hrInbxPage.assignPayGroupSubmit(String(data.ProposedPayGroupFinal));
         await hrInbxPage.assignPayGroupApprove(String(data.ProposedPayGroupFinal));
         await appCommon.SuccessEventHandle();
         // await appCommon.ClickInbox();

@@ -1338,6 +1338,7 @@ export class employeeInboxPage extends WebActionsPage {
             await super.click(this.page.locator("//div[@data-automation-id='titleText'][contains(./text(),'" + varString + "')]").first());
             await this.page.waitForTimeout(1000);
             await this.clickIAgreeCheckBox();
+             await this.page.waitForTimeout(1000);
             await super.click(this.paygroupSubmit);
             await this.page.waitForTimeout(1000);
         }

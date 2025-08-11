@@ -49,7 +49,6 @@ for (const sheetName in sheetsJson) {
                     // login into application 
                     await login.sigIn(username, password);
                     await appCommon.SearchClickLink(data.EmployeeID.toString());
-
                     [givenName, familyName] = await appCommon.getEmployeeGivenNameAndFamilyName(data.EmployeeID.toString());
                     await writeUniqueNamesToExcel(excelFilePath, sheetName, index, givenName, familyName);
 
@@ -86,7 +85,6 @@ for (const sheetName in sheetsJson) {
 
                         position = "DummyValue";
                     }
-
                     await home.searchHireEmployee();
                     const existingPrehire: string = givenName + " " + familyName;
                     await hireEmployee.searchSupervisoryOrganizationRehire(data.SupervisoryOrganisation, existingPrehire);
@@ -126,7 +124,7 @@ for (const sheetName in sheetsJson) {
 
                     await hrInbxPage.setManageProbation(data.ProbationEndDate, "NaN");
                     await appCommon.SuccessEventHandle();
-                    await appCommon.refreshInbox();
+
 
                     await contractObj.setContractDetails(data.ContractType, data.Status, "NaN", "NaN", data.ContractEndDate, String(data.ContractReason));
                     await captureErrors.checkForScreenErrors();
@@ -138,12 +136,13 @@ for (const sheetName in sheetsJson) {
                     await appCommon.MyTasks();
                     await proposeCompensation.setProposeCompensationHire(data.GradeProfile, data.Step, data.Salary, data.Country, "NaN");
                     await captureErrors.checkForScreenErrors();
+                    await appCommon.staticWait(2);
                     const flag = await appCommon.checkUpNextCompensationParnterApproval();
                     await appCommon.SuccessEventHandle();
                     if (flag) {
                         await appCommon.Searchbox("Stop Proxy");
                         await proxy.stopproxy();
-                        // await appCommon.staticWait(2);
+                        await appCommon.staticWait(2);
                         //It will get HR partner ID for hr proxy
                         const HRidProposeCompensation = await appCommon.getHRpartnerID(givenName, familyName);
                         console.log("HR_ID_ProposeCompensation - " + HRidProposeCompensation);
@@ -151,21 +150,19 @@ for (const sheetName in sheetsJson) {
                         await proxy.startProxy(HRidProposeCompensation);
                         await appCommon.MyTasks();
                         await hrInbxPage.clickInboxMyTaskAndApprove("Propose Compensation Hire:");
-                        // await captureErrors.checkForScreenErrors();
+                        await captureErrors.checkForScreenErrors();
                         await appCommon.SuccessEventHandle();
                         await appCommon.Searchbox("Start Proxy");
                         await proxy.startProxy(HRPartner);
                         await appCommon.MyTasks();
                     }
-                    //HR Partner: Hire:
-                    await hrInbxPage.clickInboxMyTaskAndSubmit("HR Partner: Hire:");
-                    await appCommon.SuccessEventHandle();
 
                     await hrInbxPage.clickInboxMyTaskAndSubmit("Edit Other IDs:");
-                    await appCommon.SuccessEventHandle();
 
+                    await hrInbxPage.clickInboxMyTaskAndSubmit("HR Partner: Hire:");
                     empNum = await hrInbxPage.getEmployeeID();
                     console.log("Emplyoee ID : " + empNum + " " + givenName + " " + familyName);
+
                     await appCommon.SearchboxEmp("Start Proxy");
                     await proxy.startProxy(empNum);
                     await appCommon.MyTasks();
@@ -193,23 +190,22 @@ for (const sheetName in sheetsJson) {
                     await empInboxpage.clickInboxMyTaskAndSubmit("Add Certifications");
                     await appCommon.SuccessEventHandle();
 
-
                     await empInboxpage.clickInboxMyTaskAndSubmit("Maiden Name");
                     await appCommon.SuccessEventHandle();
 
                     await empInboxpage.reviewDocumentSubmitGeneric();
                     await appCommon.SuccessEventHandle();
 
+                    await empInboxpage.clickInboxMyTaskAndSubmit("Add Bank Details");
+                    await appCommon.SuccessEventHandle();
 
                     await appCommon.Searchbox("Start Proxy");
                     await proxy.startProxy(HRPartner);
                     await appCommon.staticWait(2);
                     await appCommon.MyTasks();
 
-
                     await hrInbxPage.updatePassportsAndVisa();
                     await appCommon.SuccessEventHandle();
-
 
                     await hrInbxPage.assignPayGroupApprove(String(data.ProposedPayGroupFinal));
                     await capObj.checkForScreenErrors();
